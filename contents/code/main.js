@@ -1,4 +1,6 @@
 const UNATTACH_OFFSET = { x: 24, y: 24 };
+const GAPS_OUTER = { x: 24, y: 24 };
+const GAPS_INNER = { x: 12, y: 12 };
 
 class LinkedList {
     constructor() {
@@ -164,20 +166,19 @@ class Grid {
     }
     
     arrange() {
-        // TODO: gaps
-        let x = this.area.x;
+        let x = this.area.x + GAPS_OUTER.x;
         for (const columnNode of this.columns.iterator()) {
             const column = columnNode.item;
-            let y = this.area.y;
+            let y = this.area.y + GAPS_OUTER.y;
             for (const windowNode of column.windows.iterator()) {
                 // TODO: resize height to fit all
                 const window = windowNode.item;
                 const client = window.client;
                 client.frameGeometry.x = x;
                 client.frameGeometry.y = y;
-                y += client.frameGeometry.height;
+                y += client.frameGeometry.height + GAPS_INNER.y;
             }
-            x += column.width;
+            x += column.width + GAPS_INNER.x;
         }
     }
 }
