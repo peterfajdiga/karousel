@@ -82,6 +82,12 @@ class LinkedList {
             this.lastNode = node;
         }
     }
+    
+    *iterator() {
+        for (let node = this.firstNode; node !== null; node = node.next) {
+            yield node;
+        }
+    }
 }
 
 class LinkedListNode {
@@ -106,7 +112,6 @@ class Grid {
         column.windows.remove(windowNode);
         this.columns.remove(columnNode);
         this.windowMap.delete(id);
-        //this.arrange();
     }
     
     addWindow(id, client) {
@@ -116,7 +121,16 @@ class Grid {
         column.windows.insertEnd(windowNode);
         this.columns.insertEnd(columnNode);
         this.windowMap.set(id, windowNode);
-        //this.arrange();
+    }
+    
+    arrange() {
+        for (const columnNode of this.columns.iterator()) {
+            const column = columnNode.item;
+            for (const windowNode of column.windows.iterator()) {
+                const window = windowNode.item;
+                print(window);
+            }
+        }
     }
 }
 
@@ -141,11 +155,12 @@ function toggleFloating() {
     if (grid.windowMap.has(id)) {
         grid.removeWindow(id);
         print("removed window");
+        grid.arrange();
     } else {
         grid.addWindow(id, workspace.activeClient);
         print("added window");
+        grid.arrange();
     }
-    print(grid);
 }
 
 function registerShortcuts() {
