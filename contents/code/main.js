@@ -109,7 +109,7 @@ class Grid {
         const window = windowNode.item;
         const columnNode = window.columnNode;
         const column = columnNode.item;
-        column.windows.remove(windowNode);
+        column.removeWindow(windowNode);
         this.columns.remove(columnNode);
         this.windowMap.delete(id);
     }
@@ -118,23 +118,25 @@ class Grid {
         const column = new Column();
         const columnNode = new LinkedListNode(column);
         const windowNode = new LinkedListNode(new Window(columnNode, client));
-        column.windows.insertEnd(windowNode);
+        column.addWindow(windowNode);
         this.columns.insertEnd(columnNode);
         this.windowMap.set(id, windowNode);
     }
     
     arrange() {
+        // TODO: gaps
+        let x = 0;
         for (const columnNode of this.columns.iterator()) {
             const column = columnNode.item;
+            let y = 0;
             for (const windowNode of column.windows.iterator()) {
                 const window = windowNode.item;
                 const client = window.client;
-                print(client.windowId);
-                print("\t" + client.frameGeometry);
-                client.frameGeometry = Qt.rect(client.x, client.y, client.width, client.height);
-                print("\t" + client.frameGeometry);
-                print("client arranged successfully");
+                client.frameGeometry.x = x;
+                client.frameGeometry.y = y;
+                y += client.frameGeometry.height;
             }
+            x += column.width;
         }
     }
 }
@@ -142,6 +144,21 @@ class Grid {
 class Column {
     constructor() {
         this.windows = new LinkedList();
+        this.width = null;
+    }
+    
+    addWindow(windowNode) {
+        const window = windowNode.item
+        const client = window.client;
+        this.windows.insertEnd(windowNode);
+        if (this.width === null) {
+            this.width = client.frameGeometry.width;
+        }
+        // TODO: also change column width if the new window requires it
+    }
+    
+    removeWindow(windowNode) {
+        this.windows.remove(windowNode);
     }
 }
 
