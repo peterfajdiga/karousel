@@ -117,7 +117,7 @@ class Grid {
     addWindow(id, client) {
         const column = new Column();
         const columnNode = new LinkedListNode(column);
-        const windowNode = new LinkedListNode(new Window(columnNode));
+        const windowNode = new LinkedListNode(new Window(columnNode, client));
         column.windows.insertEnd(windowNode);
         this.columns.insertEnd(columnNode);
         this.windowMap.set(id, windowNode);
@@ -128,7 +128,12 @@ class Grid {
             const column = columnNode.item;
             for (const windowNode of column.windows.iterator()) {
                 const window = windowNode.item;
-                print(window);
+                const client = window.client;
+                print(client.windowId);
+                print("\t" + client.frameGeometry);
+                client.frameGeometry = Qt.rect(client.x, client.y, client.width, client.height);
+                print("\t" + client.frameGeometry);
+                print("client arranged successfully");
             }
         }
     }
@@ -141,8 +146,9 @@ class Column {
 }
 
 class Window {
-    constructor(columnNode) {
+    constructor(columnNode, client) {
         this.columnNode = columnNode;
+        this.client = client;
     }
 }
 
@@ -154,18 +160,26 @@ function toggleFloating() {
     const id = workspace.activeClient.windowId;
     if (grid.windowMap.has(id)) {
         grid.removeWindow(id);
-        print("removed window");
         grid.arrange();
     } else {
         grid.addWindow(id, workspace.activeClient);
-        print("added window");
         grid.arrange();
+    }
+}
+
+function catchWrap(f) {
+    return _ => {
+        try {
+            f();
+        } catch (error) {
+            print(error);
+        }
     }
 }
 
 function registerShortcuts() {
     registerShortcut("basalt-window-move-left", "Basalt: Move window left", "Meta+Shift+A", moveLeft);
-    registerShortcut("basalt-window-toggle-floating", "Basalt: Toggle floating", "Meta+Space", toggleFloating);
+    registerShortcut("basalt-window-toggle-floating", "Basalt: Toggle floating", "Meta+Space", catchWrap(toggleFloating));
 }
 
 function init() {
