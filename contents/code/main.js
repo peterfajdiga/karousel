@@ -1,3 +1,5 @@
+const UNATTACH_OFFSET = { x: 24, y: 24 };
+
 class LinkedList {
     constructor() {
         this.firstNode = null;
@@ -132,6 +134,12 @@ class World {
         grid.removeColumn(columnNode);
         grid.arrange();
         
+        const clientRect = window.client.frameGeometry;
+        clientRect.x += UNATTACH_OFFSET.x;
+        clientRect.y += UNATTACH_OFFSET.y;
+        clientRect.width = window.floatingSize.width;
+        clientRect.height = window.floatingSize.height;
+        
         this.clientMap.delete(id);
     }
 }
@@ -193,6 +201,10 @@ class Window {
     constructor(columnNode, client) {
         this.columnNode = columnNode;
         this.client = client;
+        this.floatingSize = {
+            width: client.frameGeometry.width,
+            height: client.frameGeometry.height,
+        };
     }
 }
 
