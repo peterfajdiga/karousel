@@ -104,7 +104,7 @@ class World {
     constructor(nDesktops) {
         this.grids = new Array(nDesktops);
         for (let i = 0; i < nDesktops; i++) {
-            this.grids[i] = new Grid();
+            this.grids[i] = new Grid(i);
         }
         this.clientMap = new Map();
     }
@@ -145,8 +145,14 @@ class World {
 }
 
 class Grid {
-    constructor() {
+    constructor(desktopIndex) {
+        this.desktopIndex = desktopIndex;
         this.columns = new LinkedList();
+        
+        const desktopNumber = desktopIndex + 1;
+        this.area = workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
+        // TODO: multi-screen support
+        // TODO: react to changes in resolution
     }
     
     addColumn(columnNode) {
@@ -159,11 +165,12 @@ class Grid {
     
     arrange() {
         // TODO: gaps
-        let x = 0;
+        let x = this.area.x;
         for (const columnNode of this.columns.iterator()) {
             const column = columnNode.item;
-            let y = 0;
+            let y = this.area.y;
             for (const windowNode of column.windows.iterator()) {
+                // TODO: resize height to fit all
                 const window = windowNode.item;
                 const client = window.client;
                 client.frameGeometry.x = x;
