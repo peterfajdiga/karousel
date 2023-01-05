@@ -98,29 +98,55 @@ class LinkedListNode {
     }
 }
 
-class Grid {
-    constructor() {
-        this.columns = new LinkedList();
-        this.windowMap = new Map();
+class World {
+    constructor(nDesktops) {
+        this.grids = new Array(nDesktops);
+        for (let i = 0; i < nDesktops; i++) {
+            this.grids[i] = new Grid();
+        }
+        this.clientMap = new Map();
     }
     
-    removeWindow(id) {
-        const windowNode = this.windowMap.get(id);
+    addClient(id, client) {
+        const desktopIndex = client.desktop - 1;
+        const grid = this.grids[desktopIndex];
+        const column = new Column(grid);
+        const columnNode = new LinkedListNode(column);
+        const windowNode = new LinkedListNode(new Window(columnNode, client));
+        
+        column.addWindow(windowNode);
+        grid.addColumn(columnNode);
+        grid.arrange();
+        
+        this.clientMap.set(id, windowNode);
+    }
+    
+    removeClient(id) {
+        const windowNode = this.clientMap.get(id);
         const window = windowNode.item;
         const columnNode = window.columnNode;
         const column = columnNode.item;
+        const grid = column.grid;
+        
         column.removeWindow(windowNode);
-        this.columns.remove(columnNode);
-        this.windowMap.delete(id);
+        grid.removeColumn(columnNode);
+        grid.arrange();
+        
+        this.clientMap.delete(id);
+    }
+}
+
+class Grid {
+    constructor() {
+        this.columns = new LinkedList();
     }
     
-    addWindow(id, client) {
-        const column = new Column();
-        const columnNode = new LinkedListNode(column);
-        const windowNode = new LinkedListNode(new Window(columnNode, client));
-        column.addWindow(windowNode);
+    addColumn(columnNode) {
         this.columns.insertEnd(columnNode);
-        this.windowMap.set(id, windowNode);
+    }
+    
+    removeColumn(columnNode) {
+        this.columns.remove(columnNode);
     }
     
     arrange() {
@@ -142,7 +168,8 @@ class Grid {
 }
 
 class Column {
-    constructor() {
+    constructor(grid) {
+        this.grid = grid;
         this.windows = new LinkedList();
         this.width = null;
     }
@@ -174,13 +201,12 @@ function moveLeft() {
 }
 
 function toggleFloating() {
-    const id = workspace.activeClient.windowId;
-    if (grid.windowMap.has(id)) {
-        grid.removeWindow(id);
-        grid.arrange();
+    const client = workspace.activeClient;
+    const id = client.windowId;
+    if (world.clientMap.has(id)) {
+        world.removeClient(id);
     } else {
-        grid.addWindow(id, workspace.activeClient);
-        grid.arrange();
+        world.addClient(id, client);
     }
 }
 
@@ -203,5 +229,5 @@ function init() {
     registerShortcuts();
 }
 
-let grid = new Grid();
+let world = new World(workspace.desktops); // TODO: react to changes in number of desktops
 init();
