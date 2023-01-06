@@ -22,6 +22,42 @@ class LinkedList {
         this.insertAfter(node, this.lastNode);
     }
 
+    insert(node, prevNode, nextNode) {
+        node.next = nextNode;
+        node.prev = prevNode;
+        if (nextNode !== null) {
+            assert(nextNode.prev === prevNode);
+            nextNode.prev = node;
+        }
+        if (prevNode !== null) {
+            assert(prevNode.next === nextNode);
+            prevNode.next = node;
+        }
+        if (this.firstNode === nextNode) {
+            this.firstNode = node;
+        }
+        if (this.lastNode === prevNode) {
+            this.lastNode = node;
+        }
+    }
+
+    remove(node) {
+        const prevNode = node.prev;
+        const nextNode = node.next;
+        if (prevNode !== null) {
+            prevNode.next = nextNode;
+        }
+        if (nextNode !== null) {
+            nextNode.prev = prevNode;
+        }
+        if (this.firstNode === node) {
+            this.firstNode = nextNode;
+        }
+        if (this.lastNode === node) {
+            this.lastNode = prevNode;
+        }
+    }
+
     swap(node0, node1) {
         assert(node0.next === node1 && node1.prev === node0);
         const prevNode = node0.prev;
@@ -44,42 +80,6 @@ class LinkedList {
         }
         if (this.lastNode === node1) {
             this.lastNode = node0;
-        }
-    }
-
-    remove(node) {
-        const prevNode = node.prev;
-        const nextNode = node.next;
-        if (prevNode !== null) {
-            prevNode.next = nextNode;
-        }
-        if (nextNode !== null) {
-            nextNode.prev = prevNode;
-        }
-        if (this.firstNode === node) {
-            this.firstNode = nextNode;
-        }
-        if (this.lastNode === node) {
-            this.lastNode = prevNode;
-        }
-    }
-
-    insert(node, prevNode, nextNode) {
-        node.next = nextNode;
-        node.prev = prevNode;
-        if (nextNode !== null) {
-            assert(nextNode.prev === prevNode);
-            nextNode.prev = node;
-        }
-        if (prevNode !== null) {
-            assert(prevNode.next === nextNode);
-            prevNode.next = node;
-        }
-        if (this.firstNode === nextNode) {
-            this.firstNode = node;
-        }
-        if (this.lastNode === prevNode) {
-            this.lastNode = node;
         }
     }
 
