@@ -43,11 +43,19 @@ class LinkedList {
     }
 
     getPrev(item) {
-        return this.itemMap.get(item).prev.item;
+        const prevNode = this.itemMap.get(item).prev;
+        if (prevNode === null) {
+            return null;
+        }
+        return prevNode.item;
     }
 
     getNext(item) {
-        return this.itemMap.get(item).next.item;
+        const nextNode = this.itemMap.get(item).next;
+        if (nextNode === null) {
+            return null;
+        }
+        return nextNode.item;
     }
 
     remove(item) {
