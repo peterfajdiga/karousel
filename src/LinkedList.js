@@ -6,21 +6,19 @@ class LinkedList {
     }
 
     insertBefore(node, nextNode) {
-        const prevNode = nextNode === null ? null : nextNode.prev;
-        this.insert(node, prevNode, nextNode);
+        this.insert(node, nextNode.prev, nextNode);
     }
 
     insertAfter(node, prevNode) {
-        const nextNode = prevNode === null ? null : prevNode.next;
-        this.insert(node, prevNode, nextNode);
+        this.insert(node, prevNode, prevNode.next);
     }
 
     insertStart(node) {
-        this.insertBefore(node, this.firstNode);
+        this.insert(node, null, this.firstNode);
     }
 
     insertEnd(node) {
-        this.insertAfter(node, this.lastNode);
+        this.insert(node, this.lastNode, null);
     }
 
     insert(node, prevNode, nextNode) {
