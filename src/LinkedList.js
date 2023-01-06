@@ -86,6 +86,20 @@ class LinkedList {
         }
     }
 
+    moveBack(node) {
+        if (node.prev !== null) {
+            assert(node !== this.firstNode);
+            this.swap(node.prev, node);
+        }
+    }
+
+    moveForward(node) {
+        if (node.next !== null) {
+            assert(node !== this.lastNode);
+            this.swap(node, node.next);
+        }
+    }
+
     *iterator() {
         for (let node = this.firstNode; node !== null; node = node.next) {
             yield node;
