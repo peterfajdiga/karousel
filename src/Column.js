@@ -32,7 +32,7 @@ class Column {
     removeWindow(windowNode) {
         this.windows.remove(windowNode);
         if (this.windows.length === 0) {
-            this.grid.removeColumn(windowNode.item.columnNode);
+            this.grid.removeColumn(this.node); // TODO: consider doing this in Grid instead
         }
     }
 }

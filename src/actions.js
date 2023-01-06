@@ -9,12 +9,11 @@ function doIfTiled(f) {
 
 function windowMoveLeft() {
     doIfTiled(window => {
-        const columnNode = window.columnNode;
-        const column = columnNode.item;
+        const column = window.column;
         const grid = column.grid;
         if (column.windows.length === 1) {
             // move from own column into existing column
-            const prevColumnNode = columnNode.prev;
+            const prevColumnNode = column.node.prev;
             if (prevColumnNode === null) {
                 return;
             }
@@ -23,7 +22,7 @@ function windowMoveLeft() {
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid);
-            grid.columns.insertBefore(newColumn.node, columnNode);
+            grid.columns.insertBefore(newColumn.node, column.node);
             column.removeWindow(window.node);
             newColumn.addWindow(window.node);
         }
@@ -33,12 +32,11 @@ function windowMoveLeft() {
 
 function windowMoveRight() {
     doIfTiled(window => {
-        const columnNode = window.columnNode;
-        const column = columnNode.item;
+        const column = window.column;
         const grid = column.grid;
         if (column.windows.length === 1) {
             // move from own column into existing column
-            const nextColumnNode = columnNode.next;
+            const nextColumnNode = column.node.next;
             if (nextColumnNode === null) {
                 return;
             }
@@ -47,7 +45,7 @@ function windowMoveRight() {
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid);
-            grid.columns.insertAfter(newColumn.node, columnNode);
+            grid.columns.insertAfter(newColumn.node, column.node);
             column.removeWindow(window.node);
             newColumn.addWindow(window.node);
         }
@@ -67,18 +65,18 @@ function windowToggleFloating() {
 
 function columnMoveLeft() {
     doIfTiled(window => {
-        const columnNode = window.columnNode;
-        const grid = columnNode.item.grid;
-        grid.columns.moveBack(columnNode);
+        const column = window.column;
+        const grid = column.grid;
+        grid.columns.moveBack(column.node);
         grid.arrange();
     });
 }
 
 function columnMoveRight() {
     doIfTiled(window => {
-        const columnNode = window.columnNode;
-        const grid = columnNode.item.grid;
-        grid.columns.moveForward(columnNode);
+        const column = window.column;
+        const grid = column.grid;
+        grid.columns.moveForward(column.node);
         grid.arrange();
     });
 }

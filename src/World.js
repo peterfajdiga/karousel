@@ -13,7 +13,7 @@ class World {
         const desktopIndex = client.desktop - 1;
         const grid = this.grids[desktopIndex];
         const column = new Column(grid);
-        const window = new Window(column.node, client);
+        const window = new Window(column, client);
 
         column.addWindow(window.node);
         grid.addColumn(column.node);
@@ -24,12 +24,11 @@ class World {
 
     removeClient(id) {
         const window = this.clientMap.get(id);
-        const columnNode = window.columnNode;
-        const column = columnNode.item;
+        const column = window.column;
         const grid = column.grid;
 
         column.removeWindow(window.node);
-        grid.removeColumn(columnNode);
+        grid.removeColumn(column.node);
         grid.arrange();
 
         const clientRect = window.client.frameGeometry;
