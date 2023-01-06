@@ -33,7 +33,7 @@ class Column {
         let remainingWindows = nWindows;
         for (const window of this.windows.iterator()) {
             const windowHeight = Math.round(remainingPixels) / remainingWindows;
-            window.client.frameGeometry.height = windowHeight;
+            window.height = windowHeight;
             remainingPixels -= windowHeight;
             remainingWindows--;
         }

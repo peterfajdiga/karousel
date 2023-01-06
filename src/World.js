@@ -31,10 +31,12 @@ class World {
         grid.arrange();
 
         const clientRect = window.client.frameGeometry;
-        clientRect.x += UNATTACH_OFFSET.x;
-        clientRect.y += UNATTACH_OFFSET.y;
-        clientRect.width = window.floatingSize.width;
-        clientRect.height = window.floatingSize.height;
+        window.setRect(
+            clientRect.x + UNATTACH_OFFSET.x,
+            clientRect.y + UNATTACH_OFFSET.y,
+            window.floatingSize.width,
+            window.floatingSize.height,
+        );
 
         this.clientMap.delete(id);
     }

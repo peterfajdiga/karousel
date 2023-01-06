@@ -42,10 +42,8 @@ class Grid {
         for (const column of this.columns.iterator()) {
             let y = this.area.y + GAPS_OUTER.y;
             for (const window of column.windows.iterator()) {
-                const client = window.client;
-                client.frameGeometry.x = x;
-                client.frameGeometry.y = y;
-                y += client.frameGeometry.height + GAPS_INNER.y;
+                window.setRect(x, y, column.width, window.height);
+                y += window.height + GAPS_INNER.y;
             }
             x += column.width + GAPS_INNER.x;
         }
