@@ -15,6 +15,8 @@ class World {
         const column = new Column();
         const window = new Window(client);
 
+        client.keepBelow = true;
+
         grid.addColumn(column);
         column.addWindow(window);
         grid.arrange();
@@ -34,10 +36,13 @@ class World {
         window.setRect(
             clientRect.x + UNATTACH_OFFSET.x,
             clientRect.y + UNATTACH_OFFSET.y,
-            window.floatingSize.width,
-            window.floatingSize.height,
+            window.floatingState.width,
+            window.floatingState.height,
         );
 
         this.clientMap.delete(id);
+
+        window.client.keepAbove = window.floatingState.keepAbove;
+        window.client.keepBelow = window.floatingState.keepBelow;
     }
 }
