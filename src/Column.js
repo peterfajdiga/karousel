@@ -21,9 +21,6 @@ class Column {
 
     removeWindow(window) {
         this.windows.remove(window.node);
-        if (this.windows.length === 0) {
-            this.grid.removeColumn(this); // TODO: consider doing this in Grid instead
-        }
         this.resizeWindows();
     }
 

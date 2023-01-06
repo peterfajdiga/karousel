@@ -17,13 +17,13 @@ function windowMoveLeft() {
             if (prevColumnNode === null) {
                 return;
             }
-            column.removeWindow(window);
+            grid.removeWindow(window);
             prevColumnNode.item.addWindow(window);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
             grid.addColumnBefore(newColumn, column);
-            column.removeWindow(window);
+            grid.removeWindow(window);
             newColumn.addWindow(window);
         }
         grid.arrange();
@@ -40,13 +40,13 @@ function windowMoveRight() {
             if (nextColumnNode === null) {
                 return;
             }
-            column.removeWindow(window);
+            grid.removeWindow(window);
             nextColumnNode.item.addWindow(window);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
             grid.addColumnAfter(newColumn, column);
-            column.removeWindow(window);
+            grid.removeWindow(window);
             newColumn.addWindow(window);
         }
         grid.arrange();

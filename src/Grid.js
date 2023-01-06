@@ -25,7 +25,16 @@ class Grid {
     }
 
     removeColumn(column) {
+        assert(column.windows.length === 0);
         this.columns.remove(column.node);
+    }
+
+    removeWindow(window) {
+        const column = window.column;
+        column.removeWindow(window);
+        if (column.windows.length === 0) {
+            this.removeColumn(column);
+        }
     }
 
     arrange() {

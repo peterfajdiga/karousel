@@ -27,8 +27,7 @@ class World {
         const column = window.column;
         const grid = column.grid;
 
-        column.removeWindow(window);
-        grid.removeColumn(column);
+        grid.removeWindow(window);
         grid.arrange();
 
         const clientRect = window.client.frameGeometry;
