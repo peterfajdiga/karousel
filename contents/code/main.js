@@ -104,6 +104,8 @@ class LinkedListNode {
 
 class World {
     constructor(nDesktops) {
+        // TODO: react to changes in number of desktops
+        // TODO: support Plasma activities
         this.grids = new Array(nDesktops);
         for (let i = 0; i < nDesktops; i++) {
             this.grids[i] = new Grid(i);
@@ -249,5 +251,5 @@ function init() {
     registerShortcuts();
 }
 
-let world = new World(workspace.desktops); // TODO: react to changes in number of desktops
+let world = new World(workspace.desktops);
 init();
