@@ -1,15 +1,15 @@
 function doIfTiled(f) {
     const id = workspace.activeClient.windowId;
-    const windowNode = world.clientMap.get(id);
-    if (windowNode !== undefined) {
+    const window = world.clientMap.get(id);
+    if (window !== undefined) {
         // window is tiled
-        f(windowNode);
+        f(window);
     }
 }
 
 function windowMoveLeft() {
-    doIfTiled(windowNode => {
-        const columnNode = windowNode.item.columnNode;
+    doIfTiled(window => {
+        const columnNode = window.columnNode;
         const column = columnNode.item;
         const grid = column.grid;
         if (column.windows.length === 1) {
@@ -18,22 +18,22 @@ function windowMoveLeft() {
             if (prevColumnNode === null) {
                 return;
             }
-            column.removeWindow(windowNode);
-            prevColumnNode.item.addWindow(windowNode);
+            column.removeWindow(window.node);
+            prevColumnNode.item.addWindow(window.node);
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid);
             grid.columns.insertBefore(newColumn.node, columnNode);
-            column.removeWindow(windowNode);
-            newColumn.addWindow(windowNode);
+            column.removeWindow(window.node);
+            newColumn.addWindow(window.node);
         }
         grid.arrange();
     });
 }
 
 function windowMoveRight() {
-    doIfTiled(windowNode => {
-        const columnNode = windowNode.item.columnNode;
+    doIfTiled(window => {
+        const columnNode = window.columnNode;
         const column = columnNode.item;
         const grid = column.grid;
         if (column.windows.length === 1) {
@@ -42,14 +42,14 @@ function windowMoveRight() {
             if (nextColumnNode === null) {
                 return;
             }
-            column.removeWindow(windowNode);
-            nextColumnNode.item.addWindow(windowNode);
+            column.removeWindow(window.node);
+            nextColumnNode.item.addWindow(window.node);
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid);
             grid.columns.insertAfter(newColumn.node, columnNode);
-            column.removeWindow(windowNode);
-            newColumn.addWindow(windowNode);
+            column.removeWindow(window.node);
+            newColumn.addWindow(window.node);
         }
         grid.arrange();
     });
@@ -66,8 +66,8 @@ function windowToggleFloating() {
 }
 
 function columnMoveLeft() {
-    doIfTiled(windowNode => {
-        const columnNode = windowNode.item.columnNode;
+    doIfTiled(window => {
+        const columnNode = window.columnNode;
         const grid = columnNode.item.grid;
         grid.columns.moveBack(columnNode);
         grid.arrange();
@@ -75,8 +75,8 @@ function columnMoveLeft() {
 }
 
 function columnMoveRight() {
-    doIfTiled(windowNode => {
-        const columnNode = windowNode.item.columnNode;
+    doIfTiled(window => {
+        const columnNode = window.columnNode;
         const grid = columnNode.item.grid;
         grid.columns.moveForward(columnNode);
         grid.arrange();

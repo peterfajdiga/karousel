@@ -19,17 +19,16 @@ class World {
         grid.addColumn(column.node);
         grid.arrange();
 
-        this.clientMap.set(id, window.node);
+        this.clientMap.set(id, window);
     }
 
     removeClient(id) {
-        const windowNode = this.clientMap.get(id);
-        const window = windowNode.item;
+        const window = this.clientMap.get(id);
         const columnNode = window.columnNode;
         const column = columnNode.item;
         const grid = column.grid;
 
-        column.removeWindow(windowNode);
+        column.removeWindow(window.node);
         grid.removeColumn(columnNode);
         grid.arrange();
 
