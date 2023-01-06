@@ -8,7 +8,53 @@ function doIfTiled(f) {
 }
 
 function windowMoveLeft() {
-    print("key pressed");
+    doIfTiled(windowNode => {
+        const columnNode = windowNode.item.columnNode;
+        const column = columnNode.item;
+        const grid = column.grid;
+        if (column.windows.length === 1) {
+            // move from own column into existing column
+            const prevColumnNode = columnNode.prev;
+            if (prevColumnNode === null) {
+                return;
+            }
+            column.removeWindow(windowNode);
+            prevColumnNode.item.addWindow(windowNode);
+        } else {
+            // move from shared column into own column
+            const newColumn = new Column(grid);
+            const newColumnNode = new LinkedListNode(newColumn);
+            grid.columns.insertBefore(newColumnNode, columnNode);
+            column.removeWindow(windowNode);
+            newColumn.addWindow(windowNode);
+        }
+        grid.arrange();
+    });
+}
+
+function windowMoveRight() {
+    doIfTiled(windowNode => {
+        const columnNode = windowNode.item.columnNode;
+        const column = columnNode.item;
+        const grid = column.grid;
+        if (column.windows.length === 1) {
+            // move from own column into existing column
+            const nextColumnNode = columnNode.next;
+            if (nextColumnNode === null) {
+                return;
+            }
+            column.removeWindow(windowNode);
+            nextColumnNode.item.addWindow(windowNode);
+        } else {
+            // move from shared column into own column
+            const newColumn = new Column(grid);
+            const newColumnNode = new LinkedListNode(newColumn);
+            grid.columns.insertAfter(newColumnNode, columnNode);
+            column.removeWindow(windowNode);
+            newColumn.addWindow(windowNode);
+        }
+        grid.arrange();
+    });
 }
 
 function windowToggleFloating() {
