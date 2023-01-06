@@ -6,3 +6,6 @@ build: $(wildcard ./src/*.js)
 
 run: build
 	./run.sh
+
+logs:
+	journalctl -g "js:" -f
