@@ -6,7 +6,7 @@ set -e
 
 bash_source_absolute="$(pwd)/${BASH_SOURCE[0]}"
 basalt_dir="$(dirname "$bash_source_absolute")"
-kwin_script_path="$basalt_dir/src/main.js"
+kwin_script_path="$basalt_dir/build/main.js"
 
 num=$(dbus-send --print-reply --dest=org.kde.KWin \
     /Scripting org.kde.kwin.Scripting.loadScript \
