@@ -13,14 +13,13 @@ class World {
         const desktopIndex = client.desktop - 1;
         const grid = this.grids[desktopIndex];
         const column = new Column(grid);
-        const columnNode = new LinkedListNode(column);
-        const windowNode = new LinkedListNode(new Window(columnNode, client));
+        const window = new Window(column.node, client);
 
-        column.addWindow(windowNode);
-        grid.addColumn(columnNode);
+        column.addWindow(window.node);
+        grid.addColumn(column.node);
         grid.arrange();
 
-        this.clientMap.set(id, windowNode);
+        this.clientMap.set(id, window.node);
     }
 
     removeClient(id) {

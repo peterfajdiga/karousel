@@ -23,8 +23,7 @@ function windowMoveLeft() {
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid);
-            const newColumnNode = new LinkedListNode(newColumn);
-            grid.columns.insertBefore(newColumnNode, columnNode);
+            grid.columns.insertBefore(newColumn.node, columnNode);
             column.removeWindow(windowNode);
             newColumn.addWindow(windowNode);
         }
@@ -48,8 +47,7 @@ function windowMoveRight() {
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid);
-            const newColumnNode = new LinkedListNode(newColumn);
-            grid.columns.insertAfter(newColumnNode, columnNode);
+            grid.columns.insertAfter(newColumn.node, columnNode);
             column.removeWindow(windowNode);
             newColumn.addWindow(windowNode);
         }

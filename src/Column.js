@@ -1,5 +1,6 @@
 class Column {
     constructor(grid) {
+        this.node = new LinkedListNode(this);
         this.grid = grid;
         this.windows = new LinkedList();
         this.width = null;
