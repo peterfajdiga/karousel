@@ -38,6 +38,7 @@ class Grid {
     }
 
     arrange() {
+        // TODO (optimization): only arrange visible windows
         let x = this.area.x + GAPS_OUTER.x;
         for (const column of this.columns.iterator()) {
             let y = this.area.y + GAPS_OUTER.y;
