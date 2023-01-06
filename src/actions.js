@@ -53,6 +53,22 @@ function windowMoveRight() {
     });
 }
 
+function windowMoveUp() {
+    doIfTiled(window => {
+        const column = window.column;
+        column.windows.moveBack(window);
+        column.grid.arrange(); // TODO (optimization): only arrange moved windows
+    });
+}
+
+function windowMoveDown() {
+    doIfTiled(window => {
+        const column = window.column;
+        column.windows.moveForward(window);
+        column.grid.arrange(); // TODO (optimization): only arrange moved windows
+    });
+}
+
 function windowToggleFloating() {
     const client = workspace.activeClient;
     const id = client.windowId;
