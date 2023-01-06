@@ -59,6 +59,7 @@ class LinkedList {
             this.lastNode = prevNode;
         }
         this.length--;
+        node.reset();
     }
 
     swap(node0, node1) {
@@ -110,6 +111,10 @@ class LinkedList {
 class LinkedListNode {
     constructor(item) {
         this.item = item;
+        this.reset();
+    }
+
+    reset() {
         this.prev = null;
         this.next = null;
     }
