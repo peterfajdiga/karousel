@@ -1,6 +1,5 @@
 class Window {
     constructor(client) {
-        this.node = new LinkedListNode(this);
         this.column = null;
         this.client = client;
         this.floatingSize = {

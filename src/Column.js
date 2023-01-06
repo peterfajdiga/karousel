@@ -1,6 +1,5 @@
 class Column {
     constructor() {
-        this.node = new LinkedListNode(this);
         this.grid = null;
         this.windows = new LinkedList();
         this.width = null;
@@ -10,7 +9,7 @@ class Column {
         window.column = this;
         const client = window.client;
 
-        this.windows.insertEnd(window.node);
+        this.windows.insertEnd(window);
         if (this.width === null) {
             this.width = client.frameGeometry.width;
         }
@@ -20,21 +19,21 @@ class Column {
     }
 
     removeWindow(window) {
-        this.windows.remove(window.node);
+        this.windows.remove(window);
         this.resizeWindows();
     }
 
     resizeWindows() {
-        const nWindows = this.windows.length;
+        const nWindows = this.windows.length();
         if (nWindows === 0) {
             return;
         }
 
         let remainingPixels = this.grid.area.height - 2*GAPS_OUTER.y - (nWindows-1)*GAPS_INNER.y;
         let remainingWindows = nWindows;
-        for (const windowNode of this.windows.iterator()) {
+        for (const window of this.windows.iterator()) {
             const windowHeight = Math.round(remainingPixels) / remainingWindows;
-            windowNode.item.client.frameGeometry.height = windowHeight;
+            window.client.frameGeometry.height = windowHeight;
             remainingPixels -= windowHeight;
             remainingWindows--;
         }

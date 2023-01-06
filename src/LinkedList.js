@@ -2,28 +2,30 @@ class LinkedList {
     constructor() {
         this.firstNode = null;
         this.lastNode = null;
-        this.length = 0;
+        this.itemMap = new Map();
     }
 
-    insertBefore(node, nextNode) {
-        this.insert(node, nextNode.prev, nextNode);
+    insertBefore(item, nextItem) {
+        const nextNode = this.itemMap.get(nextItem);
+        this.insert(item, nextNode.prev, nextNode);
     }
 
-    insertAfter(node, prevNode) {
-        this.insert(node, prevNode, prevNode.next);
+    insertAfter(item, prevItem) {
+        const prevNode = this.itemMap.get(prevItem);
+        this.insert(item, prevNode, prevNode.next);
     }
 
-    insertStart(node) {
-        this.insert(node, null, this.firstNode);
+    insertStart(item) {
+        this.insert(item, null, this.firstNode);
     }
 
-    insertEnd(node) {
-        this.insert(node, this.lastNode, null);
+    insertEnd(item) {
+        this.insert(item, this.lastNode, null);
     }
 
-    insert(node, prevNode, nextNode) {
-        node.next = nextNode;
-        node.prev = prevNode;
+    insert(item, prevNode, nextNode) {
+        const node = new LinkedListNode(item, prevNode, nextNode);
+        this.itemMap.set(item, node);
         if (nextNode !== null) {
             assert(nextNode.prev === prevNode);
             nextNode.prev = node;
@@ -38,10 +40,19 @@ class LinkedList {
         if (this.lastNode === prevNode) {
             this.lastNode = node;
         }
-        this.length++;
     }
 
-    remove(node) {
+    getPrev(item) {
+        return this.itemMap.get(item).prev.item;
+    }
+
+    getNext(item) {
+        return this.itemMap.get(item).next.item;
+    }
+
+    remove(item) {
+        const node = this.itemMap.get(item);
+        this.itemMap.delete(item);
         const prevNode = node.prev;
         const nextNode = node.next;
         if (prevNode !== null) {
@@ -56,8 +67,6 @@ class LinkedList {
         if (this.lastNode === node) {
             this.lastNode = prevNode;
         }
-        this.length--;
-        node.reset();
     }
 
     swap(node0, node1) {
@@ -85,35 +94,38 @@ class LinkedList {
         }
     }
 
-    moveBack(node) {
+    moveBack(item) {
+        const node = this.itemMap.get(item);
         if (node.prev !== null) {
             assert(node !== this.firstNode);
             this.swap(node.prev, node);
         }
     }
 
-    moveForward(node) {
+    moveForward(item) {
+        const node = this.itemMap.get(item);
         if (node.next !== null) {
             assert(node !== this.lastNode);
             this.swap(node, node.next);
         }
     }
 
+    length() {
+        return this.itemMap.size;
+    }
+
     *iterator() {
         for (let node = this.firstNode; node !== null; node = node.next) {
-            yield node;
+            yield node.item;
         }
     }
 }
 
+// TODO (optimization): reuse nodes
 class LinkedListNode {
-    constructor(item) {
+    constructor(item, prev, next) {
         this.item = item;
-        this.reset();
-    }
-
-    reset() {
-        this.prev = null;
-        this.next = null;
+        this.prev = prev;
+        this.next = next;
     }
 }

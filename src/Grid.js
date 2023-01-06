@@ -11,39 +11,37 @@ class Grid {
 
     addColumn(column) {
         column.grid = this;
-        this.columns.insertEnd(column.node);
+        this.columns.insertEnd(column);
     }
 
     addColumnBefore(column, nextColumn) {
         column.grid = this;
-        this.columns.insertBefore(column.node, nextColumn.node)
+        this.columns.insertBefore(column, nextColumn)
     }
 
     addColumnAfter(column, prevColumn) {
         column.grid = this;
-        this.columns.insertAfter(column.node, prevColumn.node)
+        this.columns.insertAfter(column, prevColumn)
     }
 
     removeColumn(column) {
-        assert(column.windows.length === 0);
-        this.columns.remove(column.node);
+        assert(column.windows.length() === 0);
+        this.columns.remove(column);
     }
 
     removeWindow(window) {
         const column = window.column;
         column.removeWindow(window);
-        if (column.windows.length === 0) {
+        if (column.windows.length() === 0) {
             this.removeColumn(column);
         }
     }
 
     arrange() {
         let x = this.area.x + GAPS_OUTER.x;
-        for (const columnNode of this.columns.iterator()) {
-            const column = columnNode.item;
+        for (const column of this.columns.iterator()) {
             let y = this.area.y + GAPS_OUTER.y;
-            for (const windowNode of column.windows.iterator()) {
-                const window = windowNode.item;
+            for (const window of column.windows.iterator()) {
                 const client = window.client;
                 client.frameGeometry.x = x;
                 client.frameGeometry.y = y;

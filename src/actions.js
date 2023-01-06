@@ -11,14 +11,14 @@ function windowMoveLeft() {
     doIfTiled(window => {
         const column = window.column;
         const grid = column.grid;
-        if (column.windows.length === 1) {
+        if (column.windows.length() === 1) {
             // move from own column into existing column
-            const prevColumnNode = column.node.prev;
-            if (prevColumnNode === null) {
+            const prevColumn = grid.columns.getPrev(column);
+            if (prevColumn === null) {
                 return;
             }
             grid.removeWindow(window);
-            prevColumnNode.item.addWindow(window);
+            prevColumn.addWindow(window);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
@@ -34,14 +34,14 @@ function windowMoveRight() {
     doIfTiled(window => {
         const column = window.column;
         const grid = column.grid;
-        if (column.windows.length === 1) {
+        if (column.windows.length() === 1) {
             // move from own column into existing column
-            const nextColumnNode = column.node.next;
-            if (nextColumnNode === null) {
+            const nextColumn = grid.columns.getNext(column);
+            if (nextColumn === null) {
                 return;
             }
             grid.removeWindow(window);
-            nextColumnNode.item.addWindow(window);
+            nextColumn.addWindow(window);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
@@ -67,7 +67,7 @@ function columnMoveLeft() {
     doIfTiled(window => {
         const column = window.column;
         const grid = column.grid;
-        grid.columns.moveBack(column.node);
+        grid.columns.moveBack(column);
         grid.arrange();
     });
 }
@@ -76,7 +76,7 @@ function columnMoveRight() {
     doIfTiled(window => {
         const column = window.column;
         const grid = column.grid;
-        grid.columns.moveForward(column.node);
+        grid.columns.moveForward(column);
         grid.arrange();
     });
 }
