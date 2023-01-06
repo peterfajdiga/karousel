@@ -3,6 +3,7 @@ class Window {
         this.column = null;
         this.client = client;
         this.height = client.frameGeometry.height;
+        this.preferredWidth = client.frameGeometry.width;
         this.floatingSize = {
             width: client.frameGeometry.width,
             height: client.frameGeometry.height,

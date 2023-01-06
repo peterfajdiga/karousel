@@ -7,11 +7,10 @@ class Column {
 
     addWindow(window) {
         window.column = this;
-        const client = window.client;
 
         this.windows.insertEnd(window);
         if (this.width === null) {
-            this.width = client.frameGeometry.width;
+            this.width = window.preferredWidth;
         }
         // TODO: also change column width if the new window requires it
 
