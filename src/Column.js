@@ -31,7 +31,7 @@ class Column {
         let remainingPixels = this.grid.area.height - 2*GAPS_OUTER.y - (nWindows-1)*GAPS_INNER.y;
         let remainingWindows = nWindows;
         for (const window of this.windows.iterator()) {
-            const windowHeight = Math.round(remainingPixels) / remainingWindows;
+            const windowHeight = Math.round(remainingPixels / remainingWindows);
             window.height = windowHeight;
             remainingPixels -= windowHeight;
             remainingWindows--;
