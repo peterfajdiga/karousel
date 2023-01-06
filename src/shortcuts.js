@@ -4,6 +4,7 @@ function catchWrap(f) {
             f();
         } catch (error) {
             print(error);
+            print(error.stack);
         }
     }
 }
