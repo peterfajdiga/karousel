@@ -2,6 +2,7 @@ class LinkedList {
     constructor() {
         this.firstNode = null;
         this.lastNode = null;
+        this.length = 0;
     }
 
     insertBefore(node, nextNode) {
@@ -39,6 +40,7 @@ class LinkedList {
         if (this.lastNode === prevNode) {
             this.lastNode = node;
         }
+        this.length++;
     }
 
     remove(node) {
@@ -56,6 +58,7 @@ class LinkedList {
         if (this.lastNode === node) {
             this.lastNode = prevNode;
         }
+        this.length--;
     }
 
     swap(node0, node1) {
