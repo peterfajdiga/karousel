@@ -10,7 +10,18 @@ class Grid {
     }
 
     addColumn(column) {
+        column.grid = this;
         this.columns.insertEnd(column.node);
+    }
+
+    addColumnBefore(column, nextColumn) {
+        column.grid = this;
+        this.columns.insertBefore(column.node, nextColumn.node)
+    }
+
+    addColumnAfter(column, prevColumn) {
+        column.grid = this;
+        this.columns.insertAfter(column.node, prevColumn.node)
     }
 
     removeColumn(column) {

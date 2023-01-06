@@ -21,8 +21,8 @@ function windowMoveLeft() {
             prevColumnNode.item.addWindow(window);
         } else {
             // move from shared column into own column
-            const newColumn = new Column(grid);
-            grid.columns.insertBefore(newColumn.node, column.node);
+            const newColumn = new Column();
+            grid.addColumnBefore(newColumn, column);
             column.removeWindow(window);
             newColumn.addWindow(window);
         }
@@ -44,8 +44,8 @@ function windowMoveRight() {
             nextColumnNode.item.addWindow(window);
         } else {
             // move from shared column into own column
-            const newColumn = new Column(grid);
-            grid.columns.insertAfter(newColumn.node, column.node);
+            const newColumn = new Column();
+            grid.addColumnAfter(newColumn, column);
             column.removeWindow(window);
             newColumn.addWindow(window);
         }

@@ -12,11 +12,11 @@ class World {
     addClient(id, client) {
         const desktopIndex = client.desktop - 1;
         const grid = this.grids[desktopIndex];
-        const column = new Column(grid);
-        const window = new Window(column, client);
+        const column = new Column();
+        const window = new Window(client);
 
-        column.addWindow(window);
         grid.addColumn(column);
+        column.addWindow(window);
         grid.arrange();
 
         this.clientMap.set(id, window);

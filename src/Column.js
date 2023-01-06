@@ -1,12 +1,13 @@
 class Column {
-    constructor(grid) {
+    constructor() {
         this.node = new LinkedListNode(this);
-        this.grid = grid;
+        this.grid = null;
         this.windows = new LinkedList();
         this.width = null;
     }
 
     addWindow(window) {
+        window.column = this;
         const client = window.client;
 
         let availableHeight = this.grid.area.height - 2 * GAPS_OUTER.y;
