@@ -23,7 +23,6 @@ class Grid {
             const column = columnNode.item;
             let y = this.area.y + GAPS_OUTER.y;
             for (const windowNode of column.windows.iterator()) {
-                // TODO: resize height to fit all
                 const window = windowNode.item;
                 const client = window.client;
                 client.frameGeometry.x = x;

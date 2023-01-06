@@ -8,6 +8,19 @@ class Column {
     addWindow(windowNode) {
         const window = windowNode.item
         const client = window.client;
+
+        let availableHeight = this.grid.area.height - 2 * GAPS_OUTER.y;
+        const nWindows = this.windows.length;
+        const resizeRatio = (nWindows - 1) / nWindows;
+        for (const windowNode of this.windows.iterator()) {
+            const window = windowNode.item;
+            const windowRect = window.client.frameGeometry;
+            windowRect.height = Math.round(windowRect.height * resizeRatio);
+            availableHeight -= windowRect.height;
+        }
+        client.frameGeometry.height = availableHeight;
+        // TODO: respect min height and unresizable windows
+
         this.windows.insertEnd(windowNode);
         if (this.width === null) {
             this.width = client.frameGeometry.width;
