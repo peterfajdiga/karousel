@@ -1,8 +1,8 @@
-function moveLeft() {
+function windowMoveLeft() {
     print("key pressed");
 }
 
-function toggleFloating() {
+function windowToggleFloating() {
     const client = workspace.activeClient;
     const id = client.windowId;
     if (world.clientMap.has(id)) {

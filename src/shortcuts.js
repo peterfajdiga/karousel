@@ -14,6 +14,6 @@ function registerShortcutDbg(title, text, keySequence, callback) {
 }
 
 function registerShortcuts() {
-    registerShortcutDbg("basalt-window-move-left", "Basalt: Move window left", "Meta+Shift+A", moveLeft);
-    registerShortcutDbg("basalt-window-toggle-floating", "Basalt: Toggle floating", "Meta+Space", toggleFloating);
+    registerShortcutDbg("basalt-window-move-left", "Basalt: Move window left", "Meta+Shift+A", windowMoveLeft);
+    registerShortcutDbg("basalt-window-toggle-floating", "Basalt: Toggle floating", "Meta+Space", windowToggleFloating);
 }
