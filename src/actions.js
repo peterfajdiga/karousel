@@ -17,14 +17,14 @@ function windowMoveLeft() {
             if (prevColumnNode === null) {
                 return;
             }
-            column.removeWindow(window.node);
-            prevColumnNode.item.addWindow(window.node);
+            column.removeWindow(window);
+            prevColumnNode.item.addWindow(window);
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid);
             grid.columns.insertBefore(newColumn.node, column.node);
-            column.removeWindow(window.node);
-            newColumn.addWindow(window.node);
+            column.removeWindow(window);
+            newColumn.addWindow(window);
         }
         grid.arrange();
     });
@@ -40,14 +40,14 @@ function windowMoveRight() {
             if (nextColumnNode === null) {
                 return;
             }
-            column.removeWindow(window.node);
-            nextColumnNode.item.addWindow(window.node);
+            column.removeWindow(window);
+            nextColumnNode.item.addWindow(window);
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid);
             grid.columns.insertAfter(newColumn.node, column.node);
-            column.removeWindow(window.node);
-            newColumn.addWindow(window.node);
+            column.removeWindow(window);
+            newColumn.addWindow(window);
         }
         grid.arrange();
     });

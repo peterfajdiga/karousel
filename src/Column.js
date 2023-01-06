@@ -6,8 +6,7 @@ class Column {
         this.width = null;
     }
 
-    addWindow(windowNode) {
-        const window = windowNode.item
+    addWindow(window) {
         const client = window.client;
 
         let availableHeight = this.grid.area.height - 2 * GAPS_OUTER.y;
@@ -22,17 +21,17 @@ class Column {
         client.frameGeometry.height = availableHeight;
         // TODO: respect min height and unresizable windows
 
-        this.windows.insertEnd(windowNode);
+        this.windows.insertEnd(window.node);
         if (this.width === null) {
             this.width = client.frameGeometry.width;
         }
         // TODO: also change column width if the new window requires it
     }
 
-    removeWindow(windowNode) {
-        this.windows.remove(windowNode);
+    removeWindow(window) {
+        this.windows.remove(window.node);
         if (this.windows.length === 0) {
-            this.grid.removeColumn(this.node); // TODO: consider doing this in Grid instead
+            this.grid.removeColumn(this); // TODO: consider doing this in Grid instead
         }
     }
 }

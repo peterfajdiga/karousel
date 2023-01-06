@@ -15,8 +15,8 @@ class World {
         const column = new Column(grid);
         const window = new Window(column, client);
 
-        column.addWindow(window.node);
-        grid.addColumn(column.node);
+        column.addWindow(window);
+        grid.addColumn(column);
         grid.arrange();
 
         this.clientMap.set(id, window);
@@ -27,8 +27,8 @@ class World {
         const column = window.column;
         const grid = column.grid;
 
-        column.removeWindow(window.node);
-        grid.removeColumn(column.node);
+        column.removeWindow(window);
+        grid.removeColumn(column);
         grid.arrange();
 
         const clientRect = window.client.frameGeometry;

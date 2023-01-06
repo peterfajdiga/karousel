@@ -9,12 +9,12 @@ class Grid {
         // TODO: react to changes in resolution
     }
 
-    addColumn(columnNode) {
-        this.columns.insertEnd(columnNode);
+    addColumn(column) {
+        this.columns.insertEnd(column.node);
     }
 
-    removeColumn(columnNode) {
-        this.columns.remove(columnNode);
+    removeColumn(column) {
+        this.columns.remove(column.node);
     }
 
     arrange() {
