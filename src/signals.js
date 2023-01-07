@@ -62,7 +62,9 @@ const workspaceSignalHandlers = {
     },
 
     clientFullScreenSet: (client, fullScreen, user) => {
-        print("clientFullScreenSet", client, fullScreen, user);
+        doIfTiled(client.windowId, window => {
+            window.skipArrange = fullScreen;
+        });
     },
 
     clientSetKeepAbove: (client, keepAbove) => {
