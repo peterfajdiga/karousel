@@ -2,6 +2,7 @@ class Grid {
     constructor(desktopIndex) {
         this.desktopIndex = desktopIndex;
         this.columns = new LinkedList();
+        this.scrollX = 0;
 
         const desktopNumber = desktopIndex + 1;
         this.area = workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
@@ -42,9 +43,13 @@ class Grid {
         }
     }
 
+    adjustScroll(xDelta) {
+        this.scrollX += xDelta;
+    }
+
     arrange() {
         // TODO (optimization): only arrange visible windows
-        let x = this.area.x + GAPS_OUTER.x;
+        let x = this.area.x + GAPS_OUTER.x - this.scrollX;
         for (const column of this.columns.iterator()) {
             let y = this.area.y + GAPS_OUTER.y;
             for (const window of column.windows.iterator()) {
