@@ -1,5 +1,4 @@
-function doIfTiled(f) {
-    const id = workspace.activeClient.windowId;
+function doIfTiled(id, f) {
     const window = world.clientMap.get(id);
     if (window !== undefined) {
         // window is tiled
@@ -7,8 +6,12 @@ function doIfTiled(f) {
     }
 }
 
+function doIfTiledFocused(f) {
+    doIfTiled(workspace.activeClient.windowId, f);
+}
+
 function windowMoveLeft() {
-    doIfTiled(window => {
+    doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
         if (column.windows.length() === 1) {
@@ -31,7 +34,7 @@ function windowMoveLeft() {
 }
 
 function windowMoveRight() {
-    doIfTiled(window => {
+    doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
         if (column.windows.length() === 1) {
@@ -54,7 +57,7 @@ function windowMoveRight() {
 }
 
 function windowMoveUp() {
-    doIfTiled(window => {
+    doIfTiledFocused(window => {
         const column = window.column;
         column.windows.moveBack(window);
         column.grid.arrange(); // TODO (optimization): only arrange moved windows
@@ -62,7 +65,7 @@ function windowMoveUp() {
 }
 
 function windowMoveDown() {
-    doIfTiled(window => {
+    doIfTiledFocused(window => {
         const column = window.column;
         column.windows.moveForward(window);
         column.grid.arrange(); // TODO (optimization): only arrange moved windows
@@ -80,7 +83,7 @@ function windowToggleFloating() {
 }
 
 function columnMoveLeft() {
-    doIfTiled(window => {
+    doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
         grid.columns.moveBack(column);
@@ -89,7 +92,7 @@ function columnMoveLeft() {
 }
 
 function columnMoveRight() {
-    doIfTiled(window => {
+    doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
         grid.columns.moveForward(column);
