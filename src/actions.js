@@ -25,13 +25,13 @@ function windowMoveLeft() {
             if (prevColumn === null) {
                 return;
             }
-            grid.removeWindow(window);
+            column.removeWindow(window);
             prevColumn.addWindow(window);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
             grid.addColumnBefore(newColumn, column);
-            grid.removeWindow(window);
+            column.removeWindow(window);
             newColumn.addWindow(window);
         }
         grid.arrange();
@@ -48,13 +48,13 @@ function windowMoveRight() {
             if (nextColumn === null) {
                 return;
             }
-            grid.removeWindow(window);
+            column.removeWindow(window);
             nextColumn.addWindow(window);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
             grid.addColumnAfter(newColumn, column);
-            grid.removeWindow(window);
+            column.removeWindow(window);
             newColumn.addWindow(window);
         }
         grid.arrange();

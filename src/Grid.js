@@ -30,7 +30,7 @@ class Grid {
     }
 
     removeColumn(column) {
-        assert(column.windows.length() === 0);
+        assert(column.isEmpty());
         column.setGrid(null);
         this.columns.remove(column);
     }
@@ -41,14 +41,6 @@ class Grid {
 
     moveColumnForward(column) {
         this.columns.moveForward(column);
-    }
-
-    removeWindow(window) {
-        const column = window.column;
-        column.removeWindow(window);
-        if (column.windows.length() === 0) {
-            this.removeColumn(column);
-        }
     }
 
     adjustScroll(xDelta) {
@@ -67,6 +59,12 @@ class Grid {
                 y += window.height + GAPS_INNER.y;
             }
             x += column.getWidth() + GAPS_INNER.x;
+        }
+    }
+
+    onColumnRemoveWindow(column, window) {
+        if (column.isEmpty()) {
+            this.removeColumn(column);
         }
     }
 }

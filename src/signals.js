@@ -7,7 +7,7 @@ const workspaceSignalHandlers = {
             const oldGrid = world.getGrid(oldDesktop);
             const newGrid = world.getGrid(newDesktop);
 
-            oldGrid.removeWindow(window);
+            window.column.removeWindow(window);
             oldGrid.arrange();
 
             const column = new Column();

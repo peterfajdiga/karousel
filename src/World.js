@@ -36,7 +36,7 @@ class World {
         const grid = column.grid;
         window.disconnectFromSignals();
 
-        grid.removeWindow(window);
+        column.removeWindow(window);
         grid.arrange();
 
         this.clientMap.delete(id);

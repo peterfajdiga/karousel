@@ -21,6 +21,13 @@ class Column {
         window.column = null;
         this.windows.remove(window);
         this.resizeWindows();
+        if (this.grid !== null) {
+            this.grid.onColumnRemoveWindow(this, window);
+        }
+    }
+
+    isEmpty() {
+        return this.windows.length() === 0;
     }
 
     setGrid(grid) {
