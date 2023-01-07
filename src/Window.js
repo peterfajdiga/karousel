@@ -23,32 +23,25 @@ class Window {
     }
 
     connectToSignals() {
-        this.signalHandlers.desktopPresenceChanged = (client, oldDesktop) => {
-            print("client desktopPresenceChanged", client, oldDesktop, client.desktop, client.x11DesktopIds);
-        };
+        const window = this;
 
         this.signalHandlers.desktopChanged = () => {
-            print("client desktopChanged", this.client.desktop, this.client.x11DesktopIds);
-        }
-
-        this.signalHandlers.x11DesktopIdsChanged = () => {
-            print("client x11DesktopIdsChanged", this.client.desktop, this.client.x11DesktopIds);
+            if (window.client.desktop === -1) {
+                // windows on all desktops are not supported
+                world.removeClient(window.client.windowId);
+            }
         }
 
         this.signalHandlers.frameGeometryChanged = (client, oldGeometry) => {
             print("client frameGeometryChanged", client, oldGeometry);
         }
 
-        this.client.desktopPresenceChanged.connect(this.signalHandlers.desktopPresenceChanged);
         this.client.desktopChanged.connect(this.signalHandlers.desktopChanged);
-        this.client.x11DesktopIdsChanged.connect(this.signalHandlers.x11DesktopIdsChanged);
         this.client.frameGeometryChanged.connect(this.signalHandlers.frameGeometryChanged);
     }
 
     disconnectFromSignals() {
-        this.client.desktopPresenceChanged.disconnect(this.signalHandlers.desktopPresenceChanged);
         this.client.desktopChanged.disconnect(this.signalHandlers.desktopChanged);
-        this.client.x11DesktopIdsChanged.disconnect(this.signalHandlers.x11DesktopIdsChanged);
         this.client.frameGeometryChanged.disconnect(this.signalHandlers.frameGeometryChanged);
     }
 }
