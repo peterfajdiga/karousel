@@ -1,5 +1,6 @@
 function shouldTile(client) {
-    return client.normalWindow;
+    // TODO: support windows on all desktops
+    return client.normalWindow && client.desktop > 0;
 }
 
 function doIfTiled(id, f) {
@@ -81,7 +82,7 @@ function windowToggleFloating() {
     const id = client.windowId;
     if (world.clientMap.has(id)) {
         world.removeClient(id);
-    } else {
+    } else if (shouldTile(client)) {
         world.addClient(id, client);
     }
 }
