@@ -9,23 +9,28 @@ class Grid {
         // TODO: react to changes in resolution
     }
 
-    addColumn(column) {
+    setupColumn(column) {
         column.grid = this;
+    }
+
+    addColumn(column) {
+        this.setupColumn(column);
         this.columns.insertEnd(column);
     }
 
     addColumnBefore(column, nextColumn) {
-        column.grid = this;
+        this.setupColumn(column);
         this.columns.insertBefore(column, nextColumn)
     }
 
     addColumnAfter(column, prevColumn) {
-        column.grid = this;
+        this.setupColumn(column);
         this.columns.insertAfter(column, prevColumn)
     }
 
     removeColumn(column) {
         assert(column.windows.length() === 0);
+        column.grid = null;
         this.columns.remove(column);
     }
 

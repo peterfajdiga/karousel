@@ -18,6 +18,7 @@ class Column {
     }
 
     removeWindow(window) {
+        window.column = null;
         this.windows.remove(window);
         this.resizeWindows();
     }
