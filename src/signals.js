@@ -8,7 +8,11 @@ const workspaceSignalHandlers = {
     },
 
     clientAdded: (client) => {
-        print("clientAdded", client);
+        const id = client.windowId;
+        assert(!world.clientMap.has(id));
+        if (shouldTile(client)) {
+            world.addClient(id, client);
+        }
     },
 
     clientRemoved: (client) => {

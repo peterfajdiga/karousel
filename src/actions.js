@@ -1,3 +1,7 @@
+function shouldTile(client) {
+    return client.normalWindow;
+}
+
 function doIfTiled(id, f) {
     const window = world.clientMap.get(id);
     if (window !== undefined) {
