@@ -32,6 +32,8 @@ class World {
         grid.removeWindow(window);
         grid.arrange();
 
+        this.clientMap.delete(id);
+
         const clientRect = window.client.frameGeometry;
         window.setRect(
             clientRect.x + UNATTACH_OFFSET.x,
@@ -39,8 +41,6 @@ class World {
             window.floatingState.width,
             window.floatingState.height,
         );
-
-        this.clientMap.delete(id);
 
         window.client.keepAbove = window.floatingState.keepAbove;
         window.client.keepBelow = window.floatingState.keepBelow;
