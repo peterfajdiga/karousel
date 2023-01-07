@@ -91,7 +91,7 @@ function columnMoveLeft() {
     doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
-        grid.columns.moveBack(column);
+        grid.moveColumnBack(column);
         grid.arrange();
     });
 }
@@ -100,7 +100,7 @@ function columnMoveRight() {
     doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
-        grid.columns.moveForward(column);
+        grid.moveColumnForward(column);
         grid.arrange();
     });
 }

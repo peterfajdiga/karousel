@@ -35,6 +35,14 @@ class Grid {
         this.columns.remove(column);
     }
 
+    moveColumnBack(column) {
+        this.columns.moveBack(column);
+    }
+
+    moveColumnForward(column) {
+        this.columns.moveForward(column);
+    }
+
     removeWindow(window) {
         const column = window.column;
         column.removeWindow(window);
