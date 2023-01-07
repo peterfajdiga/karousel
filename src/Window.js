@@ -4,6 +4,7 @@ class Window {
         this.client = client;
         this.height = client.frameGeometry.height;
         this.preferredWidth = client.frameGeometry.width;
+        this.skipArrange = false;
         this.floatingState = {
             width: client.frameGeometry.width,
             height: client.frameGeometry.height,

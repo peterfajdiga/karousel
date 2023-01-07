@@ -48,7 +48,9 @@ const workspaceSignalHandlers = {
     },
 
     clientMaximizeSet: (client, h, v) => {
-        print("clientMaximizeSet", client, h, v);
+        doIfTiled(client.windowId, window => {
+            window.skipArrange = h || v;
+        });
     },
 
     killWindowCalled: (client) => {
