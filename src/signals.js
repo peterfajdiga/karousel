@@ -117,7 +117,7 @@ const workspaceSignalHandlers = {
     virtualScreenGeometryChanged: () => {
         print("virtualScreenGeometryChanged");
     },
-}
+};
 
 function connectToWorkspaceSignals() {
     workspace.desktopPresenceChanged.connect(workspaceSignalHandlers.desktopPresenceChanged);

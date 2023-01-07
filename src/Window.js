@@ -20,4 +20,16 @@ class Window {
         rect.width = width;
         rect.height = height;
     }
+
+    connectToSignals() {
+        this.client.frameGeometryChanged.connect(this.frameGeometryChanged);
+    }
+
+    disconnectFromSignals() {
+        this.client.frameGeometryChanged.disconnect(this.frameGeometryChanged);
+    }
+
+    frameGeometryChanged(client, oldGeometry) {
+        print("frameGeometryChanged", client, oldGeometry);
+    }
 }
