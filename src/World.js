@@ -7,6 +7,7 @@ class World {
             this.grids[i] = new Grid(i);
         }
         this.clientMap = new Map();
+        this.minimizedTiled = new Set();
     }
 
     addClient(id, client) {

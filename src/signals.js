@@ -20,11 +20,20 @@ const workspaceSignalHandlers = {
     },
     
     clientMinimized: (client) => {
-        print("clientMinimized", client);
+        const id = client.windowId;
+        if (world.clientMap.has(id)) {
+            world.removeClient(id);
+            world.minimizedTiled.add(id);
+        }
     },
     
     clientUnminimized: (client) => {
-        print("clientUnminimized", client);
+        const id = client.windowId;
+        assert(!world.clientMap.has(id));
+        if (world.minimizedTiled.has(id)) {
+            world.minimizedTiled.delete(id);
+            world.addClient(id, client);
+        }
     },
     
     clientRestored: (client) => {
