@@ -30,6 +30,6 @@ class Window {
     }
 
     frameGeometryChanged(client, oldGeometry) {
-        print("frameGeometryChanged", client, oldGeometry);
+        print("client frameGeometryChanged", client, oldGeometry);
     }
 }

@@ -1,10 +1,10 @@
 const workspaceSignalHandlers = {
     desktopPresenceChanged: (client, oldDesktop) => {
-        print("desktopPresenceChanged", client, oldDesktop);
+        print("workspace desktopPresenceChanged", client, oldDesktop);
     },
 
     currentDesktopChanged: (desktop, client) => {
-        print("currentDesktopChanged", desktop, client);
+        print("workspace currentDesktopChanged", desktop, client);
     },
 
     clientAdded: (client) => {
@@ -23,7 +23,7 @@ const workspaceSignalHandlers = {
     },
 
     clientManaging: (client) => {
-        print("clientManaging", client);
+        print("workspace clientManaging", client);
     },
 
     clientMinimized: (client) => {
@@ -44,7 +44,7 @@ const workspaceSignalHandlers = {
     },
 
     clientRestored: (client) => {
-        print("clientRestored", client);
+        print("workspace clientRestored", client);
     },
 
     clientMaximizeSet: (client, horizontal, vertical) => {
@@ -56,11 +56,11 @@ const workspaceSignalHandlers = {
     },
 
     killWindowCalled: (client) => {
-        print("killWindowCalled", client);
+        print("workspace killWindowCalled", client);
     },
 
     clientActivated: (client) => {
-        print("clientActivated", client);
+        print("workspace clientActivated", client);
     },
 
     clientFullScreenSet: (client, fullScreen, user) => {
@@ -71,51 +71,51 @@ const workspaceSignalHandlers = {
     },
 
     clientSetKeepAbove: (client, keepAbove) => {
-        print("clientSetKeepAbove", client, keepAbove);
+        print("workspace clientSetKeepAbove", client, keepAbove);
     },
 
     numberDesktopsChanged: (oldNumberOfDesktops) => {
-        print("numberDesktopsChanged", oldNumberOfDesktops);
+        print("workspace numberDesktopsChanged", oldNumberOfDesktops);
     },
 
     desktopLayoutChanged: () => {
-        print("desktopLayoutChanged");
+        print("workspace desktopLayoutChanged");
     },
 
     clientDemandsAttentionChanged: (client, set) => {
-        print("clientDemandsAttentionChanged", client, set);
+        print("workspace clientDemandsAttentionChanged", client, set);
     },
 
     numberScreensChanged: (count) => {
-        print("numberScreensChanged", count);
+        print("workspace numberScreensChanged", count);
     },
 
     screenResized: (screen) => {
-        print("screenResized", screen);
+        print("workspace screenResized", screen);
     },
 
     currentActivityChanged: (id) => {
-        print("currentActivityChanged", id);
+        print("workspace currentActivityChanged", id);
     },
 
     activitiesChanged: (id) => {
-        print("activitiesChanged", id);
+        print("workspace activitiesChanged", id);
     },
 
     activityAdded: (id) => {
-        print("activityAdded", id);
+        print("workspace activityAdded", id);
     },
 
     activityRemoved: (id) => {
-        print("activityRemoved", id);
+        print("workspace activityRemoved", id);
     },
 
     virtualScreenSizeChanged: () => {
-        print("virtualScreenSizeChanged");
+        print("workspace virtualScreenSizeChanged");
     },
 
     virtualScreenGeometryChanged: () => {
-        print("virtualScreenGeometryChanged");
+        print("workspace virtualScreenGeometryChanged");
     },
 };
 
