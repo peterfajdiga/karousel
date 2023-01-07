@@ -32,16 +32,24 @@ class Window {
             }
         }
 
+        this.signalHandlers.moveResizedChanged = () => {
+            if (window.client.move) {
+                world.removeClient(window.client.windowId);
+            }
+        }
+
         this.signalHandlers.frameGeometryChanged = (client, oldGeometry) => {
             print("client frameGeometryChanged", client, oldGeometry);
         }
 
         this.client.desktopChanged.connect(this.signalHandlers.desktopChanged);
+        this.client.moveResizedChanged.connect(this.signalHandlers.moveResizedChanged);
         this.client.frameGeometryChanged.connect(this.signalHandlers.frameGeometryChanged);
     }
 
     disconnectFromSignals() {
         this.client.desktopChanged.disconnect(this.signalHandlers.desktopChanged);
+        this.client.moveResizedChanged.disconnect(this.signalHandlers.moveResizedChanged);
         this.client.frameGeometryChanged.disconnect(this.signalHandlers.frameGeometryChanged);
     }
 }
