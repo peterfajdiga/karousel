@@ -49,7 +49,9 @@ const workspaceSignalHandlers = {
 
     clientMaximizeSet: (client, h, v) => {
         doIfTiled(client.windowId, window => {
-            window.skipArrange = h || v;
+            const maximized = h || v;
+            window.skipArrange = maximized;
+            client.keepBelow = !maximized;
         });
     },
 
@@ -64,6 +66,7 @@ const workspaceSignalHandlers = {
     clientFullScreenSet: (client, fullScreen, user) => {
         doIfTiled(client.windowId, window => {
             window.skipArrange = fullScreen;
+            client.keepBelow = !fullScreen;
         });
     },
 
