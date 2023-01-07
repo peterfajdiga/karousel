@@ -12,7 +12,10 @@ const workspaceSignalHandlers = {
     },
     
     clientRemoved: (client) => {
-        print("clientRemoved", client);
+        const id = client.windowId;
+        if (world.clientMap.has(id)) {
+            world.removeClient(id);
+        }
     },
     
     clientManaging: (client) => {
