@@ -23,6 +23,11 @@ class Column {
         this.resizeWindows();
     }
 
+    setGrid(grid) {
+        this.grid = grid;
+        this.resizeWindows();
+    }
+
     getWidth() {
         assert(this.__width !== null);
         return this.__width;
@@ -35,6 +40,11 @@ class Column {
     resizeWindows() {
         const nWindows = this.windows.length();
         if (nWindows === 0) {
+            return;
+        }
+
+        if (this.grid === null) {
+            // this column is not attached to a grid, no sense in resizing windows
             return;
         }
 

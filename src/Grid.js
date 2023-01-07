@@ -11,7 +11,7 @@ class Grid {
     }
 
     setupColumn(column) {
-        column.grid = this;
+        column.setGrid(this);
     }
 
     addColumn(column) {
@@ -31,7 +31,7 @@ class Grid {
 
     removeColumn(column) {
         assert(column.windows.length() === 0);
-        column.grid = null;
+        column.setGrid(null);
         this.columns.remove(column);
     }
 
