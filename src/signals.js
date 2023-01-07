@@ -1,6 +1,6 @@
 const workspaceSignalHandlers = {
-    desktopPresenceChanged: (client, desktop) => {
-        print("desktopPresenceChanged", client, desktop);
+    desktopPresenceChanged: (client, oldDesktop) => {
+        print("desktopPresenceChanged", client, oldDesktop);
     },
 
     currentDesktopChanged: (desktop, client) => {
@@ -47,9 +47,9 @@ const workspaceSignalHandlers = {
         print("clientRestored", client);
     },
 
-    clientMaximizeSet: (client, h, v) => {
+    clientMaximizeSet: (client, horizontal, vertical) => {
         doIfTiled(client.windowId, window => {
-            const maximized = h || v;
+            const maximized = horizontal || vertical;
             window.skipArrange = maximized;
             client.keepBelow = !maximized;
         });
