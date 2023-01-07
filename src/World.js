@@ -10,9 +10,13 @@ class World {
         this.minimizedTiled = new Set();
     }
 
+    getGrid(desktop) {
+        assert(desktop > 0);
+        return this.grids[desktop-1];
+    }
+
     addClient(id, client) {
-        const desktopIndex = client.desktop - 1;
-        const grid = this.grids[desktopIndex];
+        const grid = this.getGrid(client.desktop);
         const column = new Column();
         const window = new Window(client);
         window.connectToSignals();
