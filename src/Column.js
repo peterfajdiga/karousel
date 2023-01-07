@@ -2,15 +2,15 @@ class Column {
     constructor() {
         this.grid = null;
         this.windows = new LinkedList();
-        this.width = null;
+        this.__width = null;
     }
 
     addWindow(window) {
         window.column = this;
 
         this.windows.insertEnd(window);
-        if (this.width === null) {
-            this.width = window.preferredWidth;
+        if (this.__width === null) {
+            this.setWidth(window.preferredWidth);
         }
         // TODO: also change column width if the new window requires it
 
@@ -21,6 +21,15 @@ class Column {
         window.column = null;
         this.windows.remove(window);
         this.resizeWindows();
+    }
+
+    getWidth() {
+        assert(this.__width !== null);
+        return this.__width;
+    }
+
+    setWidth(width) {
+        this.__width = width;
     }
 
     resizeWindows() {

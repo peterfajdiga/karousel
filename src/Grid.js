@@ -62,11 +62,11 @@ class Grid {
             let y = this.area.y + GAPS_OUTER.y;
             for (const window of column.windows.iterator()) {
                 if (!window.skipArrange) {
-                    window.setRect(x, y, column.width, window.height);
+                    window.setRect(x, y, column.getWidth(), window.height);
                 }
                 y += window.height + GAPS_INNER.y;
             }
-            x += column.width + GAPS_INNER.x;
+            x += column.getWidth() + GAPS_INNER.x;
         }
     }
 }
