@@ -1,6 +1,20 @@
 const workspaceSignalHandlers = {
     desktopPresenceChanged: (client, oldDesktop) => {
-        print("workspace desktopPresenceChanged", client, oldDesktop);
+        doIfTiled(client.windowId, window => {
+            // all desktops case handled in the client signal handler, because the workspace signal isn't fired for some reason
+
+            const newDesktop = client.desktop;
+            const oldGrid = world.getGrid(oldDesktop);
+            const newGrid = world.getGrid(newDesktop);
+
+            oldGrid.removeWindow(window);
+            oldGrid.arrange();
+
+            const column = new Column();
+            newGrid.addColumn(column);
+            column.addWindow(window);
+            newGrid.arrange();
+        });
     },
 
     currentDesktopChanged: (desktop, client) => {
