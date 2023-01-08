@@ -1,8 +1,8 @@
 class Grid {
     constructor(desktopIndex) {
         this.desktopIndex = desktopIndex;
-        this.columns = new LinkedList();
-        this.scrollX = 0;
+        this.__columns = new LinkedList();
+        this.__scrollX = 0;
 
         const desktopNumber = desktopIndex + 1;
         this.area = workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
@@ -16,31 +16,31 @@ class Grid {
 
     addColumn(column) {
         this.setupColumn(column);
-        this.columns.insertEnd(column);
+        this.__columns.insertEnd(column);
     }
 
     addColumnBefore(column, nextColumn) {
         this.setupColumn(column);
-        this.columns.insertBefore(column, nextColumn)
+        this.__columns.insertBefore(column, nextColumn)
     }
 
     addColumnAfter(column, prevColumn) {
         this.setupColumn(column);
-        this.columns.insertAfter(column, prevColumn)
+        this.__columns.insertAfter(column, prevColumn)
     }
 
     removeColumn(column) {
         assert(column.isEmpty());
         column.setGrid(null);
-        this.columns.remove(column);
+        this.__columns.remove(column);
     }
 
     moveColumnLeft(column) {
-        this.columns.moveBack(column);
+        this.__columns.moveBack(column);
     }
 
     moveColumnRight(column) {
-        this.columns.moveForward(column);
+        this.__columns.moveForward(column);
     }
 
     mergeColumns(donorColumn, targetColumn) {
@@ -51,21 +51,21 @@ class Grid {
     }
 
     mergeColumnsLeft(donorColumn) {
-        this.mergeColumns(donorColumn, this.columns.getPrev(donorColumn));
+        this.mergeColumns(donorColumn, this.__columns.getPrev(donorColumn));
     }
 
     mergeColumnsRight(donorColumn) {
-        this.mergeColumns(donorColumn, this.columns.getNext(donorColumn));
+        this.mergeColumns(donorColumn, this.__columns.getNext(donorColumn));
     }
 
     adjustScroll(xDelta) {
-        this.scrollX += xDelta;
+        this.__scrollX += xDelta;
     }
 
     arrange() {
         // TODO (optimization): only arrange visible windows
-        let x = this.area.x + GAPS_OUTER.x - this.scrollX;
-        for (const column of this.columns.iterator()) {
+        let x = this.area.x + GAPS_OUTER.x - this.__scrollX;
+        for (const column of this.__columns.iterator()) {
             column.arrange(x);
             x += column.getWidth() + GAPS_INNER.x;
         }
