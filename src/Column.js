@@ -33,11 +33,11 @@ class Column {
         }
     }
 
-    moveWindowBack(window) {
+    moveWindowUp(window) {
         this.__windows.moveBack(window);
     }
 
-    moveWindowForward(column) {
+    moveWindowDown(window) {
         this.__windows.moveForward(window);
     }
 

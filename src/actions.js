@@ -21,7 +21,7 @@ function windowMoveLeft() {
         const grid = column.grid;
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
-            grid.mergeColumnsPrev(column);
+            grid.mergeColumnsLeft(column);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
@@ -39,7 +39,7 @@ function windowMoveRight() {
         const grid = column.grid;
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
-            grid.mergeColumnsNext(column);
+            grid.mergeColumnsRight(column);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
@@ -54,7 +54,7 @@ function windowMoveRight() {
 function windowMoveUp() {
     doIfTiledFocused(window => {
         const column = window.column;
-        column.moveWindowBack(window);
+        column.moveWindowUp(window);
         column.grid.arrange(); // TODO (optimization): only arrange moved windows
     });
 }
@@ -62,7 +62,7 @@ function windowMoveUp() {
 function windowMoveDown() {
     doIfTiledFocused(window => {
         const column = window.column;
-        column.moveWindowForward(window);
+        column.moveWindowDown(window);
         column.grid.arrange(); // TODO (optimization): only arrange moved windows
     });
 }
@@ -81,7 +81,7 @@ function columnMoveLeft() {
     doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
-        grid.moveColumnBack(column);
+        grid.moveColumnLeft(column);
         grid.arrange();
     });
 }
@@ -90,7 +90,7 @@ function columnMoveRight() {
     doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
-        grid.moveColumnForward(column);
+        grid.moveColumnRight(column);
         grid.arrange();
     });
 }

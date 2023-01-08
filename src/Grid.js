@@ -35,11 +35,11 @@ class Grid {
         this.columns.remove(column);
     }
 
-    moveColumnBack(column) {
+    moveColumnLeft(column) {
         this.columns.moveBack(column);
     }
 
-    moveColumnForward(column) {
+    moveColumnRight(column) {
         this.columns.moveForward(column);
     }
 
@@ -50,11 +50,11 @@ class Grid {
         donorColumn.moveWindowsTo(targetColumn);
     }
 
-    mergeColumnsPrev(donorColumn) {
+    mergeColumnsLeft(donorColumn) {
         this.mergeColumns(donorColumn, this.columns.getPrev(donorColumn));
     }
 
-    mergeColumnsNext(donorColumn) {
+    mergeColumnsRight(donorColumn) {
         this.mergeColumns(donorColumn, this.columns.getNext(donorColumn));
     }
 
