@@ -20,12 +20,12 @@ class Grid {
 
     addColumnBefore(column, nextColumn) {
         this.setupColumn(column);
-        this.columns.insertBefore(column, nextColumn)
+        this.columns.insertBefore(column, nextColumn);
     }
 
     addColumnAfter(column, prevColumn) {
         this.setupColumn(column);
-        this.columns.insertAfter(column, prevColumn)
+        this.columns.insertAfter(column, prevColumn);
     }
 
     removeColumn(column) {
