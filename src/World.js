@@ -19,7 +19,7 @@ class World {
         const grid = this.getGrid(client.desktop);
         const column = new Column();
         const window = new Window(client);
-        window.connectToSignals();
+        window.connectToClientSignals();
 
         client.keepBelow = true;
 
@@ -34,7 +34,7 @@ class World {
         const window = this.clientMap.get(id);
         const column = window.column;
         const grid = column.grid;
-        window.disconnectFromSignals();
+        window.disconnectFromClientSignals();
 
         column.removeWindow(window);
         grid.arrange();

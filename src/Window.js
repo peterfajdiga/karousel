@@ -11,7 +11,7 @@ class Window {
             keepAbove: client.keepAbove,
             keepBelow: client.keepBelow,
         };
-        this.signalHandlers = {};
+        this.clientSignalHandlers = {};
     }
 
     setRect(x, y, width, height) {
@@ -22,34 +22,34 @@ class Window {
         rect.height = height;
     }
 
-    connectToSignals() {
+    connectToClientSignals() {
         const window = this;
 
-        this.signalHandlers.desktopChanged = () => {
+        this.clientSignalHandlers.desktopChanged = () => {
             if (window.client.desktop === -1) {
                 // windows on all desktops are not supported
                 world.removeClient(window.client.windowId);
             }
         }
 
-        this.signalHandlers.moveResizedChanged = () => {
+        this.clientSignalHandlers.moveResizedChanged = () => {
             if (window.client.move) {
                 world.removeClient(window.client.windowId);
             }
         }
 
-        this.signalHandlers.frameGeometryChanged = (client, oldGeometry) => {
+        this.clientSignalHandlers.frameGeometryChanged = (client, oldGeometry) => {
             print("client frameGeometryChanged", client, oldGeometry);
         }
 
-        this.client.desktopChanged.connect(this.signalHandlers.desktopChanged);
-        this.client.moveResizedChanged.connect(this.signalHandlers.moveResizedChanged);
-        this.client.frameGeometryChanged.connect(this.signalHandlers.frameGeometryChanged);
+        this.client.desktopChanged.connect(this.clientSignalHandlers.desktopChanged);
+        this.client.moveResizedChanged.connect(this.clientSignalHandlers.moveResizedChanged);
+        this.client.frameGeometryChanged.connect(this.clientSignalHandlers.frameGeometryChanged);
     }
 
-    disconnectFromSignals() {
-        this.client.desktopChanged.disconnect(this.signalHandlers.desktopChanged);
-        this.client.moveResizedChanged.disconnect(this.signalHandlers.moveResizedChanged);
-        this.client.frameGeometryChanged.disconnect(this.signalHandlers.frameGeometryChanged);
+    disconnectFromClientSignals() {
+        this.client.desktopChanged.disconnect(this.clientSignalHandlers.desktopChanged);
+        this.client.moveResizedChanged.disconnect(this.clientSignalHandlers.moveResizedChanged);
+        this.client.frameGeometryChanged.disconnect(this.clientSignalHandlers.frameGeometryChanged);
     }
 }
