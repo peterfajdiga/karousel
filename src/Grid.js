@@ -43,18 +43,24 @@ class Grid {
     }
 
     mergeColumns(donorColumn, targetColumn) {
-        if (targetColumn === null) {
-            return;
-        }
+        assert(targetColumn !== null);
         donorColumn.moveWindowsTo(targetColumn);
     }
 
     mergeColumnsLeft(donorColumn) {
-        this.mergeColumns(donorColumn, this.__columns.getPrev(donorColumn));
+        const prevColumn = this.__columns.getPrev(donorColumn);
+        if (prevColumn === null) {
+            return;
+        }
+        this.mergeColumns(donorColumn, prevColumn);
     }
 
     mergeColumnsRight(donorColumn) {
-        this.mergeColumns(donorColumn, this.__columns.getNext(donorColumn));
+        const nextColumn = this.__columns.getNext(donorColumn);
+        if (nextColumn === null) {
+            return;
+        }
+        this.mergeColumns(donorColumn, nextColumn);
     }
 
     adjustScroll(xDelta) {
