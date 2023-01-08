@@ -63,6 +63,16 @@ class Grid {
         this.mergeColumns(donorColumn, nextColumn);
     }
 
+    getTotalWidth() {
+        // TODO: cache
+        let columnsWidth = 0;
+        for (const column of this.columns.iterator()) {
+            columnsWidth += column.getWidth();
+        }
+        const gapsWidth = Math.max(0, (this.columns.length()-1) * GAPS_INNER.x);
+        return columnsWidth + gapsWidth;
+    }
+
     adjustScroll(xDelta) {
         this.scrollX += xDelta;
     }
