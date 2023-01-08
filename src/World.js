@@ -59,4 +59,10 @@ class World {
         }
         return this.clientMap.get(activeClient.windowId);
     }
+
+    removeAllClients() {
+        for (const id of this.clientMap.keys()) {
+            this.removeClient(id);
+        }
+    }
 }

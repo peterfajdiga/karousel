@@ -10,7 +10,7 @@ function catchWrap(f) {
 }
 
 function registerShortcutDbg(title, text, keySequence, callback) {
-    registerShortcut(title, text, keySequence, catchWrap(callback))
+    KWin.registerShortcut(title, text, keySequence, catchWrap(callback))
 }
 
 function registerShortcuts() {

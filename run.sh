@@ -6,10 +6,10 @@ set -e
 
 bash_source_absolute="$(pwd)/${BASH_SOURCE[0]}"
 basalt_dir="$(dirname "$bash_source_absolute")"
-kwin_script_path="$basalt_dir/build/main.js"
+kwin_script_path="$basalt_dir/build/main.qml"
 
 num=$(dbus-send --print-reply --dest=org.kde.KWin \
-    /Scripting org.kde.kwin.Scripting.loadScript \
+    /Scripting org.kde.kwin.Scripting.loadDeclarativeScript \
     string:"$kwin_script_path" | awk 'END {print $2}' )
 
 dbus-send --print-reply --dest=org.kde.KWin /$num \
@@ -17,6 +17,9 @@ dbus-send --print-reply --dest=org.kde.KWin /$num \
 
 echo 'Press any key to stop the script'
 read
-
 dbus-send --print-reply --dest=org.kde.KWin /$num \
     org.kde.kwin.Script.stop
+
+echo 'Press any key to kill KWin'
+read
+killall kwin_x11

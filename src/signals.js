@@ -170,3 +170,30 @@ function connectToWorkspaceSignals() {
     workspace.virtualScreenSizeChanged.connect(workspaceSignalHandlers.virtualScreenSizeChanged);
     workspace.virtualScreenGeometryChanged.connect(workspaceSignalHandlers.virtualScreenGeometryChanged);
 }
+
+function disconnectFromWorkspaceSignals() {
+    workspace.desktopPresenceChanged.disconnect(workspaceSignalHandlers.desktopPresenceChanged);
+    workspace.currentDesktopChanged.disconnect(workspaceSignalHandlers.currentDesktopChanged);
+    workspace.clientAdded.disconnect(workspaceSignalHandlers.clientAdded);
+    workspace.clientRemoved.disconnect(workspaceSignalHandlers.clientRemoved);
+    workspace.clientManaging.disconnect(workspaceSignalHandlers.clientManaging);
+    workspace.clientMinimized.disconnect(workspaceSignalHandlers.clientMinimized);
+    workspace.clientUnminimized.disconnect(workspaceSignalHandlers.clientUnminimized);
+    workspace.clientRestored.disconnect(workspaceSignalHandlers.clientRestored);
+    workspace.clientMaximizeSet.disconnect(workspaceSignalHandlers.clientMaximizeSet);
+    workspace.killWindowCalled.disconnect(workspaceSignalHandlers.killWindowCalled);
+    workspace.clientActivated.disconnect(workspaceSignalHandlers.clientActivated);
+    workspace.clientFullScreenSet.disconnect(workspaceSignalHandlers.clientFullScreenSet);
+    workspace.clientSetKeepAbove.disconnect(workspaceSignalHandlers.clientSetKeepAbove);
+    workspace.numberDesktopsChanged.disconnect(workspaceSignalHandlers.numberDesktopsChanged);
+    workspace.desktopLayoutChanged.disconnect(workspaceSignalHandlers.desktopLayoutChanged);
+    workspace.clientDemandsAttentionChanged.disconnect(workspaceSignalHandlers.clientDemandsAttentionChanged);
+    workspace.numberScreensChanged.disconnect(workspaceSignalHandlers.numberScreensChanged);
+    workspace.screenResized.disconnect(workspaceSignalHandlers.screenResized);
+    workspace.currentActivityChanged.disconnect(workspaceSignalHandlers.currentActivityChanged);
+    workspace.activitiesChanged.disconnect(workspaceSignalHandlers.activitiesChanged);
+    workspace.activityAdded.disconnect(workspaceSignalHandlers.activityAdded);
+    workspace.activityRemoved.disconnect(workspaceSignalHandlers.activityRemoved);
+    workspace.virtualScreenSizeChanged.disconnect(workspaceSignalHandlers.virtualScreenSizeChanged);
+    workspace.virtualScreenGeometryChanged.disconnect(workspaceSignalHandlers.virtualScreenGeometryChanged);
+}

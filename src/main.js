@@ -3,5 +3,9 @@ function init() {
     registerShortcuts();
 }
 
-let world = new World(workspace.desktops);
-init();
+function uninit() {
+    disconnectFromWorkspaceSignals();
+    world.removeAllClients();
+}
+
+const world = new World(workspace.desktops);
