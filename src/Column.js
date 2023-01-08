@@ -61,6 +61,9 @@ class Column {
 
     setWidth(width) {
         this.width = width;
+        for (const window of this.windows.iterator()) {
+            window.preferredWidth = width;
+        }
     }
 
     resizeWindows() {
