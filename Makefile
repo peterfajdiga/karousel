@@ -8,4 +8,4 @@ run: build
 	./run.sh
 
 logs:
-	journalctl -g "js:" -f
+	journalctl -t kwin_x11 -g 'js:' -f
