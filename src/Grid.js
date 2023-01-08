@@ -43,6 +43,21 @@ class Grid {
         this.columns.moveForward(column);
     }
 
+    mergeColumns(donorColumn, targetColumn) {
+        if (targetColumn === null) {
+            return;
+        }
+        donorColumn.moveWindowsTo(targetColumn);
+    }
+
+    mergeColumnsPrev(donorColumn) {
+        this.mergeColumns(donorColumn, this.columns.getPrev(donorColumn));
+    }
+
+    mergeColumnsNext(donorColumn) {
+        this.mergeColumns(donorColumn, this.columns.getNext(donorColumn));
+    }
+
     adjustScroll(xDelta) {
         this.scrollX += xDelta;
     }

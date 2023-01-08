@@ -21,12 +21,7 @@ function windowMoveLeft() {
         const grid = column.grid;
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
-            const prevColumn = grid.columns.getPrev(column);
-            if (prevColumn === null) {
-                return;
-            }
-            column.removeWindow(window);
-            prevColumn.addWindow(window);
+            grid.mergeColumnsPrev(column);
         } else {
             // move from shared column into own column
             const newColumn = new Column();
@@ -44,12 +39,7 @@ function windowMoveRight() {
         const grid = column.grid;
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
-            const nextColumn = grid.columns.getNext(column);
-            if (nextColumn === null) {
-                return;
-            }
-            column.removeWindow(window);
-            nextColumn.addWindow(window);
+            grid.mergeColumnsNext(column);
         } else {
             // move from shared column into own column
             const newColumn = new Column();

@@ -26,6 +26,13 @@ class Column {
         }
     }
 
+    moveWindowsTo(targetColumn) {
+        for (const window of this.__windows.iterator()) {
+            this.removeWindow(window);
+            targetColumn.addWindow(window);
+        }
+    }
+
     moveWindowBack(window) {
         this.__windows.moveBack(window);
     }
