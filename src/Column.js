@@ -1,15 +1,15 @@
 class Column {
     constructor() {
         this.grid = null;
-        this.__windows = new LinkedList();
-        this.__width = null;
+        this.windows = new LinkedList(); // private
+        this.width = null; // private
     }
 
     addWindow(window) {
         window.column = this;
 
-        this.__windows.insertEnd(window);
-        if (this.__width === null) {
+        this.windows.insertEnd(window);
+        if (this.width === null) {
             this.setWidth(window.preferredWidth);
         }
         // TODO: also change column width if the new window requires it
@@ -19,7 +19,7 @@ class Column {
 
     removeWindow(window) {
         window.column = null;
-        this.__windows.remove(window);
+        this.windows.remove(window);
         this.resizeWindows();
         if (this.grid !== null) {
             this.grid.onColumnRemoveWindow(this, window); // TODO: use signal
@@ -27,22 +27,22 @@ class Column {
     }
 
     moveWindowsTo(targetColumn) {
-        for (const window of this.__windows.iterator()) {
+        for (const window of this.windows.iterator()) {
             this.removeWindow(window);
             targetColumn.addWindow(window);
         }
     }
 
     moveWindowUp(window) {
-        this.__windows.moveBack(window);
+        this.windows.moveBack(window);
     }
 
     moveWindowDown(window) {
-        this.__windows.moveForward(window);
+        this.windows.moveForward(window);
     }
 
     getWindowCount() {
-        return this.__windows.length();
+        return this.windows.length();
     }
 
     isEmpty() {
@@ -55,16 +55,16 @@ class Column {
     }
 
     getWidth() {
-        assert(this.__width !== null);
-        return this.__width;
+        assert(this.width !== null);
+        return this.width;
     }
 
     setWidth(width) {
-        this.__width = width;
+        this.width = width;
     }
 
     resizeWindows() {
-        const nWindows = this.__windows.length();
+        const nWindows = this.windows.length();
         if (nWindows === 0) {
             return;
         }
@@ -76,7 +76,7 @@ class Column {
 
         let remainingPixels = this.grid.area.height - 2*GAPS_OUTER.y - (nWindows-1)*GAPS_INNER.y;
         let remainingWindows = nWindows;
-        for (const window of this.__windows.iterator()) {
+        for (const window of this.windows.iterator()) {
             const windowHeight = Math.round(remainingPixels / remainingWindows);
             window.height = windowHeight;
             remainingPixels -= windowHeight;
@@ -92,7 +92,7 @@ class Column {
         }
 
         let y = this.grid.area.y + GAPS_OUTER.y;
-        for (const window of this.__windows.iterator()) {
+        for (const window of this.windows.iterator()) {
             if (!window.skipArrange) {
                 window.setRect(x, y, this.getWidth(), window.height);
             }
