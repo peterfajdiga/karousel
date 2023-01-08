@@ -22,7 +22,7 @@ class Column {
         this.__windows.remove(window);
         this.resizeWindows();
         if (this.grid !== null) {
-            this.grid.onColumnRemoveWindow(this, window);
+            this.grid.onColumnRemoveWindow(this, window); // TODO: use signal
         }
     }
 
