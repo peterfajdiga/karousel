@@ -23,6 +23,7 @@ class LinkedList {
         this.insert(item, this.lastNode, null);
     }
 
+    // private
     insert(item, prevNode, nextNode) {
         const node = new LinkedListNode(item, prevNode, nextNode);
         this.itemMap.set(item, node);
@@ -77,6 +78,7 @@ class LinkedList {
         }
     }
 
+    // private
     swap(node0, node1) {
         assert(node0.next === node1 && node1.prev === node0);
         const prevNode = node0.prev;
