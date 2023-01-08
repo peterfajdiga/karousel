@@ -1,6 +1,5 @@
 class Grid {
     constructor(desktopIndex) {
-        this.desktopIndex = desktopIndex;
         this.__columns = new LinkedList();
         this.__scrollX = 0;
 
