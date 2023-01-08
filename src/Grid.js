@@ -51,13 +51,7 @@ class Grid {
         // TODO (optimization): only arrange visible windows
         let x = this.area.x + GAPS_OUTER.x - this.scrollX;
         for (const column of this.columns.iterator()) {
-            let y = this.area.y + GAPS_OUTER.y;
-            for (const window of column.windows.iterator()) {
-                if (!window.skipArrange) {
-                    window.setRect(x, y, column.getWidth(), window.height);
-                }
-                y += window.height + GAPS_INNER.y;
-            }
+            column.arrange(x);
             x += column.getWidth() + GAPS_INNER.x;
         }
     }

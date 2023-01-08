@@ -19,7 +19,7 @@ function windowMoveLeft() {
     doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
-        if (column.windows.length() === 1) {
+        if (column.getWindowCount() === 1) {
             // move from own column into existing column
             const prevColumn = grid.columns.getPrev(column);
             if (prevColumn === null) {
@@ -42,7 +42,7 @@ function windowMoveRight() {
     doIfTiledFocused(window => {
         const column = window.column;
         const grid = column.grid;
-        if (column.windows.length() === 1) {
+        if (column.getWindowCount() === 1) {
             // move from own column into existing column
             const nextColumn = grid.columns.getNext(column);
             if (nextColumn === null) {
@@ -64,7 +64,7 @@ function windowMoveRight() {
 function windowMoveUp() {
     doIfTiledFocused(window => {
         const column = window.column;
-        column.windows.moveBack(window);
+        column.moveWindowBack(window);
         column.grid.arrange(); // TODO (optimization): only arrange moved windows
     });
 }
@@ -72,7 +72,7 @@ function windowMoveUp() {
 function windowMoveDown() {
     doIfTiledFocused(window => {
         const column = window.column;
-        column.windows.moveForward(window);
+        column.moveWindowForward(window);
         column.grid.arrange(); // TODO (optimization): only arrange moved windows
     });
 }

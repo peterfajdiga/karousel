@@ -1,14 +1,14 @@
 class Column {
     constructor() {
         this.grid = null;
-        this.windows = new LinkedList();
+        this.__windows = new LinkedList();
         this.__width = null;
     }
 
     addWindow(window) {
         window.column = this;
 
-        this.windows.insertEnd(window);
+        this.__windows.insertEnd(window);
         if (this.__width === null) {
             this.setWidth(window.preferredWidth);
         }
@@ -19,15 +19,27 @@ class Column {
 
     removeWindow(window) {
         window.column = null;
-        this.windows.remove(window);
+        this.__windows.remove(window);
         this.resizeWindows();
         if (this.grid !== null) {
             this.grid.onColumnRemoveWindow(this, window);
         }
     }
 
+    moveWindowBack(window) {
+        this.__windows.moveBack(window);
+    }
+
+    moveWindowForward(column) {
+        this.__windows.moveForward(window);
+    }
+
+    getWindowCount() {
+        return this.__windows.length();
+    }
+
     isEmpty() {
-        return this.windows.length() === 0;
+        return this.getWindowCount() === 0;
     }
 
     setGrid(grid) {
@@ -45,7 +57,7 @@ class Column {
     }
 
     resizeWindows() {
-        const nWindows = this.windows.length();
+        const nWindows = this.__windows.length();
         if (nWindows === 0) {
             return;
         }
@@ -57,12 +69,27 @@ class Column {
 
         let remainingPixels = this.grid.area.height - 2*GAPS_OUTER.y - (nWindows-1)*GAPS_INNER.y;
         let remainingWindows = nWindows;
-        for (const window of this.windows.iterator()) {
+        for (const window of this.__windows.iterator()) {
             const windowHeight = Math.round(remainingPixels / remainingWindows);
             window.height = windowHeight;
             remainingPixels -= windowHeight;
             remainingWindows--;
         }
         // TODO: respect min height and unresizable windows
+    }
+
+    arrange(x) {
+        if (this.grid === null) {
+            // this column is not attached to a grid, no sense in arranging windows
+            return;
+        }
+
+        let y = this.grid.area.y + GAPS_OUTER.y;
+        for (const window of this.__windows.iterator()) {
+            if (!window.skipArrange) {
+                window.setRect(x, y, this.getWidth(), window.height);
+            }
+            y += window.height + GAPS_INNER.y;
+        }
     }
 }
