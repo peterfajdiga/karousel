@@ -11,27 +11,29 @@ class Grid {
 
     setupColumn(column) {
         column.setGrid(this);
+        this.scrollToCenter();
     }
 
     addColumn(column) {
-        this.setupColumn(column);
         this.columns.insertEnd(column);
+        this.setupColumn(column);
     }
 
     addColumnBefore(column, nextColumn) {
-        this.setupColumn(column);
         this.columns.insertBefore(column, nextColumn);
+        this.setupColumn(column);
     }
 
     addColumnAfter(column, prevColumn) {
-        this.setupColumn(column);
         this.columns.insertAfter(column, prevColumn);
+        this.setupColumn(column);
     }
 
     removeColumn(column) {
         assert(column.isEmpty());
         column.setGrid(null);
         this.columns.remove(column);
+        this.scrollToCenter();
     }
 
     moveColumnLeft(column) {
@@ -73,6 +75,17 @@ class Grid {
         return columnsWidth + gapsWidth;
     }
 
+    scrollToCenter() {
+        const gridWidth = this.getTotalWidth();
+        if (gridWidth > this.area.width) {
+            // no centering in scrolling mode
+            return;
+        }
+
+        const emptyWidth = this.area.width - gridWidth;
+        this.scrollX = -Math.round(emptyWidth / 2);
+    }
+
     adjustScroll(xDelta) {
         this.scrollX += xDelta;
     }
@@ -90,5 +103,9 @@ class Grid {
         if (column.isEmpty()) {
             this.removeColumn(column);
         }
+    }
+
+    onColumnWidthChanged(column, oldWidth, width) {
+        this.scrollToCenter();
     }
 }

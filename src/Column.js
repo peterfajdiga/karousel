@@ -2,14 +2,14 @@ class Column {
     constructor() {
         this.grid = null;
         this.windows = new LinkedList(); // private
-        this.width = null; // private
+        this.width = 0; // private
     }
 
     addWindow(window) {
         window.column = this;
 
         this.windows.insertEnd(window);
-        if (this.width === null) {
+        if (this.width === 0) {
             this.setWidth(window.preferredWidth);
         }
         // TODO: also change column width if the new window requires it
@@ -55,14 +55,17 @@ class Column {
     }
 
     getWidth() {
-        assert(this.width !== null);
         return this.width;
     }
 
     setWidth(width) {
+        const oldWidth = this.width;
         this.width = width;
         for (const window of this.windows.iterator()) {
             window.preferredWidth = width;
+        }
+        if (width !== oldWidth && this.grid !== null) {
+            this.grid.onColumnWidthChanged(this, oldWidth, width);
         }
     }
 
