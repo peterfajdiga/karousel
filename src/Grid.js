@@ -5,6 +5,10 @@ class Grid {
 
         const desktopNumber = desktopIndex + 1;
         this.area = workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
+        this.area.x += GAPS_OUTER.x;
+        this.area.y += GAPS_OUTER.y;
+        this.area.width -= 2 * GAPS_OUTER.x;
+        this.area.height -= 2 * GAPS_OUTER.y;
         // TODO: multi-screen support
         // TODO: react to changes in resolution
     }
@@ -92,7 +96,7 @@ class Grid {
 
     arrange() {
         // TODO (optimization): only arrange visible windows
-        let x = this.area.x + GAPS_OUTER.x - this.scrollX;
+        let x = this.area.x - this.scrollX;
         for (const column of this.columns.iterator()) {
             column.arrange(x);
             x += column.getWidth() + GAPS_INNER.x;

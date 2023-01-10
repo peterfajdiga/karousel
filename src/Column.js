@@ -80,7 +80,7 @@ class Column {
             return;
         }
 
-        let remainingPixels = this.grid.area.height - 2*GAPS_OUTER.y - (nWindows-1)*GAPS_INNER.y;
+        let remainingPixels = this.grid.area.height - (nWindows-1)*GAPS_INNER.y;
         let remainingWindows = nWindows;
         for (const window of this.windows.iterator()) {
             const windowHeight = Math.round(remainingPixels / remainingWindows);
@@ -97,7 +97,7 @@ class Column {
             return;
         }
 
-        let y = this.grid.area.y + GAPS_OUTER.y;
+        let y = this.grid.area.y;
         for (const window of this.windows.iterator()) {
             if (!window.skipArrange) {
                 window.setRect(x, y, this.getWidth(), window.height);
