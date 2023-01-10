@@ -1,8 +1,8 @@
 class LinkedList {
     constructor() {
-        this.firstNode = null;
-        this.lastNode = null;
-        this.itemMap = new Map();
+        this.firstNode = null; // private
+        this.lastNode = null; // private
+        this.itemMap = new Map(); // private
     }
 
     insertBefore(item, nextItem) {
