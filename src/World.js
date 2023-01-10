@@ -19,15 +19,14 @@ class World {
         const grid = this.getGrid(client.desktop);
         const column = new Column();
         const window = new Window(client);
-        window.connectToClientSignals();
+        this.clientMap.set(id, window);
 
+        window.connectToClientSignals();
         client.keepBelow = true;
 
         grid.addColumn(column);
         column.addWindow(window);
         grid.arrange();
-
-        this.clientMap.set(id, window);
     }
 
     removeClient(id) {
