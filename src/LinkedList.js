@@ -59,6 +59,20 @@ class LinkedList {
         return nextNode.item;
     }
 
+    getFirst() {
+        if (this.firstNode === null) {
+            return null;
+        }
+        return this.firstNode.item;
+    }
+
+    getLast() {
+        if (this.lastNode === null) {
+            return null;
+        }
+        return this.lastNode.item;
+    }
+
     remove(item) {
         const node = this.itemMap.get(item);
         this.itemMap.delete(item);
