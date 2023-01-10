@@ -101,6 +101,9 @@ class Grid {
             if (focusedWindow === undefined) {
                 return;
             }
+            if (focusedWindow.column.grid === null) {
+                return;
+            }
             assert(focusedWindow.column.grid === this);
             this.scrollToColumn(focusedWindow);
         } else {
