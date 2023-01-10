@@ -90,6 +90,18 @@ class Grid {
         this.scrollX = -Math.round(emptyWidth / 2);
     }
 
+    scrollToWindow(window) {
+        // TODO (refactor): instead of using frameGeometry, store x position inside Column
+        //                  then we can pass column instead of window
+        const rect = window.client.frameGeometry;
+        const screen = this.area;
+        if (rect.left < screen.left) {
+            this.adjustScroll(rect.left - screen.left);
+        } else if (rect.right > screen.right) {
+            this.adjustScroll(rect.right - screen.right);
+        }
+    }
+
     adjustScroll(xDelta) {
         this.scrollX += xDelta;
     }

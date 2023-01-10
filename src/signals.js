@@ -73,8 +73,15 @@ const workspaceSignalHandlers = {
         print("workspace killWindowCalled", client);
     },
 
-    clientActivated: (client) => {
-        print("workspace clientActivated", client);
+    clientActivated: client => {
+        if (client === null) {
+            return;
+        }
+        doIfTiled(client.windowId, window => {
+            const grid = window.column.grid;
+            grid.scrollToWindow(window);
+            grid.arrange();
+        });
     },
 
     clientFullScreenSet: (client, fullScreen, user) => {
