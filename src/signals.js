@@ -78,8 +78,9 @@ const workspaceSignalHandlers = {
             return;
         }
         doIfTiled(client.windowId, window => {
-            const grid = window.column.grid;
-            grid.scrollToWindow(window);
+            const column = window.column;
+            const grid = column.grid;
+            grid.scrollToColumn(column);
             grid.arrange();
         });
     },

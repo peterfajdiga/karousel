@@ -94,14 +94,13 @@ class Grid {
         this.scrollX = -Math.round(emptyWidth / 2);
     }
 
-    scrollToWindow(window) {
-        // TODO (refactor): pass column instead of window
-        const windowLeft = window.column.gridX - this.scrollX; // in screen space
-        const windowRight = windowLeft + window.column.width; // in screen space
-        if (windowLeft < 0) {
-            this.adjustScroll(windowLeft);
-        } else if (windowRight > this.area.width) {
-            this.adjustScroll(windowRight - this.area.width);
+    scrollToColumn(column) {
+        const left = column.gridX - this.scrollX; // in screen space
+        const right = left + column.width; // in screen space
+        if (left < 0) {
+            this.adjustScroll(left);
+        } else if (right > this.area.width) {
+            this.adjustScroll(right - this.area.width);
         }
     }
 
