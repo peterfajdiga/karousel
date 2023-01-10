@@ -16,7 +16,7 @@ class Grid {
     setupColumn(column) {
         column.setGrid(this);
         this.columnsSetX(column);
-        this.scrollToCenter();
+        this.autoAdjustScroll();
     }
 
     addColumn(column) {
@@ -43,7 +43,7 @@ class Grid {
         if (nextColumn !== null) {
             this.columnsSetX(nextColumn);
         }
-        this.scrollToCenter();
+        this.autoAdjustScroll();
     }
 
     moveColumnLeft(column) {
@@ -83,17 +83,6 @@ class Grid {
         return lastColumn.gridX + lastColumn.width;
     }
 
-    scrollToCenter() {
-        const gridWidth = this.getTotalWidth();
-        if (gridWidth > this.area.width) {
-            // no centering in scrolling mode
-            return;
-        }
-
-        const emptyWidth = this.area.width - gridWidth;
-        this.scrollX = -Math.round(emptyWidth / 2);
-    }
-
     scrollToColumn(column) {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space
@@ -101,6 +90,23 @@ class Grid {
             this.adjustScroll(left);
         } else if (right > this.area.width) {
             this.adjustScroll(right - this.area.width);
+        }
+    }
+
+    autoAdjustScroll() {
+        const gridWidth = this.getTotalWidth();
+        if (gridWidth > this.area.width) {
+            // scroll to focused window
+            const focusedWindow = world.getFocusedWindow();
+            if (focusedWindow === undefined) {
+                return;
+            }
+            assert(focusedWindow.column.grid === this);
+            this.scrollToColumn(focusedWindow);
+        } else {
+            // scroll to center
+            const emptyWidth = this.area.width - gridWidth;
+            this.scrollX = -Math.round(emptyWidth / 2);
         }
     }
 
@@ -137,6 +143,6 @@ class Grid {
         if (nextColumn !== null) {
             this.columnsSetX(nextColumn);
         }
-        this.scrollToCenter();
+        this.autoAdjustScroll();
     }
 }

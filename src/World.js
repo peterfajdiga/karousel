@@ -51,4 +51,12 @@ class World {
         window.client.keepAbove = window.floatingState.keepAbove;
         window.client.keepBelow = window.floatingState.keepBelow;
     }
+
+    getFocusedWindow() {
+        const activeClient = workspace.activeClient;
+        if (activeClient === null) {
+            return undefined;
+        }
+        return this.clientMap.get(activeClient.windowId);
+    }
 }
