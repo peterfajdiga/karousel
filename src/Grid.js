@@ -15,6 +15,7 @@ class Grid {
 
     setupColumn(column) {
         column.setGrid(this);
+        this.columnsSetX(column);
         this.scrollToCenter();
     }
 
@@ -35,8 +36,13 @@ class Grid {
 
     removeColumn(column) {
         assert(column.isEmpty());
+        const nextColumn = this.columns.getNext(column);
         column.setGrid(null);
+        column.gridX = null;
         this.columns.remove(column);
+        if (nextColumn !== null) {
+            this.columnsSetX(nextColumn);
+        }
         this.scrollToCenter();
     }
 
@@ -106,6 +112,15 @@ class Grid {
         this.scrollX += xDelta;
     }
 
+    columnsSetX(firstMovedColumn) {
+        const lastUnmovedColumn = this.columns.getPrev(firstMovedColumn);
+        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.gridX + lastUnmovedColumn.width + GAPS_INNER.x;
+        for (const column of this.columns.iteratorFrom(firstMovedColumn)) {
+            column.gridX = x;
+            x += column.width + GAPS_INNER.x;
+        }
+    }
+
     arrange() {
         // TODO (optimization): only arrange visible windows
         let x = this.area.x - this.scrollX;
@@ -122,6 +137,10 @@ class Grid {
     }
 
     onColumnWidthChanged(column, oldWidth, width) {
+        const nextColumn = this.columns.getNext(column);
+        if (nextColumn !== null) {
+            this.columnsSetX(nextColumn);
+        }
         this.scrollToCenter();
     }
 }

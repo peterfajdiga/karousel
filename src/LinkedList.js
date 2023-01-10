@@ -129,6 +129,12 @@ class LinkedList {
             yield node.item;
         }
     }
+
+    *iteratorFrom(startItem) {
+        for (let node = this.itemMap.get(startItem); node !== null; node = node.next) {
+            yield node.item;
+        }
+    }
 }
 
 // TODO (optimization): reuse nodes
