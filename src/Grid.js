@@ -76,13 +76,11 @@ class Grid {
     }
 
     getTotalWidth() {
-        // TODO: cache
-        let columnsWidth = 0;
-        for (const column of this.columns.iterator()) {
-            columnsWidth += column.getWidth();
+        const lastColumn = this.columns.getLast();
+        if (lastColumn === null) {
+            return 0;
         }
-        const gapsWidth = Math.max(0, (this.columns.length()-1) * GAPS_INNER.x);
-        return columnsWidth + gapsWidth;
+        return lastColumn.gridX + lastColumn.width;
     }
 
     scrollToCenter() {
@@ -97,14 +95,13 @@ class Grid {
     }
 
     scrollToWindow(window) {
-        // TODO (refactor): instead of using frameGeometry, store x position inside Column
-        //                  then we can pass column instead of window
-        const rect = window.client.frameGeometry;
-        const screen = this.area;
-        if (rect.left < screen.left) {
-            this.adjustScroll(rect.left - screen.left);
-        } else if (rect.right > screen.right) {
-            this.adjustScroll(rect.right - screen.right);
+        // TODO (refactor): pass column instead of window
+        const windowLeft = window.column.gridX - this.scrollX; // in screen space
+        const windowRight = windowLeft + window.column.width; // in screen space
+        if (windowLeft < 0) {
+            this.adjustScroll(windowLeft);
+        } else if (windowRight > this.area.width) {
+            this.adjustScroll(windowRight - this.area.width);
         }
     }
 
