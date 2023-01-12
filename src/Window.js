@@ -63,6 +63,9 @@ class Window {
                 const heightDelta = newGeometry.height - oldGeometry.height;
                 if (widthDelta !== 0) {
                     column.adjustWidth(widthDelta);
+                    if (newGeometry.x !== oldGeometry.x) {
+                        column.grid.adjustScroll(widthDelta);
+                    }
                 }
                 if (heightDelta !== 0) {
                     column.adjustWindowHeight(window, heightDelta, newGeometry.y !== oldGeometry.y);
