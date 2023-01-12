@@ -98,10 +98,7 @@ class Grid {
         if (gridWidth > this.area.width) {
             // scroll to focused window
             const focusedWindow = world.getFocusedWindow();
-            if (focusedWindow === undefined) {
-                return;
-            }
-            if (focusedWindow.column.grid === null) {
+            if (focusedWindow === undefined || focusedWindow.column === null || focusedWindow.column.grid === null) {
                 return;
             }
             assert(focusedWindow.column.grid === this);
