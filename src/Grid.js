@@ -48,10 +48,17 @@ class Grid {
 
     moveColumnLeft(column) {
         this.columns.moveBack(column);
+        this.columnsSetX(column);
+        this.autoAdjustScroll();
     }
 
     moveColumnRight(column) {
         this.columns.moveForward(column);
+        const prevColumn = this.columns.getPrev(column);
+        if (prevColumn !== null) {
+            this.columnsSetX(prevColumn);
+            this.autoAdjustScroll();
+        }
     }
 
     mergeColumns(donorColumn, targetColumn) {
