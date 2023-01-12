@@ -70,6 +70,20 @@ class Column {
         }
     }
 
+    adjustWidth(widthDelta) {
+        this.setWidth(this.width + widthDelta);
+    }
+
+    adjustWindowHeight(window, heightDelta, top) {
+        const otherWindow = top ? this.windows.getPrev(window) : this.windows.getNext(window);
+        if (otherWindow === null) {
+            return;
+        }
+
+        window.height += heightDelta;
+        otherWindow.height -= heightDelta;
+    }
+
     resizeWindows() {
         const nWindows = this.windows.length();
         if (nWindows === 0) {

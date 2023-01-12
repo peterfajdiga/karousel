@@ -16,6 +16,10 @@ class Window {
     }
 
     setRect(x, y, width, height) {
+        if (this.client.resize) {
+            // window is being manually resized, prevent fighting with the user
+            return;
+        }
         const rect = this.client.frameGeometry;
         rect.x = x;
         rect.y = y;
@@ -50,7 +54,21 @@ class Window {
         }
 
         this.clientSignalHandlers.frameGeometryChanged = (client, oldGeometry) => {
-            print("client frameGeometryChanged", client, oldGeometry);
+            if (client.resize) {
+                const newGeometry = client.frameGeometry;
+                const column = window.column;
+                const widthDelta = newGeometry.width - oldGeometry.width;
+                const heightDelta = newGeometry.height - oldGeometry.height;
+                if (widthDelta !== 0) {
+                    column.adjustWidth(widthDelta);
+                }
+                if (heightDelta !== 0) {
+                    column.adjustWindowHeight(heightDelta);
+                }
+                if (widthDelta !== 0 || heightDelta !== 0) {
+                    column.grid.arrange();
+                }
+            }
         }
 
         this.client.desktopChanged.connect(this.clientSignalHandlers.desktopChanged);
