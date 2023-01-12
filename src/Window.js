@@ -45,9 +45,11 @@ class Window {
             }
 
             const resize = client.resize;
+            window.column.grid.allowAutoAdjustScroll = !resize;
             if (this.lastResize && !resize) {
                 // resizing finished
                 window.column.setWidth(client.frameGeometry.width);
+                window.column.grid.autoAdjustScroll();
                 window.column.grid.arrange();
             }
             this.lastResize = resize;

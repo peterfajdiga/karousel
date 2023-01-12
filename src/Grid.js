@@ -3,6 +3,8 @@ class Grid {
         this.columns = new LinkedList(); // private
         this.scrollX = 0; // private
 
+        this.allowAutoAdjustScroll = true;
+
         const desktopNumber = desktopIndex + 1;
         this.area = workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
         this.area.x += GAPS_OUTER.x;
@@ -155,6 +157,8 @@ class Grid {
         if (nextColumn !== null) {
             this.columnsSetX(nextColumn);
         }
-        this.autoAdjustScroll();
+        if (this.allowAutoAdjustScroll) {
+            this.autoAdjustScroll();
+        }
     }
 }
