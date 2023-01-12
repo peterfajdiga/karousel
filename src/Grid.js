@@ -98,11 +98,17 @@ class Grid {
         if (gridWidth > this.area.width) {
             // scroll to focused window
             const focusedWindow = world.getFocusedWindow();
-            if (focusedWindow === undefined || focusedWindow.column === null || focusedWindow.column.grid === null) {
+            if (focusedWindow === undefined) {
                 return;
             }
-            assert(focusedWindow.column.grid === this);
-            this.scrollToColumn(focusedWindow);
+
+            const column = focusedWindow.column;
+            if (column === null || column.grid === null) {
+                return;
+            }
+
+            assert(column.grid === this);
+            this.scrollToColumn(column);
         } else {
             // scroll to center
             const emptyWidth = this.area.width - gridWidth;
