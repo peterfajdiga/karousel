@@ -53,12 +53,11 @@ class Grid {
     }
 
     moveColumnRight(column) {
-        this.columns.moveForward(column);
-        const prevColumn = this.columns.getPrev(column);
-        if (prevColumn !== null) {
-            this.columnsSetX(prevColumn);
-            this.autoAdjustScroll();
+        const nextColumn = this.columns.getNext(column);
+        if (nextColumn === null) {
+            return;
         }
+        this.moveColumnLeft(nextColumn);
     }
 
     mergeColumns(donorColumn, targetColumn) {
