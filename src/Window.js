@@ -65,7 +65,7 @@ class Window {
                     column.adjustWidth(widthDelta);
                 }
                 if (heightDelta !== 0) {
-                    column.adjustWindowHeight(heightDelta);
+                    column.adjustWindowHeight(window, heightDelta, newGeometry.y !== oldGeometry.y);
                 }
                 if (widthDelta !== 0 || heightDelta !== 0) {
                     column.grid.arrange();
