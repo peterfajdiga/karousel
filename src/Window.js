@@ -5,6 +5,7 @@ class Window {
         this.height = client.frameGeometry.height;
         this.preferredWidth = client.frameGeometry.width;
         this.skipArrange = false;
+        this.lastResize = false;
         this.floatingState = {
             width: client.frameGeometry.width,
             height: client.frameGeometry.height,
@@ -33,9 +34,19 @@ class Window {
         }
 
         this.clientSignalHandlers.moveResizedChanged = () => {
-            if (window.client.move) {
-                world.removeClient(window.client.windowId);
+            const client = window.client;
+            if (client.move) {
+                world.removeClient(client.windowId);
+                return;
             }
+
+            const resize = client.resize;
+            if (this.lastResize && !resize) {
+                // resizing finished
+                window.column.setWidth(client.frameGeometry.width);
+                window.column.grid.arrange();
+            }
+            this.lastResize = resize;
         }
 
         this.clientSignalHandlers.frameGeometryChanged = (client, oldGeometry) => {
