@@ -31,6 +31,8 @@ function registerShortcuts() {
 
     registerShortcutDbg("basalt-grid-scroll-left", "Basalt: Scroll left", "Meta+Alt+PgUp", gridScrollLeft);
     registerShortcutDbg("basalt-grid-scroll-right", "Basalt: Scroll right", "Meta+Alt+PgDown", gridScrollRight);
+    registerShortcutDbg("basalt-grid-scroll-start", "Basalt: Scroll to start", "Meta+Alt+Home", gridScrollStart);
+    registerShortcutDbg("basalt-grid-scroll-end", "Basalt: Scroll to end", "Meta+Alt+End", gridScrollEnd);
 
     registerShortcutDbg("basalt-grid-scroll-left-column", "Basalt: Scroll one column to the left", "Meta+Alt+A", gridScrollLeftColumn);
     registerShortcutDbg("basalt-grid-scroll-right-column", "Basalt: Scroll one column to the right", "Meta+Alt+D", gridScrollRightColumn);

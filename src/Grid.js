@@ -90,6 +90,14 @@ class Grid {
         return this.columns.getNext(column);
     }
 
+    getFirstColumn() {
+        return this.columns.getFirst();
+    }
+
+    getLastColumn() {
+        return this.columns.getLast();
+    }
+
     getLeftmostVisibleColumn(fullyVisible) {
         for (const column of this.columns.iterator()) {
             const left = column.gridX - this.scrollX; // in screen space

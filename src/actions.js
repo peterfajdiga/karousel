@@ -156,6 +156,26 @@ function gridScrollRight() {
     gridScroll(1);
 }
 
+function gridScrollStart() {
+    const grid = world.getGrid(workspace.currentDesktop);
+    const firstColumn = grid.getFirstColumn();
+    if (firstColumn === null) {
+        return;
+    }
+    grid.scrollToColumn(firstColumn);
+    grid.arrange();
+}
+
+function gridScrollEnd() {
+    const grid = world.getGrid(workspace.currentDesktop);
+    const lastColumn = grid.getLastColumn();
+    if (lastColumn === null) {
+        return;
+    }
+    grid.scrollToColumn(lastColumn);
+    grid.arrange();
+}
+
 function gridScrollLeftColumn() {
     const grid = world.getGrid(workspace.currentDesktop);
     const column = grid.getLeftmostVisibleColumn(true);
