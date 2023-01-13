@@ -89,6 +89,8 @@ class Grid {
             this.adjustScroll(left);
         } else if (right > this.area.width) {
             this.adjustScroll(right - this.area.width);
+        } else {
+            this.removeOverscroll();
         }
     }
 
@@ -96,7 +98,7 @@ class Grid {
         if (this.width > this.area.width) {
             this.scrollToFocusedWindow();
         } else {
-            this.scrollToCenter();
+            this.removeOverscroll();
         }
     }
 
@@ -115,11 +117,6 @@ class Grid {
         this.scrollToColumn(column);
     }
 
-    scrollToCenter() {
-        const emptyWidth = this.area.width - this.width;
-        this.setScroll(-Math.round(emptyWidth / 2), true);
-    }
-
     setScroll(x, force) {
         if (!force) {
             let minScroll = 0;
@@ -136,6 +133,10 @@ class Grid {
 
     adjustScroll(xDelta, force) {
         this.setScroll(this.scrollX + xDelta, force);
+    }
+
+    removeOverscroll() {
+        this.setScroll(this.scrollX, false);
     }
 
     columnsSetX(firstMovedColumn) {
