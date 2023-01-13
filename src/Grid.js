@@ -86,9 +86,9 @@ class Grid {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space
         if (left < 0) {
-            this.adjustScroll(left);
+            this.adjustScroll(left, false);
         } else if (right > this.area.width) {
-            this.adjustScroll(right - this.area.width);
+            this.adjustScroll(right - this.area.width, false);
         } else {
             this.removeOverscroll();
         }

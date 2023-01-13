@@ -98,7 +98,7 @@ function columnMoveRight() {
 function gridScroll(direction) {
     const scrollAmount = GRID_SCROLL_STEP * direction;
     const grid = world.getGrid(workspace.currentDesktop);
-    grid.adjustScroll(scrollAmount);
+    grid.adjustScroll(scrollAmount, false);
     grid.arrange();
 }
 
