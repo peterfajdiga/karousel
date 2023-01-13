@@ -63,7 +63,7 @@ class Window {
                 if (widthDelta !== 0) {
                     column.adjustWidth(widthDelta);
                     if (newGeometry.x !== oldGeometry.x) {
-                        column.grid.adjustScroll(widthDelta);
+                        column.grid.adjustScroll(widthDelta, true);
                     }
                 }
                 if (heightDelta !== 0) {

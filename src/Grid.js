@@ -117,11 +117,25 @@ class Grid {
 
     scrollToCenter() {
         const emptyWidth = this.area.width - this.width;
-        this.scrollX = -Math.round(emptyWidth / 2);
+        this.setScroll(-Math.round(emptyWidth / 2), true);
     }
 
-    adjustScroll(xDelta) {
-        this.scrollX += xDelta;
+    setScroll(x, force) {
+        if (!force) {
+            let minScroll = 0;
+            let maxScroll = this.width - this.area.width;
+            if (maxScroll < 0) {
+                const centerScroll = Math.round(maxScroll / 2);
+                minScroll = centerScroll;
+                maxScroll = centerScroll;
+            }
+            x = Math.max(minScroll, Math.min(maxScroll, x));
+        }
+        this.scrollX = x;
+    }
+
+    adjustScroll(xDelta, force) {
+        this.setScroll(this.scrollX + xDelta, force);
     }
 
     columnsSetX(firstMovedColumn) {
