@@ -95,21 +95,15 @@ class Grid {
     }
 
     autoAdjustScroll() {
-        if (this.width > this.area.width) {
-            this.scrollToFocusedWindow();
-        } else {
-            this.removeOverscroll();
-        }
-    }
-
-    scrollToFocusedWindow() {
         const focusedWindow = world.getFocusedWindow();
         if (focusedWindow === undefined) {
+            this.removeOverscroll();
             return;
         }
 
         const column = focusedWindow.column;
         if (column === null || column.grid === null) {
+            this.removeOverscroll();
             return;
         }
 
