@@ -2,6 +2,7 @@ class Grid {
     constructor(desktopIndex) {
         this.columns = new LinkedList(); // private
         this.scrollX = 0; // private
+        this.width = 0; // private
 
         this.allowAutoAdjustScroll = true;
 
@@ -42,9 +43,7 @@ class Grid {
         column.setGrid(null);
         column.gridX = null;
         this.columns.remove(column);
-        if (nextColumn !== null) {
-            this.columnsSetX(nextColumn);
-        }
+        this.columnsSetX(nextColumn);
         this.autoAdjustScroll();
     }
 
@@ -83,14 +82,6 @@ class Grid {
         this.mergeColumns(donorColumn, nextColumn);
     }
 
-    getTotalWidth() {
-        const lastColumn = this.columns.getLast();
-        if (lastColumn === null) {
-            return 0;
-        }
-        return lastColumn.gridX + lastColumn.width;
-    }
-
     scrollToColumn(column) {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space
@@ -102,7 +93,7 @@ class Grid {
     }
 
     autoAdjustScroll() {
-        const gridWidth = this.getTotalWidth();
+        const gridWidth = this.width;
         if (gridWidth > this.area.width) {
             // scroll to focused window
             const focusedWindow = world.getFocusedWindow();
@@ -129,12 +120,15 @@ class Grid {
     }
 
     columnsSetX(firstMovedColumn) {
-        const lastUnmovedColumn = this.columns.getPrev(firstMovedColumn);
+        const lastUnmovedColumn = firstMovedColumn === null ? this.columns.getLast() : this.columns.getPrev(firstMovedColumn);
         let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.gridX + lastUnmovedColumn.width + GAPS_INNER.x;
-        for (const column of this.columns.iteratorFrom(firstMovedColumn)) {
-            column.gridX = x;
-            x += column.width + GAPS_INNER.x;
+        if (firstMovedColumn !== null) {
+            for (const column of this.columns.iteratorFrom(firstMovedColumn)) {
+                column.gridX = x;
+                x += column.width + GAPS_INNER.x;
+            }
         }
+        this.width = x - GAPS_INNER.x;
     }
 
     arrange() {
@@ -154,9 +148,7 @@ class Grid {
 
     onColumnWidthChanged(column, oldWidth, width) {
         const nextColumn = this.columns.getNext(column);
-        if (nextColumn !== null) {
-            this.columnsSetX(nextColumn);
-        }
+        this.columnsSetX(nextColumn);
         if (this.allowAutoAdjustScroll) {
             this.autoAdjustScroll();
         }
