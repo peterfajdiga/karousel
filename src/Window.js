@@ -48,12 +48,13 @@ class Window {
                 return;
             }
 
+            const grid = window.column.grid;
             const resize = client.resize;
-            window.column.grid.allowAutoAdjustScroll = !resize;
+            grid.allowAutoAdjustScroll = !resize;
             if (this.lastResize && !resize) {
                 // resizing finished
-                window.column.grid.autoAdjustScroll();
-                window.column.grid.arrange();
+                grid.autoAdjustScroll();
+                grid.arrange();
             }
             this.lastResize = resize;
         }
