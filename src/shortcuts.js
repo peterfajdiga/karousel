@@ -21,6 +21,6 @@ function registerShortcuts() {
     registerShortcutDbg("basalt-window-toggle-floating", "Basalt: Toggle floating", "Meta+Space", windowToggleFloating);
     registerShortcutDbg("basalt-column-move-left", "Basalt: Move column left", "Meta+Ctrl+Shift+A", columnMoveLeft);
     registerShortcutDbg("basalt-column-move-right", "Basalt: Move column right", "Meta+Ctrl+Shift+D", columnMoveRight);
-    registerShortcutDbg("basalt-grid-scroll-left", "Basalt: Scroll left", "Meta+Alt+A", gridScrollLeft);
-    registerShortcutDbg("basalt-grid-scroll-right", "Basalt: Scroll right", "Meta+Alt+D", gridScrollRight);
+    registerShortcutDbg("basalt-grid-scroll-left", "Basalt: Scroll left", "Meta+PgUp", gridScrollLeft);
+    registerShortcutDbg("basalt-grid-scroll-right", "Basalt: Scroll right", "Meta+PgDown", gridScrollRight);
 }
