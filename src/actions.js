@@ -109,3 +109,35 @@ function gridScrollLeft() {
 function gridScrollRight() {
     gridScroll(1);
 }
+
+function gridScrollLeftColumn() {
+    const grid = world.getGrid(workspace.currentDesktop);
+    const column = grid.getLeftmostVisibleColumn(true);
+    if (column === null) {
+        return;
+    }
+
+    const prevColumn = grid.getPrevColumn(column);
+    if (prevColumn === null) {
+        return;
+    }
+
+    grid.scrollToColumn(prevColumn);
+    grid.arrange();
+}
+
+function gridScrollRightColumn() {
+    const grid = world.getGrid(workspace.currentDesktop);
+    const column = grid.getRightmostVisibleColumn(true);
+    if (column === null) {
+        return;
+    }
+
+    const nextColumn = grid.getNextColumn(column);
+    if (nextColumn === null) {
+        return;
+    }
+
+    grid.scrollToColumn(nextColumn);
+    grid.arrange();
+}

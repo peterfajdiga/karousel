@@ -82,6 +82,41 @@ class Grid {
         this.mergeColumns(donorColumn, nextColumn);
     }
 
+    getPrevColumn(column) {
+        return this.columns.getPrev(column);
+    }
+
+    getNextColumn(column) {
+        return this.columns.getNext(column);
+    }
+
+    getLeftmostVisibleColumn(fullyVisible) {
+        for (const column of this.columns.iterator()) {
+            const left = column.gridX - this.scrollX; // in screen space
+            const right = left + column.width; // in screen space
+            const x = fullyVisible ? left : right;
+            if (x >= 0) {
+                return column;
+            }
+        }
+        return null;
+    }
+
+    getRightmostVisibleColumn(fullyVisible) {
+        let last = null;
+        for (const column of this.columns.iterator()) {
+            const left = column.gridX - this.scrollX; // in screen space
+            const right = left + column.width; // in screen space
+            const x = fullyVisible ? right : left;
+            if (x <= this.area.width) {
+                last = column;
+            } else {
+                break;
+            }
+        }
+        return last;
+    }
+
     scrollToColumn(column) {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space
