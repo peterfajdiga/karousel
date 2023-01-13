@@ -61,6 +61,26 @@ function focusDown() {
     });
 }
 
+function focusStart() {
+    const grid = world.getGrid(workspace.currentDesktop);
+    const firstColumn = grid.getFirstColumn();
+    if (firstColumn === null) {
+        return;
+    }
+    firstColumn.focus();
+    grid.arrange();
+}
+
+function focusEnd() {
+    const grid = world.getGrid(workspace.currentDesktop);
+    const lastColumn = grid.getLastColumn();
+    if (lastColumn === null) {
+        return;
+    }
+    lastColumn.focus();
+    grid.arrange();
+}
+
 function windowMoveLeft() {
     doIfTiledFocused(window => {
         const column = window.column;
