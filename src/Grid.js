@@ -93,26 +93,31 @@ class Grid {
     }
 
     autoAdjustScroll() {
-        const gridWidth = this.width;
-        if (gridWidth > this.area.width) {
-            // scroll to focused window
-            const focusedWindow = world.getFocusedWindow();
-            if (focusedWindow === undefined) {
-                return;
-            }
-
-            const column = focusedWindow.column;
-            if (column === null || column.grid === null) {
-                return;
-            }
-
-            assert(column.grid === this);
-            this.scrollToColumn(column);
+        if (this.width > this.area.width) {
+            this.scrollToFocusedWindow();
         } else {
-            // scroll to center
-            const emptyWidth = this.area.width - gridWidth;
-            this.scrollX = -Math.round(emptyWidth / 2);
+            this.scrollToCenter();
         }
+    }
+
+    scrollToFocusedWindow() {
+        const focusedWindow = world.getFocusedWindow();
+        if (focusedWindow === undefined) {
+            return;
+        }
+
+        const column = focusedWindow.column;
+        if (column === null || column.grid === null) {
+            return;
+        }
+
+        assert(column.grid === this);
+        this.scrollToColumn(column);
+    }
+
+    scrollToCenter() {
+        const emptyWidth = this.area.width - this.width;
+        this.scrollX = -Math.round(emptyWidth / 2);
     }
 
     adjustScroll(xDelta) {
