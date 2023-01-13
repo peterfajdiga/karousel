@@ -27,6 +27,10 @@ class Window {
         rect.height = height;
     }
 
+    focus() {
+        workspace.activeClient = this.client;
+    }
+
     connectToClientSignals() {
         const window = this;
 

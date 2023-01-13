@@ -50,6 +50,14 @@ class Column {
         return this.getWindowCount() === 0;
     }
 
+    getPrevWindow(window) {
+        return this.windows.getPrev(window);
+    }
+
+    getNextWindow(window) {
+        return this.windows.getNext(window);
+    }
+
     setGrid(grid) {
         this.grid = grid;
         this.resizeWindows();
@@ -104,6 +112,14 @@ class Column {
             remainingWindows--;
         }
         // TODO: respect min height and unresizable windows
+    }
+
+    focus() {
+        const window = this.windows.getFirst();
+        if (window === null) {
+            return;
+        }
+        window.focus();
     }
 
     arrange(x) {

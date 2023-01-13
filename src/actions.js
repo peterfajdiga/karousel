@@ -15,6 +15,52 @@ function doIfTiledFocused(f) {
     doIfTiled(workspace.activeClient.windowId, f);
 }
 
+function focusLeft() {
+    doIfTiledFocused(window => {
+        const column = window.column;
+        const grid = column.grid;
+        const prevColumn = grid.getPrevColumn(column);
+        if (prevColumn === null) {
+            return;
+        }
+        prevColumn.focus();
+    });
+}
+
+function focusRight() {
+    doIfTiledFocused(window => {
+        const column = window.column;
+        const grid = column.grid;
+        const nextColumn = grid.getNextColumn(column);
+        if (nextColumn === null) {
+            return;
+        }
+        nextColumn.focus();
+    });
+}
+
+function focusUp() {
+    doIfTiledFocused(window => {
+        const column = window.column;
+        const prevWindow = column.getPrevWindow(window);
+        if (prevWindow === null) {
+            return;
+        }
+        prevWindow.focus();
+    });
+}
+
+function focusDown() {
+    doIfTiledFocused(window => {
+        const column = window.column;
+        const nextWindow = column.getNextWindow(window);
+        if (nextWindow === null) {
+            return;
+        }
+        nextWindow.focus();
+    });
+}
+
 function windowMoveLeft() {
     doIfTiledFocused(window => {
         const column = window.column;
