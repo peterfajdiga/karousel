@@ -29,8 +29,8 @@ function registerShortcuts() {
     registerShortcutDbg("basalt-column-move-left", "Basalt: Move column left", "Meta+Ctrl+Shift+A", columnMoveLeft);
     registerShortcutDbg("basalt-column-move-right", "Basalt: Move column right", "Meta+Ctrl+Shift+D", columnMoveRight);
 
-    registerShortcutDbg("basalt-grid-scroll-left", "Basalt: Scroll left", "Meta+PgUp", gridScrollLeft);
-    registerShortcutDbg("basalt-grid-scroll-right", "Basalt: Scroll right", "Meta+PgDown", gridScrollRight);
+    registerShortcutDbg("basalt-grid-scroll-left", "Basalt: Scroll left", "Meta+Alt+PgUp", gridScrollLeft);
+    registerShortcutDbg("basalt-grid-scroll-right", "Basalt: Scroll right", "Meta+Alt+PgDown", gridScrollRight);
 
     registerShortcutDbg("basalt-grid-scroll-left-column", "Basalt: Scroll one column to the left", "Meta+Alt+A", gridScrollLeftColumn);
     registerShortcutDbg("basalt-grid-scroll-right-column", "Basalt: Scroll one column to the right", "Meta+Alt+D", gridScrollRightColumn);
