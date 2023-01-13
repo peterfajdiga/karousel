@@ -28,11 +28,11 @@ class LinkedList {
         const node = new LinkedListNode(item, prevNode, nextNode);
         this.itemMap.set(item, node);
         if (nextNode !== null) {
-            assert(nextNode.prev === prevNode);
+            console.assert(nextNode.prev === prevNode);
             nextNode.prev = node;
         }
         if (prevNode !== null) {
-            assert(prevNode.next === nextNode);
+            console.assert(prevNode.next === nextNode);
             prevNode.next = node;
         }
         if (this.firstNode === nextNode) {
@@ -94,7 +94,7 @@ class LinkedList {
 
     // private
     swap(node0, node1) {
-        assert(node0.next === node1 && node1.prev === node0);
+        console.assert(node0.next === node1 && node1.prev === node0);
         const prevNode = node0.prev;
         const nextNode = node1.next;
 
@@ -121,7 +121,7 @@ class LinkedList {
     moveBack(item) {
         const node = this.itemMap.get(item);
         if (node.prev !== null) {
-            assert(node !== this.firstNode);
+            console.assert(node !== this.firstNode);
             this.swap(node.prev, node);
         }
     }
@@ -129,7 +129,7 @@ class LinkedList {
     moveForward(item) {
         const node = this.itemMap.get(item);
         if (node.next !== null) {
-            assert(node !== this.lastNode);
+            console.assert(node !== this.lastNode);
             this.swap(node, node.next);
         }
     }

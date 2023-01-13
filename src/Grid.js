@@ -38,7 +38,7 @@ class Grid {
     }
 
     removeColumn(column) {
-        assert(column.isEmpty());
+        console.assert(column.isEmpty());
         const nextColumn = this.columns.getNext(column);
         column.setGrid(null);
         column.gridX = null;
@@ -62,7 +62,7 @@ class Grid {
     }
 
     mergeColumns(donorColumn, targetColumn) {
-        assert(targetColumn !== null);
+        console.assert(targetColumn !== null);
         donorColumn.moveWindowsTo(targetColumn);
     }
 
@@ -150,7 +150,7 @@ class Grid {
             return;
         }
 
-        assert(column.grid === this);
+        console.assert(column.grid === this);
         this.scrollToColumn(column);
     }
 

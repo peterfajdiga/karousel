@@ -3,8 +3,8 @@ function catchWrap(f) {
         try {
             f();
         } catch (error) {
-            print(error);
-            print(error.stack);
+            console.log(error);
+            console.log(error.stack);
         }
     }
 }

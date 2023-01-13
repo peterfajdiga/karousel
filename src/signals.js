@@ -18,12 +18,12 @@ const workspaceSignalHandlers = {
     },
 
     currentDesktopChanged: (desktop, client) => {
-        print("workspace currentDesktopChanged", desktop, client);
+        console.log("workspace currentDesktopChanged", desktop, client);
     },
 
     clientAdded: (client) => {
         const id = client.windowId;
-        assert(!world.clientMap.has(id));
+        console.assert(!world.clientMap.has(id));
         if (shouldTile(client)) {
             world.addClient(id, client);
         }
@@ -37,7 +37,7 @@ const workspaceSignalHandlers = {
     },
 
     clientManaging: (client) => {
-        print("workspace clientManaging", client);
+        console.log("workspace clientManaging", client);
     },
 
     clientMinimized: (client) => {
@@ -50,7 +50,7 @@ const workspaceSignalHandlers = {
 
     clientUnminimized: (client) => {
         const id = client.windowId;
-        assert(!world.clientMap.has(id));
+        console.assert(!world.clientMap.has(id));
         if (world.minimizedTiled.has(id)) {
             world.minimizedTiled.delete(id);
             world.addClient(id, client);
@@ -58,7 +58,7 @@ const workspaceSignalHandlers = {
     },
 
     clientRestored: (client) => {
-        print("workspace clientRestored", client);
+        console.log("workspace clientRestored", client);
     },
 
     clientMaximizeSet: (client, horizontal, vertical) => {
@@ -70,7 +70,7 @@ const workspaceSignalHandlers = {
     },
 
     killWindowCalled: (client) => {
-        print("workspace killWindowCalled", client);
+        console.log("workspace killWindowCalled", client);
     },
 
     clientActivated: client => {
@@ -96,51 +96,51 @@ const workspaceSignalHandlers = {
     },
 
     clientSetKeepAbove: (client, keepAbove) => {
-        print("workspace clientSetKeepAbove", client, keepAbove);
+        console.log("workspace clientSetKeepAbove", client, keepAbove);
     },
 
     numberDesktopsChanged: (oldNumberOfDesktops) => {
-        print("workspace numberDesktopsChanged", oldNumberOfDesktops);
+        console.log("workspace numberDesktopsChanged", oldNumberOfDesktops);
     },
 
     desktopLayoutChanged: () => {
-        print("workspace desktopLayoutChanged");
+        console.log("workspace desktopLayoutChanged");
     },
 
     clientDemandsAttentionChanged: (client, set) => {
-        print("workspace clientDemandsAttentionChanged", client, set);
+        console.log("workspace clientDemandsAttentionChanged", client, set);
     },
 
     numberScreensChanged: (count) => {
-        print("workspace numberScreensChanged", count);
+        console.log("workspace numberScreensChanged", count);
     },
 
     screenResized: (screen) => {
-        print("workspace screenResized", screen);
+        console.log("workspace screenResized", screen);
     },
 
     currentActivityChanged: (id) => {
-        print("workspace currentActivityChanged", id);
+        console.log("workspace currentActivityChanged", id);
     },
 
     activitiesChanged: (id) => {
-        print("workspace activitiesChanged", id);
+        console.log("workspace activitiesChanged", id);
     },
 
     activityAdded: (id) => {
-        print("workspace activityAdded", id);
+        console.log("workspace activityAdded", id);
     },
 
     activityRemoved: (id) => {
-        print("workspace activityRemoved", id);
+        console.log("workspace activityRemoved", id);
     },
 
     virtualScreenSizeChanged: () => {
-        print("workspace virtualScreenSizeChanged");
+        console.log("workspace virtualScreenSizeChanged");
     },
 
     virtualScreenGeometryChanged: () => {
-        print("workspace virtualScreenGeometryChanged");
+        console.log("workspace virtualScreenGeometryChanged");
     },
 };
 

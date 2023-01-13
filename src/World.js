@@ -11,7 +11,7 @@ class World {
     }
 
     getGrid(desktop) {
-        assert(desktop > 0);
+        console.assert(desktop > 0);
         return this.grids[desktop-1];
     }
 
