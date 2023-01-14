@@ -20,11 +20,7 @@ class Window {
             // window is being manually resized, prevent fighting with the user
             return;
         }
-        const rect = this.client.frameGeometry;
-        rect.x = x;
-        rect.y = y;
-        rect.width = width;
-        rect.height = height;
+        this.client.frameGeometry = Qt.rect(x, y, width, height);
     }
 
     focus() {
