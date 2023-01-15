@@ -1,6 +1,6 @@
 class LinkedList {
-    private firstNode: LinkedListNode;
-    private lastNode: LinkedListNode;
+    private firstNode: LinkedListNode|null;
+    private lastNode: LinkedListNode|null;
     private itemMap: Map<any, LinkedListNode>;
 
     constructor() {
@@ -9,25 +9,33 @@ class LinkedList {
         this.itemMap = new Map();
     }
 
-    insertBefore(item, nextItem) {
-        const nextNode = this.itemMap.get(nextItem);
+    private getNode(item: any) {
+        const node = this.itemMap.get(item);
+        if (node === undefined) {
+            throw new Error("item not in list");
+        }
+        return node;
+    }
+
+    insertBefore(item: any, nextItem: any) {
+        const nextNode = this.getNode(nextItem);
         this.insert(item, nextNode.prev, nextNode);
     }
 
-    insertAfter(item, prevItem) {
-        const prevNode = this.itemMap.get(prevItem);
+    insertAfter(item: any, prevItem: any) {
+        const prevNode = this.getNode(prevItem);
         this.insert(item, prevNode, prevNode.next);
     }
 
-    insertStart(item) {
+    insertStart(item: any) {
         this.insert(item, null, this.firstNode);
     }
 
-    insertEnd(item) {
+    insertEnd(item: any) {
         this.insert(item, this.lastNode, null);
     }
 
-    private insert(item, prevNode, nextNode) {
+    private insert(item: any, prevNode: LinkedListNode|null, nextNode: LinkedListNode|null) {
         const node = new LinkedListNode(item, prevNode, nextNode);
         this.itemMap.set(item, node);
         if (nextNode !== null) {
@@ -46,20 +54,14 @@ class LinkedList {
         }
     }
 
-    getPrev(item) {
-        const prevNode = this.itemMap.get(item).prev;
-        if (prevNode === null) {
-            return null;
-        }
-        return prevNode.item;
+    getPrev(item: any) {
+        const prevNode = this.getNode(item).prev;
+        return prevNode === null ? null : prevNode.item;
     }
 
-    getNext(item) {
-        const nextNode = this.itemMap.get(item).next;
-        if (nextNode === null) {
-            return null;
-        }
-        return nextNode.item;
+    getNext(item: any) {
+        const nextNode = this.getNode(item).next;
+        return nextNode === null ? null : nextNode.item;
     }
 
     getFirst() {
@@ -76,8 +78,8 @@ class LinkedList {
         return this.lastNode.item;
     }
 
-    remove(item) {
-        const node = this.itemMap.get(item);
+    remove(item: any) {
+        const node = this.getNode(item);
         this.itemMap.delete(item);
         const prevNode = node.prev;
         const nextNode = node.next;
@@ -95,7 +97,7 @@ class LinkedList {
         }
     }
 
-    private swap(node0, node1) {
+    private swap(node0: LinkedListNode, node1: LinkedListNode) {
         console.assert(node0.next === node1 && node1.prev === node0);
         const prevNode = node0.prev;
         const nextNode = node1.next;
@@ -120,16 +122,16 @@ class LinkedList {
         }
     }
 
-    moveBack(item) {
-        const node = this.itemMap.get(item);
+    moveBack(item: any) {
+        const node = this.getNode(item);
         if (node.prev !== null) {
             console.assert(node !== this.firstNode);
             this.swap(node.prev, node);
         }
     }
 
-    moveForward(item) {
-        const node = this.itemMap.get(item);
+    moveForward(item: any) {
+        const node = this.getNode(item);
         if (node.next !== null) {
             console.assert(node !== this.lastNode);
             this.swap(node, node.next);
@@ -146,8 +148,8 @@ class LinkedList {
         }
     }
 
-    *iteratorFrom(startItem) {
-        for (let node = this.itemMap.get(startItem); node !== null; node = node.next) {
+    *iteratorFrom(startItem: any) {
+        for (let node: LinkedListNode|null = this.getNode(startItem); node !== null; node = node.next) {
             yield node.item;
         }
     }
@@ -156,10 +158,10 @@ class LinkedList {
 // TODO (optimization): reuse nodes
 class LinkedListNode {
     public item: any;
-    public prev: LinkedListNode;
-    public next: LinkedListNode;
+    public prev: LinkedListNode|null;
+    public next: LinkedListNode|null;
 
-    constructor(item, prev, next) {
+    constructor(item: any, prev: LinkedListNode|null, next: LinkedListNode|null) {
         this.item = item;
         this.prev = prev;
         this.next = next;

@@ -3,7 +3,7 @@ class World {
     public clientMap: Map<number, Window>;
     public minimizedTiled: Set<number>;
 
-    constructor(nDesktops) {
+    constructor(nDesktops: number) {
         // TODO: react to changes in number of desktops
         // TODO: support Plasma activities
         this.grids = new Array<Grid>(nDesktops);
@@ -14,12 +14,12 @@ class World {
         this.minimizedTiled = new Set();
     }
 
-    getGrid(desktop) {
+    getGrid(desktop: number) {
         console.assert(desktop > 0);
         return this.grids[desktop-1];
     }
 
-    addClient(id, client) {
+    addClient(id: number, client: AbstractClient) {
         const grid = this.getGrid(client.desktop);
         const column = new Column();
         const window = new Window(client);
@@ -33,14 +33,21 @@ class World {
         grid.arrange();
     }
 
-    removeClient(id) {
+    removeClient(id: number) {
         const window = this.clientMap.get(id);
-        const column = window.column;
-        const grid = column.grid;
+        if (window === undefined) {
+            return;
+        }
         window.disconnectFromClientSignals();
 
-        column.removeWindow(window);
-        grid.arrange();
+        const column = window.column;
+        if (column !== null) {
+            const grid = column.grid;
+            column.removeWindow(window);
+            if (grid !== null) {
+                grid.arrange();
+            }
+        }
 
         this.clientMap.delete(id);
 

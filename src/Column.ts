@@ -1,17 +1,17 @@
 class Column {
-    public grid: Grid;
+    public grid: Grid|null;
     public gridX: number;
     private windows: LinkedList;
-    private width: number;
+    public width: number;
 
     constructor() {
         this.grid = null;
-        this.gridX = null;
+        this.gridX = 0;
         this.windows = new LinkedList();
         this.width = 0;
     }
 
-    addWindow(window) {
+    addWindow(window: Window) {
         window.column = this;
 
         this.windows.insertEnd(window);
@@ -23,7 +23,7 @@ class Column {
         this.resizeWindows();
     }
 
-    removeWindow(window) {
+    removeWindow(window: Window) {
         window.column = null;
         this.windows.remove(window);
         this.resizeWindows();
@@ -32,18 +32,18 @@ class Column {
         }
     }
 
-    moveWindowsTo(targetColumn) {
+    moveWindowsTo(targetColumn: Column) {
         for (const window of this.windows.iterator()) {
             this.removeWindow(window);
             targetColumn.addWindow(window);
         }
     }
 
-    moveWindowUp(window) {
+    moveWindowUp(window: Window) {
         this.windows.moveBack(window);
     }
 
-    moveWindowDown(window) {
+    moveWindowDown(window: Window) {
         this.windows.moveForward(window);
     }
 
@@ -55,15 +55,15 @@ class Column {
         return this.getWindowCount() === 0;
     }
 
-    getPrevWindow(window) {
+    getPrevWindow(window: Window) {
         return this.windows.getPrev(window);
     }
 
-    getNextWindow(window) {
+    getNextWindow(window: Window) {
         return this.windows.getNext(window);
     }
 
-    setGrid(grid) {
+    setGrid(grid: Grid|null) {
         this.grid = grid;
         this.resizeWindows();
     }
@@ -72,7 +72,7 @@ class Column {
         return this.width;
     }
 
-    setWidth(width) {
+    setWidth(width: number) {
         const oldWidth = this.width;
         this.width = width;
         for (const window of this.windows.iterator()) {
@@ -83,11 +83,11 @@ class Column {
         }
     }
 
-    adjustWidth(widthDelta) {
+    adjustWidth(widthDelta: number) {
         this.setWidth(this.width + widthDelta);
     }
 
-    adjustWindowHeight(window, heightDelta, top) {
+    adjustWindowHeight(window: Window, heightDelta: number, top: boolean) {
         const otherWindow = top ? this.windows.getPrev(window) : this.windows.getNext(window);
         if (otherWindow === null) {
             return;
@@ -127,7 +127,7 @@ class Column {
         window.focus();
     }
 
-    arrange(x) {
+    arrange(x: number) {
         if (this.grid === null) {
             // this column is not attached to a grid, no sense in arranging windows
             return;

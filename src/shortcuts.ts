@@ -1,15 +1,15 @@
-function catchWrap(f) {
+function catchWrap(f: () => void) {
     return () => {
         try {
             f();
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
             console.log(error.stack);
         }
     };
 }
 
-function registerShortcutDbg(title, text, keySequence, callback) {
+function registerShortcutDbg(title: string, text: string, keySequence: string, callback: () => void) {
     KWin.registerShortcut(title, text, keySequence, catchWrap(callback));
 }
 

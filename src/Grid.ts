@@ -5,7 +5,7 @@ class Grid {
     public allowAutoAdjustScroll: boolean;
     public area: any;
 
-    constructor(desktopIndex) {
+    constructor(desktopIndex: number) {
         this.columns = new LinkedList();
         this.scrollX = 0;
         this.width = 0;
@@ -22,44 +22,44 @@ class Grid {
         // TODO: react to changes in resolution
     }
 
-    setupColumn(column) {
+    setupColumn(column: Column) {
         column.setGrid(this);
         this.columnsSetX(column);
         this.autoAdjustScroll();
     }
 
-    addColumn(column) {
+    addColumn(column: Column) {
         this.columns.insertEnd(column);
         this.setupColumn(column);
     }
 
-    addColumnBefore(column, nextColumn) {
+    addColumnBefore(column: Column, nextColumn: Column) {
         this.columns.insertBefore(column, nextColumn);
         this.setupColumn(column);
     }
 
-    addColumnAfter(column, prevColumn) {
+    addColumnAfter(column: Column, prevColumn: Column) {
         this.columns.insertAfter(column, prevColumn);
         this.setupColumn(column);
     }
 
-    removeColumn(column) {
+    removeColumn(column: Column) {
         console.assert(column.isEmpty());
         const nextColumn = this.columns.getNext(column);
         column.setGrid(null);
-        column.gridX = null;
+        column.gridX = 0;
         this.columns.remove(column);
         this.columnsSetX(nextColumn);
         this.autoAdjustScroll();
     }
 
-    moveColumnLeft(column) {
+    moveColumnLeft(column: Column) {
         this.columns.moveBack(column);
         this.columnsSetX(column);
         this.autoAdjustScroll();
     }
 
-    moveColumnRight(column) {
+    moveColumnRight(column: Column) {
         const nextColumn = this.columns.getNext(column);
         if (nextColumn === null) {
             return;
@@ -67,12 +67,12 @@ class Grid {
         this.moveColumnLeft(nextColumn);
     }
 
-    mergeColumns(donorColumn, targetColumn) {
+    mergeColumns(donorColumn: Column, targetColumn: Column) {
         console.assert(targetColumn !== null);
         donorColumn.moveWindowsTo(targetColumn);
     }
 
-    mergeColumnsLeft(donorColumn) {
+    mergeColumnsLeft(donorColumn: Column) {
         const prevColumn = this.columns.getPrev(donorColumn);
         if (prevColumn === null) {
             return;
@@ -80,7 +80,7 @@ class Grid {
         this.mergeColumns(donorColumn, prevColumn);
     }
 
-    mergeColumnsRight(donorColumn) {
+    mergeColumnsRight(donorColumn: Column) {
         const nextColumn = this.columns.getNext(donorColumn);
         if (nextColumn === null) {
             return;
@@ -88,11 +88,11 @@ class Grid {
         this.mergeColumns(donorColumn, nextColumn);
     }
 
-    getPrevColumn(column) {
+    getPrevColumn(column: Column) {
         return this.columns.getPrev(column);
     }
 
-    getNextColumn(column) {
+    getNextColumn(column: Column) {
         return this.columns.getNext(column);
     }
 
@@ -104,7 +104,7 @@ class Grid {
         return this.columns.getLast();
     }
 
-    getLeftmostVisibleColumn(fullyVisible) {
+    getLeftmostVisibleColumn(fullyVisible: boolean) {
         for (const column of this.columns.iterator()) {
             const left = column.gridX - this.scrollX; // in screen space
             const right = left + column.width; // in screen space
@@ -116,7 +116,7 @@ class Grid {
         return null;
     }
 
-    getRightmostVisibleColumn(fullyVisible) {
+    getRightmostVisibleColumn(fullyVisible: boolean) {
         let last = null;
         for (const column of this.columns.iterator()) {
             const left = column.gridX - this.scrollX; // in screen space
@@ -131,7 +131,7 @@ class Grid {
         return last;
     }
 
-    scrollToColumn(column) {
+    scrollToColumn(column: Column) {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space
         if (left < 0) {
@@ -160,7 +160,7 @@ class Grid {
         this.scrollToColumn(column);
     }
 
-    setScroll(x, force) {
+    setScroll(x: number, force: boolean) {
         if (!force) {
             let minScroll = 0;
             let maxScroll = this.width - this.area.width;
@@ -174,7 +174,7 @@ class Grid {
         this.scrollX = x;
     }
 
-    adjustScroll(xDelta, force) {
+    adjustScroll(xDelta: number, force: boolean) {
         this.setScroll(this.scrollX + xDelta, force);
     }
 
@@ -182,7 +182,7 @@ class Grid {
         this.setScroll(this.scrollX, false);
     }
 
-    columnsSetX(firstMovedColumn) {
+    columnsSetX(firstMovedColumn: Column) {
         const lastUnmovedColumn = firstMovedColumn === null ? this.columns.getLast() : this.columns.getPrev(firstMovedColumn);
         let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.gridX + lastUnmovedColumn.width + GAPS_INNER.x;
         if (firstMovedColumn !== null) {
@@ -203,13 +203,13 @@ class Grid {
         }
     }
 
-    onColumnRemoveWindow(column, window) {
+    onColumnRemoveWindow(column: Column, window: Window) {
         if (column.isEmpty()) {
             this.removeColumn(column);
         }
     }
 
-    onColumnWidthChanged(column, oldWidth, width) {
+    onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
         if (this.allowAutoAdjustScroll) {

@@ -1,24 +1,31 @@
-function shouldTile(client) {
+function shouldTile(client: AbstractClient) {
     // TODO: support windows on all desktops
     return client.normalWindow && client.desktop > 0;
 }
 
-function doIfTiled(id, f) {
+function doIfTiled(id: number, f: (window: Window, column: Column, grid: Grid) => void) {
     const window = world.clientMap.get(id);
-    if (window !== undefined) {
-        // window is tiled
-        f(window);
+    if (window === undefined) {
+        return;
     }
+    const column = window.column;
+    if (column === null) {
+        console.assert(false);
+        return;
+    }
+    const grid = column.grid;
+    if (grid === null) {
+        return;
+    }
+    f(window, column, grid);
 }
 
-function doIfTiledFocused(f) {
+function doIfTiledFocused(f: (window: Window, column: Column, grid: Grid) => void) {
     doIfTiled(workspace.activeClient.windowId, f);
 }
 
 function focusLeft() {
-    doIfTiledFocused(window => {
-        const column = window.column;
-        const grid = column.grid;
+    doIfTiledFocused((window, column, grid) => {
         const prevColumn = grid.getPrevColumn(column);
         if (prevColumn === null) {
             return;
@@ -28,9 +35,7 @@ function focusLeft() {
 }
 
 function focusRight() {
-    doIfTiledFocused(window => {
-        const column = window.column;
-        const grid = column.grid;
+    doIfTiledFocused((window, column, grid) => {
         const nextColumn = grid.getNextColumn(column);
         if (nextColumn === null) {
             return;
@@ -40,8 +45,7 @@ function focusRight() {
 }
 
 function focusUp() {
-    doIfTiledFocused(window => {
-        const column = window.column;
+    doIfTiledFocused((window, column, grid) => {
         const prevWindow = column.getPrevWindow(window);
         if (prevWindow === null) {
             return;
@@ -51,8 +55,7 @@ function focusUp() {
 }
 
 function focusDown() {
-    doIfTiledFocused(window => {
-        const column = window.column;
+    doIfTiledFocused((window, column, grid) => {
         const nextWindow = column.getNextWindow(window);
         if (nextWindow === null) {
             return;
@@ -82,9 +85,7 @@ function focusEnd() {
 }
 
 function windowMoveLeft() {
-    doIfTiledFocused(window => {
-        const column = window.column;
-        const grid = column.grid;
+    doIfTiledFocused((window, column, grid) => {
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
             grid.mergeColumnsLeft(column);
@@ -100,9 +101,7 @@ function windowMoveLeft() {
 }
 
 function windowMoveRight() {
-    doIfTiledFocused(window => {
-        const column = window.column;
-        const grid = column.grid;
+    doIfTiledFocused((window, column, grid) => {
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
             grid.mergeColumnsRight(column);
@@ -118,18 +117,16 @@ function windowMoveRight() {
 }
 
 function windowMoveUp() {
-    doIfTiledFocused(window => {
-        const column = window.column;
+    doIfTiledFocused((window, column, grid) => {
         column.moveWindowUp(window);
-        column.grid.arrange(); // TODO (optimization): only arrange moved windows
+        grid.arrange(); // TODO (optimization): only arrange moved windows
     });
 }
 
 function windowMoveDown() {
-    doIfTiledFocused(window => {
-        const column = window.column;
+    doIfTiledFocused((window, column, grid) => {
         column.moveWindowDown(window);
-        column.grid.arrange(); // TODO (optimization): only arrange moved windows
+        grid.arrange(); // TODO (optimization): only arrange moved windows
     });
 }
 
@@ -144,24 +141,20 @@ function windowToggleFloating() {
 }
 
 function columnMoveLeft() {
-    doIfTiledFocused(window => {
-        const column = window.column;
-        const grid = column.grid;
+    doIfTiledFocused((window, column, grid) => {
         grid.moveColumnLeft(column);
         grid.arrange();
     });
 }
 
 function columnMoveRight() {
-    doIfTiledFocused(window => {
-        const column = window.column;
-        const grid = column.grid;
+    doIfTiledFocused((window, column, grid) => {
         grid.moveColumnRight(column);
         grid.arrange();
     });
 }
 
-function gridScroll(direction) {
+function gridScroll(direction: number) {
     const scrollAmount = GRID_SCROLL_STEP * direction;
     const grid = world.getGrid(workspace.currentDesktop);
     grid.adjustScroll(scrollAmount, false);

@@ -1,27 +1,27 @@
 const workspaceSignalHandlers = {
-    desktopPresenceChanged: (client, oldDesktop) => {
-        doIfTiled(client.windowId, window => {
+    desktopPresenceChanged: (client: AbstractClient, oldDesktop: number) => {
+        doIfTiled(client.windowId, (window, column, grid) => {
             // all desktops case handled in the client signal handler, because the workspace signal isn't fired for some reason
 
             const newDesktop = client.desktop;
             const oldGrid = world.getGrid(oldDesktop);
             const newGrid = world.getGrid(newDesktop);
 
-            window.column.removeWindow(window);
+            column.removeWindow(window);
             oldGrid.arrange();
 
-            const column = new Column();
-            newGrid.addColumn(column);
-            column.addWindow(window);
+            const newColumn = new Column();
+            newGrid.addColumn(newColumn);
+            newColumn.addWindow(window);
             newGrid.arrange();
         });
     },
 
-    currentDesktopChanged: (desktop, client) => {
+    currentDesktopChanged: (desktop: number, client: AbstractClient) => {
         console.log("workspace currentDesktopChanged", desktop, client);
     },
 
-    clientAdded: (client) => {
+    clientAdded: (client: AbstractClient) => {
         const id = client.windowId;
         console.assert(!world.clientMap.has(id));
         if (shouldTile(client)) {
@@ -29,18 +29,18 @@ const workspaceSignalHandlers = {
         }
     },
 
-    clientRemoved: (client) => {
+    clientRemoved: (client: AbstractClient) => {
         const id = client.windowId;
         if (world.clientMap.has(id)) {
             world.removeClient(id);
         }
     },
 
-    clientManaging: (client) => {
+    clientManaging: (client: X11Client) => {
         console.log("workspace clientManaging", client);
     },
 
-    clientMinimized: (client) => {
+    clientMinimized: (client: AbstractClient) => {
         const id = client.windowId;
         if (world.clientMap.has(id)) {
             world.removeClient(id);
@@ -48,7 +48,7 @@ const workspaceSignalHandlers = {
         }
     },
 
-    clientUnminimized: (client) => {
+    clientUnminimized: (client: AbstractClient) => {
         const id = client.windowId;
         console.assert(!world.clientMap.has(id));
         if (world.minimizedTiled.has(id)) {
@@ -57,52 +57,44 @@ const workspaceSignalHandlers = {
         }
     },
 
-    clientRestored: (client) => {
+    clientRestored: (client: X11Client) => {
         console.log("workspace clientRestored", client);
     },
 
-    clientMaximizeSet: (client, horizontal, vertical) => {
-        doIfTiled(client.windowId, window => {
+    clientMaximizeSet: (client: AbstractClient, horizontal: boolean, vertical: boolean) => {
+        doIfTiled(client.windowId, (window, column, grid) => {
             const maximized = horizontal || vertical;
             window.skipArrange = maximized;
             client.keepBelow = !maximized;
         });
     },
 
-    killWindowCalled: (client) => {
+    killWindowCalled: (client: X11Client) => {
         console.log("workspace killWindowCalled", client);
     },
 
-    clientActivated: client => {
+    clientActivated: (client: AbstractClient) => {
         if (client === null) {
             return;
         }
-        doIfTiled(client.windowId, window => {
-            const column = window.column;
-            if (column === null) {
-                return;
-            }
-            const grid = column.grid;
-            if (grid === null) {
-                return;
-            }
+        doIfTiled(client.windowId, (window, column, grid) => {
             grid.scrollToColumn(column);
             grid.arrange();
         });
     },
 
-    clientFullScreenSet: (client, fullScreen, user) => {
-        doIfTiled(client.windowId, window => {
+    clientFullScreenSet: (client: X11Client, fullScreen: boolean, user: boolean) => {
+        doIfTiled(client.windowId, (window, column, grid) => {
             window.skipArrange = fullScreen;
             client.keepBelow = !fullScreen;
         });
     },
 
-    clientSetKeepAbove: (client, keepAbove) => {
+    clientSetKeepAbove: (client: X11Client, keepAbove: boolean) => {
         console.log("workspace clientSetKeepAbove", client, keepAbove);
     },
 
-    numberDesktopsChanged: (oldNumberOfDesktops) => {
+    numberDesktopsChanged: (oldNumberOfDesktops: number) => {
         console.log("workspace numberDesktopsChanged", oldNumberOfDesktops);
     },
 
@@ -110,31 +102,31 @@ const workspaceSignalHandlers = {
         console.log("workspace desktopLayoutChanged");
     },
 
-    clientDemandsAttentionChanged: (client, set) => {
+    clientDemandsAttentionChanged: (client: AbstractClient, set: boolean) => {
         console.log("workspace clientDemandsAttentionChanged", client, set);
     },
 
-    numberScreensChanged: (count) => {
+    numberScreensChanged: (count: number) => {
         console.log("workspace numberScreensChanged", count);
     },
 
-    screenResized: (screen) => {
+    screenResized: (screen: number) => {
         console.log("workspace screenResized", screen);
     },
 
-    currentActivityChanged: (id) => {
+    currentActivityChanged: (id: string) => {
         console.log("workspace currentActivityChanged", id);
     },
 
-    activitiesChanged: (id) => {
+    activitiesChanged: (id: string) => {
         console.log("workspace activitiesChanged", id);
     },
 
-    activityAdded: (id) => {
+    activityAdded: (id: string) => {
         console.log("workspace activityAdded", id);
     },
 
-    activityRemoved: (id) => {
+    activityRemoved: (id: string) => {
         console.log("workspace activityRemoved", id);
     },
 
