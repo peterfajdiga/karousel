@@ -1,6 +1,7 @@
 class World {
     private grids: Grid[];
     public clientMap: Map<number, Window>;
+    public signalManagerMap: Map<number, SignalManager>; // TODO: join maps
     public minimizedTiled: Set<number>;
 
     constructor(nDesktops: number) {
@@ -11,6 +12,7 @@ class World {
             this.grids[i] = new Grid(i);
         }
         this.clientMap = new Map();
+        this.signalManagerMap = new Map();
         this.minimizedTiled = new Set();
     }
 
@@ -25,7 +27,7 @@ class World {
         const window = new Window(client);
         this.clientMap.set(id, window);
 
-        window.connectToClientSignals();
+        this.signalManagerMap.set(id, initClientSignalHandlers(this, window));
         client.keepBelow = true;
 
         grid.addColumn(column);
@@ -38,7 +40,12 @@ class World {
         if (window === undefined) {
             return;
         }
-        window.disconnectFromClientSignals();
+        const clientSignalManager = this.signalManagerMap.get(id);
+        if (clientSignalManager === undefined) {
+            console.assert(false);
+            return;
+        }
+        clientSignalManager.disconnect();
 
         const column = window.column;
         if (column !== null) {
@@ -50,6 +57,7 @@ class World {
         }
 
         this.clientMap.delete(id);
+        this.signalManagerMap.delete(id);
 
         const clientRect = window.client.frameGeometry;
         window.setRect(
