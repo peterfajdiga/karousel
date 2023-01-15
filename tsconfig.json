@@ -110,7 +110,8 @@
     "./src/Grid.ts",
     "./src/LinkedList.ts",
     "./src/shortcuts.ts",
-    "./src/signals.ts",
+    "./src/signals/SignalManager.ts",
+    "./src/signals/workspace.ts",
     "./src/Window.ts",
     "./src/World.ts",
     "./src/main.ts"
