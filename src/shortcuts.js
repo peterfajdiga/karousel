@@ -6,11 +6,11 @@ function catchWrap(f) {
             console.log(error);
             console.log(error.stack);
         }
-    }
+    };
 }
 
 function registerShortcutDbg(title, text, keySequence, callback) {
-    KWin.registerShortcut(title, text, keySequence, catchWrap(callback))
+    KWin.registerShortcut(title, text, keySequence, catchWrap(callback));
 }
 
 function registerShortcuts() {

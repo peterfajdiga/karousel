@@ -35,7 +35,7 @@ class Window {
                 // windows on all desktops are not supported
                 world.removeClient(window.client.windowId);
             }
-        }
+        };
 
         this.clientSignalHandlers.moveResizedChanged = () => {
             const client = window.client;
@@ -53,7 +53,7 @@ class Window {
                 grid.arrange();
             }
             this.lastResize = resize;
-        }
+        };
 
         this.clientSignalHandlers.frameGeometryChanged = (client, oldGeometry) => {
             if (client.resize) {
@@ -74,7 +74,7 @@ class Window {
                     column.grid.arrange();
                 }
             }
-        }
+        };
 
         this.client.desktopChanged.connect(this.clientSignalHandlers.desktopChanged);
         this.client.moveResizedChanged.connect(this.clientSignalHandlers.moveResizedChanged);
