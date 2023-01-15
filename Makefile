@@ -9,4 +9,4 @@ run: build
 	./run.sh
 
 logs:
-	journalctl -t kwin_x11 -g 'qml:' -f
+	journalctl -t kwin_x11 -g '^qml:|^file://.*basalt' -f
