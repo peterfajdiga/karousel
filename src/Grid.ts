@@ -1,11 +1,13 @@
 class Grid {
+    private world: World;
     private columns: LinkedList;
     private scrollX: number;
     private width: number;
     public allowAutoAdjustScroll: boolean;
     public area: any;
 
-    constructor(desktopIndex: number) {
+    constructor(world: World, desktopIndex: number) {
+        this.world = world;
         this.columns = new LinkedList();
         this.scrollX = 0;
         this.width = 0;
@@ -144,7 +146,7 @@ class Grid {
     }
 
     autoAdjustScroll() {
-        const focusedWindow = world.getFocusedWindow();
+        const focusedWindow = this.world.getFocusedWindow();
         if (focusedWindow === undefined) {
             this.removeOverscroll();
             return;

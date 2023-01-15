@@ -9,7 +9,7 @@ class World {
         // TODO: support Plasma activities
         this.grids = new Array<Grid>(nDesktops);
         for (let i = 0; i < nDesktops; i++) {
-            this.grids[i] = new Grid(i);
+            this.grids[i] = new Grid(this, i);
         }
         this.clientMap = new Map();
         this.signalManagerMap = new Map();
