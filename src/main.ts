@@ -15,7 +15,7 @@ class Basalt {
 
 function init() {
     const workspaceSignalManager = initWorkspaceSignalHandlers(world);
-    registerShortcuts();
+    registerShortcuts(world);
     return new Basalt(world, workspaceSignalManager);
 }
 

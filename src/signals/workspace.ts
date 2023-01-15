@@ -2,7 +2,7 @@ function initWorkspaceSignalHandlers(world: World) {
     const manager = new SignalManager();
 
     manager.connect(workspace.desktopPresenceChanged, (client: AbstractClient, oldDesktop: number) => {
-        doIfTiled(client.windowId, (window, column, grid) => {
+        world.doIfTiled(client.windowId, (window, column, grid) => {
             // all desktops case handled in the client signal handler, because the workspace signal isn't fired for some reason
 
             const newDesktop = client.desktop;
@@ -64,7 +64,7 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(workspace.clientMaximizeSet, (client: AbstractClient, horizontal: boolean, vertical: boolean) => {
-        doIfTiled(client.windowId, (window, column, grid) => {
+        world.doIfTiled(client.windowId, (window, column, grid) => {
             const maximized = horizontal || vertical;
             window.skipArrange = maximized;
             client.keepBelow = !maximized;
@@ -79,14 +79,14 @@ function initWorkspaceSignalHandlers(world: World) {
         if (client === null) {
             return;
         }
-        doIfTiled(client.windowId, (window, column, grid) => {
+        world.doIfTiled(client.windowId, (window, column, grid) => {
             grid.scrollToColumn(column);
             grid.arrange();
         });
     });
 
     manager.connect(workspace.clientFullScreenSet, (client: X11Client, fullScreen: boolean, user: boolean) => {
-        doIfTiled(client.windowId, (window, column, grid) => {
+        world.doIfTiled(client.windowId, (window, column, grid) => {
             window.skipArrange = fullScreen;
             client.keepBelow = !fullScreen;
         });

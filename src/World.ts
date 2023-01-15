@@ -71,6 +71,27 @@ class World {
         window.client.keepBelow = window.floatingState.keepBelow;
     }
 
+    doIfTiled(id: number, f: (window: Window, column: Column, grid: Grid) => void) {
+        const window = this.clientMap.get(id);
+        if (window === undefined) {
+            return;
+        }
+        const column = window.column;
+        if (column === null) {
+            console.assert(false);
+            return;
+        }
+        const grid = column.grid;
+        if (grid === null) {
+            return;
+        }
+        f(window, column, grid);
+    }
+
+    doIfTiledFocused(f: (window: Window, column: Column, grid: Grid) => void) {
+        this.doIfTiled(workspace.activeClient.windowId, f);
+    }
+
     getFocusedWindow() {
         const activeClient = workspace.activeClient;
         if (activeClient === null) {
@@ -84,4 +105,9 @@ class World {
             this.removeClient(id);
         }
     }
+}
+
+function shouldTile(client: AbstractClient) {
+    // TODO: support windows on all desktops
+    return client.normalWindow && client.desktop > 0;
 }
