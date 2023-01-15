@@ -79,10 +79,13 @@ const workspaceSignalHandlers = {
         }
         doIfTiled(client.windowId, window => {
             const column = window.column;
-            if (this.grid === null) {
+            if (column === null) {
                 return;
             }
             const grid = column.grid;
+            if (grid === null) {
+                return;
+            }
             grid.scrollToColumn(column);
             grid.arrange();
         });
