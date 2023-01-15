@@ -1,8 +1,14 @@
 class Grid {
+    private columns: LinkedList;
+    private scrollX: number;
+    private width: number;
+    public allowAutoAdjustScroll: boolean;
+    public area: any;
+
     constructor(desktopIndex) {
-        this.columns = new LinkedList(); // private
-        this.scrollX = 0; // private
-        this.width = 0; // private
+        this.columns = new LinkedList();
+        this.scrollX = 0;
+        this.width = 0;
 
         this.allowAutoAdjustScroll = true;
 

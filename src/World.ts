@@ -1,8 +1,12 @@
 class World {
+    private grids: Grid[];
+    public clientMap: Map<number, Window>;
+    public minimizedTiled: Set<number>;
+
     constructor(nDesktops) {
         // TODO: react to changes in number of desktops
         // TODO: support Plasma activities
-        this.grids = new Array(nDesktops);
+        this.grids = new Array<Grid>(nDesktops);
         for (let i = 0; i < nDesktops; i++) {
             this.grids[i] = new Grid(i);
         }

@@ -1,9 +1,14 @@
 class Column {
+    public grid: Grid;
+    public gridX: number;
+    private windows: LinkedList;
+    private width: number;
+
     constructor() {
         this.grid = null;
         this.gridX = null;
-        this.windows = new LinkedList(); // private
-        this.width = 0; // private
+        this.windows = new LinkedList();
+        this.width = 0;
     }
 
     addWindow(window) {

@@ -1,4 +1,17 @@
 class Window {
+    public column: Column;
+    public client: any;
+    private height: number;
+    private preferredWidth: number;
+    private skipArrange: boolean;
+    private lastResize: boolean;
+    public floatingState: { width: number; keepBelow: number; height: number; keepAbove: number };
+    private clientSignalHandlers: {
+        desktopChanged: () => void;
+        moveResizedChanged: () => void;
+        frameGeometryChanged: (client, oldGeometry) => void;
+    };
+
     constructor(client) {
         this.column = null;
         this.client = client;
@@ -12,7 +25,11 @@ class Window {
             keepAbove: client.keepAbove,
             keepBelow: client.keepBelow,
         };
-        this.clientSignalHandlers = {};
+        this.clientSignalHandlers = {
+            desktopChanged: undefined,
+            moveResizedChanged: undefined,
+            frameGeometryChanged: undefined,
+        };
     }
 
     setRect(x, y, width, height) {

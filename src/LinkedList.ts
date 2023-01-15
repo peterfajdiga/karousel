@@ -1,8 +1,12 @@
 class LinkedList {
+    private firstNode: LinkedListNode;
+    private lastNode: LinkedListNode;
+    private itemMap: Map<any, LinkedListNode>;
+
     constructor() {
-        this.firstNode = null; // private
-        this.lastNode = null; // private
-        this.itemMap = new Map(); // private
+        this.firstNode = null;
+        this.lastNode = null;
+        this.itemMap = new Map();
     }
 
     insertBefore(item, nextItem) {
@@ -23,8 +27,7 @@ class LinkedList {
         this.insert(item, this.lastNode, null);
     }
 
-    // private
-    insert(item, prevNode, nextNode) {
+    private insert(item, prevNode, nextNode) {
         const node = new LinkedListNode(item, prevNode, nextNode);
         this.itemMap.set(item, node);
         if (nextNode !== null) {
@@ -92,8 +95,7 @@ class LinkedList {
         }
     }
 
-    // private
-    swap(node0, node1) {
+    private swap(node0, node1) {
         console.assert(node0.next === node1 && node1.prev === node0);
         const prevNode = node0.prev;
         const nextNode = node1.next;
@@ -153,6 +155,10 @@ class LinkedList {
 
 // TODO (optimization): reuse nodes
 class LinkedListNode {
+    public item: any;
+    public prev: LinkedListNode;
+    public next: LinkedListNode;
+
     constructor(item, prev, next) {
         this.item = item;
         this.prev = prev;
