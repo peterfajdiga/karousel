@@ -25,7 +25,7 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientAdded, (client: AbstractClient) => {
         const id = client.windowId;
-        console.assert(!world.clientMap.has(id));
+        console.assert(!world.hasClient(id));
         if (shouldTile(client)) {
             world.addClient(id, client);
         }
@@ -33,7 +33,7 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientRemoved, (client: AbstractClient) => {
         const id = client.windowId;
-        if (world.clientMap.has(id)) {
+        if (world.hasClient(id)) {
             world.removeClient(id);
         }
     });
@@ -44,7 +44,7 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientMinimized, (client: AbstractClient) => {
         const id = client.windowId;
-        if (world.clientMap.has(id)) {
+        if (world.hasClient(id)) {
             world.removeClient(id);
             world.minimizedTiled.add(id);
         }
@@ -52,7 +52,7 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientUnminimized, (client: AbstractClient) => {
         const id = client.windowId;
-        console.assert(!world.clientMap.has(id));
+        console.assert(!world.hasClient(id));
         if (world.minimizedTiled.has(id)) {
             world.minimizedTiled.delete(id);
             world.addClient(id, client);

@@ -1,6 +1,6 @@
 class World {
     private grids: Grid[];
-    public clientMap: Map<number, ClientData>;
+    private clientMap: Map<number, ClientData>;
     public minimizedTiled: Set<number>;
 
     constructor(nDesktops: number) {
@@ -65,6 +65,10 @@ class World {
 
         window.client.keepAbove = window.floatingState.keepAbove;
         window.client.keepBelow = window.floatingState.keepBelow;
+    }
+
+    hasClient(id: number) {
+        return this.clientMap.has(id);
     }
 
     doIfTiled(id: number, f: (window: Window, column: Column, grid: Grid) => void) {
