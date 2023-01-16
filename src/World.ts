@@ -1,7 +1,7 @@
 class World {
     private grids: Grid[];
     private clientMap: Map<number, ClientData>;
-    public minimizedTiled: Set<number>;
+    public minimizedTiled: Set<number>; // TODO: implement using `clientMap`
     private workspaceSignalManager: SignalManager;
 
     constructor(nDesktops: number) {
