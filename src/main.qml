@@ -13,7 +13,7 @@ Item {
     }
 
     Component.onDestruction: {
-        base.basaltInstance.shutdown();
+        base.basaltInstance.destroy();
         print("script stopped");
     }
 }

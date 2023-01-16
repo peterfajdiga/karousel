@@ -2,6 +2,7 @@ class World {
     private grids: Grid[];
     private clientMap: Map<number, ClientData>;
     public minimizedTiled: Set<number>;
+    private workspaceSignalManager: SignalManager;
 
     constructor(nDesktops: number) {
         // TODO: react to changes in number of desktops
@@ -12,6 +13,7 @@ class World {
         }
         this.clientMap = new Map();
         this.minimizedTiled = new Set();
+        this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
     }
 
     getGrid(desktop: number) {
@@ -109,6 +111,11 @@ class World {
         for (const id of this.clientMap.keys()) {
             this.removeClient(id);
         }
+    }
+
+    destroy() {
+        this.workspaceSignalManager.disconnect();
+        this.removeAllClients();
     }
 }
 
