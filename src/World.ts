@@ -1,7 +1,6 @@
 class World {
     private grids: Grid[];
-    public clientMap: Map<number, Window>;
-    public signalManagerMap: Map<number, SignalManager>; // TODO: join maps
+    public clientMap: Map<number, ClientData>;
     public minimizedTiled: Set<number>;
 
     constructor(nDesktops: number) {
@@ -12,7 +11,6 @@ class World {
             this.grids[i] = new Grid(this, i);
         }
         this.clientMap = new Map();
-        this.signalManagerMap = new Map();
         this.minimizedTiled = new Set();
     }
 
@@ -25,9 +23,12 @@ class World {
         const grid = this.getGrid(client.desktop);
         const column = new Column();
         const window = new Window(client);
-        this.clientMap.set(id, window);
 
-        this.signalManagerMap.set(id, initClientSignalHandlers(this, window));
+        const clientSignalManager = initClientSignalHandlers(this, window);
+        this.clientMap.set(id, {
+            window: window,
+            signalManager: clientSignalManager,
+        });
         client.keepBelow = true;
 
         grid.addColumn(column);
@@ -36,17 +37,13 @@ class World {
     }
 
     removeClient(id: number) {
-        const window = this.clientMap.get(id);
-        if (window === undefined) {
+        const clientData = this.clientMap.get(id);
+        if (clientData === undefined) {
             return;
         }
-        const clientSignalManager = this.signalManagerMap.get(id);
-        if (clientSignalManager === undefined) {
-            console.assert(false);
-            return;
-        }
-        clientSignalManager.disconnect();
+        clientData.signalManager.disconnect();
 
+        const window = clientData.window;
         const column = window.column;
         if (column !== null) {
             const grid = column.grid;
@@ -57,7 +54,6 @@ class World {
         }
 
         this.clientMap.delete(id);
-        this.signalManagerMap.delete(id);
 
         const clientRect = window.client.frameGeometry;
         window.setRect(
@@ -72,10 +68,11 @@ class World {
     }
 
     doIfTiled(id: number, f: (window: Window, column: Column, grid: Grid) => void) {
-        const window = this.clientMap.get(id);
-        if (window === undefined) {
+        const clientData = this.clientMap.get(id);
+        if (clientData === undefined) {
             return;
         }
+        const window = clientData.window;
         const column = window.column;
         if (column === null) {
             console.assert(false);
@@ -97,7 +94,11 @@ class World {
         if (activeClient === null) {
             return undefined;
         }
-        return this.clientMap.get(activeClient.windowId);
+        const clientData = this.clientMap.get(activeClient.windowId);
+        if (clientData === undefined) {
+            return undefined;
+        }
+        return clientData.window;
     }
 
     removeAllClients() {
@@ -110,4 +111,9 @@ class World {
 function shouldTile(client: AbstractClient) {
     // TODO: support windows on all desktops
     return client.normalWindow && client.desktop > 0;
+}
+
+interface ClientData {
+    window: Window;
+    signalManager: SignalManager;
 }
