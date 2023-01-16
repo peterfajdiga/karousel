@@ -119,12 +119,12 @@ class World {
     }
 }
 
-function shouldTile(client: AbstractClient) {
-    // TODO: support windows on all desktops
-    return client.normalWindow && client.desktop > 0;
-}
-
 interface ClientData {
     window: Window;
     signalManager: SignalManager;
+}
+
+function shouldTile(client: AbstractClient) {
+    // TODO: support windows on all desktops
+    return client.normalWindow && client.desktop > 0;
 }
