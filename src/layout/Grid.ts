@@ -3,7 +3,7 @@ class Grid {
     private columns: LinkedList;
     private scrollX: number;
     private width: number;
-    public allowAutoAdjustScroll: boolean;
+    public userResize: boolean; // is any part of the grid being resized by the user
     public area: any;
 
     constructor(world: World, desktopIndex: number) {
@@ -11,8 +11,7 @@ class Grid {
         this.columns = new LinkedList();
         this.scrollX = 0;
         this.width = 0;
-
-        this.allowAutoAdjustScroll = true;
+        this.userResize = false;
 
         const desktopNumber = desktopIndex + 1;
         this.area = workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
@@ -214,7 +213,7 @@ class Grid {
     onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
-        if (this.allowAutoAdjustScroll) {
+        if (!this.userResize) {
             this.autoAdjustScroll();
         }
     }
