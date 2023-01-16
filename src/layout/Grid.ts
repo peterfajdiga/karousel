@@ -217,4 +217,14 @@ class Grid {
             this.autoAdjustScroll();
         }
     }
+
+    onUserResizeStarted() {
+        this.userResize = true;
+    }
+
+    onUserResizeFinished() {
+        this.userResize = false;
+        this.autoAdjustScroll();
+        this.arrange();
+    }
 }

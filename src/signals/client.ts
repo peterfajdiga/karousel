@@ -22,11 +22,11 @@ function initClientSignalHandlers(world: World, window: Window) {
         }
         const grid = window.column.grid;
         const resize = client.resize;
-        grid.userResize = resize;
+        if (!lastResize && resize) {
+            grid.onUserResizeStarted();
+        }
         if (lastResize && !resize) {
-            // resizing finished
-            grid.autoAdjustScroll();
-            grid.arrange();
+            grid.onUserResizeFinished();
         }
         lastResize = resize;
     });
