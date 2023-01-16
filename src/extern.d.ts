@@ -1,3 +1,4 @@
+const qmlBase;
 const console;
 const KWin;
 const Qt;
@@ -8,3 +9,4 @@ type TopLevel = any;
 type X11Client = any;
 type QRect = any;
 type QSignal = any;
+type QQmlTimer = any;

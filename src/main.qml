@@ -3,17 +3,17 @@ import org.kde.kwin 3.0
 import "./main.js" as Basalt
 
 Item {
-    id: base
+    id: qmlBase
 
     property var basaltInstance
 
     Component.onCompleted: {
-        base.basaltInstance = Basalt.init();
+        qmlBase.basaltInstance = Basalt.init();
         print("script started");
     }
 
     Component.onDestruction: {
-        base.basaltInstance.destroy();
+        qmlBase.basaltInstance.destroy();
         print("script stopped");
     }
 }

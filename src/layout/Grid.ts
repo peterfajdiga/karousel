@@ -5,6 +5,7 @@ class Grid {
     private width: number;
     public userResize: boolean; // is any part of the grid being resized by the user
     public area: any;
+    private userResizeFinishedTimer: QQmlTimer;
 
     constructor(world: World, desktopIndex: number) {
         this.world = world;
@@ -21,6 +22,8 @@ class Grid {
         this.area.height -= 2 * GAPS_OUTER.y;
         // TODO: multi-screen support
         // TODO: react to changes in resolution
+
+        this.userResizeFinishedTimer = this.initUserResizeTimer();
     }
 
     setupColumn(column: Column) {
@@ -224,7 +227,21 @@ class Grid {
 
     onUserResizeFinished() {
         this.userResize = false;
-        this.autoAdjustScroll();
-        this.arrange();
+        this.userResizeFinishedTimer.running = true;
+    }
+
+    initUserResizeTimer() {
+        const timer = initTimer();
+        timer.interval = 50; // this delay prevents windows' contents from freezing after resizing
+        const grid = this;
+        timer.triggered.connect(() => {
+            grid.autoAdjustScroll();
+            grid.arrange();
+        });
+        return timer;
+    }
+
+    destroy() {
+        this.userResizeFinishedTimer.destroy();
     }
 }
