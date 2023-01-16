@@ -36,6 +36,7 @@ function initWorkspaceSignalHandlers(world: World) {
         if (world.hasClient(id)) {
             world.removeClient(id);
         }
+        world.minimizedTiled.delete(id);
     });
 
     manager.connect(workspace.clientManaging, (client: X11Client) => {
