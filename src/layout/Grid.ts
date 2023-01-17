@@ -37,17 +37,20 @@ class Grid {
     }
 
     addColumn(column: Column) {
-        this.columns.insertEnd(column);
-        this.setupColumn(column);
+        this.addColumnAfter(column, this.columns.getLast());
     }
 
     addColumnBefore(column: Column, nextColumn: Column) {
-        this.columns.insertBefore(column, nextColumn);
-        this.setupColumn(column);
+        const prevColumn = this.columns.getPrev(nextColumn);
+        this.addColumnAfter(column, prevColumn);
     }
 
-    addColumnAfter(column: Column, prevColumn: Column) {
-        this.columns.insertAfter(column, prevColumn);
+    addColumnAfter(column: Column, prevColumn: Column|null) {
+        if (prevColumn === null) {
+            this.columns.insertStart(column);
+        } else {
+            this.columns.insertAfter(column, prevColumn);
+        }
         this.setupColumn(column);
     }
 
