@@ -30,40 +30,6 @@ class Grid {
         }
     }
 
-    setupColumn(column: Column) {
-        column.setGrid(this);
-        this.columnsSetX(column);
-        this.autoAdjustScroll();
-    }
-
-    addColumn(column: Column) {
-        this.addColumnAfter(column, this.columns.getLast());
-    }
-
-    addColumnBefore(column: Column, nextColumn: Column) {
-        const prevColumn = this.columns.getPrev(nextColumn);
-        this.addColumnAfter(column, prevColumn);
-    }
-
-    addColumnAfter(column: Column, prevColumn: Column|null) {
-        if (prevColumn === null) {
-            this.columns.insertStart(column);
-        } else {
-            this.columns.insertAfter(column, prevColumn);
-        }
-        this.setupColumn(column);
-    }
-
-    removeColumn(column: Column) {
-        console.assert(column.isEmpty());
-        const nextColumn = this.columns.getNext(column);
-        column.setGrid(null);
-        column.gridX = 0;
-        this.columns.remove(column);
-        this.columnsSetX(nextColumn);
-        this.autoAdjustScroll();
-    }
-
     moveColumnLeft(column: Column) {
         this.columns.moveBack(column);
         this.columnsSetX(column);
@@ -214,10 +180,22 @@ class Grid {
         }
     }
 
-    onColumnRemoveWindow(column: Column, window: Window) {
-        if (column.isEmpty()) {
-            this.removeColumn(column);
+    onColumnAdded(column: Column, prevColumn: Column|null) {
+        if (prevColumn === null) {
+            this.columns.insertStart(column);
+        } else {
+            this.columns.insertAfter(column, prevColumn);
         }
+        this.columnsSetX(column);
+        this.autoAdjustScroll();
+    }
+
+    onColumnRemoved(column: Column) {
+        console.assert(column.isEmpty());
+        const nextColumn = this.columns.getNext(column);
+        this.columns.remove(column);
+        this.columnsSetX(nextColumn);
+        this.autoAdjustScroll();
     }
 
     onColumnWidthChanged(column: Column, oldWidth: number, width: number) {

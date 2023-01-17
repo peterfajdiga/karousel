@@ -1,14 +1,15 @@
 class Column {
-    public grid: Grid|null;
+    public grid: Grid;
     public gridX: number;
     private windows: LinkedList<Window>;
     public width: number;
 
-    constructor() {
-        this.grid = null;
+    constructor(grid: Grid, prevColumn: Column|null) {
         this.gridX = 0;
         this.windows = new LinkedList();
         this.width = 0;
+        this.grid = grid;
+        this.grid.onColumnAdded(this, prevColumn);
     }
 
     moveWindowsTo(targetColumn: Column) {
@@ -39,11 +40,6 @@ class Column {
 
     getNextWindow(window: Window) {
         return this.windows.getNext(window);
-    }
-
-    setGrid(grid: Grid|null) {
-        this.grid = grid;
-        this.resizeWindows();
     }
 
     getWidth() {
@@ -132,9 +128,14 @@ class Column {
 
     onWindowRemoved(window: Window) {
         this.windows.remove(window);
-        this.resizeWindows();
-        if (this.grid !== null) {
-            this.grid.onColumnRemoveWindow(this, window); // TODO: use signal
+        if (this.isEmpty()) {
+            this.destroy();
+        } else {
+            this.resizeWindows();
         }
+    }
+
+    destroy() {
+        this.grid.onColumnRemoved(this);
     }
 }

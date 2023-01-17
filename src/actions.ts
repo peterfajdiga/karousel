@@ -67,8 +67,7 @@ function initActions(world: World) {
                     grid.mergeColumnsLeft(column);
                 } else {
                     // move from shared column into own column
-                    const newColumn = new Column();
-                    grid.addColumnBefore(newColumn, column);
+                    const newColumn = new Column(grid, grid.getPrevColumn(column));
                     window.moveToColumn(newColumn);
                 }
                 grid.arrange();
@@ -82,8 +81,7 @@ function initActions(world: World) {
                     grid.mergeColumnsRight(column);
                 } else {
                     // move from shared column into own column
-                    const newColumn = new Column();
-                    grid.addColumnAfter(newColumn, column);
+                    const newColumn = new Column(grid, column);
                     window.moveToColumn(newColumn);
                 }
                 grid.arrange();

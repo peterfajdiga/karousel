@@ -23,7 +23,7 @@ class World {
 
     addClient(id: number, client: AbstractClient) {
         const grid = this.getGrid(client.desktop);
-        const column = new Column();
+        const column = new Column(grid, grid.getLastColumn());
         const window = new Window(client, column);
 
         const clientSignalManager = initClientSignalHandlers(this, window);
@@ -32,9 +32,8 @@ class World {
             signalManager: clientSignalManager,
             initialState: new ClientState(client),
         });
-        client.keepBelow = true;
+        client.keepBelow = true; // TODO: extract to function
 
-        grid.addColumn(column);
         grid.arrange();
     }
 
