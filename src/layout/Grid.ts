@@ -5,25 +5,29 @@ class Grid {
     private width: number;
     public userResize: boolean; // is any part of the grid being resized by the user
     public area: any;
+    private desktop: number;
     private userResizeFinishedTimer: QQmlTimer;
 
-    constructor(world: World, desktopIndex: number) {
+    constructor(world: World, desktop: number) {
         this.world = world;
         this.columns = new LinkedList();
         this.scrollX = 0;
         this.width = 0;
         this.userResize = false;
+        this.desktop = desktop;
+        this.updateArea();
+        this.userResizeFinishedTimer = this.initUserResizeFinishedTimer();
+    }
 
-        const desktopNumber = desktopIndex + 1;
-        this.area = workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
+    updateArea() {
+        this.area = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
         this.area.x += GAPS_OUTER.x;
         this.area.y += GAPS_OUTER.y;
         this.area.width -= 2 * GAPS_OUTER.x;
         this.area.height -= 2 * GAPS_OUTER.y;
-        // TODO: multi-screen support
-        // TODO: react to changes in resolution
-
-        this.userResizeFinishedTimer = this.initUserResizeFinishedTimer();
+        for (const column of this.columns.iterator()) {
+            column.resizeWindows();
+        }
     }
 
     setupColumn(column: Column) {

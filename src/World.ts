@@ -9,7 +9,7 @@ class World {
         // TODO: support Plasma activities
         this.grids = new Array<Grid>(nDesktops);
         for (let i = 0; i < nDesktops; i++) {
-            this.grids[i] = new Grid(this, i);
+            this.grids[i] = new Grid(this, i+1);
         }
         this.clientMap = new Map();
         this.minimizedTiled = new Set();
@@ -118,6 +118,13 @@ class World {
         this.removeAllClients();
         for (const grid of this.grids) {
             grid.destroy();
+        }
+    }
+
+    onScreenResized() {
+        for (const grid of this.grids) {
+            grid.updateArea();
+            grid.arrange();
         }
     }
 }

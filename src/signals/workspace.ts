@@ -113,10 +113,6 @@ function initWorkspaceSignalHandlers(world: World) {
         console.log("workspace numberScreensChanged", count);
     });
 
-    manager.connect(workspace.screenResized, (screen: number) => {
-        console.log("workspace screenResized", screen);
-    });
-
     manager.connect(workspace.currentActivityChanged, (id: string) => {
         console.log("workspace currentActivityChanged", id);
     });
@@ -134,11 +130,7 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(workspace.virtualScreenSizeChanged, () => {
-        console.log("workspace virtualScreenSizeChanged");
-    });
-
-    manager.connect(workspace.virtualScreenGeometryChanged, () => {
-        console.log("workspace virtualScreenGeometryChanged");
+        world.onScreenResized();
     });
 
     return manager;
