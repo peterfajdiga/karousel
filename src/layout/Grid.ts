@@ -23,7 +23,7 @@ class Grid {
         // TODO: multi-screen support
         // TODO: react to changes in resolution
 
-        this.userResizeFinishedTimer = this.initUserResizeTimer();
+        this.userResizeFinishedTimer = this.initUserResizeFinishedTimer();
     }
 
     setupColumn(column: Column) {
@@ -230,7 +230,7 @@ class Grid {
         this.userResizeFinishedTimer.running = true;
     }
 
-    initUserResizeTimer() {
+    initUserResizeFinishedTimer() {
         const timer = initTimer();
         timer.interval = 50; // this delay prevents windows' contents from freezing after resizing
         const grid = this;
