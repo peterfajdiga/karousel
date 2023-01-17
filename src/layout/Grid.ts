@@ -45,7 +45,6 @@ class Grid {
     }
 
     mergeColumns(donorColumn: Column, targetColumn: Column) {
-        console.assert(targetColumn !== null);
         donorColumn.moveWindowsTo(targetColumn);
     }
 
@@ -128,11 +127,6 @@ class Grid {
         }
 
         const column = focusedWindow.column;
-        if (column === null || column.grid === null) {
-            this.removeOverscroll();
-            return;
-        }
-
         console.assert(column.grid === this);
         this.scrollToColumn(column);
     }

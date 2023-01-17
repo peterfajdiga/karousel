@@ -52,7 +52,7 @@ class Column {
         for (const window of this.windows.iterator()) {
             window.preferredWidth = width;
         }
-        if (width !== oldWidth && this.grid !== null) {
+        if (width !== oldWidth) {
             this.grid.onColumnWidthChanged(this, oldWidth, width);
         }
     }
@@ -77,11 +77,6 @@ class Column {
             return;
         }
 
-        if (this.grid === null) {
-            // this column is not attached to a grid, no sense in resizing windows
-            return;
-        }
-
         let remainingPixels = this.grid.area.height - (nWindows-1)*GAPS_INNER.y;
         let remainingWindows = nWindows;
         for (const window of this.windows.iterator()) {
@@ -102,11 +97,6 @@ class Column {
     }
 
     arrange(x: number) {
-        if (this.grid === null) {
-            // this column is not attached to a grid, no sense in arranging windows
-            return;
-        }
-
         let y = this.grid.area.y;
         for (const window of this.windows.iterator()) {
             if (!window.skipArrange) {

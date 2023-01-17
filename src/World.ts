@@ -45,14 +45,9 @@ class World {
         clientData.signalManager.disconnect();
 
         const window = clientData.window;
-        const column = window.column;
-        if (column !== null) {
-            const grid = column.grid;
-            window.destroy();
-            if (grid !== null) {
-                grid.arrange();
-            }
-        }
+        const grid = window.column.grid;
+        window.destroy();
+        grid.arrange();
 
         this.clientMap.delete(id);
 
@@ -81,14 +76,7 @@ class World {
         }
         const window = clientData.window;
         const column = window.column;
-        if (column === null) {
-            console.assert(false);
-            return;
-        }
         const grid = column.grid;
-        if (grid === null) {
-            return;
-        }
         f(window, column, grid);
     }
 

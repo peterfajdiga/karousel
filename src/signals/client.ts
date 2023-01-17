@@ -17,9 +17,6 @@ function initClientSignalHandlers(world: World, window: Window) {
             return;
         }
 
-        if (window.column === null || window.column.grid === null) {
-            return;
-        }
         const grid = window.column.grid;
         const resize = client.resize;
         if (!lastResize && resize) {
@@ -35,13 +32,7 @@ function initClientSignalHandlers(world: World, window: Window) {
         if (client.resize) {
             const newGeometry = client.frameGeometry;
             const column = window.column;
-            if (column === null) {
-                return;
-            }
             const grid = column.grid;
-            if (grid === null) {
-                return;
-            }
 
             const widthDelta = newGeometry.width - oldGeometry.width;
             const heightDelta = newGeometry.height - oldGeometry.height;
