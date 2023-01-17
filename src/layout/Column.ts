@@ -136,7 +136,7 @@ class Column {
         let y = this.grid.area.y;
         for (const window of this.windows.iterator()) {
             if (!window.skipArrange) {
-                window.setRect(x, y, this.getWidth(), window.height);
+                window.arrange(x, y, this.getWidth());
             }
             y += window.height + GAPS_INNER.y;
         }

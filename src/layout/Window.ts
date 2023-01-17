@@ -20,12 +20,12 @@ class Window {
         };
     }
 
-    setRect(x: number, y: number, width: number, height: number) {
+    arrange(x: number, y: number, width: number) {
         if (this.client.resize) {
             // window is being manually resized, prevent fighting with the user
             return;
         }
-        placeClient(this.client, x, y, width, height);
+        placeClient(this.client, x, y, width, this.height);
     }
 
     focus() {
