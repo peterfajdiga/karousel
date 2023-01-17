@@ -30,6 +30,7 @@ class World {
         this.clientMap.set(id, {
             window: window,
             signalManager: clientSignalManager,
+            initialState: new ClientState(client),
         });
         client.keepBelow = true;
 
@@ -57,17 +58,18 @@ class World {
 
         this.clientMap.delete(id);
 
-        const clientRect = window.client.frameGeometry;
+        const client = window.client;
+        const clientRect = client.frameGeometry;
         placeClient(
-            window.client,
+            client,
             clientRect.x + UNATTACH_OFFSET.x,
             clientRect.y + UNATTACH_OFFSET.y,
-            window.floatingState.width,
-            window.floatingState.height,
+            clientData.initialState.width,
+            clientData.initialState.height,
         );
 
-        window.client.keepAbove = window.floatingState.keepAbove;
-        window.client.keepBelow = window.floatingState.keepBelow;
+        client.keepAbove = clientData.initialState.keepAbove;
+        client.keepBelow = clientData.initialState.keepBelow;
     }
 
     hasClient(id: number) {
@@ -133,6 +135,7 @@ class World {
 interface ClientData {
     window: Window;
     signalManager: SignalManager;
+    initialState: ClientState;
 }
 
 function shouldTile(client: AbstractClient) {

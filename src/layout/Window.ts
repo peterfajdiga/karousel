@@ -4,7 +4,6 @@ class Window {
     public height: number;
     public preferredWidth: number;
     public skipArrange: boolean;
-    public floatingState: { width: number; keepBelow: number; height: number; keepAbove: number };
 
     constructor(client: AbstractClient) {
         this.column = null;
@@ -12,12 +11,6 @@ class Window {
         this.height = client.frameGeometry.height;
         this.preferredWidth = client.frameGeometry.width;
         this.skipArrange = false;
-        this.floatingState = {
-            width: client.frameGeometry.width,
-            height: client.frameGeometry.height,
-            keepAbove: client.keepAbove,
-            keepBelow: client.keepBelow,
-        };
     }
 
     arrange(x: number, y: number, width: number) {
