@@ -25,10 +25,10 @@ class Window {
             // window is being manually resized, prevent fighting with the user
             return;
         }
-        this.client.frameGeometry = Qt.rect(x, y, width, height);
+        placeClient(this.client, x, y, width, height);
     }
 
     focus() {
-        workspace.activeClient = this.client;
+        focusClient(this.client);
     }
 }

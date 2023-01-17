@@ -58,7 +58,8 @@ class World {
         this.clientMap.delete(id);
 
         const clientRect = window.client.frameGeometry;
-        window.setRect(
+        placeClient(
+            window.client,
             clientRect.x + UNATTACH_OFFSET.x,
             clientRect.y + UNATTACH_OFFSET.y,
             window.floatingState.width,
