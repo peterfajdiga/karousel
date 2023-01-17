@@ -69,8 +69,7 @@ function initActions(world: World) {
                     // move from shared column into own column
                     const newColumn = new Column();
                     grid.addColumnBefore(newColumn, column);
-                    column.removeWindow(window);
-                    newColumn.addWindow(window);
+                    window.moveToColumn(newColumn);
                 }
                 grid.arrange();
             });
@@ -85,8 +84,7 @@ function initActions(world: World) {
                     // move from shared column into own column
                     const newColumn = new Column();
                     grid.addColumnAfter(newColumn, column);
-                    column.removeWindow(window);
-                    newColumn.addWindow(window);
+                    window.moveToColumn(newColumn);
                 }
                 grid.arrange();
             });

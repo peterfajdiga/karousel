@@ -9,12 +9,10 @@ function initWorkspaceSignalHandlers(world: World) {
             const oldGrid = world.getGrid(oldDesktop);
             const newGrid = world.getGrid(newDesktop);
 
-            column.removeWindow(window);
-            oldGrid.arrange();
-
             const newColumn = new Column();
             newGrid.addColumn(newColumn);
-            newColumn.addWindow(window);
+            window.moveToColumn(newColumn);
+            oldGrid.arrange();
             newGrid.arrange();
         });
     });

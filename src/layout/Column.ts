@@ -11,31 +11,9 @@ class Column {
         this.width = 0;
     }
 
-    addWindow(window: Window) {
-        window.column = this;
-
-        this.windows.insertEnd(window);
-        if (this.width === 0) {
-            this.setWidth(window.preferredWidth);
-        }
-        // TODO: also change column width if the new window requires it
-
-        this.resizeWindows();
-    }
-
-    removeWindow(window: Window) {
-        window.column = null;
-        this.windows.remove(window);
-        this.resizeWindows();
-        if (this.grid !== null) {
-            this.grid.onColumnRemoveWindow(this, window); // TODO: use signal
-        }
-    }
-
     moveWindowsTo(targetColumn: Column) {
         for (const window of this.windows.iterator()) {
-            this.removeWindow(window);
-            targetColumn.addWindow(window);
+            window.moveToColumn(targetColumn);
         }
     }
 
@@ -139,6 +117,24 @@ class Column {
                 window.arrange(x, y, this.getWidth());
             }
             y += window.height + GAPS_INNER.y;
+        }
+    }
+
+    onWindowAdded(window: Window) {
+        this.windows.insertEnd(window);
+        if (this.width === 0) {
+            this.setWidth(window.preferredWidth);
+        }
+        // TODO: also change column width if the new window requires it
+
+        this.resizeWindows();
+    }
+
+    onWindowRemoved(window: Window) {
+        this.windows.remove(window);
+        this.resizeWindows();
+        if (this.grid !== null) {
+            this.grid.onColumnRemoveWindow(this, window); // TODO: use signal
         }
     }
 }

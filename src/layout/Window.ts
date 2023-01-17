@@ -1,16 +1,23 @@
 class Window {
-    public column: Column|null;
+    public column: Column;
     public client: AbstractClient;
     public height: number;
     public preferredWidth: number;
     public skipArrange: boolean;
 
-    constructor(client: AbstractClient) {
-        this.column = null;
+    constructor(client: AbstractClient, column: Column) {
         this.client = client;
         this.height = client.frameGeometry.height;
         this.preferredWidth = client.frameGeometry.width;
         this.skipArrange = false;
+        this.column = column;
+        column.onWindowAdded(this);
+    }
+
+    moveToColumn(targetColumn: Column) {
+        this.column.onWindowRemoved(this);
+        targetColumn.onWindowAdded(this);
+        this.column = targetColumn;
     }
 
     arrange(x: number, y: number, width: number) {
@@ -23,5 +30,9 @@ class Window {
 
     focus() {
         focusClient(this.client);
+    }
+
+    destroy() {
+        this.column.onWindowRemoved(this);
     }
 }

@@ -24,7 +24,7 @@ class World {
     addClient(id: number, client: AbstractClient) {
         const grid = this.getGrid(client.desktop);
         const column = new Column();
-        const window = new Window(client);
+        const window = new Window(client, column);
 
         const clientSignalManager = initClientSignalHandlers(this, window);
         this.clientMap.set(id, {
@@ -35,7 +35,6 @@ class World {
         client.keepBelow = true;
 
         grid.addColumn(column);
-        column.addWindow(window);
         grid.arrange();
     }
 
@@ -50,7 +49,7 @@ class World {
         const column = window.column;
         if (column !== null) {
             const grid = column.grid;
-            column.removeWindow(window);
+            window.destroy();
             if (grid !== null) {
                 grid.arrange();
             }
