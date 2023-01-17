@@ -1,6 +1,6 @@
 class Grid {
     private world: World;
-    private columns: LinkedList;
+    private columns: LinkedList<Column>;
     private scrollX: number;
     private width: number;
     public userResize: boolean; // is any part of the grid being resized by the user
@@ -190,7 +190,7 @@ class Grid {
         this.setScroll(this.scrollX, false);
     }
 
-    columnsSetX(firstMovedColumn: Column) {
+    columnsSetX(firstMovedColumn: Column|null) {
         const lastUnmovedColumn = firstMovedColumn === null ? this.columns.getLast() : this.columns.getPrev(firstMovedColumn);
         let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.gridX + lastUnmovedColumn.width + GAPS_INNER.x;
         if (firstMovedColumn !== null) {

@@ -1,7 +1,7 @@
 class Column {
     public grid: Grid|null;
     public gridX: number;
-    private windows: LinkedList;
+    private windows: LinkedList<Window>;
     public width: number;
 
     constructor() {
