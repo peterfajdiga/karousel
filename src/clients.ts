@@ -17,20 +17,19 @@ function prepareClientForTiling(client: AbstractClient) {
 }
 
 function prepareClientForFloating(client: AbstractClient) {
+    client.keepBelow = false;
     client.setMaximize(false, false);
 }
 
 class ClientState {
     width: number;
     height: number;
-    keepBelow: boolean;
     keepAbove: boolean;
 
     constructor(client: AbstractClient) {
         this.width = client.frameGeometry.width;
         this.height = client.frameGeometry.height;
         this.keepAbove = client.keepAbove;
-        this.keepBelow = client.keepBelow;
     }
 
     apply(client: AbstractClient) {
@@ -44,6 +43,5 @@ class ClientState {
         );
 
         client.keepAbove = this.keepAbove;
-        client.keepBelow = this.keepBelow;
     }
 }
