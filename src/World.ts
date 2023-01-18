@@ -123,8 +123,3 @@ interface ClientData {
     signalManager: SignalManager;
     initialState: ClientState;
 }
-
-function shouldTile(client: AbstractClient) {
-    // TODO: support windows on all desktops
-    return client.normalWindow && client.desktop > 0 && !client.minimized;
-}
