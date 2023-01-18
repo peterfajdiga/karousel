@@ -35,13 +35,13 @@ class World {
         const column = new Column(grid, grid.getLastColumn());
         const window = new Window(client, column);
 
+        prepareClientForTiling(client);
         const clientSignalManager = initClientSignalHandlers(this, window);
         this.clientMap.set(id, {
             window: window,
             signalManager: clientSignalManager,
             initialState: new ClientState(client),
         });
-        client.keepBelow = true; // TODO: extract to function
 
         grid.arrange();
     }
@@ -60,7 +60,9 @@ class World {
 
         this.clientMap.delete(id);
 
-        clientData.initialState.apply(window.client);
+        const client = window.client;
+        prepareClientForFloating(client);
+        clientData.initialState.apply(client);
     }
 
     hasClient(id: number) {

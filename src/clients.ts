@@ -11,6 +11,15 @@ function shouldTile(client: AbstractClient) {
     return client.normalWindow && client.desktop > 0 && !client.minimized;
 }
 
+function prepareClientForTiling(client: AbstractClient) {
+    client.keepBelow = true;
+    client.setMaximize(false, false);
+}
+
+function prepareClientForFloating(client: AbstractClient) {
+    client.setMaximize(false, false);
+}
+
 class ClientState {
     width: number;
     height: number;
