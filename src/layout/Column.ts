@@ -47,6 +47,7 @@ class Column {
     }
 
     setWidth(width: number) {
+        width = Math.min(width, this.grid.area.width);
         const oldWidth = this.width;
         this.width = width;
         for (const window of this.windows.iterator()) {
