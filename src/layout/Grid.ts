@@ -6,7 +6,7 @@ class Grid {
     public userResize: boolean; // is any part of the grid being resized by the user
     public area: any;
     private desktop: number;
-    private userResizeFinishedTimer: QQmlTimer;
+    private userResizeFinishedDelayer: Delayer;
 
     constructor(world: World, desktop: number) {
         this.world = world;
@@ -16,7 +16,10 @@ class Grid {
         this.userResize = false;
         this.desktop = desktop;
         this.updateArea();
-        this.userResizeFinishedTimer = this.initUserResizeFinishedTimer();
+        this.userResizeFinishedDelayer = new Delayer(50, () => {
+            this.autoAdjustScroll();
+            this.arrange();
+        }); // this delay prevents windows' contents from freezing after resizing
     }
 
     updateArea() {
@@ -206,21 +209,10 @@ class Grid {
 
     onUserResizeFinished() {
         this.userResize = false;
-        this.userResizeFinishedTimer.running = true;
-    }
-
-    initUserResizeFinishedTimer() {
-        const timer = initTimer();
-        timer.interval = 50; // this delay prevents windows' contents from freezing after resizing
-        const grid = this;
-        timer.triggered.connect(() => {
-            grid.autoAdjustScroll();
-            grid.arrange();
-        });
-        return timer;
+        this.userResizeFinishedDelayer.run();
     }
 
     destroy() {
-        this.userResizeFinishedTimer.destroy();
+        this.userResizeFinishedDelayer.destroy();
     }
 }
