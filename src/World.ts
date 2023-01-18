@@ -3,6 +3,7 @@ class World {
     private clientMap: Map<number, ClientData>;
     public minimizedTiled: Set<number>; // TODO: implement using `clientMap`
     private workspaceSignalManager: SignalManager;
+    private screenResizedDelayer: Delayer;
 
     constructor(nDesktops: number) {
         // TODO: react to changes in number of desktops
@@ -14,6 +15,14 @@ class World {
         this.clientMap = new Map();
         this.minimizedTiled = new Set();
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
+        this.screenResizedDelayer = new Delayer(50, () => {
+            const grids = this.grids; // workaround for bug in Qt5's JS engine
+            for (const grid of grids) {
+                grid.updateArea();
+                grid.autoAdjustScroll();
+                grid.arrange();
+            }
+        }); // this delay ensures that docks get taken into account by `workspace.clientArea`
     }
 
     getGrid(desktop: number) {
@@ -100,10 +109,7 @@ class World {
     }
 
     onScreenResized() {
-        for (const grid of this.grids) {
-            grid.updateArea();
-            grid.arrange();
-        }
+        this.screenResizedDelayer.run();
     }
 }
 
