@@ -51,18 +51,7 @@ class World {
 
         this.clientMap.delete(id);
 
-        const client = window.client;
-        const clientRect = client.frameGeometry;
-        placeClient(
-            client,
-            clientRect.x + UNATTACH_OFFSET.x,
-            clientRect.y + UNATTACH_OFFSET.y,
-            clientData.initialState.width,
-            clientData.initialState.height,
-        );
-
-        client.keepAbove = clientData.initialState.keepAbove;
-        client.keepBelow = clientData.initialState.keepBelow;
+        clientData.initialState.apply(window.client);
     }
 
     hasClient(id: number) {
