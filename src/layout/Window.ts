@@ -32,6 +32,10 @@ class Window {
         focusClient(this.client);
     }
 
+    isFocused() {
+        return workspace.activeClient === this.client;
+    }
+
     onFocused() {
         this.column.onWindowFocused(this);
     }

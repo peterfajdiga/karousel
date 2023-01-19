@@ -97,6 +97,10 @@ class LinkedList<T> {
         }
     }
 
+    contains(item: T) {
+        return this.itemMap.has(item);
+    }
+
     private swap(node0: LinkedListNode<T>, node1: LinkedListNode<T>) {
         console.assert(node0.next === node1 && node1.prev === node0);
         const prevNode = node0.prev;

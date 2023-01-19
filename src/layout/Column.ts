@@ -91,8 +91,15 @@ class Column {
         // TODO: respect min height and unresizable windows
     }
 
+    getLastFocusedWindow() {
+        if (this.lastFocusedWindow === null || !this.windows.contains(this.lastFocusedWindow)) {
+            return null;
+        }
+        return this.lastFocusedWindow;
+    }
+
     focus() {
-        const window = this.windows.getFirst();
+        const window = this.getLastFocusedWindow() ?? this.windows.getFirst();
         if (window === null) {
             return;
         }
@@ -117,6 +124,10 @@ class Column {
         // TODO: also change column width if the new window requires it
 
         this.resizeWindows();
+
+        if (window.isFocused()) {
+            this.lastFocusedWindow = window;
+        }
     }
 
     onWindowRemoved(window: Window) {
