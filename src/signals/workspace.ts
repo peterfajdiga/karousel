@@ -9,7 +9,7 @@ function initWorkspaceSignalHandlers(world: World) {
             const oldGrid = world.getGrid(oldDesktop);
             const newGrid = world.getGrid(newDesktop);
 
-            const newColumn = new Column(newGrid, newGrid.getLastColumn());
+            const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
             window.moveToColumn(newColumn);
             oldGrid.arrange();
             newGrid.arrange();

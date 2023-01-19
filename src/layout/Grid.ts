@@ -85,6 +85,13 @@ class Grid {
         return this.columns.getLast();
     }
 
+    getLastFocusedColumn() {
+        if (this.lastFocusedColumn === null || !this.columns.contains(this.lastFocusedColumn)) {
+            return null;
+        }
+        return this.lastFocusedColumn;
+    }
+
     getLeftmostVisibleColumn(fullyVisible: boolean) {
         for (const column of this.columns.iterator()) {
             const left = column.gridX - this.scrollX; // in screen space

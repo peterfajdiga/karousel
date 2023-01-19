@@ -32,7 +32,7 @@ class World {
 
     addClient(id: number, client: AbstractClient) {
         const grid = this.getGrid(client.desktop);
-        const column = new Column(grid, grid.getLastColumn());
+        const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
         const window = new Window(client, column);
 
         prepareClientForTiling(client);
