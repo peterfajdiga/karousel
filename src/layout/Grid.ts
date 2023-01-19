@@ -24,10 +24,10 @@ class Grid {
 
     updateArea() {
         this.area = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
-        this.area.x += GAPS_OUTER.x;
-        this.area.y += GAPS_OUTER.y;
-        this.area.width -= 2 * GAPS_OUTER.x;
-        this.area.height -= 2 * GAPS_OUTER.y;
+        this.area.x += GAPS_OUTER.left;
+        this.area.y += GAPS_OUTER.top;
+        this.area.width -= GAPS_OUTER.left + GAPS_OUTER.right;
+        this.area.height -= GAPS_OUTER.top + GAPS_OUTER.bottom;
         for (const column of this.columns.iterator()) {
             column.resizeWindows();
         }
