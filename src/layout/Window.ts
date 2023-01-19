@@ -15,7 +15,7 @@ class Window {
     }
 
     moveToColumn(targetColumn: Column) {
-        this.column.onWindowRemoved(this);
+        this.column.onWindowRemoved(this, false);
         targetColumn.onWindowAdded(this);
         this.column = targetColumn;
     }
@@ -40,7 +40,7 @@ class Window {
         this.column.onWindowFocused(this);
     }
 
-    destroy() {
-        this.column.onWindowRemoved(this);
+    destroy(passFocus: boolean) {
+        this.column.onWindowRemoved(this, passFocus);
     }
 }

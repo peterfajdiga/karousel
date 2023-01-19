@@ -196,12 +196,20 @@ class Grid {
         this.autoAdjustScroll();
     }
 
-    onColumnRemoved(column: Column) {
+    onColumnRemoved(column: Column, passFocus: boolean) {
         console.assert(column.isEmpty());
+        const lastColumn = this.columns.length() === 1;
+        const columnToFocus = lastColumn || !passFocus ? null : this.getPrevColumn(column) ?? this.getNextColumn(column);
         const nextColumn = this.columns.getNext(column);
+
         this.columns.remove(column);
+
         this.columnsSetX(nextColumn);
-        this.autoAdjustScroll();
+        if (columnToFocus !== null) {
+            columnToFocus.focus();
+        } else {
+            this.autoAdjustScroll();
+        }
     }
 
     onColumnWidthChanged(column: Column, oldWidth: number, width: number) {

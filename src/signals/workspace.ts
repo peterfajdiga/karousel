@@ -77,6 +77,7 @@ function initWorkspaceSignalHandlers(world: World) {
         if (client === null) {
             return;
         }
+        world.onClientFocused(client);
         world.doIfTiled(client.windowId, (window, column, grid) => {
             window.onFocused();
             grid.arrange();

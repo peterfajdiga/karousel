@@ -2,6 +2,7 @@ class World {
     private grids: Grid[];
     private clientMap: Map<number, ClientData>;
     public minimizedTiled: Set<number>; // TODO: implement using `clientMap`
+    public lastFocusedClient: AbstractClient|null;
     private workspaceSignalManager: SignalManager;
     private screenResizedDelayer: Delayer;
 
@@ -14,6 +15,7 @@ class World {
         }
         this.clientMap = new Map();
         this.minimizedTiled = new Set();
+        this.lastFocusedClient = null;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
         this.screenResizedDelayer = new Delayer(150, () => {
             const grids = this.grids; // workaround for bug in Qt5's JS engine
@@ -55,18 +57,22 @@ class World {
 
         const window = clientData.window;
         const grid = window.column.grid;
-        window.destroy();
+        const client = window.client;
+        window.destroy(client === this.lastFocusedClient);
         grid.arrange();
 
         this.clientMap.delete(id);
 
-        const client = window.client;
         prepareClientForFloating(client);
         clientData.initialState.apply(client);
     }
 
     hasClient(id: number) {
         return this.clientMap.has(id);
+    }
+
+    onClientFocused(client: AbstractClient) {
+        this.lastFocusedClient = client;
     }
 
     doIfTiled(id: number, f: (window: Window, column: Column, grid: Grid) => void) {

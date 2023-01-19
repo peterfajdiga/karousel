@@ -130,12 +130,20 @@ class Column {
         }
     }
 
-    onWindowRemoved(window: Window) {
+    onWindowRemoved(window: Window, passFocus: boolean) {
+        const lastWindow = this.windows.length() === 1;
+        const windowToFocus = lastWindow || !passFocus ? null : this.getPrevWindow(window) ?? this.getNextWindow(window);
+
         this.windows.remove(window);
-        if (this.isEmpty()) {
-            this.destroy();
+
+        if (lastWindow) {
+            console.assert(this.isEmpty());
+            this.destroy(passFocus);
         } else {
             this.resizeWindows();
+            if (windowToFocus !== null) {
+                windowToFocus.focus();
+            }
         }
     }
 
@@ -144,7 +152,7 @@ class Column {
         this.grid.onColumnFocused(this);
     }
 
-    destroy() {
-        this.grid.onColumnRemoved(this);
+    destroy(passFocus: boolean) {
+        this.grid.onColumnRemoved(this, passFocus);
     }
 }
