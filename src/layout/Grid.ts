@@ -1,6 +1,7 @@
 class Grid {
     private world: World;
     private columns: LinkedList<Column>;
+    private lastFocusedColumn: Column|null;
     private scrollX: number;
     private width: number;
     public userResize: boolean; // is any part of the grid being resized by the user
@@ -11,6 +12,7 @@ class Grid {
     constructor(world: World, desktop: number) {
         this.world = world;
         this.columns = new LinkedList();
+        this.lastFocusedColumn = null;
         this.scrollX = 0;
         this.width = 0;
         this.userResize = false;
@@ -201,6 +203,11 @@ class Grid {
         if (!this.userResize) {
             this.autoAdjustScroll();
         }
+    }
+
+    onColumnFocused(column: Column) {
+        this.lastFocusedColumn = column;
+        this.scrollToColumn(column);
     }
 
     onUserResizeStarted() {

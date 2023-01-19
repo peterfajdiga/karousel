@@ -32,6 +32,10 @@ class Window {
         focusClient(this.client);
     }
 
+    onFocused() {
+        this.column.onWindowFocused(this);
+    }
+
     destroy() {
         this.column.onWindowRemoved(this);
     }

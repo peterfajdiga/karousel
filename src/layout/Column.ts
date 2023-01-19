@@ -1,13 +1,15 @@
 class Column {
     public grid: Grid;
     public gridX: number;
-    private windows: LinkedList<Window>;
     public width: number;
+    private windows: LinkedList<Window>;
+    private lastFocusedWindow: Window|null;
 
     constructor(grid: Grid, prevColumn: Column|null) {
         this.gridX = 0;
-        this.windows = new LinkedList();
         this.width = 0;
+        this.windows = new LinkedList();
+        this.lastFocusedWindow = null;
         this.grid = grid;
         this.grid.onColumnAdded(this, prevColumn);
     }
@@ -124,6 +126,11 @@ class Column {
         } else {
             this.resizeWindows();
         }
+    }
+
+    onWindowFocused(window: Window) {
+        this.lastFocusedWindow = window;
+        this.grid.onColumnFocused(this);
     }
 
     destroy() {

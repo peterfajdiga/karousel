@@ -78,7 +78,7 @@ function initWorkspaceSignalHandlers(world: World) {
             return;
         }
         world.doIfTiled(client.windowId, (window, column, grid) => {
-            grid.scrollToColumn(column);
+            window.onFocused();
             grid.arrange();
         });
     });
