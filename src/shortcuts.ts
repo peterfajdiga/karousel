@@ -33,6 +33,8 @@ function registerShortcuts(world: World) {
     registerShortcutDbg("basalt-column-move-left", "Basalt: Move column left", "Meta+Ctrl+Shift+A", actions.columnMoveLeft);
     registerShortcutDbg("basalt-column-move-right", "Basalt: Move column right", "Meta+Ctrl+Shift+D", actions.columnMoveRight);
 
+    registerShortcutDbg("basalt-grid-scroll-focused", "Basalt: Scroll to focused window", "Meta+Alt+Return", actions.gridScrollFocused);
+    registerShortcutDbg("basalt-grid-scroll-left-column", "Basalt: Scroll one column to the left", "Meta+Alt+A", actions.gridScrollLeftColumn);
     registerShortcutDbg("basalt-grid-scroll-left-column", "Basalt: Scroll one column to the left", "Meta+Alt+A", actions.gridScrollLeftColumn);
     registerShortcutDbg("basalt-grid-scroll-right-column", "Basalt: Scroll one column to the right", "Meta+Alt+D", actions.gridScrollRightColumn);
     registerShortcutDbg("basalt-grid-scroll-left", "Basalt: Scroll left", "Meta+Alt+PgUp", actions.gridScrollLeft);

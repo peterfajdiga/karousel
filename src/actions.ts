@@ -154,6 +154,17 @@ function initActions(world: World) {
             grid.arrange();
         },
 
+        gridScrollFocused: () => {
+            const focusedWindow = world.getFocusedWindow();
+            if (focusedWindow === undefined) {
+                return;
+            }
+            const column = focusedWindow.column;
+            const grid = column.grid;
+            grid.scrollToColumn(column);
+            grid.arrange();
+        },
+
         gridScrollLeftColumn: () => {
             const grid = world.getGrid(workspace.currentDesktop);
             const column = grid.getLeftmostVisibleColumn(true);
