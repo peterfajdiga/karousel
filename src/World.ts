@@ -1,7 +1,7 @@
 class World {
     private grids: Grid[];
-    private clientMap: Map<number, ClientData>;
-    public minimizedTiled: Set<number>; // TODO: implement using `clientMap`
+    private clientMap: Map<AbstractClient, ClientData>;
+    public minimizedTiled: Set<AbstractClient>; // TODO: implement using `clientMap`
     public lastFocusedClient: AbstractClient|null;
     private workspaceSignalManager: SignalManager;
     private screenResizedDelayer: Delayer;
@@ -32,7 +32,7 @@ class World {
         return this.grids[desktop-1];
     }
 
-    addClient(id: number, client: AbstractClient) {
+    addClient(client: AbstractClient) {
         prepareClientForTiling(client);
 
         const grid = this.getGrid(client.desktop);
@@ -40,7 +40,7 @@ class World {
         const window = new Window(client, column);
 
         const clientSignalManager = initClientSignalHandlers(this, window);
-        this.clientMap.set(id, {
+        this.clientMap.set(client, {
             window: window,
             signalManager: clientSignalManager,
             initialState: new ClientState(client),
@@ -49,8 +49,8 @@ class World {
         grid.arrange();
     }
 
-    removeClient(id: number) {
-        const clientData = this.clientMap.get(id);
+    removeClient(client: AbstractClient) {
+        const clientData = this.clientMap.get(client);
         if (clientData === undefined) {
             return;
         }
@@ -58,26 +58,25 @@ class World {
 
         const window = clientData.window;
         const grid = window.column.grid;
-        const client = window.client;
         window.destroy(client === this.lastFocusedClient);
         grid.arrange();
 
-        this.clientMap.delete(id);
+        this.clientMap.delete(client);
 
         prepareClientForFloating(client);
         clientData.initialState.apply(client);
     }
 
-    hasClient(id: number) {
-        return this.clientMap.has(id);
+    hasClient(client: AbstractClient) {
+        return this.clientMap.has(client);
     }
 
     onClientFocused(client: AbstractClient) {
         this.lastFocusedClient = client;
     }
 
-    doIfTiled(id: number, f: (window: Window, column: Column, grid: Grid) => void) {
-        const clientData = this.clientMap.get(id);
+    doIfTiled(client: AbstractClient, f: (window: Window, column: Column, grid: Grid) => void) {
+        const clientData = this.clientMap.get(client);
         if (clientData === undefined) {
             return;
         }
@@ -88,7 +87,7 @@ class World {
     }
 
     doIfTiledFocused(f: (window: Window, column: Column, grid: Grid) => void) {
-        this.doIfTiled(workspace.activeClient.windowId, f);
+        this.doIfTiled(workspace.activeClient, f);
     }
 
     getFocusedWindow() {
@@ -96,7 +95,7 @@ class World {
         if (activeClient === null) {
             return undefined;
         }
-        const clientData = this.clientMap.get(activeClient.windowId);
+        const clientData = this.clientMap.get(activeClient);
         if (clientData === undefined) {
             return undefined;
         }
@@ -104,8 +103,8 @@ class World {
     }
 
     removeAllClients() {
-        for (const id of this.clientMap.keys()) {
-            this.removeClient(id);
+        for (const client of this.clientMap.keys()) {
+            this.removeClient(client);
         }
     }
 

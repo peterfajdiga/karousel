@@ -2,7 +2,7 @@ function initWorkspaceSignalHandlers(world: World) {
     const manager = new SignalManager();
 
     manager.connect(workspace.desktopPresenceChanged, (client: AbstractClient, oldDesktop: number) => {
-        world.doIfTiled(client.windowId, (window, column, grid) => {
+        world.doIfTiled(client, (window, column, grid) => {
             // all desktops case handled in the client signal handler, because the workspace signal isn't fired for some reason
 
             const newDesktop = client.desktop;
@@ -21,19 +21,17 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(workspace.clientAdded, (client: AbstractClient) => {
-        const id = client.windowId;
-        console.assert(!world.hasClient(id));
+        console.assert(!world.hasClient(client));
         if (shouldTile(client)) {
-            world.addClient(id, client);
+            world.addClient(client);
         }
     });
 
     manager.connect(workspace.clientRemoved, (client: AbstractClient) => {
-        const id = client.windowId;
-        if (world.hasClient(id)) {
-            world.removeClient(id);
+        if (world.hasClient(client)) {
+            world.removeClient(client);
         }
-        world.minimizedTiled.delete(id);
+        world.minimizedTiled.delete(client);
     });
 
     manager.connect(workspace.clientManaging, (client: X11Client) => {
@@ -41,19 +39,17 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(workspace.clientMinimized, (client: AbstractClient) => {
-        const id = client.windowId;
-        if (world.hasClient(id)) {
-            world.removeClient(id);
-            world.minimizedTiled.add(id);
+        if (world.hasClient(client)) {
+            world.removeClient(client);
+            world.minimizedTiled.add(client);
         }
     });
 
     manager.connect(workspace.clientUnminimized, (client: AbstractClient) => {
-        const id = client.windowId;
-        console.assert(!world.hasClient(id));
-        if (world.minimizedTiled.has(id)) {
-            world.minimizedTiled.delete(id);
-            world.addClient(id, client);
+        console.assert(!world.hasClient(client));
+        if (world.minimizedTiled.has(client)) {
+            world.minimizedTiled.delete(client);
+            world.addClient(client);
         }
     });
 
@@ -62,7 +58,7 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(workspace.clientMaximizeSet, (client: AbstractClient, horizontal: boolean, vertical: boolean) => {
-        world.doIfTiled(client.windowId, (window, column, grid) => {
+        world.doIfTiled(client, (window, column, grid) => {
             const maximized = horizontal || vertical;
             window.skipArrange = maximized;
             client.keepBelow = !maximized;
@@ -78,14 +74,14 @@ function initWorkspaceSignalHandlers(world: World) {
             return;
         }
         world.onClientFocused(client);
-        world.doIfTiled(client.windowId, (window, column, grid) => {
+        world.doIfTiled(client, (window, column, grid) => {
             window.onFocused();
             grid.arrange();
         });
     });
 
     manager.connect(workspace.clientFullScreenSet, (client: X11Client, fullScreen: boolean, user: boolean) => {
-        world.doIfTiled(client.windowId, (window, column, grid) => {
+        world.doIfTiled(client, (window, column, grid) => {
             window.skipArrange = fullScreen;
             client.keepBelow = !fullScreen;
         });

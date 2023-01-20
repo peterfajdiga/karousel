@@ -104,11 +104,10 @@ function initActions(world: World) {
 
         windowToggleFloating: () => {
             const client = workspace.activeClient;
-            const id = client.windowId;
-            if (world.hasClient(id)) {
-                world.removeClient(id);
+            if (world.hasClient(client)) {
+                world.removeClient(client);
             } else if (shouldTile(client)) {
-                world.addClient(id, client);
+                world.addClient(client);
             }
         },
 

@@ -5,7 +5,7 @@ function initClientSignalHandlers(world: World, window: Window) {
     manager.connect(client.desktopChanged, () => {
         if (window.client.desktop === -1) {
             // windows on all desktops are not supported
-            world.removeClient(window.client.windowId);
+            world.removeClient(window.client);
         }
     });
 
@@ -13,7 +13,7 @@ function initClientSignalHandlers(world: World, window: Window) {
     manager.connect(client.moveResizedChanged, () => {
         const client = window.client;
         if (client.move) {
-            world.removeClient(client.windowId);
+            world.removeClient(client);
             return;
         }
 
