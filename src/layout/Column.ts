@@ -4,12 +4,14 @@ class Column {
     public width: number;
     private windows: LinkedList<Window>;
     private lastFocusedWindow: Window|null;
+    private widthBeforeExpand: number;
 
     constructor(grid: Grid, prevColumn: Column|null) {
         this.gridX = 0;
         this.width = 0;
         this.windows = new LinkedList();
         this.lastFocusedWindow = null;
+        this.widthBeforeExpand = 0;
         this.grid = grid;
         this.grid.onColumnAdded(this, prevColumn);
     }
@@ -58,8 +60,12 @@ class Column {
         return this.width;
     }
 
+    getMaxWidth() {
+        return this.grid.area.width;
+    }
+
     setWidth(width: number) {
-        width = Math.min(width, this.grid.area.width);
+        width = Math.min(width, this.getMaxWidth());
         const oldWidth = this.width;
         this.width = width;
         for (const window of this.windows.iterator()) {
@@ -72,6 +78,17 @@ class Column {
 
     adjustWidth(widthDelta: number) {
         this.setWidth(this.width + widthDelta);
+    }
+
+    expand() {
+        const maxWidth = this.getMaxWidth();
+        const isAlreadyExpanded = this.width === maxWidth && this.widthBeforeExpand > 0;
+        if (isAlreadyExpanded) {
+            this.setWidth(this.widthBeforeExpand);
+        } else {
+            this.widthBeforeExpand = this.width;
+            this.setWidth(maxWidth);
+        }
     }
 
     adjustWindowHeight(window: Window, heightDelta: number, top: boolean) {
@@ -119,7 +136,7 @@ class Column {
     arrange(x: number) {
         let y = this.grid.area.y;
         for (const window of this.windows.iterator()) {
-            window.arrange(x, y, this.getWidth());
+            window.arrange(x, y, this.width);
             y += window.height + GAPS_INNER.y;
         }
     }

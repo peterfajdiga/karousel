@@ -139,6 +139,13 @@ function initActions(world: World) {
             });
         },
 
+        columnExpand: () => {
+            world.doIfTiledFocused((window, column, grid) => {
+                column.expand();
+                grid.arrange();
+            });
+        },
+
         gridScrollLeft: () => {
             gridScroll(world, -1);
         },
