@@ -3,12 +3,18 @@ class Window {
     public client: AbstractClient;
     public height: number;
     public preferredWidth: number;
+    public focusedState: WindowState;
     public skipArrange: boolean;
 
     constructor(client: AbstractClient, column: Column) {
         this.client = client;
         this.height = client.frameGeometry.height;
         this.preferredWidth = client.frameGeometry.width;
+        this.focusedState = {
+            fullScreen: false,
+            maximizedHorizontally: false,
+            maximizedVertically: false,
+        };
         this.skipArrange = false;
         this.column = column;
         column.onWindowAdded(this);
@@ -38,9 +44,40 @@ class Window {
 
     onFocused() {
         this.column.onWindowFocused(this);
+        this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
+        this.client.fullScreen = this.focusedState.fullScreen;
+    }
+
+    onUnfocused() {
+        this.client.setMaximize(false, false);
+        this.client.fullScreen = false;
+    }
+
+    onMaximizedChanged(horizontally: boolean, vertically: boolean) {
+        const maximized = horizontally || vertically;
+        this.skipArrange = maximized;
+        this.client.keepBelow = !maximized;
+        if (this.isFocused()) {
+            this.focusedState.maximizedHorizontally = horizontally;
+            this.focusedState.maximizedVertically = vertically;
+        }
+    }
+
+    onFullScreenChanged(fullScreen: boolean) {
+        this.skipArrange = fullScreen;
+        if (this.isFocused()) {
+            this.client.keepBelow = !fullScreen;
+            this.focusedState.fullScreen = fullScreen;
+        }
     }
 
     destroy(passFocus: boolean) {
         this.column.onWindowRemoved(this, passFocus);
     }
+}
+
+type WindowState = {
+    fullScreen: boolean,
+    maximizedHorizontally: boolean,
+    maximizedVertically: boolean,
 }

@@ -57,11 +57,9 @@ function initWorkspaceSignalHandlers(world: World) {
         console.log("workspace clientRestored", client);
     });
 
-    manager.connect(workspace.clientMaximizeSet, (client: AbstractClient, horizontal: boolean, vertical: boolean) => {
+    manager.connect(workspace.clientMaximizeSet, (client: AbstractClient, horizontally: boolean, vertically: boolean) => {
         world.doIfTiled(client, (window, column, grid) => {
-            const maximized = horizontal || vertical;
-            window.skipArrange = maximized;
-            client.keepBelow = !maximized;
+            window.onMaximizedChanged(horizontally, vertically);
         });
     });
 
@@ -71,6 +69,7 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientActivated, (client: AbstractClient) => {
         if (client === null) {
+            world.onClientUnfocused();
             return;
         }
         world.onClientFocused(client);
@@ -82,8 +81,7 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientFullScreenSet, (client: X11Client, fullScreen: boolean, user: boolean) => {
         world.doIfTiled(client, (window, column, grid) => {
-            window.skipArrange = fullScreen;
-            client.keepBelow = !fullScreen;
+            window.onFullScreenChanged(fullScreen);
         });
     });
 

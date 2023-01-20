@@ -2,7 +2,7 @@ class World {
     private grids: Grid[];
     private clientMap: Map<AbstractClient, ClientData>;
     public minimizedTiled: Set<AbstractClient>; // TODO: implement using `clientMap`
-    public lastFocusedClient: AbstractClient|null;
+    private lastFocusedClient: AbstractClient|null;
     private workspaceSignalManager: SignalManager;
     private screenResizedDelayer: Delayer;
 
@@ -73,6 +73,12 @@ class World {
 
     onClientFocused(client: AbstractClient) {
         this.lastFocusedClient = client;
+    }
+
+    onClientUnfocused() {
+        this.doIfTiled(this.lastFocusedClient, (window, column, grid) => {
+            window.onUnfocused();
+        });
     }
 
     doIfTiled(client: AbstractClient, f: (window: Window, column: Column, grid: Grid) => void) {
