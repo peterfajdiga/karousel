@@ -36,8 +36,14 @@ class LinkedList<T> {
     }
 
     private insert(item: T, prevNode: LinkedListNode<T>|null, nextNode: LinkedListNode<T>|null) {
-        const node = new LinkedListNode(item, prevNode, nextNode);
+        const node = new LinkedListNode(item);
         this.itemMap.set(item, node);
+        this.insertNode(node, prevNode, nextNode);
+    }
+
+    private insertNode(node: LinkedListNode<T>, prevNode: LinkedListNode<T>|null, nextNode: LinkedListNode<T>|null) {
+        node.prev = prevNode;
+        node.next = nextNode;
         if (nextNode !== null) {
             console.assert(nextNode.prev === prevNode);
             nextNode.prev = node;
@@ -81,6 +87,10 @@ class LinkedList<T> {
     remove(item: T) {
         const node = this.getNode(item);
         this.itemMap.delete(item);
+        this.removeNode(node);
+    }
+
+    private removeNode(node: LinkedListNode<T>) {
         const prevNode = node.prev;
         const nextNode = node.next;
         if (prevNode !== null) {
@@ -126,6 +136,17 @@ class LinkedList<T> {
         }
     }
 
+    move(item: T, prevItem: T|null) {
+        const node = this.getNode(item);
+        this.removeNode(node);
+        if (prevItem === null) {
+            this.insertNode(node, null, this.firstNode);
+        } else {
+            const prevNode = this.getNode(prevItem);
+            this.insertNode(node, prevNode, prevNode.next);
+        }
+    }
+
     moveBack(item: T) {
         const node = this.getNode(item);
         if (node.prev !== null) {
@@ -165,9 +186,9 @@ class LinkedListNode<T> {
     public prev: LinkedListNode<T>|null;
     public next: LinkedListNode<T>|null;
 
-    constructor(item: T, prev: LinkedListNode<T>|null, next: LinkedListNode<T>|null) {
+    constructor(item: T) {
         this.item = item;
-        this.prev = prev;
-        this.next = next;
+        this.prev = null;
+        this.next = null;
     }
 }
