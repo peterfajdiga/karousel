@@ -69,7 +69,6 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientActivated, (client: AbstractClient) => {
         if (client === null) {
-            world.onClientUnfocused();
             return;
         }
         world.onClientFocused(client);

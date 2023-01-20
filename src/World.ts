@@ -72,13 +72,10 @@ class World {
     }
 
     onClientFocused(client: AbstractClient) {
-        this.lastFocusedClient = client;
-    }
-
-    onClientUnfocused() {
         this.doIfTiled(this.lastFocusedClient, (window, column, grid) => {
             window.onUnfocused();
         });
+        this.lastFocusedClient = client;
     }
 
     doIfTiled(client: AbstractClient, f: (window: Window, column: Column, grid: Grid) => void) {
