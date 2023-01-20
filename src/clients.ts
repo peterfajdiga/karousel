@@ -13,6 +13,7 @@ function shouldTile(client: AbstractClient) {
 
 function prepareClientForTiling(client: AbstractClient) {
     client.keepBelow = true;
+    client.fullScreen = false;
     client.setMaximize(false, false);
 }
 

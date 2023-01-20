@@ -33,11 +33,12 @@ class World {
     }
 
     addClient(id: number, client: AbstractClient) {
+        prepareClientForTiling(client);
+
         const grid = this.getGrid(client.desktop);
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
         const window = new Window(client, column);
 
-        prepareClientForTiling(client);
         const clientSignalManager = initClientSignalHandlers(this, window);
         this.clientMap.set(id, {
             window: window,
