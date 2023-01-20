@@ -18,13 +18,14 @@ class World {
         this.lastFocusedClient = null;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
         this.screenResizedDelayer = new Delayer(1000, () => {
+            // this delay ensures that docks get taken into account by `workspace.clientArea`
             const grids = this.grids; // workaround for bug in Qt5's JS engine
             for (const grid of grids) {
                 grid.updateArea();
                 grid.autoAdjustScroll();
                 grid.arrange();
             }
-        }); // this delay ensures that docks get taken into account by `workspace.clientArea`
+        });
     }
 
     getGrid(desktop: number) {

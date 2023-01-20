@@ -19,9 +19,10 @@ class Grid {
         this.desktop = desktop;
         this.updateArea();
         this.userResizeFinishedDelayer = new Delayer(50, () => {
+            // this delay prevents windows' contents from freezing after resizing
             this.autoAdjustScroll();
             this.arrange();
-        }); // this delay prevents windows' contents from freezing after resizing
+        });
     }
 
     updateArea() {
