@@ -125,6 +125,20 @@ function initActions(world: World) {
             });
         },
 
+        columnMoveStart: () => {
+            world.doIfTiledFocused((window, column, grid) => {
+                column.moveToGrid(grid, null);
+                grid.arrange();
+            });
+        },
+
+        columnMoveEnd: () => {
+            world.doIfTiledFocused((window, column, grid) => {
+                column.moveToGrid(grid, grid.getLastColumn());
+                grid.arrange();
+            });
+        },
+
         gridScrollLeft: () => {
             gridScroll(world, -1);
         },
