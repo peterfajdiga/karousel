@@ -45,6 +45,10 @@ class Window {
     }
 
     focus() {
+        if (this.client.shade) {
+            // workaround for KWin deactivating clients when unshading immediately after activation
+            this.client.shade = false;
+        }
         focusClient(this.client);
     }
 
