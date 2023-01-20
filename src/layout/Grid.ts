@@ -136,7 +136,7 @@ class Grid {
 
     autoAdjustScroll() {
         const focusedWindow = this.world.getFocusedWindow();
-        if (focusedWindow === undefined) {
+        if (focusedWindow === null) {
             this.removeOverscroll();
             return;
         }

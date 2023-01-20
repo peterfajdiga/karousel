@@ -155,7 +155,7 @@ function initActions(world: World) {
 
         gridScrollFocused: () => {
             const focusedWindow = world.getFocusedWindow();
-            if (focusedWindow === undefined) {
+            if (focusedWindow === null) {
                 return;
             }
             const column = focusedWindow.column;

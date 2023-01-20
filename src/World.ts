@@ -97,11 +97,11 @@ class World {
     getFocusedWindow() {
         const activeClient = workspace.activeClient;
         if (activeClient === null) {
-            return undefined;
+            return null;
         }
         const clientData = this.clientMap.get(activeClient);
         if (clientData === undefined) {
-            return undefined;
+            return null;
         }
         return clientData.window;
     }
