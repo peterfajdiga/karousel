@@ -31,7 +31,17 @@ class Window {
             // window is being manually resized, prevent fighting with the user
             return;
         }
+        this.client.shade = false;
         placeClient(this.client, x, y, width, height);
+    }
+
+    placeShaded(x: number, y: number, width: number) {
+        if (this.skipArrange || this.client.resize) {
+            // window is being manually resized, prevent fighting with the user
+            return;
+        }
+        this.client.shade = true;
+        placeClient(this.client, x, y, width, this.height);
     }
 
     focus() {

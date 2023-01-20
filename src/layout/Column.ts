@@ -160,7 +160,7 @@ class Column {
                 window.place(x, y, this.width, expandedHeight);
                 y += expandedHeight;
             } else {
-                window.place(x, y, this.width, COLLAPSED_HEIGHT); // TODO: shade
+                window.placeShaded(x, y, this.width);
                 y += COLLAPSED_HEIGHT;
             }
             y += GAPS_INNER.y;
