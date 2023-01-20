@@ -123,10 +123,12 @@ class Grid {
     scrollToColumn(column: Column) {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space
+        const remainingSpace = this.area.width - column.width;
+        const overScrollX = Math.min(AUTO_OVERSCROLL_X, Math.round(remainingSpace / 2));
         if (left < 0) {
-            this.adjustScroll(left, false);
+            this.adjustScroll(left - overScrollX, false);
         } else if (right > this.area.width) {
-            this.adjustScroll(right - this.area.width, false);
+            this.adjustScroll(right - this.area.width + overScrollX, false);
         } else {
             this.removeOverscroll();
         }
