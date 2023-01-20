@@ -4,7 +4,7 @@ class Window {
     public height: number;
     public preferredWidth: number;
     public focusedState: WindowState;
-    public skipArrange: boolean;
+    private skipArrange: boolean;
 
     constructor(client: AbstractClient, column: Column) {
         this.client = client;
@@ -27,7 +27,7 @@ class Window {
     }
 
     arrange(x: number, y: number, width: number) {
-        if (this.client.resize) {
+        if (this.skipArrange || this.client.resize) {
             // window is being manually resized, prevent fighting with the user
             return;
         }
