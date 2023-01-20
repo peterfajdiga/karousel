@@ -15,11 +15,11 @@ num=$(dbus-send --print-reply --dest=org.kde.KWin \
 dbus-send --print-reply --dest=org.kde.KWin /$num \
     org.kde.kwin.Script.run
 
-echo 'Press any key to stop the script'
+echo 'Press enter to stop the script'
 read
 dbus-send --print-reply --dest=org.kde.KWin /$num \
     org.kde.kwin.Script.stop
 
-echo 'Press any key to kill KWin'
+echo 'Press enter to kill KWin'
 read
 killall kwin_x11
