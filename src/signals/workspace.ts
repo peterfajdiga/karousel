@@ -60,6 +60,7 @@ function initWorkspaceSignalHandlers(world: World) {
     manager.connect(workspace.clientMaximizeSet, (client: AbstractClient, horizontally: boolean, vertically: boolean) => {
         world.doIfTiled(client, (window, column, grid) => {
             window.onMaximizedChanged(horizontally, vertically);
+            grid.arrange();
         });
     });
 
@@ -81,6 +82,7 @@ function initWorkspaceSignalHandlers(world: World) {
     manager.connect(workspace.clientFullScreenSet, (client: X11Client, fullScreen: boolean, user: boolean) => {
         world.doIfTiled(client, (window, column, grid) => {
             window.onFullScreenChanged(fullScreen);
+            grid.arrange();
         });
     });
 
