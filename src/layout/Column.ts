@@ -14,6 +14,16 @@ class Column {
         this.grid.onColumnAdded(this, prevColumn);
     }
 
+    moveToGrid(targetGrid: Grid, prevColumn: Column|null) {
+        if (targetGrid === this.grid) {
+            this.grid.onColumnMoved(this, prevColumn);
+        } else {
+            this.grid.onColumnRemoved(this, false);
+            targetGrid.onColumnAdded(this, prevColumn);
+            this.grid = targetGrid;
+        }
+    }
+
     moveWindowsTo(targetColumn: Column) {
         for (const window of this.windows.iterator()) {
             window.moveToColumn(targetColumn);

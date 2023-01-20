@@ -215,6 +215,14 @@ class Grid {
         }
     }
 
+    onColumnMoved(column: Column, prevColumn: Column|null) {
+        const movedLeft = prevColumn === null ? true : column.gridX > prevColumn.gridX;
+        const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
+        this.columns.move(column, prevColumn);
+        this.columnsSetX(firstMovedColumn);
+        this.autoAdjustScroll();
+    }
+
     onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
