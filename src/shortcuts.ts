@@ -29,6 +29,7 @@ function registerShortcuts(world: World) {
     registerShortcutDbg("basalt-window-move-right", "Basalt: Move window right", "Meta+Shift+D", actions.windowMoveRight);
     registerShortcutDbg("basalt-window-move-up", "Basalt: Move window up", "Meta+Shift+W", actions.windowMoveUp);
     registerShortcutDbg("basalt-window-move-down", "Basalt: Move window down", "Meta+Shift+S", actions.windowMoveDown);
+    registerShortcutDbg("basalt-window-expand", "Basalt: Expand column", "Meta+X", actions.windowExpand);
 
     registerShortcutDbg("basalt-column-move-left", "Basalt: Move column left", "Meta+Ctrl+Shift+A", actions.columnMoveLeft);
     registerShortcutDbg("basalt-column-move-right", "Basalt: Move column right", "Meta+Ctrl+Shift+D", actions.columnMoveRight);

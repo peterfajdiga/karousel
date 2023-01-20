@@ -26,12 +26,12 @@ class Window {
         this.column = targetColumn;
     }
 
-    arrange(x: number, y: number, width: number) {
+    place(x: number, y: number, width: number, height: number) {
         if (this.skipArrange || this.client.resize) {
             // window is being manually resized, prevent fighting with the user
             return;
         }
-        placeClient(this.client, x, y, width, this.height);
+        placeClient(this.client, x, y, width, height);
     }
 
     focus() {

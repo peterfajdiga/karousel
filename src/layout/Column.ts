@@ -3,14 +3,16 @@ class Column {
     public gridX: number;
     public width: number;
     private windows: LinkedList<Window>;
-    private lastFocusedWindow: Window|null;
+    private stacked: boolean;
+    private focusTaker: Window|null;
     private widthBeforeExpand: number;
 
     constructor(grid: Grid, prevColumn: Column|null) {
         this.gridX = 0;
         this.width = 0;
         this.windows = new LinkedList();
-        this.lastFocusedWindow = null;
+        this.stacked = STACKED_BY_DEFAULT;
+        this.focusTaker = null;
         this.widthBeforeExpand = 0;
         this.grid = grid;
         this.grid.onColumnAdded(this, prevColumn);
@@ -106,6 +108,9 @@ class Column {
         if (nWindows === 0) {
             return;
         }
+        if (nWindows === 1) {
+            this.stacked = STACKED_BY_DEFAULT;
+        }
 
         let remainingPixels = this.grid.area.height - (nWindows-1)*GAPS_INNER.y;
         let remainingWindows = nWindows;
@@ -118,15 +123,15 @@ class Column {
         // TODO: respect min height and unresizable windows
     }
 
-    getLastFocusedWindow() {
-        if (this.lastFocusedWindow === null || !this.windows.contains(this.lastFocusedWindow)) {
+    getFocusTaker() {
+        if (this.focusTaker === null || !this.windows.contains(this.focusTaker)) {
             return null;
         }
-        return this.lastFocusedWindow;
+        return this.focusTaker;
     }
 
     focus() {
-        const window = this.getLastFocusedWindow() ?? this.windows.getFirst();
+        const window = this.getFocusTaker() ?? this.windows.getFirst();
         if (window === null) {
             return;
         }
@@ -134,11 +139,36 @@ class Column {
     }
 
     arrange(x: number) {
+        if (this.stacked) {
+            this.arrangeStacked(x);
+            return;
+        }
         let y = this.grid.area.y;
         for (const window of this.windows.iterator()) {
-            window.arrange(x, y, this.width);
+            window.place(x, y, this.width, window.height);
             y += window.height + GAPS_INNER.y;
         }
+    }
+
+    arrangeStacked(x: number) {
+        const nCollapsed = this.getWindowCount() - 1;
+        const expandedWindow = this.getFocusTaker();
+        const expandedHeight = this.grid.area.height - nCollapsed * (COLLAPSED_HEIGHT + GAPS_INNER.y);
+        let y = this.grid.area.y;
+        for (const window of this.windows.iterator()) {
+            if (window === expandedWindow) {
+                window.place(x, y, this.width, expandedHeight);
+                y += expandedHeight;
+            } else {
+                window.place(x, y, this.width, COLLAPSED_HEIGHT); // TODO: shade
+                y += COLLAPSED_HEIGHT;
+            }
+            y += GAPS_INNER.y;
+        }
+    }
+
+    toggleStacked() {
+        this.stacked = !this.stacked;
     }
 
     onWindowAdded(window: Window) {
@@ -151,29 +181,33 @@ class Column {
         this.resizeWindows();
 
         if (window.isFocused()) {
-            this.lastFocusedWindow = window;
+            this.focusTaker = window;
         }
     }
 
     onWindowRemoved(window: Window, passFocus: boolean) {
         const lastWindow = this.windows.length() === 1;
-        const windowToFocus = lastWindow || !passFocus ? null : this.getPrevWindow(window) ?? this.getNextWindow(window);
+        const windowToFocus = this.getPrevWindow(window) ?? this.getNextWindow(window);
 
         this.windows.remove(window);
+
+        if (window === this.focusTaker) {
+            this.focusTaker = windowToFocus;
+        }
 
         if (lastWindow) {
             console.assert(this.isEmpty());
             this.destroy(passFocus);
         } else {
             this.resizeWindows();
-            if (windowToFocus !== null) {
+            if (passFocus && windowToFocus !== null) {
                 windowToFocus.focus();
             }
         }
     }
 
     onWindowFocused(window: Window) {
-        this.lastFocusedWindow = window;
+        this.focusTaker = window;
         this.grid.onColumnFocused(this);
     }
 

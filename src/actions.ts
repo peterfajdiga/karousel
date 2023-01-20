@@ -102,6 +102,13 @@ function initActions(world: World) {
             });
         },
 
+        windowExpand: () => {
+            world.doIfTiledFocused((window, column, grid) => {
+                column.toggleStacked();
+                grid.arrange();
+            });
+        },
+
         windowToggleFloating: () => {
             const client = workspace.activeClient;
             if (world.hasClient(client)) {
