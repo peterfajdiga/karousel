@@ -17,7 +17,7 @@ class World {
         this.minimizedTiled = new Set();
         this.lastFocusedClient = null;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
-        this.screenResizedDelayer = new Delayer(150, () => {
+        this.screenResizedDelayer = new Delayer(1000, () => {
             const grids = this.grids; // workaround for bug in Qt5's JS engine
             for (const grid of grids) {
                 grid.updateArea();
