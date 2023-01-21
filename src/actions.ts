@@ -69,6 +69,7 @@ function initActions(world: World) {
                         return;
                     }
                     window.moveToColumn(prevColumn);
+                    grid.autoAdjustScroll();
                 } else {
                     // move from shared column into own column
                     const newColumn = new Column(grid, grid.getPrevColumn(column));
@@ -87,6 +88,7 @@ function initActions(world: World) {
                         return;
                     }
                     window.moveToColumn(nextColumn);
+                    grid.autoAdjustScroll();
                 } else {
                     // move from shared column into own column
                     const newColumn = new Column(grid, column);
