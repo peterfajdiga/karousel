@@ -110,6 +110,22 @@ function initActions(world: World) {
             });
         },
 
+        windowMoveStart: () => {
+            world.doIfTiledFocused((window, column, grid) => {
+                const newColumn = new Column(grid, null);
+                window.moveToColumn(newColumn);
+                grid.arrange();
+            });
+        },
+
+        windowMoveEnd: () => {
+            world.doIfTiledFocused((window, column, grid) => {
+                const newColumn = new Column(grid, grid.getLastColumn());
+                window.moveToColumn(newColumn);
+                grid.arrange();
+            });
+        },
+
         windowExpand: () => {
             world.doIfTiledFocused((window, column, grid) => {
                 column.toggleStacked();
