@@ -13,6 +13,13 @@ function registerShortcutDbg(title: string, text: string, keySequence: string, c
     KWin.registerShortcut(title, text, keySequence, catchWrap(callback));
 }
 
+function registerNumShortcuts(title: string, text: string, keySequence: string, callback: (i: number) => void, n: number) {
+    for (let i = 0; i < n; i++) {
+        const numKey = String(i + 1);
+        registerShortcutDbg(title+numKey, text+numKey, keySequence+numKey, () => callback(i));
+    }
+}
+
 function registerShortcuts(world: World) {
     const actions = initActions(world);
 
@@ -45,4 +52,6 @@ function registerShortcuts(world: World) {
     registerShortcutDbg("basalt-grid-scroll-right", "Basalt: Scroll right", "Meta+Alt+PgDown", actions.gridScrollRight);
     registerShortcutDbg("basalt-grid-scroll-start", "Basalt: Scroll to start", "Meta+Alt+Home", actions.gridScrollStart);
     registerShortcutDbg("basalt-grid-scroll-end", "Basalt: Scroll to end", "Meta+Alt+End", actions.gridScrollEnd);
+
+    registerNumShortcuts("basalt-column-move-to-desktop-", "Basalt: Move column to desktop ", "Meta+Ctrl+Shift+F", actions.columnMoveToDesktop, 12);
 }

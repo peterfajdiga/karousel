@@ -18,14 +18,21 @@ class Column {
         this.grid.onColumnAdded(this, prevColumn);
     }
 
-    moveToGrid(targetGrid: Grid, prevColumn: Column|null) {
+    moveToGrid(targetGrid: Grid, targetDesktop: number, prevColumn: Column|null) {
         if (targetGrid === this.grid) {
             this.grid.onColumnMoved(this, prevColumn);
         } else {
             this.grid.onColumnRemoved(this, false);
             targetGrid.onColumnAdded(this, prevColumn);
             this.grid = targetGrid;
+            for (const window of this.windows.iterator()) {
+                window.client.desktop = targetDesktop;
+            }
         }
+    }
+
+    moveAfter(prevColumn: Column|null) {
+        this.grid.onColumnMoved(this, prevColumn);
     }
 
     moveWindowsTo(targetColumn: Column) {

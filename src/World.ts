@@ -28,15 +28,27 @@ class World {
         });
     }
 
-    getGrid(desktop: number) {
-        console.assert(desktop > 0);
-        return this.grids[desktop-1];
+    getGrid(desktopNumber: number) {
+        console.assert(desktopNumber > 0);
+        const desktopIndex = desktopNumber - 1;
+        if (desktopIndex >= this.grids.length) {
+            return null;
+        }
+        return this.grids[desktopNumber-1];
+    }
+
+    getCurrentGrid() {
+        return this.grids[workspace.currentDesktop-1];
+    }
+
+    getClientGrid(client: AbstractClient) {
+        return this.grids[client.desktop-1];
     }
 
     addClient(client: AbstractClient) {
         prepareClientForTiling(client);
 
-        const grid = this.getGrid(client.desktop);
+        const grid = this.getClientGrid(client);
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
         const window = new Window(client, column);
 

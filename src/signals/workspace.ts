@@ -2,12 +2,18 @@ function initWorkspaceSignalHandlers(world: World) {
     const manager = new SignalManager();
 
     manager.connect(workspace.desktopPresenceChanged, (client: AbstractClient, oldDesktop: number) => {
-        world.doIfTiled(client, (window, column, grid) => {
+        world.doIfTiled(client, (window, column, oldGrid) => {
             // all desktops case handled in the client signal handler, because the workspace signal isn't fired for some reason
 
             const newDesktop = client.desktop;
-            const oldGrid = world.getGrid(oldDesktop);
             const newGrid = world.getGrid(newDesktop);
+            if (newGrid === null) {
+                throw new Error("grid does not exist");
+            }
+            if (oldGrid === newGrid) {
+                // window already on the correct grid
+                return;
+            }
 
             const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
             window.moveToColumn(newColumn);

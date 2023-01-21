@@ -41,7 +41,7 @@ function initActions(world: World) {
         },
 
         focusStart: () => {
-            const grid = world.getGrid(workspace.currentDesktop);
+            const grid = world.getCurrentGrid();
             const firstColumn = grid.getFirstColumn();
             if (firstColumn === null) {
                 return;
@@ -51,7 +51,7 @@ function initActions(world: World) {
         },
 
         focusEnd: () => {
-            const grid = world.getGrid(workspace.currentDesktop);
+            const grid = world.getCurrentGrid();
             const lastColumn = grid.getLastColumn();
             if (lastColumn === null) {
                 return;
@@ -134,14 +134,14 @@ function initActions(world: World) {
 
         columnMoveStart: () => {
             world.doIfTiledFocused((window, column, grid) => {
-                column.moveToGrid(grid, null);
+                column.moveAfter(null);
                 grid.arrange();
             });
         },
 
         columnMoveEnd: () => {
             world.doIfTiledFocused((window, column, grid) => {
-                column.moveToGrid(grid, grid.getLastColumn());
+                column.moveAfter(grid.getLastColumn());
                 grid.arrange();
             });
         },
@@ -162,7 +162,7 @@ function initActions(world: World) {
         },
 
         gridScrollStart: () => {
-            const grid = world.getGrid(workspace.currentDesktop);
+            const grid = world.getCurrentGrid();
             const firstColumn = grid.getFirstColumn();
             if (firstColumn === null) {
                 return;
@@ -172,7 +172,7 @@ function initActions(world: World) {
         },
 
         gridScrollEnd: () => {
-            const grid = world.getGrid(workspace.currentDesktop);
+            const grid = world.getCurrentGrid();
             const lastColumn = grid.getLastColumn();
             if (lastColumn === null) {
                 return;
@@ -193,7 +193,7 @@ function initActions(world: World) {
         },
 
         gridScrollLeftColumn: () => {
-            const grid = world.getGrid(workspace.currentDesktop);
+            const grid = world.getCurrentGrid();
             const column = grid.getLeftmostVisibleColumn(true);
             if (column === null) {
                 return;
@@ -209,7 +209,7 @@ function initActions(world: World) {
         },
 
         gridScrollRightColumn: () => {
-            const grid = world.getGrid(workspace.currentDesktop);
+            const grid = world.getCurrentGrid();
             const column = grid.getRightmostVisibleColumn(true);
             if (column === null) {
                 return;
@@ -223,12 +223,25 @@ function initActions(world: World) {
             grid.scrollToColumn(nextColumn);
             grid.arrange();
         },
+
+        columnMoveToDesktop: (desktopIndex: number) => {
+            world.doIfTiledFocused((window, column, oldGrid) => {
+                const desktopNumber = desktopIndex + 1;
+                const newGrid = world.getGrid(desktopNumber);
+                if (newGrid === null) {
+                    return;
+                }
+                column.moveToGrid(newGrid, desktopNumber, newGrid.getLastColumn());
+                oldGrid.arrange();
+                newGrid.arrange();
+            });
+        },
     };
 }
 
 function gridScroll(world: World, direction: number) {
     const scrollAmount = GRID_SCROLL_STEP * direction;
-    const grid = world.getGrid(workspace.currentDesktop);
+    const grid = world.getCurrentGrid();
     grid.adjustScroll(scrollAmount, false);
     grid.arrange();
 }
