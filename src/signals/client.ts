@@ -37,7 +37,7 @@ function initClientSignalHandlers(world: World, window: Window) {
             const widthDelta = newGeometry.width - oldGeometry.width;
             const heightDelta = newGeometry.height - oldGeometry.height;
             if (widthDelta !== 0) {
-                column.adjustWidth(widthDelta);
+                column.adjustWidth(widthDelta, true);
                 if (newGeometry.x !== oldGeometry.x) {
                     grid.adjustScroll(widthDelta, true);
                 }

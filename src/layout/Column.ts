@@ -67,30 +67,32 @@ class Column {
         return this.grid.area.width;
     }
 
-    setWidth(width: number) {
+    setWidth(width: number, setPreferred: boolean) {
         width = Math.min(width, this.getMaxWidth());
         const oldWidth = this.width;
         this.width = width;
-        for (const window of this.windows.iterator()) {
-            window.preferredWidth = width;
+        if (setPreferred) {
+            for (const window of this.windows.iterator()) {
+                window.preferredWidth = width;
+            }
         }
         if (width !== oldWidth) {
             this.grid.onColumnWidthChanged(this, oldWidth, width);
         }
     }
 
-    adjustWidth(widthDelta: number) {
-        this.setWidth(this.width + widthDelta);
+    adjustWidth(widthDelta: number, setPreferred: boolean) {
+        this.setWidth(this.width + widthDelta, setPreferred);
     }
 
     expand() {
         const maxWidth = this.getMaxWidth();
         const isAlreadyExpanded = this.width === maxWidth && this.widthBeforeExpand > 0;
         if (isAlreadyExpanded) {
-            this.setWidth(this.widthBeforeExpand);
+            this.setWidth(this.widthBeforeExpand, false);
         } else {
             this.widthBeforeExpand = this.width;
-            this.setWidth(maxWidth);
+            this.setWidth(maxWidth, false);
         }
     }
 
@@ -175,7 +177,7 @@ class Column {
     onWindowAdded(window: Window) {
         this.windows.insertEnd(window);
         if (this.width === 0) {
-            this.setWidth(window.preferredWidth);
+            this.setWidth(window.preferredWidth, false);
         }
         // TODO: also change column width if the new window requires it
 
