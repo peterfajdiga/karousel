@@ -1,5 +1,5 @@
 function init() {
-    const world = new World(workspace.desktops);
+    const world = new World();
     registerShortcuts(world);
     return world;
 }

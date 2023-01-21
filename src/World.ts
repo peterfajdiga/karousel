@@ -6,13 +6,8 @@ class World {
     private workspaceSignalManager: SignalManager;
     private screenResizedDelayer: Delayer;
 
-    constructor(nDesktops: number) {
-        // TODO: react to changes in number of desktops
+    constructor() {
         // TODO: support Plasma activities
-        this.grids = new Array<Grid>(nDesktops);
-        for (let i = 0; i < nDesktops; i++) {
-            this.grids[i] = new Grid(this, i+1);
-        }
         this.clientMap = new Map();
         this.minimizedTiled = new Set();
         this.lastFocusedClient = null;
@@ -26,6 +21,28 @@ class World {
                 grid.arrange();
             }
         });
+        this.grids = [];
+        this.updateDesktops();
+    }
+
+    updateDesktops() {
+        const oldDesktopCount = this.grids.length;
+        const newDesktopCount = workspace.desktops;
+        if (newDesktopCount > oldDesktopCount) {
+            for (let i = oldDesktopCount; i < newDesktopCount; i++) {
+                this.grids.push(new Grid(this, i+1));
+            }
+        } else if (newDesktopCount < oldDesktopCount) {
+            const evacuationGrid = this.grids[newDesktopCount-1];
+            const nRemovedDesktops = oldDesktopCount - newDesktopCount;
+            for (let i = 0; i < nRemovedDesktops; i++) {
+                const removedGrid = this.grids.pop();
+                if (removedGrid === undefined) {
+                    throw new Error("this.grids.pop returned undefined");
+                }
+                removedGrid.evacuate(evacuationGrid);
+            }
+        }
     }
 
     getGrid(desktopNumber: number) {

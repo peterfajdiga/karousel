@@ -239,7 +239,7 @@ function initActions(world: World) {
                 if (newGrid === null) {
                     return;
                 }
-                column.moveToGrid(newGrid, desktopNumber, newGrid.getLastColumn());
+                column.moveToGrid(newGrid, newGrid.getLastColumn());
                 oldGrid.arrange();
                 newGrid.arrange();
             });

@@ -97,7 +97,7 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(workspace.numberDesktopsChanged, (oldNumberOfDesktops: number) => {
-        console.log("workspace numberDesktopsChanged", oldNumberOfDesktops);
+        world.updateDesktops();
     });
 
     manager.connect(workspace.desktopLayoutChanged, () => {

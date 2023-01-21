@@ -6,7 +6,7 @@ class Grid {
     private width: number;
     public userResize: boolean; // is any part of the grid being resized by the user
     public area: any;
-    private desktop: number;
+    public desktop: number;
     private userResizeFinishedDelayer: Delayer;
 
     constructor(world: World, desktop: number) {
@@ -223,6 +223,13 @@ class Grid {
     onUserResizeFinished() {
         this.userResize = false;
         this.userResizeFinishedDelayer.run();
+    }
+
+    evacuate(targetGrid: Grid) {
+        for (const column of this.columns.iterator()) {
+            column.moveToGrid(targetGrid, targetGrid.getLastColumn());
+        }
+        this.destroy();
     }
 
     destroy() {

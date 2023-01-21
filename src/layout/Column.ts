@@ -18,7 +18,7 @@ class Column {
         this.grid.onColumnAdded(this, prevColumn);
     }
 
-    moveToGrid(targetGrid: Grid, targetDesktop: number, prevColumn: Column|null) {
+    moveToGrid(targetGrid: Grid, prevColumn: Column|null) {
         if (targetGrid === this.grid) {
             this.grid.onColumnMoved(this, prevColumn);
         } else {
@@ -26,7 +26,7 @@ class Column {
             targetGrid.onColumnAdded(this, prevColumn);
             this.grid = targetGrid;
             for (const window of this.windows.iterator()) {
-                window.client.desktop = targetDesktop;
+                window.client.desktop = targetGrid.desktop;
             }
         }
     }
