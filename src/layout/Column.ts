@@ -23,8 +23,8 @@ class Column {
             this.grid.onColumnMoved(this, prevColumn);
         } else {
             this.grid.onColumnRemoved(this, false);
-            targetGrid.onColumnAdded(this, prevColumn);
             this.grid = targetGrid;
+            targetGrid.onColumnAdded(this, prevColumn);
             for (const window of this.windows.iterator()) {
                 window.client.desktop = targetGrid.desktop;
             }

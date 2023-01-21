@@ -22,8 +22,8 @@ class Window {
 
     moveToColumn(targetColumn: Column) {
         this.column.onWindowRemoved(this, false);
-        targetColumn.onWindowAdded(this);
         this.column = targetColumn;
+        targetColumn.onWindowAdded(this);
     }
 
     place(x: number, y: number, width: number, height: number) {
