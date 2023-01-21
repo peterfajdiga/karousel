@@ -1,9 +1,10 @@
 SHELL := /bin/bash -O extglob
 
-build: $(wildcard ./src/*)
-	mkdir -p ./build
-	tsc --outFile ./build/main.js
-	cp ./src/main.qml ./build/main.qml
+build:
+	tsc --outFile ./basalt/contents/code/main.js
+
+install: build
+	cp -r ./basalt ~/.local/share/kwin/scripts/basalt
 
 run: build
 	./run.sh

@@ -6,7 +6,7 @@ set -e
 
 bash_source_absolute="$(pwd)/${BASH_SOURCE[0]}"
 basalt_dir="$(dirname "$bash_source_absolute")"
-kwin_script_path="$basalt_dir/build/main.qml"
+kwin_script_path="$basalt_dir/basalt/contents/code/main.qml"
 
 num=$(dbus-send --print-reply --dest=org.kde.KWin \
     /Scripting org.kde.kwin.Scripting.loadDeclarativeScript \
