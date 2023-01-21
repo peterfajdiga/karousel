@@ -33,6 +33,12 @@ class Window {
         }
         this.client.shade = false;
         placeClient(this.client, x, y, width, height);
+        if (this.isFocused()) {
+            // do this here rather than in `onFocused` to ensure it happens after placement
+            // (otherwise placement may not happen at all)
+            this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
+            this.client.fullScreen = this.focusedState.fullScreen;
+        }
     }
 
     placeShaded(x: number, y: number, width: number) {
@@ -58,8 +64,6 @@ class Window {
 
     onFocused() {
         this.column.onWindowFocused(this);
-        this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
-        this.client.fullScreen = this.focusedState.fullScreen;
     }
 
     onUnfocused() {
