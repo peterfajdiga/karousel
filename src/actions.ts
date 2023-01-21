@@ -64,7 +64,11 @@ function initActions(world: World) {
             world.doIfTiledFocused((window, column, grid) => {
                 if (column.getWindowCount() === 1) {
                     // move from own column into existing column
-                    grid.mergeColumnsLeft(column);
+                    const prevColumn = grid.getPrevColumn(column);
+                    if (prevColumn === null) {
+                        return;
+                    }
+                    window.moveToColumn(prevColumn);
                 } else {
                     // move from shared column into own column
                     const newColumn = new Column(grid, grid.getPrevColumn(column));
@@ -78,7 +82,11 @@ function initActions(world: World) {
             world.doIfTiledFocused((window, column, grid) => {
                 if (column.getWindowCount() === 1) {
                     // move from own column into existing column
-                    grid.mergeColumnsRight(column);
+                    const nextColumn = grid.getNextColumn(column);
+                    if (nextColumn === null) {
+                        return;
+                    }
+                    window.moveToColumn(nextColumn);
                 } else {
                     // move from shared column into own column
                     const newColumn = new Column(grid, column);

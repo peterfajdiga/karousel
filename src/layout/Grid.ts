@@ -50,26 +50,6 @@ class Grid {
         this.moveColumnLeft(nextColumn);
     }
 
-    mergeColumns(donorColumn: Column, targetColumn: Column) {
-        donorColumn.moveWindowsTo(targetColumn);
-    }
-
-    mergeColumnsLeft(donorColumn: Column) {
-        const prevColumn = this.columns.getPrev(donorColumn);
-        if (prevColumn === null) {
-            return;
-        }
-        this.mergeColumns(donorColumn, prevColumn);
-    }
-
-    mergeColumnsRight(donorColumn: Column) {
-        const nextColumn = this.columns.getNext(donorColumn);
-        if (nextColumn === null) {
-            return;
-        }
-        this.mergeColumns(donorColumn, nextColumn);
-    }
-
     getPrevColumn(column: Column) {
         return this.columns.getPrev(column);
     }

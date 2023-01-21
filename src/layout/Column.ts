@@ -35,12 +35,6 @@ class Column {
         this.grid.onColumnMoved(this, prevColumn);
     }
 
-    moveWindowsTo(targetColumn: Column) {
-        for (const window of this.windows.iterator()) {
-            window.moveToColumn(targetColumn);
-        }
-    }
-
     moveWindowUp(window: Window) {
         this.windows.moveBack(window);
     }
