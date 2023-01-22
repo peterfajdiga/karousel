@@ -229,6 +229,12 @@ class Grid {
         this.userResizeFinishedDelayer.run();
     }
 
+    evacuateTail(targetGrid: Grid, startColumn: Column) {
+        for (const column of this.columns.iteratorFrom(startColumn)) {
+            column.moveToGrid(targetGrid, targetGrid.getLastColumn());
+        }
+    }
+
     evacuate(targetGrid: Grid) {
         for (const column of this.columns.iterator()) {
             column.moveToGrid(targetGrid, targetGrid.getLastColumn());

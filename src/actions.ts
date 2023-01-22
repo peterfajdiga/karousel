@@ -299,6 +299,19 @@ function initActions(world: World) {
                 newGrid.arrange();
             });
         },
+
+        tailMoveToDesktop: (desktopIndex: number) => {
+            world.doIfTiledFocused((window, column, oldGrid) => {
+                const desktopNumber = desktopIndex + 1;
+                const newGrid = world.getGrid(desktopNumber);
+                if (newGrid === null || newGrid === oldGrid) {
+                    return;
+                }
+                oldGrid.evacuateTail(newGrid, column);
+                oldGrid.arrange();
+                newGrid.arrange();
+            });
+        },
     };
 }
 

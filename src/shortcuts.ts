@@ -59,4 +59,5 @@ function registerShortcuts(world: World) {
     registerNumShortcuts("basalt-window-move-to-column-", "Basalt: Move window to column ", "Meta+Shift+", actions.windowMoveToColumn, 9);
     registerNumShortcuts("basalt-column-move-to-column-", "Basalt: Move column to position ", "Meta+Ctrl+Shift+", actions.columnMoveToColumn, 9);
     registerNumShortcuts("basalt-column-move-to-desktop-", "Basalt: Move column to desktop ", "Meta+Ctrl+Shift+F", actions.columnMoveToDesktop, 12);
+    registerNumShortcuts("basalt-tail-move-to-desktop-", "Basalt: Move this and all following columns to desktop ", "Meta+Ctrl+Shift+Alt+F", actions.tailMoveToDesktop, 12);
 }
