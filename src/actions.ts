@@ -291,7 +291,7 @@ function initActions(world: World) {
             world.doIfTiledFocused((window, column, oldGrid) => {
                 const desktopNumber = desktopIndex + 1;
                 const newGrid = world.getGrid(desktopNumber);
-                if (newGrid === null) {
+                if (newGrid === null || newGrid === oldGrid) {
                     return;
                 }
                 column.moveToGrid(newGrid, newGrid.getLastColumn());
