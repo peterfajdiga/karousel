@@ -28,12 +28,21 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientAdded, (client: AbstractClient) => {
         console.assert(!world.hasClient(client));
+        if (client.dock) {
+            // TODO: also detect when a dock is moved
+            world.onScreenResized();
+            return;
+        }
         if (shouldTile(client)) {
             world.addClient(client);
         }
     });
 
     manager.connect(workspace.clientRemoved, (client: AbstractClient) => {
+        if (client.dock) {
+            world.onScreenResized();
+            return;
+        }
         if (world.hasClient(client)) {
             world.removeClient(client);
         }
