@@ -250,6 +250,43 @@ function initActions(world: World) {
             grid.arrange();
         },
 
+        focusColumn: (columnIndex: number) => {
+            world.doIfTiledFocused((window, column, grid) => {
+                const targetColumn = grid.getColumnAtIndex(columnIndex);
+                if (targetColumn === null) {
+                    return null;
+                }
+                targetColumn.focus();
+            });
+        },
+
+        windowMoveToColumn: (columnIndex: number) => {
+            world.doIfTiledFocused((window, column, grid) => {
+                const targetColumn = grid.getColumnAtIndex(columnIndex);
+                if (targetColumn === null) {
+                    return null;
+                }
+                window.moveToColumn(targetColumn);
+                grid.autoAdjustScroll();
+                grid.arrange();
+            });
+        },
+
+        columnMoveToColumn: (columnIndex: number) => {
+            world.doIfTiledFocused((window, column, grid) => {
+                const targetColumn = grid.getColumnAtIndex(columnIndex);
+                if (targetColumn === null || targetColumn === column) {
+                    return null;
+                }
+                if (targetColumn.isAfter(column)) {
+                    column.moveAfter(targetColumn);
+                } else {
+                    column.moveAfter(grid.getPrevColumn(targetColumn));
+                }
+                grid.arrange();
+            });
+        },
+
         columnMoveToDesktop: (desktopIndex: number) => {
             world.doIfTiledFocused((window, column, oldGrid) => {
                 const desktopNumber = desktopIndex + 1;

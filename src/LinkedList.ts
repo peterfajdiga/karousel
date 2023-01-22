@@ -84,6 +84,20 @@ class LinkedList<T> {
         return this.lastNode.item;
     }
 
+    getItemAtIndex(index: number) {
+        let node = this.firstNode;
+        if (node === null) {
+            return null;
+        }
+        for (let i = 0; i < index; i++) {
+            node = node.next;
+            if (node === null) {
+                return null;
+            }
+        }
+        return node.item;
+    }
+
     remove(item: T) {
         const node = this.getNode(item);
         this.itemMap.delete(item);

@@ -55,5 +55,8 @@ function registerShortcuts(world: World) {
     registerShortcutDbg("basalt-grid-scroll-start", "Basalt: Scroll to start", "Meta+Alt+Home", actions.gridScrollStart);
     registerShortcutDbg("basalt-grid-scroll-end", "Basalt: Scroll to end", "Meta+Alt+End", actions.gridScrollEnd);
 
+    registerNumShortcuts("basalt-focus-", "Basalt: Move focus to column ", "Meta+", actions.focusColumn, 9);
+    registerNumShortcuts("basalt-window-move-to-column-", "Basalt: Move window to column ", "Meta+Shift+", actions.windowMoveToColumn, 9);
+    registerNumShortcuts("basalt-column-move-to-column-", "Basalt: Move column to position ", "Meta+Ctrl+Shift+", actions.columnMoveToColumn, 9);
     registerNumShortcuts("basalt-column-move-to-desktop-", "Basalt: Move column to desktop ", "Meta+Ctrl+Shift+F", actions.columnMoveToDesktop, 12);
 }

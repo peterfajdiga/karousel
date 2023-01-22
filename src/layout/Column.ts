@@ -35,6 +35,14 @@ class Column {
         this.grid.onColumnMoved(this, prevColumn);
     }
 
+    isAfter(other: Column) {
+        return this.gridX > other.gridX;
+    }
+
+    isBefore(other: Column) {
+        return this.gridX < other.gridX;
+    }
+
     moveWindowUp(window: Window) {
         this.windows.moveBack(window);
     }

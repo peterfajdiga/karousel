@@ -66,6 +66,10 @@ class Grid {
         return this.columns.getLast();
     }
 
+    getColumnAtIndex(i: number) {
+        return this.columns.getItemAtIndex(i);
+    }
+
     getLastFocusedColumn() {
         if (this.lastFocusedColumn === null || !this.columns.contains(this.lastFocusedColumn)) {
             return null;
@@ -196,7 +200,7 @@ class Grid {
     }
 
     onColumnMoved(column: Column, prevColumn: Column|null) {
-        const movedLeft = prevColumn === null ? true : column.gridX > prevColumn.gridX;
+        const movedLeft = prevColumn === null ? true : column.isAfter(prevColumn);
         const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
         this.columns.move(column, prevColumn);
         this.columnsSetX(firstMovedColumn);
