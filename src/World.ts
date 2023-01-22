@@ -41,6 +41,7 @@ class World {
                     throw new Error("this.grids.pop returned undefined");
                 }
                 removedGrid.evacuate(evacuationGrid);
+                removedGrid.destroy();
             }
         }
     }

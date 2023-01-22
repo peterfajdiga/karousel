@@ -233,7 +233,6 @@ class Grid {
         for (const column of this.columns.iterator()) {
             column.moveToGrid(targetGrid, targetGrid.getLastColumn());
         }
-        this.destroy();
     }
 
     destroy() {
