@@ -4,7 +4,7 @@ build:
 	tsc --outFile ./basalt/contents/code/main.js
 
 install: build
-	cp -r ./basalt ~/.local/share/kwin/scripts/basalt
+	cp -r ./basalt ~/.local/share/kwin/scripts
 
 run: build
 	./run.sh
