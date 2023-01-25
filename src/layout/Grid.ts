@@ -185,6 +185,10 @@ class Grid {
 
     onColumnRemoved(column: Column, passFocus: boolean) {
         console.assert(column.isEmpty());
+        if (column === this.lastFocusedColumn) {
+            this.lastFocusedColumn = null;
+        }
+
         const lastColumn = this.columns.length() === 1;
         const columnToFocus = lastColumn || !passFocus ? null : this.getPrevColumn(column) ?? this.getNextColumn(column);
         const nextColumn = this.columns.getNext(column);
