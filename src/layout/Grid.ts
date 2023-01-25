@@ -71,7 +71,7 @@ class Grid {
     }
 
     getLastFocusedColumn() {
-        if (this.lastFocusedColumn === null || !this.columns.contains(this.lastFocusedColumn)) {
+        if (this.lastFocusedColumn === null || this.lastFocusedColumn.grid !== this) {
             return null;
         }
         return this.lastFocusedColumn;
