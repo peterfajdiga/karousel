@@ -192,7 +192,7 @@ class Column {
         this.resizeWindows();
 
         if (window.isFocused()) {
-            this.focusTaker = window;
+            this.onWindowFocused(window);
         }
     }
 
