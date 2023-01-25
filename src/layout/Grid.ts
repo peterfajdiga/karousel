@@ -220,6 +220,10 @@ class Grid {
     }
 
     onColumnFocused(column: Column) {
+        const lastFocusedColumn = this.getLastFocusedColumn();
+        if (lastFocusedColumn !== null) {
+            lastFocusedColumn.restoreToTiled();
+        }
         this.lastFocusedColumn = column;
         this.scrollToColumn(column);
     }

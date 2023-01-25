@@ -222,6 +222,13 @@ class Column {
         this.grid.onColumnFocused(this);
     }
 
+    restoreToTiled() {
+        const lastFocusedWindow = this.getFocusTaker();
+        if (lastFocusedWindow !== null) {
+            lastFocusedWindow.restoreToTiled();
+        }
+    }
+
     destroy(passFocus: boolean) {
         this.grid.onColumnRemoved(this, passFocus);
     }

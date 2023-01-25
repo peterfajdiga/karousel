@@ -66,7 +66,10 @@ class Window {
         this.column.onWindowFocused(this);
     }
 
-    onUnfocused() {
+    restoreToTiled() {
+        if (this.isFocused()) {
+            return;
+        }
         this.client.setMaximize(false, false);
         this.client.fullScreen = false;
     }
