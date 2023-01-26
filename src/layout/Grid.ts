@@ -139,7 +139,7 @@ class Grid {
                 minScroll = centerScroll;
                 maxScroll = centerScroll;
             }
-            x = Math.max(minScroll, Math.min(maxScroll, x));
+            x = clamp(x, minScroll, maxScroll);
         }
         this.scrollX = x;
     }
