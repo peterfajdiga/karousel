@@ -218,8 +218,8 @@ class Column {
     }
 
     onWindowFocused(window: Window) {
-        this.focusTaker = window;
         this.grid.onColumnFocused(this);
+        this.focusTaker = window;
     }
 
     restoreToTiled() {
