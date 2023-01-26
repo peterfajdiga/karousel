@@ -44,7 +44,7 @@ function initWorkspaceSignalHandlers(world: World) {
             return;
         }
         if (world.hasClient(client)) {
-            world.removeClient(client);
+            world.removeClient(client, true);
         }
         world.minimizedTiled.delete(client);
     });
@@ -55,7 +55,7 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(workspace.clientMinimized, (client: AbstractClient) => {
         if (world.hasClient(client)) {
-            world.removeClient(client);
+            world.removeClient(client, true);
             world.minimizedTiled.add(client);
         }
     });

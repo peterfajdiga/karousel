@@ -80,7 +80,7 @@ class World {
         grid.arrange();
     }
 
-    removeClient(client: AbstractClient) {
+    removeClient(client: AbstractClient, passFocus: boolean) {
         const clientData = this.clientMap.get(client);
         if (clientData === undefined) {
             return;
@@ -89,7 +89,7 @@ class World {
 
         const window = clientData.window;
         const grid = window.column.grid;
-        window.destroy(client === this.lastFocusedClient);
+        window.destroy(passFocus && client === this.lastFocusedClient);
         grid.arrange();
 
         this.clientMap.delete(client);
@@ -135,7 +135,7 @@ class World {
 
     removeAllClients() {
         for (const client of this.clientMap.keys()) {
-            this.removeClient(client);
+            this.removeClient(client, false);
         }
     }
 
