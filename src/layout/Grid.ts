@@ -4,7 +4,7 @@ class Grid {
     private lastFocusedColumn: Column|null;
     private scrollX: number;
     private width: number;
-    public userResize: boolean; // is any part of the grid being resized by the user
+    private userResize: boolean; // is any part of the grid being resized by the user
     public area: any;
     public desktop: number;
     private userResizeFinishedDelayer: Delayer;
