@@ -33,14 +33,14 @@ class ClientState {
         this.keepAbove = client.keepAbove;
     }
 
-    apply(client: AbstractClient) {
+    apply(client: AbstractClient, screenSize: QRect) {
         const clientRect = client.frameGeometry;
         placeClient(
             client,
-            clientRect.x + UNATTACH_OFFSET.x,
-            clientRect.y + UNATTACH_OFFSET.y,
+            clamp(clientRect.x, screenSize.left, screenSize.right - this.width),
+            clientRect.y,
             this.width,
-            this.height,
+            Math.min(this.height, Math.round(screenSize.height / 2)),
         );
 
         client.keepAbove = this.keepAbove;

@@ -95,7 +95,7 @@ class World {
         this.clientMap.delete(client);
 
         prepareClientForFloating(client);
-        clientData.initialState.apply(client);
+        clientData.initialState.apply(client, grid.area);
     }
 
     hasClient(client: AbstractClient) {
