@@ -31,7 +31,6 @@ class Window {
             // window is being manually resized, prevent fighting with the user
             return;
         }
-        this.client.shade = false;
         placeClient(this.client, x, y, width, height);
         if (this.isFocused()) {
             // do this here rather than in `onFocused` to ensure it happens after placement
@@ -39,15 +38,6 @@ class Window {
             this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
             this.client.fullScreen = this.focusedState.fullScreen;
         }
-    }
-
-    placeShaded(x: number, y: number, width: number) {
-        if (this.skipArrange || this.client.resize) {
-            // window is being manually resized, prevent fighting with the user
-            return;
-        }
-        this.client.shade = true;
-        placeClient(this.client, x, y, width, this.height);
     }
 
     focus() {

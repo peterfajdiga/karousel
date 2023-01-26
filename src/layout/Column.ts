@@ -162,17 +162,27 @@ class Column {
     }
 
     arrangeStacked(x: number) {
-        const nCollapsed = this.getWindowCount() - 1;
         const expandedWindow = this.getFocusTaker();
-        const expandedHeight = this.grid.area.height - nCollapsed * (COLLAPSED_HEIGHT + GAPS_INNER.y);
+        let collapsedHeight;
+        for (const window of this.windows.iterator()) {
+            if (window === expandedWindow) {
+                window.client.shade = false;
+            } else {
+                window.client.shade = true;
+                collapsedHeight = window.client.frameGeometry.height;
+            }
+        }
+
+        const nCollapsed = this.getWindowCount() - 1;
+        const expandedHeight = this.grid.area.height - nCollapsed * (collapsedHeight + GAPS_INNER.y);
         let y = this.grid.area.y;
         for (const window of this.windows.iterator()) {
             if (window === expandedWindow) {
                 window.place(x, y, this.width, expandedHeight);
                 y += expandedHeight;
             } else {
-                window.placeShaded(x, y, this.width);
-                y += COLLAPSED_HEIGHT;
+                window.place(x, y, this.width, window.height);
+                y += collapsedHeight;
             }
             y += GAPS_INNER.y;
         }
