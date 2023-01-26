@@ -6,9 +6,13 @@ function focusClient(client: AbstractClient) {
     workspace.activeClient = client;
 }
 
-function shouldTile(client: AbstractClient) {
+function canTile(client: AbstractClient) {
     // TODO: support windows on all desktops
-    return client.normalWindow && client.desktop > 0 && !client.minimized;
+    return !client.minimized && client.desktop > 0;
+}
+
+function shouldTile(client: AbstractClient) {
+    return canTile(client) && client.normalWindow;
 }
 
 function prepareClientForTiling(client: AbstractClient) {

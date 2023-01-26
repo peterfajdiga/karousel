@@ -139,7 +139,7 @@ function initActions(world: World) {
             const client = workspace.activeClient;
             if (world.hasClient(client)) {
                 world.removeClient(client, false);
-            } else if (shouldTile(client)) {
+            } else if (canTile(client)) {
                 world.addClient(client);
             }
         },
