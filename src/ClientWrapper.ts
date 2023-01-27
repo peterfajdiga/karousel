@@ -52,10 +52,11 @@ class ClientWrapper {
         this.setMaximize(false, false);
 
         const clientRect = this.kwinClient.frameGeometry;
+        const width = this.preferredWidth;
         this.place(
-            clamp(clientRect.x, screenSize.left, screenSize.right - clientRect.width),
+            clamp(clientRect.x, screenSize.left, screenSize.right - width),
             clientRect.y,
-            clientRect.width, // TODO: use preferred width
+            width,
             Math.min(clientRect.height, Math.round(screenSize.height / 2)),
         );
     }
