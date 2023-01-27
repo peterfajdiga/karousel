@@ -1,8 +1,10 @@
 class ClientWrapper {
     public kwinClient: AbstractClient;
+    public preferredWidth: number;
 
     constructor(kwinClient: AbstractClient) {
         this.kwinClient = kwinClient;
+        this.preferredWidth = kwinClient.frameGeometry.width;
     }
 
     place(x: number, y: number, width: number, height: number) {

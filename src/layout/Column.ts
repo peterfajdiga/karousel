@@ -81,7 +81,7 @@ class Column {
         this.width = width;
         if (setPreferred) {
             for (const window of this.windows.iterator()) {
-                window.preferredWidth = width;
+                window.client.preferredWidth = width;
             }
         }
         if (width !== oldWidth) {
@@ -199,7 +199,7 @@ class Column {
     onWindowAdded(window: Window) {
         this.windows.insertEnd(window);
         if (this.width === 0) {
-            this.setWidth(window.preferredWidth, false);
+            this.setWidth(window.client.preferredWidth, false);
         }
         // TODO: also change column width if the new window requires it
 

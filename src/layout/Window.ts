@@ -2,14 +2,12 @@ class Window {
     public column: Column;
     public client: ClientWrapper;
     public height: number;
-    public preferredWidth: number;
     public focusedState: WindowState;
     private skipArrange: boolean;
 
     constructor(client: ClientWrapper, column: Column) {
         this.client = client;
         this.height = client.kwinClient.frameGeometry.height;
-        this.preferredWidth = client.kwinClient.frameGeometry.width;
         this.focusedState = {
             fullScreen: false,
             maximizedHorizontally: false,
