@@ -1,15 +1,15 @@
 class Window {
     public column: Column;
-    public kwinClient: AbstractClient;
+    public client: ClientWrapper;
     public height: number;
     public preferredWidth: number;
     public focusedState: WindowState;
     private skipArrange: boolean;
 
-    constructor(kwinClient: AbstractClient, column: Column) {
-        this.kwinClient = kwinClient;
-        this.height = kwinClient.frameGeometry.height;
-        this.preferredWidth = kwinClient.frameGeometry.width;
+    constructor(client: ClientWrapper, column: Column) {
+        this.client = client;
+        this.height = client.kwinClient.frameGeometry.height;
+        this.preferredWidth = client.kwinClient.frameGeometry.width;
         this.focusedState = {
             fullScreen: false,
             maximizedHorizontally: false,
@@ -26,30 +26,30 @@ class Window {
         targetColumn.onWindowAdded(this);
     }
 
-    place(x: number, y: number, width: number, height: number) {
-        if (this.skipArrange || this.kwinClient.resize) {
+    arrange(x: number, y: number, width: number, height: number) {
+        if (this.skipArrange) {
             // window is being manually resized, prevent fighting with the user
             return;
         }
-        placeClient(this.kwinClient, x, y, width, height);
+        this.client.place(x, y, width, height);
         if (this.isFocused()) {
             // do this here rather than in `onFocused` to ensure it happens after placement
             // (otherwise placement may not happen at all)
-            this.kwinClient.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
-            this.kwinClient.fullScreen = this.focusedState.fullScreen;
+            this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
+            this.client.setFullScreen(this.focusedState.fullScreen);
         }
     }
 
     focus() {
-        if (this.kwinClient.shade) {
+        if (this.client.isShaded()) {
             // workaround for KWin deactivating clients when unshading immediately after activation
-            this.kwinClient.shade = false;
+            this.client.setShade(false);
         }
-        focusClient(this.kwinClient);
+        this.client.focus();
     }
 
     isFocused() {
-        return workspace.activeClient === this.kwinClient;
+        return this.client.isFocused();
     }
 
     onFocused() {
@@ -60,14 +60,14 @@ class Window {
         if (this.isFocused()) {
             return;
         }
-        this.kwinClient.setMaximize(false, false);
-        this.kwinClient.fullScreen = false;
+        this.client.setMaximize(false, false);
+        this.client.setFullScreen(false);
     }
 
     onMaximizedChanged(horizontally: boolean, vertically: boolean) {
         const maximized = horizontally || vertically;
         this.skipArrange = maximized;
-        this.kwinClient.keepBelow = !maximized;
+        this.client.kwinClient.keepBelow = !maximized;
         if (this.isFocused()) {
             this.focusedState.maximizedHorizontally = horizontally;
             this.focusedState.maximizedVertically = vertically;
@@ -77,7 +77,7 @@ class Window {
     onFullScreenChanged(fullScreen: boolean) {
         this.skipArrange = fullScreen;
         if (this.isFocused()) {
-            this.kwinClient.keepBelow = !fullScreen;
+            this.client.kwinClient.keepBelow = !fullScreen;
             this.focusedState.fullScreen = fullScreen;
         }
     }

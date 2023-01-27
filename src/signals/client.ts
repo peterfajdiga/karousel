@@ -1,17 +1,17 @@
 function initClientSignalHandlers(world: World, window: Window) {
-    const kwinClient = window.kwinClient;
+    const client = window.client;
+    const kwinClient = client.kwinClient;
     const manager = new SignalManager();
 
     manager.connect(kwinClient.desktopChanged, () => {
-        if (window.kwinClient.desktop === -1) {
+        if (kwinClient.desktop === -1) {
             // windows on all desktops are not supported
-            world.removeClient(window.kwinClient, false);
+            world.removeClient(kwinClient, false);
         }
     });
 
     let lastResize = false;
     manager.connect(kwinClient.moveResizedChanged, () => {
-        const kwinClient = window.kwinClient;
         if (kwinClient.move) {
             world.removeClient(kwinClient, false);
             return;

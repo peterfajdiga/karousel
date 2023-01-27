@@ -26,7 +26,7 @@ class Column {
             this.grid = targetGrid;
             targetGrid.onColumnAdded(this, prevColumn);
             for (const window of this.windows.iterator()) {
-                window.kwinClient.desktop = targetGrid.desktop;
+                window.client.kwinClient.desktop = targetGrid.desktop;
             }
         }
     }
@@ -156,8 +156,8 @@ class Column {
         }
         let y = this.grid.area.y;
         for (const window of this.windows.iterator()) {
-            window.kwinClient.shade = false;
-            window.place(x, y, this.width, window.height);
+            window.client.setShade(false);
+            window.arrange(x, y, this.width, window.height);
             y += window.height + GAPS_INNER.y;
         }
     }
@@ -167,10 +167,10 @@ class Column {
         let collapsedHeight;
         for (const window of this.windows.iterator()) {
             if (window === expandedWindow) {
-                window.kwinClient.shade = false;
+                window.client.setShade(false);
             } else {
-                window.kwinClient.shade = true;
-                collapsedHeight = window.kwinClient.frameGeometry.height;
+                window.client.setShade(true);
+                collapsedHeight = window.client.kwinClient.frameGeometry.height;
             }
         }
 
@@ -179,10 +179,10 @@ class Column {
         let y = this.grid.area.y;
         for (const window of this.windows.iterator()) {
             if (window === expandedWindow) {
-                window.place(x, y, this.width, expandedHeight);
+                window.arrange(x, y, this.width, expandedHeight);
                 y += expandedHeight;
             } else {
-                window.place(x, y, this.width, window.height);
+                window.arrange(x, y, this.width, window.height);
                 y += collapsedHeight;
             }
             y += GAPS_INNER.y;

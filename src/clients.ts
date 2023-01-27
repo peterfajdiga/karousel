@@ -1,11 +1,3 @@
-function placeClient(kwinClient: AbstractClient, x: number, y: number, width: number, height: number) {
-    kwinClient.frameGeometry = Qt.rect(x, y, width, height);
-}
-
-function focusClient(kwinClient: AbstractClient) {
-    workspace.activeClient = kwinClient;
-}
-
 function canTile(kwinClient: AbstractClient) {
     // TODO: support windows on all desktops
     return !kwinClient.minimized && kwinClient.desktop > 0;
@@ -37,17 +29,16 @@ class ClientState {
         this.keepAbove = kwinClient.keepAbove;
     }
 
-    apply(kwinClient: AbstractClient, screenSize: QRect) {
-        const clientRect = kwinClient.frameGeometry;
-        placeClient(
-            kwinClient,
+    apply(client: ClientWrapper, screenSize: QRect) {
+        const clientRect = client.kwinClient.frameGeometry;
+        client.place(
             clamp(clientRect.x, screenSize.left, screenSize.right - this.width),
             clientRect.y,
             this.width,
             Math.min(this.height, Math.round(screenSize.height / 2)),
         );
 
-        kwinClient.keepAbove = this.keepAbove;
-        kwinClient.shade = false;
+        client.kwinClient.keepAbove = this.keepAbove;
+        client.setShade(false);
     }
 }

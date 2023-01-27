@@ -64,11 +64,12 @@ class World {
     }
 
     addClient(kwinClient: AbstractClient) {
+        const client = new ClientWrapper(kwinClient);
         prepareClientForTiling(kwinClient);
 
         const grid = this.getClientGrid(kwinClient);
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
-        const window = new Window(kwinClient, column);
+        const window = new Window(client, column);
 
         const clientSignalManager = initClientSignalHandlers(this, window);
         this.clientMap.set(kwinClient, {
