@@ -12,7 +12,7 @@ function canTile(client: AbstractClient) {
 }
 
 function shouldTile(client: AbstractClient) {
-    return canTile(client) && client.normalWindow && !PREFER_FLOATING.matches(client);
+    return canTile(client) && client.normalWindow && client.managed && !PREFER_FLOATING.matches(client);
 }
 
 function prepareClientForTiling(client: AbstractClient) {
