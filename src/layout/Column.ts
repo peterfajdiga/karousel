@@ -150,7 +150,7 @@ class Column {
     }
 
     arrange(x: number) {
-        if (this.stacked) {
+        if (this.stacked && this.windows.length() >= 2) {
             this.arrangeStacked(x);
             return;
         }
