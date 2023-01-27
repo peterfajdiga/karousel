@@ -5,11 +5,11 @@ class ClientMatcher {
         this.rules = rules;
     }
 
-    matches(client: AbstractClient) {
-        const rule = this.rules.get(String(client.resourceClass));
+    matches(kwinClient: AbstractClient) {
+        const rule = this.rules.get(String(kwinClient.resourceClass));
         if (rule === undefined) {
             return false;
         }
-        return rule.test(client.caption);
+        return rule.test(kwinClient.caption);
     }
 }

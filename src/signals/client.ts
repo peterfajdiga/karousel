@@ -1,24 +1,24 @@
 function initClientSignalHandlers(world: World, window: Window) {
-    const client = window.client;
+    const kwinClient = window.kwinClient;
     const manager = new SignalManager();
 
-    manager.connect(client.desktopChanged, () => {
-        if (window.client.desktop === -1) {
+    manager.connect(kwinClient.desktopChanged, () => {
+        if (window.kwinClient.desktop === -1) {
             // windows on all desktops are not supported
-            world.removeClient(window.client, false);
+            world.removeClient(window.kwinClient, false);
         }
     });
 
     let lastResize = false;
-    manager.connect(client.moveResizedChanged, () => {
-        const client = window.client;
-        if (client.move) {
-            world.removeClient(client, false);
+    manager.connect(kwinClient.moveResizedChanged, () => {
+        const kwinClient = window.kwinClient;
+        if (kwinClient.move) {
+            world.removeClient(kwinClient, false);
             return;
         }
 
         const grid = window.column.grid;
-        const resize = client.resize;
+        const resize = kwinClient.resize;
         if (!lastResize && resize) {
             grid.onUserResizeStarted();
         }
@@ -28,9 +28,9 @@ function initClientSignalHandlers(world: World, window: Window) {
         lastResize = resize;
     });
 
-    manager.connect(client.frameGeometryChanged, (client: TopLevel, oldGeometry: QRect) => {
-        if (client.resize) {
-            const newGeometry = client.frameGeometry;
+    manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
+        if (kwinClient.resize) {
+            const newGeometry = kwinClient.frameGeometry;
             const column = window.column;
             const grid = column.grid;
 

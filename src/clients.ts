@@ -1,29 +1,29 @@
-function placeClient(client: AbstractClient, x: number, y: number, width: number, height: number) {
-    client.frameGeometry = Qt.rect(x, y, width, height);
+function placeClient(kwinClient: AbstractClient, x: number, y: number, width: number, height: number) {
+    kwinClient.frameGeometry = Qt.rect(x, y, width, height);
 }
 
-function focusClient(client: AbstractClient) {
-    workspace.activeClient = client;
+function focusClient(kwinClient: AbstractClient) {
+    workspace.activeClient = kwinClient;
 }
 
-function canTile(client: AbstractClient) {
+function canTile(kwinClient: AbstractClient) {
     // TODO: support windows on all desktops
-    return !client.minimized && client.desktop > 0;
+    return !kwinClient.minimized && kwinClient.desktop > 0;
 }
 
-function shouldTile(client: AbstractClient) {
-    return canTile(client) && client.normalWindow && client.managed && !PREFER_FLOATING.matches(client);
+function shouldTile(kwinClient: AbstractClient) {
+    return canTile(kwinClient) && kwinClient.normalWindow && kwinClient.managed && !PREFER_FLOATING.matches(kwinClient);
 }
 
-function prepareClientForTiling(client: AbstractClient) {
-    client.keepBelow = true;
-    client.fullScreen = false;
-    client.setMaximize(false, false);
+function prepareClientForTiling(kwinClient: AbstractClient) {
+    kwinClient.keepBelow = true;
+    kwinClient.fullScreen = false;
+    kwinClient.setMaximize(false, false);
 }
 
-function prepareClientForFloating(client: AbstractClient) {
-    client.keepBelow = false;
-    client.setMaximize(false, false);
+function prepareClientForFloating(kwinClient: AbstractClient) {
+    kwinClient.keepBelow = false;
+    kwinClient.setMaximize(false, false);
 }
 
 class ClientState {
@@ -31,23 +31,23 @@ class ClientState {
     height: number;
     keepAbove: boolean;
 
-    constructor(client: AbstractClient) {
-        this.width = client.frameGeometry.width;
-        this.height = client.frameGeometry.height;
-        this.keepAbove = client.keepAbove;
+    constructor(kwinClient: AbstractClient) {
+        this.width = kwinClient.frameGeometry.width;
+        this.height = kwinClient.frameGeometry.height;
+        this.keepAbove = kwinClient.keepAbove;
     }
 
-    apply(client: AbstractClient, screenSize: QRect) {
-        const clientRect = client.frameGeometry;
+    apply(kwinClient: AbstractClient, screenSize: QRect) {
+        const clientRect = kwinClient.frameGeometry;
         placeClient(
-            client,
+            kwinClient,
             clamp(clientRect.x, screenSize.left, screenSize.right - this.width),
             clientRect.y,
             this.width,
             Math.min(this.height, Math.round(screenSize.height / 2)),
         );
 
-        client.keepAbove = this.keepAbove;
-        client.shade = false;
+        kwinClient.keepAbove = this.keepAbove;
+        kwinClient.shade = false;
     }
 }

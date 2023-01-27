@@ -59,29 +59,29 @@ class World {
         return this.grids[workspace.currentDesktop-1];
     }
 
-    getClientGrid(client: AbstractClient) {
-        return this.grids[client.desktop-1];
+    getClientGrid(kwinClient: AbstractClient) {
+        return this.grids[kwinClient.desktop-1];
     }
 
-    addClient(client: AbstractClient) {
-        prepareClientForTiling(client);
+    addClient(kwinClient: AbstractClient) {
+        prepareClientForTiling(kwinClient);
 
-        const grid = this.getClientGrid(client);
+        const grid = this.getClientGrid(kwinClient);
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
-        const window = new Window(client, column);
+        const window = new Window(kwinClient, column);
 
         const clientSignalManager = initClientSignalHandlers(this, window);
-        this.clientMap.set(client, {
+        this.clientMap.set(kwinClient, {
             window: window,
             signalManager: clientSignalManager,
-            initialState: new ClientState(client),
+            initialState: new ClientState(kwinClient),
         });
 
         grid.arrange();
     }
 
-    removeClient(client: AbstractClient, passFocus: boolean) {
-        const clientData = this.clientMap.get(client);
+    removeClient(kwinClient: AbstractClient, passFocus: boolean) {
+        const clientData = this.clientMap.get(kwinClient);
         if (clientData === undefined) {
             return;
         }
@@ -89,25 +89,25 @@ class World {
 
         const window = clientData.window;
         const grid = window.column.grid;
-        window.destroy(passFocus && client === this.lastFocusedClient);
+        window.destroy(passFocus && kwinClient === this.lastFocusedClient);
         grid.arrange();
 
-        this.clientMap.delete(client);
+        this.clientMap.delete(kwinClient);
 
-        prepareClientForFloating(client);
-        clientData.initialState.apply(client, grid.area);
+        prepareClientForFloating(kwinClient);
+        clientData.initialState.apply(kwinClient, grid.area);
     }
 
-    hasClient(client: AbstractClient) {
-        return this.clientMap.has(client);
+    hasClient(kwinClient: AbstractClient) {
+        return this.clientMap.has(kwinClient);
     }
 
-    onClientFocused(client: AbstractClient) {
-        this.lastFocusedClient = client;
+    onClientFocused(kwinClient: AbstractClient) {
+        this.lastFocusedClient = kwinClient;
     }
 
-    doIfTiled(client: AbstractClient, f: (window: Window, column: Column, grid: Grid) => void) {
-        const clientData = this.clientMap.get(client);
+    doIfTiled(kwinClient: AbstractClient, f: (window: Window, column: Column, grid: Grid) => void) {
+        const clientData = this.clientMap.get(kwinClient);
         if (clientData === undefined) {
             return;
         }
@@ -134,8 +134,8 @@ class World {
     }
 
     removeAllClients() {
-        for (const client of this.clientMap.keys()) {
-            this.removeClient(client, false);
+        for (const kwinClient of this.clientMap.keys()) {
+            this.removeClient(kwinClient, false);
         }
     }
 

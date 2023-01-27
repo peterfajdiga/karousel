@@ -136,11 +136,11 @@ function initActions(world: World) {
         },
 
         windowToggleFloating: () => {
-            const client = workspace.activeClient;
-            if (world.hasClient(client)) {
-                world.removeClient(client, false);
-            } else if (canTile(client)) {
-                world.addClient(client);
+            const kwinClient = workspace.activeClient;
+            if (world.hasClient(kwinClient)) {
+                world.removeClient(kwinClient, false);
+            } else if (canTile(kwinClient)) {
+                world.addClient(kwinClient);
             }
         },
 

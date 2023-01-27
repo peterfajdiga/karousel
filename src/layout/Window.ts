@@ -1,15 +1,15 @@
 class Window {
     public column: Column;
-    public client: AbstractClient;
+    public kwinClient: AbstractClient;
     public height: number;
     public preferredWidth: number;
     public focusedState: WindowState;
     private skipArrange: boolean;
 
-    constructor(client: AbstractClient, column: Column) {
-        this.client = client;
-        this.height = client.frameGeometry.height;
-        this.preferredWidth = client.frameGeometry.width;
+    constructor(kwinClient: AbstractClient, column: Column) {
+        this.kwinClient = kwinClient;
+        this.height = kwinClient.frameGeometry.height;
+        this.preferredWidth = kwinClient.frameGeometry.width;
         this.focusedState = {
             fullScreen: false,
             maximizedHorizontally: false,
@@ -27,29 +27,29 @@ class Window {
     }
 
     place(x: number, y: number, width: number, height: number) {
-        if (this.skipArrange || this.client.resize) {
+        if (this.skipArrange || this.kwinClient.resize) {
             // window is being manually resized, prevent fighting with the user
             return;
         }
-        placeClient(this.client, x, y, width, height);
+        placeClient(this.kwinClient, x, y, width, height);
         if (this.isFocused()) {
             // do this here rather than in `onFocused` to ensure it happens after placement
             // (otherwise placement may not happen at all)
-            this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
-            this.client.fullScreen = this.focusedState.fullScreen;
+            this.kwinClient.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
+            this.kwinClient.fullScreen = this.focusedState.fullScreen;
         }
     }
 
     focus() {
-        if (this.client.shade) {
+        if (this.kwinClient.shade) {
             // workaround for KWin deactivating clients when unshading immediately after activation
-            this.client.shade = false;
+            this.kwinClient.shade = false;
         }
-        focusClient(this.client);
+        focusClient(this.kwinClient);
     }
 
     isFocused() {
-        return workspace.activeClient === this.client;
+        return workspace.activeClient === this.kwinClient;
     }
 
     onFocused() {
@@ -60,14 +60,14 @@ class Window {
         if (this.isFocused()) {
             return;
         }
-        this.client.setMaximize(false, false);
-        this.client.fullScreen = false;
+        this.kwinClient.setMaximize(false, false);
+        this.kwinClient.fullScreen = false;
     }
 
     onMaximizedChanged(horizontally: boolean, vertically: boolean) {
         const maximized = horizontally || vertically;
         this.skipArrange = maximized;
-        this.client.keepBelow = !maximized;
+        this.kwinClient.keepBelow = !maximized;
         if (this.isFocused()) {
             this.focusedState.maximizedHorizontally = horizontally;
             this.focusedState.maximizedVertically = vertically;
@@ -77,7 +77,7 @@ class Window {
     onFullScreenChanged(fullScreen: boolean) {
         this.skipArrange = fullScreen;
         if (this.isFocused()) {
-            this.client.keepBelow = !fullScreen;
+            this.kwinClient.keepBelow = !fullScreen;
             this.focusedState.fullScreen = fullScreen;
         }
     }

@@ -1,11 +1,11 @@
 function initWorkspaceSignalHandlers(world: World) {
     const manager = new SignalManager();
 
-    manager.connect(workspace.desktopPresenceChanged, (client: AbstractClient, oldDesktop: number) => {
-        world.doIfTiled(client, (window, column, oldGrid) => {
+    manager.connect(workspace.desktopPresenceChanged, (kwinClient: AbstractClient, oldDesktop: number) => {
+        world.doIfTiled(kwinClient, (window, column, oldGrid) => {
             // all desktops case handled in the client signal handler, because the workspace signal isn't fired for some reason
 
-            const newDesktop = client.desktop;
+            const newDesktop = kwinClient.desktop;
             const newGrid = world.getGrid(newDesktop);
             if (newGrid === null) {
                 throw new Error("grid does not exist");
@@ -22,87 +22,87 @@ function initWorkspaceSignalHandlers(world: World) {
         });
     });
 
-    manager.connect(workspace.currentDesktopChanged, (desktop: number, client: AbstractClient) => {
-        console.log("workspace currentDesktopChanged", desktop, client);
+    manager.connect(workspace.currentDesktopChanged, (desktop: number, kwinClient: AbstractClient) => {
+        console.log("workspace currentDesktopChanged", desktop, kwinClient);
     });
 
-    manager.connect(workspace.clientAdded, (client: AbstractClient) => {
-        console.assert(!world.hasClient(client));
-        if (client.dock) {
+    manager.connect(workspace.clientAdded, (kwinClient: AbstractClient) => {
+        console.assert(!world.hasClient(kwinClient));
+        if (kwinClient.dock) {
             // TODO: also detect when a dock is moved
             world.onScreenResized();
             return;
         }
-        if (shouldTile(client)) {
-            world.addClient(client);
+        if (shouldTile(kwinClient)) {
+            world.addClient(kwinClient);
         }
     });
 
-    manager.connect(workspace.clientRemoved, (client: AbstractClient) => {
-        if (client.dock) {
+    manager.connect(workspace.clientRemoved, (kwinClient: AbstractClient) => {
+        if (kwinClient.dock) {
             world.onScreenResized();
             return;
         }
-        if (world.hasClient(client)) {
-            world.removeClient(client, true);
+        if (world.hasClient(kwinClient)) {
+            world.removeClient(kwinClient, true);
         }
-        world.minimizedTiled.delete(client);
+        world.minimizedTiled.delete(kwinClient);
     });
 
-    manager.connect(workspace.clientManaging, (client: X11Client) => {
-        console.log("workspace clientManaging", client);
+    manager.connect(workspace.clientManaging, (kwinClient: X11Client) => {
+        console.log("workspace clientManaging", kwinClient);
     });
 
-    manager.connect(workspace.clientMinimized, (client: AbstractClient) => {
-        if (world.hasClient(client)) {
-            world.removeClient(client, true);
-            world.minimizedTiled.add(client);
-        }
-    });
-
-    manager.connect(workspace.clientUnminimized, (client: AbstractClient) => {
-        console.assert(!world.hasClient(client));
-        if (world.minimizedTiled.has(client)) {
-            world.minimizedTiled.delete(client);
-            world.addClient(client);
+    manager.connect(workspace.clientMinimized, (kwinClient: AbstractClient) => {
+        if (world.hasClient(kwinClient)) {
+            world.removeClient(kwinClient, true);
+            world.minimizedTiled.add(kwinClient);
         }
     });
 
-    manager.connect(workspace.clientRestored, (client: X11Client) => {
-        console.log("workspace clientRestored", client);
+    manager.connect(workspace.clientUnminimized, (kwinClient: AbstractClient) => {
+        console.assert(!world.hasClient(kwinClient));
+        if (world.minimizedTiled.has(kwinClient)) {
+            world.minimizedTiled.delete(kwinClient);
+            world.addClient(kwinClient);
+        }
     });
 
-    manager.connect(workspace.clientMaximizeSet, (client: AbstractClient, horizontally: boolean, vertically: boolean) => {
-        world.doIfTiled(client, (window, column, grid) => {
+    manager.connect(workspace.clientRestored, (kwinClient: X11Client) => {
+        console.log("workspace clientRestored", kwinClient);
+    });
+
+    manager.connect(workspace.clientMaximizeSet, (kwinClient: AbstractClient, horizontally: boolean, vertically: boolean) => {
+        world.doIfTiled(kwinClient, (window, column, grid) => {
             window.onMaximizedChanged(horizontally, vertically);
             grid.arrange();
         });
     });
 
-    manager.connect(workspace.killWindowCalled, (client: X11Client) => {
-        console.log("workspace killWindowCalled", client);
+    manager.connect(workspace.killWindowCalled, (kwinClient: X11Client) => {
+        console.log("workspace killWindowCalled", kwinClient);
     });
 
-    manager.connect(workspace.clientActivated, (client: AbstractClient) => {
-        if (client === null) {
+    manager.connect(workspace.clientActivated, (kwinClient: AbstractClient) => {
+        if (kwinClient === null) {
             return;
         }
-        world.onClientFocused(client);
-        world.doIfTiled(client, (window, column, grid) => {
+        world.onClientFocused(kwinClient);
+        world.doIfTiled(kwinClient, (window, column, grid) => {
             window.onFocused();
             grid.arrange();
         });
     });
 
-    manager.connect(workspace.clientFullScreenSet, (client: X11Client, fullScreen: boolean, user: boolean) => {
-        world.doIfTiled(client, (window, column, grid) => {
+    manager.connect(workspace.clientFullScreenSet, (kwinClient: X11Client, fullScreen: boolean, user: boolean) => {
+        world.doIfTiled(kwinClient, (window, column, grid) => {
             window.onFullScreenChanged(fullScreen);
             grid.arrange();
         });
     });
 
-    manager.connect(workspace.clientSetKeepAbove, (client: X11Client, keepAbove: boolean) => {
-        console.log("workspace clientSetKeepAbove", client, keepAbove);
+    manager.connect(workspace.clientSetKeepAbove, (kwinClient: X11Client, keepAbove: boolean) => {
+        console.log("workspace clientSetKeepAbove", kwinClient, keepAbove);
     });
 
     manager.connect(workspace.numberDesktopsChanged, (oldNumberOfDesktops: number) => {
@@ -113,8 +113,8 @@ function initWorkspaceSignalHandlers(world: World) {
         console.log("workspace desktopLayoutChanged");
     });
 
-    manager.connect(workspace.clientDemandsAttentionChanged, (client: AbstractClient, set: boolean) => {
-        console.log("workspace clientDemandsAttentionChanged", client, set);
+    manager.connect(workspace.clientDemandsAttentionChanged, (kwinClient: AbstractClient, set: boolean) => {
+        console.log("workspace clientDemandsAttentionChanged", kwinClient, set);
     });
 
     manager.connect(workspace.numberScreensChanged, (count: number) => {
