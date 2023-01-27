@@ -57,7 +57,7 @@ class ClientWrapper {
             clamp(clientRect.x, screenSize.left, screenSize.right - width),
             clientRect.y,
             width,
-            Math.min(clientRect.height, Math.round(screenSize.height / 2)),
+            Math.min(clientRect.height, Math.round(screenSize.height / 2)), // TODO: except non-resizable windows
         );
     }
 }
