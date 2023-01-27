@@ -1,18 +1,22 @@
 class ClientWrapper {
     public kwinClient: AbstractClient;
     public preferredWidth: number;
+    private manipulatingGeometry: Doer;
 
     constructor(kwinClient: AbstractClient) {
         this.kwinClient = kwinClient;
         this.preferredWidth = kwinClient.frameGeometry.width;
+        this.manipulatingGeometry = new Doer();
     }
 
     place(x: number, y: number, width: number, height: number) {
-        if (this.kwinClient.resize) {
-            // window is being manually resized, prevent fighting with the user
-            return;
-        }
-        this.kwinClient.frameGeometry = Qt.rect(x, y, width, height);
+        this.manipulatingGeometry.do(() => {
+            if (this.kwinClient.resize) {
+                // window is being manually resized, prevent fighting with the user
+                return;
+            }
+            this.kwinClient.frameGeometry = Qt.rect(x, y, width, height);
+        });
     }
 
     focus() {
@@ -24,19 +28,29 @@ class ClientWrapper {
     }
 
     setMaximize(horizontally: boolean, vertically: boolean) {
-        this.kwinClient.setMaximize(vertically, horizontally);
+        this.manipulatingGeometry.do(() => {
+            this.kwinClient.setMaximize(vertically, horizontally);
+        });
     }
 
     setFullScreen(fullScreen: boolean) {
-        this.kwinClient.fullScreen = fullScreen;
+        this.manipulatingGeometry.do(() => {
+            this.kwinClient.fullScreen = fullScreen;
+        });
     }
 
     setShade(shade: boolean) {
-        this.kwinClient.shade = shade;
+        this.manipulatingGeometry.do(() => {
+            this.kwinClient.shade = shade;
+        });
     }
 
     isShaded() {
         return this.kwinClient.shade;
+    }
+
+    isManipulatingGeometry() {
+        return this.manipulatingGeometry.isDoing();
     }
 
     prepareForTiling() {
