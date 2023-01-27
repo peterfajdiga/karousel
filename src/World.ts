@@ -65,7 +65,7 @@ class World {
 
     addClient(kwinClient: AbstractClient) {
         const client = new ClientWrapper(kwinClient);
-        prepareClientForTiling(kwinClient);
+        client.prepareForTiling();
 
         const grid = this.getClientGrid(kwinClient);
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
@@ -75,7 +75,6 @@ class World {
         this.clientMap.set(kwinClient, {
             window: window,
             signalManager: clientSignalManager,
-            initialState: new ClientState(kwinClient),
         });
 
         grid.arrange();
@@ -90,13 +89,13 @@ class World {
 
         const window = clientData.window;
         const grid = window.column.grid;
+        const clientWrapper = window.client;
         window.destroy(passFocus && kwinClient === this.lastFocusedClient);
         grid.arrange();
 
         this.clientMap.delete(kwinClient);
 
-        prepareClientForFloating(kwinClient);
-        clientData.initialState.apply(kwinClient, grid.area);
+        clientWrapper.prepareForFloating(grid.area);
     }
 
     hasClient(kwinClient: AbstractClient) {
@@ -156,5 +155,4 @@ class World {
 interface ClientData {
     window: Window;
     signalManager: SignalManager;
-    initialState: ClientState;
 }

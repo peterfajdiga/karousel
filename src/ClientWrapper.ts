@@ -36,4 +36,25 @@ class ClientWrapper {
     isShaded() {
         return this.kwinClient.shade;
     }
+
+    prepareForTiling() {
+        this.kwinClient.keepBelow = true;
+        this.setFullScreen(false);
+        this.setMaximize(false, false);
+    }
+
+    prepareForFloating(screenSize: QRect) {
+        this.kwinClient.keepBelow = false;
+        this.setShade(false);
+        this.setFullScreen(false);
+        this.setMaximize(false, false);
+
+        const clientRect = this.kwinClient.frameGeometry;
+        this.place(
+            clamp(clientRect.x, screenSize.left, screenSize.right - clientRect.width),
+            clientRect.y,
+            clientRect.width, // TODO: use preferred width
+            Math.min(clientRect.height, Math.round(screenSize.height / 2)),
+        );
+    }
 }
