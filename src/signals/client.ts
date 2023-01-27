@@ -29,34 +29,13 @@ function initClientSignalHandlers(world: World, window: Window) {
     });
 
     manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
-        const column = window.column;
-        const grid = column.grid;
-        const newGeometry = kwinClient.frameGeometry;
-
+        console.assert(!kwinClient.move, "moved clients are removed in kwinClient.moveResizedChanged");
+        const grid = window.column.grid;
         if (kwinClient.resize) {
-            const widthDelta = newGeometry.width - oldGeometry.width;
-            const heightDelta = newGeometry.height - oldGeometry.height;
-            if (widthDelta !== 0) {
-                column.adjustWidth(widthDelta, true);
-                if (newGeometry.x !== oldGeometry.x) {
-                    grid.adjustScroll(widthDelta, true);
-                }
-            }
-            if (heightDelta !== 0) {
-                column.adjustWindowHeight(window, heightDelta, newGeometry.y !== oldGeometry.y);
-            }
-            if (widthDelta !== 0 || heightDelta !== 0) {
-                grid.arrange();
-            }
-            return;
-        }
-
-        if (kwinClient.move) {
-            return;
-        }
-
-        if (!client.isManipulatingGeometry()) {
-            column.setWidth(newGeometry.width, true);
+            window.onUserResize(oldGeometry);
+            grid.arrange();
+        } else if (!client.isManipulatingGeometry()) {
+            window.onProgrammaticResize(oldGeometry);
             grid.arrange();
         }
     });

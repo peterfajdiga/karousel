@@ -80,6 +80,26 @@ class Window {
         }
     }
 
+    onUserResize(oldGeometry: QRect) {
+        const newGeometry = this.client.kwinClient.frameGeometry;
+        const widthDelta = newGeometry.width - oldGeometry.width;
+        const heightDelta = newGeometry.height - oldGeometry.height;
+        if (widthDelta !== 0) {
+            this.column.adjustWidth(widthDelta, true);
+            if (newGeometry.x !== oldGeometry.x) {
+                this.column.grid.adjustScroll(widthDelta, true);
+            }
+        }
+        if (heightDelta !== 0) {
+            this.column.adjustWindowHeight(this, heightDelta, newGeometry.y !== oldGeometry.y);
+        }
+    }
+
+    onProgrammaticResize(oldGeometry: QRect) {
+        const newGeometry = this.client.kwinClient.frameGeometry;
+        this.column.setWidth(newGeometry.width, true);
+    }
+
     destroy(passFocus: boolean) {
         this.column.onWindowRemoved(this, passFocus);
     }
