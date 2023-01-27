@@ -48,5 +48,6 @@ class ClientState {
         );
 
         client.keepAbove = this.keepAbove;
+        client.shade = false;
     }
 }
