@@ -190,6 +190,9 @@ class Column {
     }
 
     toggleStacked() {
+        if (this.windows.length() < 2) {
+            return;
+        }
         this.stacked = !this.stacked;
     }
 
