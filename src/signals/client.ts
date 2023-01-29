@@ -34,9 +34,12 @@ function initClientSignalHandlers(world: World, window: Window) {
         if (kwinClient.resize) {
             window.onUserResize(oldGeometry);
             grid.arrange();
-        } else if (!client.isManipulatingGeometry() && !kwinClient.fullScreen) {
-            window.onProgrammaticResize(oldGeometry);
-            grid.arrange();
+        } else {
+            const maximized = rectEqual(kwinClient.frameGeometry, grid.clientArea);
+            if (!client.isManipulatingGeometry() && !kwinClient.fullScreen && !maximized) {
+                window.onProgrammaticResize(oldGeometry);
+                grid.arrange();
+            }
         }
     });
 
