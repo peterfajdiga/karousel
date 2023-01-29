@@ -95,7 +95,7 @@ class World {
 
         this.clientMap.delete(kwinClient);
 
-        clientWrapper.prepareForFloating(grid.tilingArea);
+        clientWrapper.prepareForFloating(grid.clientArea);
     }
 
     hasClient(kwinClient: AbstractClient) {
