@@ -5,7 +5,7 @@ class Grid {
     private scrollX: number;
     private width: number;
     private userResize: boolean; // is any part of the grid being resized by the user
-    public area: any;
+    public area: QRect;
     public desktop: number;
     private userResizeFinishedDelayer: Delayer;
 
