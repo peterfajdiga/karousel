@@ -5,6 +5,7 @@ class Grid {
     private scrollX: number;
     private width: number;
     private userResize: boolean; // is any part of the grid being resized by the user
+    public clientArea: QRect;
     public tilingArea: QRect;
     public desktop: number;
     private userResizeFinishedDelayer: Delayer;
@@ -26,11 +27,13 @@ class Grid {
     }
 
     updateArea() {
-        this.tilingArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
-        this.tilingArea.x += GAPS_OUTER.left;
-        this.tilingArea.y += GAPS_OUTER.top;
-        this.tilingArea.width -= GAPS_OUTER.left + GAPS_OUTER.right;
-        this.tilingArea.height -= GAPS_OUTER.top + GAPS_OUTER.bottom;
+        this.clientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
+        this.tilingArea = Qt.rect(
+            this.clientArea.x + GAPS_OUTER.left,
+            this.clientArea.y + GAPS_OUTER.top,
+            this.clientArea.width - GAPS_OUTER.left - GAPS_OUTER.right,
+            this.clientArea.height - GAPS_OUTER.top - GAPS_OUTER.bottom,
+        )
         for (const column of this.columns.iterator()) {
             column.resizeWindows();
         }
