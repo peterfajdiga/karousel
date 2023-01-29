@@ -34,7 +34,7 @@ function initClientSignalHandlers(world: World, window: Window) {
         if (kwinClient.resize) {
             window.onUserResize(oldGeometry);
             grid.arrange();
-        } else if (!client.isManipulatingGeometry()) {
+        } else if (!client.isManipulatingGeometry() && !kwinClient.fullScreen) {
             window.onProgrammaticResize(oldGeometry);
             grid.arrange();
         }
