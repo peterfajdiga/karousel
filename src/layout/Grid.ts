@@ -5,7 +5,7 @@ class Grid {
     private scrollX: number;
     private width: number;
     private userResize: boolean; // is any part of the grid being resized by the user
-    public area: QRect;
+    public tilingArea: QRect;
     public desktop: number;
     private userResizeFinishedDelayer: Delayer;
 
@@ -26,11 +26,11 @@ class Grid {
     }
 
     updateArea() {
-        this.area = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
-        this.area.x += GAPS_OUTER.left;
-        this.area.y += GAPS_OUTER.top;
-        this.area.width -= GAPS_OUTER.left + GAPS_OUTER.right;
-        this.area.height -= GAPS_OUTER.top + GAPS_OUTER.bottom;
+        this.tilingArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
+        this.tilingArea.x += GAPS_OUTER.left;
+        this.tilingArea.y += GAPS_OUTER.top;
+        this.tilingArea.width -= GAPS_OUTER.left + GAPS_OUTER.right;
+        this.tilingArea.height -= GAPS_OUTER.top + GAPS_OUTER.bottom;
         for (const column of this.columns.iterator()) {
             column.resizeWindows();
         }
@@ -95,7 +95,7 @@ class Grid {
             const left = column.gridX - this.scrollX; // in screen space
             const right = left + column.width; // in screen space
             const x = fullyVisible ? right : left;
-            if (x <= this.area.width) {
+            if (x <= this.tilingArea.width) {
                 last = column;
             } else {
                 break;
@@ -107,12 +107,12 @@ class Grid {
     scrollToColumn(column: Column) {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space
-        const remainingSpace = this.area.width - column.width;
+        const remainingSpace = this.tilingArea.width - column.width;
         const overScrollX = Math.min(AUTO_OVERSCROLL_X, Math.round(remainingSpace / 2));
         if (left < 0) {
             this.adjustScroll(left - overScrollX, false);
-        } else if (right > this.area.width) {
-            this.adjustScroll(right - this.area.width + overScrollX, false);
+        } else if (right > this.tilingArea.width) {
+            this.adjustScroll(right - this.tilingArea.width + overScrollX, false);
         } else {
             this.removeOverscroll();
         }
@@ -133,7 +133,7 @@ class Grid {
     setScroll(x: number, force: boolean) {
         if (!force) {
             let minScroll = 0;
-            let maxScroll = this.width - this.area.width;
+            let maxScroll = this.width - this.tilingArea.width;
             if (maxScroll < 0) {
                 const centerScroll = Math.round(maxScroll / 2);
                 minScroll = centerScroll;
@@ -166,7 +166,7 @@ class Grid {
 
     arrange() {
         // TODO (optimization): only arrange visible windows
-        let x = this.area.x - this.scrollX;
+        let x = this.tilingArea.x - this.scrollX;
         for (const column of this.columns.iterator()) {
             column.arrange(x);
             x += column.getWidth() + GAPS_INNER.x;

@@ -72,7 +72,7 @@ class Column {
     }
 
     getMaxWidth() {
-        return this.grid.area.width;
+        return this.grid.tilingArea.width;
     }
 
     setWidth(width: number, setPreferred: boolean) {
@@ -123,7 +123,7 @@ class Column {
             this.stacked = STACKED_BY_DEFAULT;
         }
 
-        let remainingPixels = this.grid.area.height - (nWindows-1)*GAPS_INNER.y;
+        let remainingPixels = this.grid.tilingArea.height - (nWindows-1)*GAPS_INNER.y;
         let remainingWindows = nWindows;
         for (const window of this.windows.iterator()) {
             const windowHeight = Math.round(remainingPixels / remainingWindows);
@@ -154,7 +154,7 @@ class Column {
             this.arrangeStacked(x);
             return;
         }
-        let y = this.grid.area.y;
+        let y = this.grid.tilingArea.y;
         for (const window of this.windows.iterator()) {
             window.client.setShade(false);
             window.arrange(x, y, this.width, window.height);
@@ -175,8 +175,8 @@ class Column {
         }
 
         const nCollapsed = this.getWindowCount() - 1;
-        const expandedHeight = this.grid.area.height - nCollapsed * (collapsedHeight + GAPS_INNER.y);
-        let y = this.grid.area.y;
+        const expandedHeight = this.grid.tilingArea.height - nCollapsed * (collapsedHeight + GAPS_INNER.y);
+        let y = this.grid.tilingArea.y;
         for (const window of this.windows.iterator()) {
             if (window === expandedWindow) {
                 window.arrange(x, y, this.width, expandedHeight);
