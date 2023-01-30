@@ -8,3 +8,7 @@ const PREFER_FLOATING = new ClientMatcher(new Map(Object.entries({
     "zoom": new RegExp("Zoom Cloud Meetings"),
     "jetbrains-idea": new RegExp("splash"),
 })));
+const PREFER_TILING = new ClientMatcher(new Map(Object.entries({
+    "kfind": new RegExp(".*"),
+    "jetbrains-idea": new RegExp("Unstash Changes|Paths Affected by stash@.*"),
+})));

@@ -328,5 +328,8 @@ function canTile(kwinClient: AbstractClient) {
 }
 
 function shouldTile(kwinClient: AbstractClient) {
-    return canTile(kwinClient) && kwinClient.normalWindow && kwinClient.managed && !PREFER_FLOATING.matches(kwinClient);
+    return canTile(kwinClient) && (
+        PREFER_TILING.matches(kwinClient) ||
+        kwinClient.normalWindow && kwinClient.managed && !PREFER_FLOATING.matches(kwinClient)
+    );
 }
