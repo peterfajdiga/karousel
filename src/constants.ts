@@ -5,6 +5,7 @@ const GRID_SCROLL_STEP = 200;
 const STACKED_BY_DEFAULT = false;
 const PREFER_FLOATING = new ClientMatcher(new Map(Object.entries({
     "ksmserver-logout-greeter": new RegExp(".*"),
+    "kcalc": new RegExp(".*"),
     "zoom": new RegExp("Zoom Cloud Meetings"),
     "jetbrains-idea": new RegExp("splash"),
 })));
