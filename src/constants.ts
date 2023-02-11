@@ -6,7 +6,7 @@ const STACKED_BY_DEFAULT = false;
 const PREFER_FLOATING = new ClientMatcher(new Map(Object.entries({
     "ksmserver-logout-greeter": new RegExp(".*"),
     "kcalc": new RegExp(".*"),
-    "zoom": new RegExp("Zoom Cloud Meetings"),
+    "zoom": new RegExp("^(Zoom Cloud Meetings|zoom)$"),
     "jetbrains-idea": new RegExp("splash"),
 })));
 const PREFER_TILING = new ClientMatcher(new Map(Object.entries({
