@@ -4,13 +4,13 @@ const AUTO_OVERSCROLL_X = 12;
 const GRID_SCROLL_STEP = 200;
 const STACKED_BY_DEFAULT = false;
 const PREFER_FLOATING = new ClientMatcher(new Map(Object.entries({
-    "ksmserver-logout-greeter": new RegExp(".*"),
-    "kcalc": new RegExp(".*"),
-    "kruler": new RegExp(".*"),
+    "ksmserver-logout-greeter": new RegExp(""),
+    "kcalc": new RegExp(""),
+    "kruler": new RegExp(""),
     "zoom": new RegExp("^(Zoom Cloud Meetings|zoom)$"),
     "jetbrains-idea": new RegExp("^splash$"),
 })));
 const PREFER_TILING = new ClientMatcher(new Map(Object.entries({
-    "kfind": new RegExp(".*"),
+    "kfind": new RegExp(""),
     "jetbrains-idea": new RegExp("^(Unstash Changes|Paths Affected by stash@.*)$"),
 })));
