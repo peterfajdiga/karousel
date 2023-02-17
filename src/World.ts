@@ -134,7 +134,7 @@ class World {
     }
 
     removeAllClients() {
-        for (const kwinClient of this.clientMap.keys()) {
+        for (const kwinClient of Array.from(this.clientMap.keys())) {
             this.removeClient(kwinClient, false);
         }
     }
