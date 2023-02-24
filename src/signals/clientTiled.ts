@@ -1,4 +1,4 @@
-function initClientSignalHandlers(world: World, window: Window) {
+function initClientTiledSignalHandlers(world: World, window: Window) {
     const client = window.client;
     const kwinClient = client.kwinClient;
     const manager = new SignalManager();

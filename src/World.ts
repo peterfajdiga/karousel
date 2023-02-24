@@ -71,7 +71,7 @@ class World {
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
         const window = new Window(client, column);
 
-        const clientSignalManager = initClientSignalHandlers(this, window);
+        const clientSignalManager = initClientTiledSignalHandlers(this, window);
         this.clientMap.set(kwinClient, {
             window: window,
             signalManager: clientSignalManager,
