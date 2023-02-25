@@ -33,9 +33,6 @@ function initWorkspaceSignalHandlers(world: World) {
             world.onScreenResized();
             return;
         }
-        if (shouldTile(kwinClient)) {
-            world.addClient(kwinClient);
-        }
     });
 
     manager.connect(workspace.clientRemoved, (kwinClient: AbstractClient) => {

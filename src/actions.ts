@@ -326,10 +326,3 @@ function canTile(kwinClient: AbstractClient) {
     // TODO: support windows on all desktops
     return kwinClient.resizeable && !kwinClient.minimized && kwinClient.desktop > 0;
 }
-
-function shouldTile(kwinClient: AbstractClient) {
-    return canTile(kwinClient) && (
-        PREFER_TILING.matches(kwinClient) ||
-        kwinClient.normalWindow && kwinClient.managed && !PREFER_FLOATING.matches(kwinClient)
-    );
-}

@@ -4,6 +4,7 @@ class World {
     public minimizedTiled: Set<AbstractClient>; // TODO: implement using `clientMap`
     private lastFocusedClient: AbstractClient|null;
     private workspaceSignalManager: SignalManager;
+    private windowRuleEnforcer: WindowRuleEnforcer;
     private screenResizedDelayer: Delayer;
 
     constructor() {
@@ -12,6 +13,7 @@ class World {
         this.minimizedTiled = new Set();
         this.lastFocusedClient = null;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
+        this.windowRuleEnforcer = new WindowRuleEnforcer(this, PREFER_FLOATING, PREFER_TILING);
         this.screenResizedDelayer = new Delayer(1000, () => {
             // this delay ensures that docks get taken into account by `workspace.clientArea`
             const grids = this.grids; // workaround for bug in Qt5's JS engine
@@ -141,6 +143,7 @@ class World {
 
     destroy() {
         this.workspaceSignalManager.disconnect();
+        this.windowRuleEnforcer.destroy();
         this.removeAllClients();
         for (const grid of this.grids) {
             grid.destroy();
