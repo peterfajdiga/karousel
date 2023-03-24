@@ -137,11 +137,7 @@ function initActions(world: World) {
 
         windowToggleFloating: () => {
             const kwinClient = workspace.activeClient;
-            if (world.hasClient(kwinClient)) {
-                world.removeClient(kwinClient, false);
-            } else if (canTile(kwinClient)) {
-                world.addClient(kwinClient);
-            }
+            world.toggleFloatingClient(kwinClient);
         },
 
         columnMoveLeft: () => {

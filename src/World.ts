@@ -96,6 +96,20 @@ class World {
         }
     }
 
+    toggleFloatingClient(kwinClient: AbstractClient) {
+        const clientData = this.clientMap.get(kwinClient);
+        if (clientData === undefined) {
+            return;
+        }
+
+        const clientState = clientData.getState();
+        if (clientState instanceof ClientStateFloating && canTile(kwinClient)) {
+            clientData.setState(new ClientStateTiled(this, kwinClient), false);
+        } else if (clientState instanceof ClientStateTiled) {
+            clientData.setState(new ClientStateFloating(), false);
+        }
+    }
+
     hasClient(kwinClient: AbstractClient) {
         return this.clientMap.has(kwinClient);
     }

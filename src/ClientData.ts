@@ -19,7 +19,7 @@ class ClientData {
     }
 }
 
-type ClientState = ClientStateTiled | ClientStateTiledMinimized;
+type ClientState = ClientStateTiled | ClientStateTiledMinimized | ClientStateFloating;
 
 class ClientStateTiled {
     window: Window;
@@ -52,5 +52,9 @@ class ClientStateTiled {
 }
 
 class ClientStateTiledMinimized {
+    destroy(passFocus: boolean) {}
+}
+
+class ClientStateFloating {
     destroy(passFocus: boolean) {}
 }
