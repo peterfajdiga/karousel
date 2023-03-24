@@ -25,7 +25,15 @@ class ClientStateTiled {
     window: Window;
     private signalManager: SignalManager;
 
-    constructor(world: World, window: Window) {
+    constructor(world: World, kwinClient: AbstractClient) {
+        const client = new ClientWrapper(kwinClient);
+        client.prepareForTiling();
+
+        const grid = world.getClientGrid(kwinClient);
+        const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
+        const window = new Window(client, column);
+        grid.arrange();
+
         this.window = window;
         this.signalManager = initClientTiledSignalHandlers(world, window);
     }

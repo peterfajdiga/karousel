@@ -64,16 +64,7 @@ class World {
     }
 
     addClient(kwinClient: AbstractClient) {
-        const client = new ClientWrapper(kwinClient);
-        client.prepareForTiling();
-
-        const grid = this.getClientGrid(kwinClient);
-        const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
-        const window = new Window(client, column);
-
-        this.clientMap.set(kwinClient, new ClientData(new ClientStateTiled(this, window)));
-
-        grid.arrange();
+        this.clientMap.set(kwinClient, new ClientData(new ClientStateTiled(this, kwinClient)));
     }
 
     removeClient(kwinClient: AbstractClient, passFocus: boolean) {
@@ -101,14 +92,7 @@ class World {
             return;
         }
         if (clientData.getState() instanceof ClientStateTiledMinimized) {
-            const client = new ClientWrapper(kwinClient);
-            client.prepareForTiling();
-
-            const grid = this.getClientGrid(kwinClient);
-            const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
-            const window = new Window(client, column);
-
-            clientData.setState(new ClientStateTiled(this, window), true);
+            clientData.setState(new ClientStateTiled(this, kwinClient), true);
         }
     }
 
