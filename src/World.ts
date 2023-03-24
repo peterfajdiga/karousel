@@ -73,8 +73,8 @@ class World {
     }
 
     addClient(kwinClient: AbstractClient) {
-        const initialState = this.windowRuleEnforcer.shouldTile(kwinClient) ?
-            new ClientStateTiled(this, kwinClient) :
+        const initialState = kwinClient.dock ? new ClientStateDocked(this, kwinClient) :
+            this.windowRuleEnforcer.shouldTile(kwinClient) ? new ClientStateTiled(this, kwinClient) :
             new ClientStateFloating();
         const rulesSignalManager = this.windowRuleEnforcer.initClientSignalManager(this, kwinClient);
         this.clientMap.set(kwinClient, new ClientData(initialState, rulesSignalManager));

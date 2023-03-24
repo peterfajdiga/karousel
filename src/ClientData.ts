@@ -63,3 +63,28 @@ class ClientStateTiledMinimized {
 class ClientStateFloating {
     destroy(passFocus: boolean) {}
 }
+
+class ClientStateDocked {
+    private world: World;
+    private signalManager: SignalManager;
+
+    constructor(world: World, kwinClient: AbstractClient) {
+        this.world = world;
+        this.signalManager = this.initSignalManager(kwinClient);
+        world.onScreenResized();
+    }
+
+    private initSignalManager(kwinClient: AbstractClient) {
+        const world = this.world;
+        const manager = new SignalManager();
+        manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
+            world.onScreenResized();
+        });
+        return manager;
+    }
+
+    destroy(passFocus: boolean) {
+        this.signalManager.disconnect();
+        this.world.onScreenResized();
+    }
+}
