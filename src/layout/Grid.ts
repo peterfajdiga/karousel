@@ -129,7 +129,9 @@ class Grid {
         }
 
         const column = focusedWindow.column;
-        console.assert(column.grid === this);
+        if (column.grid !== this) {
+            return;
+        }
         this.scrollToColumn(column);
     }
 
