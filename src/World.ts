@@ -1,7 +1,6 @@
 class World {
     private grids: Grid[];
     private clientMap: Map<AbstractClient, ClientData>;
-    public minimizedTiled: Set<AbstractClient>; // TODO: implement using `clientMap`
     private lastFocusedClient: AbstractClient|null;
     private workspaceSignalManager: SignalManager;
     private windowRuleEnforcer: WindowRuleEnforcer;
@@ -10,7 +9,6 @@ class World {
     constructor() {
         // TODO: support Plasma activities
         this.clientMap = new Map();
-        this.minimizedTiled = new Set();
         this.lastFocusedClient = null;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
         this.windowRuleEnforcer = new WindowRuleEnforcer(this, PREFER_FLOATING, PREFER_TILING);
@@ -85,6 +83,33 @@ class World {
         }
         clientData.destroy(passFocus && kwinClient === this.lastFocusedClient);
         this.clientMap.delete(kwinClient);
+    }
+
+    minimizeClient(kwinClient: AbstractClient) {
+        const clientData = this.clientMap.get(kwinClient);
+        if (clientData === undefined) {
+            return;
+        }
+        if (clientData.getState() instanceof ClientStateTiled) {
+            clientData.setState(new ClientStateTiledMinimized(), true);
+        }
+    }
+
+    unminimizeClient(kwinClient: AbstractClient) {
+        const clientData = this.clientMap.get(kwinClient);
+        if (clientData === undefined) {
+            return;
+        }
+        if (clientData.getState() instanceof ClientStateTiledMinimized) {
+            const client = new ClientWrapper(kwinClient);
+            client.prepareForTiling();
+
+            const grid = this.getClientGrid(kwinClient);
+            const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
+            const window = new Window(client, column);
+
+            clientData.setState(new ClientStateTiled(this, window), true);
+        }
     }
 
     hasClient(kwinClient: AbstractClient) {

@@ -19,7 +19,7 @@ class ClientData {
     }
 }
 
-type ClientState = ClientStateTiled;
+type ClientState = ClientStateTiled | ClientStateTiledMinimized;
 
 class ClientStateTiled {
     window: Window;
@@ -41,4 +41,8 @@ class ClientStateTiled {
 
         clientWrapper.prepareForFloating(grid.clientArea);
     }
+}
+
+class ClientStateTiledMinimized {
+    destroy(passFocus: boolean) {}
 }

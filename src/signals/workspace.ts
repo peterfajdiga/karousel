@@ -43,7 +43,6 @@ function initWorkspaceSignalHandlers(world: World) {
         if (world.hasClient(kwinClient)) {
             world.removeClient(kwinClient, true);
         }
-        world.minimizedTiled.delete(kwinClient);
     });
 
     manager.connect(workspace.clientManaging, (kwinClient: X11Client) => {
@@ -51,18 +50,11 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(workspace.clientMinimized, (kwinClient: AbstractClient) => {
-        if (world.hasClient(kwinClient)) {
-            world.removeClient(kwinClient, true);
-            world.minimizedTiled.add(kwinClient);
-        }
+        world.minimizeClient(kwinClient);
     });
 
     manager.connect(workspace.clientUnminimized, (kwinClient: AbstractClient) => {
-        console.assert(!world.hasClient(kwinClient));
-        if (world.minimizedTiled.has(kwinClient)) {
-            world.minimizedTiled.delete(kwinClient);
-            world.addClient(kwinClient);
-        }
+        world.unminimizeClient(kwinClient);
     });
 
     manager.connect(workspace.clientRestored, (kwinClient: X11Client) => {
