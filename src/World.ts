@@ -23,6 +23,7 @@ class World {
         });
         this.grids = [];
         this.updateDesktops();
+        this.addExistingClients();
     }
 
     updateDesktops() {
@@ -46,6 +47,14 @@ class World {
         }
     }
 
+    private addExistingClients() {
+        const kwinClients = workspace.clientList();
+        for (let i = 0; i < kwinClients.length; i++) {
+            const kwinClient = kwinClients[i];
+            this.addClient(kwinClient);
+        }
+    }
+
     getGrid(desktopNumber: number) {
         console.assert(desktopNumber > 0);
         const desktopIndex = desktopNumber - 1;
@@ -64,7 +73,11 @@ class World {
     }
 
     addClient(kwinClient: AbstractClient) {
-        this.clientMap.set(kwinClient, new ClientData(new ClientStateTiled(this, kwinClient)));
+        const initialState = this.windowRuleEnforcer.shouldTile(kwinClient) ?
+            new ClientStateTiled(this, kwinClient) :
+            new ClientStateFloating();
+        const rulesSignalManager = this.windowRuleEnforcer.initClientSignalManager(this, kwinClient);
+        this.clientMap.set(kwinClient, new ClientData(initialState, rulesSignalManager));
     }
 
     removeClient(kwinClient: AbstractClient, passFocus: boolean) {
@@ -93,6 +106,27 @@ class World {
         }
         if (clientData.getState() instanceof ClientStateTiledMinimized) {
             clientData.setState(new ClientStateTiled(this, kwinClient), true);
+        }
+    }
+
+    tileClient(kwinClient: AbstractClient) {
+        const clientData = this.clientMap.get(kwinClient);
+        if (clientData === undefined) {
+            return;
+        }
+        if (clientData.getState() instanceof ClientStateTiled) {
+            return;
+        }
+        clientData.setState(new ClientStateTiled(this, kwinClient), false);
+    }
+
+    untileClient(kwinClient: AbstractClient) {
+        const clientData = this.clientMap.get(kwinClient);
+        if (clientData === undefined) {
+            return;
+        }
+        if (clientData.getState() instanceof ClientStateTiled) {
+            clientData.setState(new ClientStateFloating(), false);
         }
     }
 
@@ -162,7 +196,6 @@ class World {
 
     destroy() {
         this.workspaceSignalManager.disconnect();
-        this.windowRuleEnforcer.destroy();
         this.removeAllClients();
         for (const grid of this.grids) {
             grid.destroy();
