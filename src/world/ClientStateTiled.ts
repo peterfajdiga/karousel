@@ -35,14 +35,14 @@ class ClientStateTiled {
         manager.connect(kwinClient.desktopChanged, () => {
             if (kwinClient.desktop === -1) {
                 // windows on all desktops are not supported
-                world.removeClient(kwinClient, false);
+                world.untileClient(kwinClient);
             }
         });
 
         let lastResize = false;
         manager.connect(kwinClient.moveResizedChanged, () => {
             if (kwinClient.move) {
-                world.removeClient(kwinClient, false);
+                world.untileClient(kwinClient);
                 return;
             }
 
