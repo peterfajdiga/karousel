@@ -73,11 +73,7 @@ class World {
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
         const window = new Window(client, column);
 
-        const clientSignalManager = initClientTiledSignalHandlers(this, window);
-        this.clientMap.set(kwinClient, {
-            window: window,
-            signalManager: clientSignalManager,
-        });
+        this.clientMap.set(kwinClient, new ClientData(new ClientStateTiled(this, window)));
 
         grid.arrange();
     }
@@ -87,17 +83,8 @@ class World {
         if (clientData === undefined) {
             return;
         }
-        clientData.signalManager.disconnect();
-
-        const window = clientData.window;
-        const grid = window.column.grid;
-        const clientWrapper = window.client;
-        window.destroy(passFocus && kwinClient === this.lastFocusedClient);
-        grid.arrange();
-
+        clientData.destroy(passFocus && kwinClient === this.lastFocusedClient);
         this.clientMap.delete(kwinClient);
-
-        clientWrapper.prepareForFloating(grid.clientArea);
     }
 
     hasClient(kwinClient: AbstractClient) {
@@ -113,10 +100,14 @@ class World {
         if (clientData === undefined) {
             return;
         }
-        const window = clientData.window;
-        const column = window.column;
-        const grid = column.grid;
-        f(window, column, grid);
+
+        const clientState = clientData.getState();
+        if (clientState instanceof ClientStateTiled) {
+            const window = clientState.window;
+            const column = window.column;
+            const grid = column.grid;
+            f(window, column, grid);
+        }
     }
 
     doIfTiledFocused(f: (window: Window, column: Column, grid: Grid) => void) {
@@ -132,7 +123,12 @@ class World {
         if (clientData === undefined) {
             return null;
         }
-        return clientData.window;
+        const clientState = clientData.getState();
+        if (clientState instanceof ClientStateTiled) {
+            return clientState.window;
+        } else {
+            return null;
+        }
     }
 
     removeAllClients() {
@@ -153,9 +149,4 @@ class World {
     onScreenResized() {
         this.screenResizedDelayer.run();
     }
-}
-
-interface ClientData {
-    window: Window;
-    signalManager: SignalManager;
 }
