@@ -1,13 +1,13 @@
 SHELL := /bin/bash -O extglob
 
 build:
-	tsc --outFile ./basalt/contents/code/main.js
+	tsc --outFile ./karousel/contents/code/main.js
 
 install: build
-	cp -r ./basalt ~/.local/share/kwin/scripts
+	cp -r ./karousel ~/.local/share/kwin/scripts
 
 run: build
 	./run.sh
 
 logs:
-	journalctl -t kwin_x11 -g '^qml:|^file://.*basalt' -f
+	journalctl -t kwin_x11 -g '^qml:|^file://.*karousel' -f

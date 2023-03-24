@@ -1,17 +1,17 @@
 {
     "KPlugin": {
-        "Name": "Basalt",
+        "Name": "Karousel",
         "Description": "Manual columnar tiling extension for KWin",
         "Icon": "preferences-system-windows",
         "Authors": [{
             "Email": "peter.fajdiga@gmail.com",
             "Name": "Peter Fajdiga"
         }],
-        "Id": "basalt",
+        "Id": "karousel",
         "ServiceTypes": ["KWin/Script"],
         "Version": "1.0",
         "License": "GPLv3",
-        "Website": "https://github.com/peterfajdiga/basalt"
+        "Website": "https://github.com/peterfajdiga/karousel"
     },
     "X-Plasma-API": "declarativescript",
     "X-Plasma-MainScript": "code/main.qml"
