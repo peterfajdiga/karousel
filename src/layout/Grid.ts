@@ -27,16 +27,23 @@ class Grid {
     }
 
     updateArea() {
-        this.clientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
+        const newClientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
+        if (newClientArea === this.clientArea) {
+            return;
+        }
+
+        this.clientArea = newClientArea;
         this.tilingArea = Qt.rect(
-            this.clientArea.x + GAPS_OUTER.left,
-            this.clientArea.y + GAPS_OUTER.top,
-            this.clientArea.width - GAPS_OUTER.left - GAPS_OUTER.right,
-            this.clientArea.height - GAPS_OUTER.top - GAPS_OUTER.bottom,
+            newClientArea.x + GAPS_OUTER.left,
+            newClientArea.y + GAPS_OUTER.top,
+            newClientArea.width - GAPS_OUTER.left - GAPS_OUTER.right,
+            newClientArea.height - GAPS_OUTER.top - GAPS_OUTER.bottom,
         )
         for (const column of this.columns.iterator()) {
             column.resizeWindows();
         }
+
+        this.autoAdjustScroll();
     }
 
     moveColumnLeft(column: Column) {
@@ -171,6 +178,7 @@ class Grid {
 
     arrange() {
         // TODO (optimization): only arrange visible windows
+        this.updateArea();
         let x = this.tilingArea.x - this.scrollX;
         for (const column of this.columns.iterator()) {
             column.arrange(x);
