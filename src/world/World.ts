@@ -93,7 +93,7 @@ class World {
             return;
         }
         if (clientData.getState() instanceof ClientStateTiled) {
-            clientData.setState(new ClientStateTiledMinimized(), true);
+            clientData.setState(new ClientStateTiledMinimized(), kwinClient === this.lastFocusedClient);
         }
     }
 
@@ -103,7 +103,7 @@ class World {
             return;
         }
         if (clientData.getState() instanceof ClientStateTiledMinimized) {
-            clientData.setState(new ClientStateTiled(this, kwinClient), true);
+            clientData.setState(new ClientStateTiled(this, kwinClient), false);
         }
     }
 
