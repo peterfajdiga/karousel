@@ -32,9 +32,8 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(workspace.clientRemoved, (kwinClient: AbstractClient) => {
-        if (world.hasClient(kwinClient)) {
-            world.removeClient(kwinClient, true);
-        }
+        console.assert(world.hasClient(kwinClient));
+        world.removeClient(kwinClient, true);
     });
 
     manager.connect(workspace.clientManaging, (kwinClient: X11Client) => {
