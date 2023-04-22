@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <kcfgfile name="kwinrc" />
+    <group name="">
+        <entry name="gapsOuterTop" type="Int">
+            <default>18</default>
+        </entry>
+        <entry name="gapsOuterBottom" type="Int">
+            <default>18</default>
+        </entry>
+        <entry name="gapsOuterLeft" type="Int">
+            <default>18</default>
+        </entry>
+        <entry name="gapsOuterRight" type="Int">
+            <default>18</default>
+        </entry>
+        <entry name="gapsInnerHorizontal" type="Int">
+            <default>18</default>
+        </entry>
+        <entry name="gapsInnerVertical" type="Int">
+            <default>18</default>
+        </entry>
+        <entry name="overscroll" type="Int">
+            <default>18</default>
+        </entry>
+        <entry name="manualScrollStep" type="Int">
+            <default>200</default>
+        </entry>
+        <entry name="stackColumnsByDefault" type="Bool">
+            <default>false</default>
+        </entry>
+    </group>
+</kcfg>

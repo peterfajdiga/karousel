@@ -11,7 +11,7 @@ class Column {
         this.gridX = 0;
         this.width = 0;
         this.windows = new LinkedList();
-        this.stacked = STACKED_BY_DEFAULT;
+        this.stacked = grid.world.config.stackColumnsByDefault;
         this.focusTaker = null;
         this.widthBeforeExpand = 0;
         this.grid = grid;
@@ -120,10 +120,10 @@ class Column {
             return;
         }
         if (nWindows === 1) {
-            this.stacked = STACKED_BY_DEFAULT;
+            this.stacked = this.grid.world.config.stackColumnsByDefault;
         }
 
-        let remainingPixels = this.grid.tilingArea.height - (nWindows-1)*GAPS_INNER.y;
+        let remainingPixels = this.grid.tilingArea.height - (nWindows-1) * this.grid.world.config.gapsInnerVertical;
         let remainingWindows = nWindows;
         for (const window of this.windows.iterator()) {
             const windowHeight = Math.round(remainingPixels / remainingWindows);
@@ -158,7 +158,7 @@ class Column {
         for (const window of this.windows.iterator()) {
             window.client.setShade(false);
             window.arrange(x, y, this.width, window.height);
-            y += window.height + GAPS_INNER.y;
+            y += window.height + this.grid.world.config.gapsInnerVertical;
         }
     }
 
@@ -175,7 +175,7 @@ class Column {
         }
 
         const nCollapsed = this.getWindowCount() - 1;
-        const expandedHeight = this.grid.tilingArea.height - nCollapsed * (collapsedHeight + GAPS_INNER.y);
+        const expandedHeight = this.grid.tilingArea.height - nCollapsed * (collapsedHeight + this.grid.world.config.gapsInnerVertical);
         let y = this.grid.tilingArea.y;
         for (const window of this.windows.iterator()) {
             if (window === expandedWindow) {
@@ -185,7 +185,7 @@ class Column {
                 window.arrange(x, y, this.width, window.height);
                 y += collapsedHeight;
             }
-            y += GAPS_INNER.y;
+            y += this.grid.world.config.gapsInnerVertical;
         }
     }
 

@@ -3,6 +3,7 @@ const console;
 const KWin;
 const Qt;
 const workspace;
+const options;
 
 type AbstractClient = any;
 type TopLevel = any;

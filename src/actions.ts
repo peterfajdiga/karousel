@@ -176,11 +176,11 @@ function initActions(world: World) {
         },
 
         gridScrollLeft: () => {
-            gridScroll(world, -1);
+            gridScroll(world, -world.config.manualScrollStep);
         },
 
         gridScrollRight: () => {
-            gridScroll(world, 1);
+            gridScroll(world, world.config.manualScrollStep);
         },
 
         gridScrollStart: () => {
@@ -311,8 +311,8 @@ function initActions(world: World) {
     };
 }
 
-function gridScroll(world: World, direction: number) {
-    const scrollAmount = GRID_SCROLL_STEP * direction;
+function gridScroll(world: World, amount: number) {
+    const scrollAmount = amount;
     const grid = world.getCurrentGrid();
     grid.adjustScroll(scrollAmount, false);
     grid.arrange();

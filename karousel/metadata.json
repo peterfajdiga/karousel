@@ -14,5 +14,6 @@
         "Website": "https://github.com/peterfajdiga/karousel"
     },
     "X-Plasma-API": "declarativescript",
-    "X-Plasma-MainScript": "code/main.qml"
+    "X-Plasma-MainScript": "code/main.qml",
+    "X-KDE-ConfigModule": "kwin/effects/configs/kcm_kwin4_genericscripted"
 }

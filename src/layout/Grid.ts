@@ -1,5 +1,5 @@
 class Grid {
-    private world: World;
+    public world: World;
     private columns: LinkedList<Column>;
     private lastFocusedColumn: Column|null;
     private scrollX: number;
@@ -34,10 +34,10 @@ class Grid {
 
         this.clientArea = newClientArea;
         this.tilingArea = Qt.rect(
-            newClientArea.x + GAPS_OUTER.left,
-            newClientArea.y + GAPS_OUTER.top,
-            newClientArea.width - GAPS_OUTER.left - GAPS_OUTER.right,
-            newClientArea.height - GAPS_OUTER.top - GAPS_OUTER.bottom,
+            newClientArea.x + this.world.config.gapsOuterLeft,
+            newClientArea.y + this.world.config.gapsOuterTop,
+            newClientArea.width - this.world.config.gapsOuterLeft - this.world.config.gapsOuterRight,
+            newClientArea.height - this.world.config.gapsOuterTop - this.world.config.gapsOuterBottom,
         )
         for (const column of this.columns.iterator()) {
             column.resizeWindows();
@@ -118,7 +118,7 @@ class Grid {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space
         const remainingSpace = this.tilingArea.width - column.width;
-        const overScrollX = Math.min(AUTO_OVERSCROLL_X, Math.round(remainingSpace / 2));
+        const overScrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
         if (left < 0) {
             this.adjustScroll(left - overScrollX, false);
         } else if (right > this.tilingArea.width) {
@@ -166,14 +166,14 @@ class Grid {
 
     columnsSetX(firstMovedColumn: Column|null) {
         const lastUnmovedColumn = firstMovedColumn === null ? this.columns.getLast() : this.columns.getPrev(firstMovedColumn);
-        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.gridX + lastUnmovedColumn.width + GAPS_INNER.x;
+        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.gridX + lastUnmovedColumn.width + this.world.config.gapsInnerHorizontal;
         if (firstMovedColumn !== null) {
             for (const column of this.columns.iteratorFrom(firstMovedColumn)) {
                 column.gridX = x;
-                x += column.width + GAPS_INNER.x;
+                x += column.width + this.world.config.gapsInnerHorizontal;
             }
         }
-        this.width = x - GAPS_INNER.x;
+        this.width = x - this.world.config.gapsInnerHorizontal;
     }
 
     arrange() {
@@ -182,7 +182,7 @@ class Grid {
         let x = this.tilingArea.x - this.scrollX;
         for (const column of this.columns.iterator()) {
             column.arrange(x);
-            x += column.getWidth() + GAPS_INNER.x;
+            x += column.getWidth() + this.world.config.gapsInnerHorizontal;
         }
     }
 

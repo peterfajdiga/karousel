@@ -1,4 +1,5 @@
 class World {
+    public config: Config;
     private grids: Grid[];
     private clientMap: Map<AbstractClient, ClientData>;
     private lastFocusedClient: AbstractClient|null;
@@ -6,7 +7,8 @@ class World {
     private windowRuleEnforcer: WindowRuleEnforcer;
     private screenResizedDelayer: Delayer;
 
-    constructor() {
+    constructor(config: Config) {
+        this.config = config;
         // TODO: support Plasma activities
         this.clientMap = new Map();
         this.lastFocusedClient = null;
