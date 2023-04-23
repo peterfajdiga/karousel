@@ -3,10 +3,11 @@ class WindowRuleEnforcer {
     private preferTiling: ClientMatcher;
     private followCaption: Set<string>;
 
-    constructor(world: World, preferFloating: Map<string, RegExp>, preferTiling: Map<string, RegExp>) {
-        this.preferFloating = new ClientMatcher(preferFloating);
-        this.preferTiling = new ClientMatcher(preferTiling);
-        this.followCaption = new Set([...preferFloating.keys(), ...preferTiling.keys()]);
+    constructor(world: World, windowRules: WindowRule[]) {
+        const [mapFloat, mapTile] = createWindowRuleMaps(windowRules);
+        this.preferFloating = new ClientMatcher(mapFloat);
+        this.preferTiling = new ClientMatcher(mapTile);
+        this.followCaption = new Set([...mapFloat.keys(), ...mapTile.keys()]);
     }
 
     shouldTile(kwinClient: AbstractClient) {
@@ -33,4 +34,50 @@ class WindowRuleEnforcer {
         });
         return manager;
     }
+}
+
+function createWindowRuleMaps(windowRules: WindowRule[]) {
+    const mapFloat = new Map<string, string[]>();
+    const mapTile = new Map<string, string[]>();
+    for (const windowRule of windowRules) {
+        const map = windowRule.tile ? mapTile : mapFloat;
+        let captions = map.get(windowRule.class);
+        if (captions === undefined) {
+            captions = [];
+            map.set(windowRule.class, captions);
+        }
+        if (windowRule.caption !== undefined) {
+            captions.push(windowRule.caption);
+        }
+    }
+
+    return [
+        createWindowRuleRegexMap(mapFloat),
+        createWindowRuleRegexMap(mapTile),
+    ];
+}
+
+function createWindowRuleRegexMap(windowRuleMap: Map<string, string[]>) {
+    const regexMap = new Map<string, RegExp>;
+    for (const [k, v] of windowRuleMap) {
+        regexMap.set(k, joinRegexes(v));
+    }
+    return regexMap;
+}
+
+function joinRegexes(regexes: string[]) {
+    if (regexes.length == 0) {
+        return new RegExp("");
+    }
+
+    if (regexes.length == 1) {
+        return new RegExp("^" + regexes[0] + "$");
+    }
+
+    const joinedRegexes = regexes.map(wrapParens).join("|");
+    return new RegExp("^" + joinedRegexes + "$");
+}
+
+function wrapParens(str: string) {
+    return "(" + str + ")";
 }

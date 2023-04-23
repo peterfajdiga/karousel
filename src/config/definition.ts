@@ -35,4 +35,55 @@ const configDef = [
         "name": "stackColumnsByDefault",
         "default": false
     },
+    {
+        "name": "windowRules",
+        "default": `[
+    {
+        "class": "ksmserver-logout-greeter",
+        "tile": false
+    },
+    {
+        "class": "kcalc",
+        "tile": false
+    },
+    {
+        "class": "kfind",
+        "tile": true
+    },
+    {
+        "class": "kruler",
+        "tile": false
+    },
+    {
+        "class": "zoom",
+        "caption": "Zoom Cloud Meetings",
+        "tile": false
+    },
+    {
+        "class": "zoom",
+        "caption": "zoom",
+        "tile": false
+    },
+    {
+        "class": "jetbrains-idea",
+        "caption": "splash",
+        "tile": false
+    },
+    {
+        "class": "jetbrains-studio",
+        "caption": "splash",
+        "tile": false
+    },
+    {
+        "class": "jetbrains-idea",
+        "caption": "Unstash Changes|Paths Affected by stash@.*",
+        "tile": true
+    },
+    {
+        "class": "jetbrains-studio",
+        "caption": "Unstash Changes|Paths Affected by stash@.*",
+        "tile": true
+    }
+]`
+    }
 ];
