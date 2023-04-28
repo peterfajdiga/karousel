@@ -13,7 +13,15 @@ class World {
         this.clientMap = new Map();
         this.lastFocusedClient = null;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
-        this.windowRuleEnforcer = new WindowRuleEnforcer(this, JSON.parse(config.windowRules));
+
+        let parsedWindowRules: WindowRule[] = [];
+        try {
+            parsedWindowRules = JSON.parse(config.windowRules);
+        } catch (error: any) {
+            console.log("failed to parse windowRules:", error);
+        }
+        this.windowRuleEnforcer = new WindowRuleEnforcer(this, parsedWindowRules);
+
         this.screenResizedDelayer = new Delayer(1000, () => {
             // this delay ensures that docks get taken into account by `workspace.clientArea`
             const grids = this.grids; // workaround for bug in Qt5's JS engine
@@ -21,6 +29,7 @@ class World {
                 grid.arrange();
             }
         });
+
         this.grids = [];
         this.updateDesktops();
         this.addExistingClients();
