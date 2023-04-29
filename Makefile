@@ -1,10 +1,13 @@
 SHELL := /bin/bash -O extglob
+INSTALL_DIR := ~/.local/share/kwin/scripts/karousel
 
 build:
-	tsc --outFile ./karousel/contents/code/main.js
+	tsc --outFile ./package/contents/code/main.js
 
 install: build
-	cp -r ./karousel ~/.local/share/kwin/scripts
+	mkdir -p ${INSTALL_DIR}
+	rm -r ${INSTALL_DIR}/*
+	cp -r ./package/* ${INSTALL_DIR}
 
 run: build
 	./run.sh
