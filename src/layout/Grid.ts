@@ -197,7 +197,6 @@ class Grid {
     }
 
     onColumnRemoved(column: Column, passFocus: boolean) {
-        console.assert(column.isEmpty());
         if (column === this.lastFocusedColumn) {
             this.lastFocusedColumn = null;
         }
