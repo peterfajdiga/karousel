@@ -320,5 +320,5 @@ function gridScroll(world: World, amount: number) {
 
 function canTile(kwinClient: AbstractClient) {
     // TODO: support windows on all desktops
-    return kwinClient.resizeable && !kwinClient.minimized && kwinClient.desktop > 0;
+    return kwinClient.resizeable && !kwinClient.minimized && kwinClient.desktop > 0 && kwinClient.activities.length === 1;
 }

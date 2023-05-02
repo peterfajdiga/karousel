@@ -56,6 +56,13 @@ class ClientStateTiled {
             newGrid.arrange();
         });
 
+        manager.connect(kwinClient.activitiesChanged, (kwinClient: AbstractClient) => {
+            if (kwinClient.activities.length !== 1) {
+                // windows on multiple activities are not supported
+                world.untileClient(kwinClient);
+            }
+        })
+
         let lastResize = false;
         manager.connect(kwinClient.moveResizedChanged, () => {
             if (kwinClient.move) {
