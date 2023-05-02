@@ -2,28 +2,28 @@
 <kcfg xmlns="http://www.kde.org/standards/kcfg/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <kcfgfile name="kwinrc" />
     <group name="">
-        <entry name="gapsOuterTop" type="Int">
+        <entry name="gapsOuterTop" type="UInt">
             <default>18</default>
         </entry>
-        <entry name="gapsOuterBottom" type="Int">
+        <entry name="gapsOuterBottom" type="UInt">
             <default>18</default>
         </entry>
-        <entry name="gapsOuterLeft" type="Int">
+        <entry name="gapsOuterLeft" type="UInt">
             <default>18</default>
         </entry>
-        <entry name="gapsOuterRight" type="Int">
+        <entry name="gapsOuterRight" type="UInt">
             <default>18</default>
         </entry>
-        <entry name="gapsInnerHorizontal" type="Int">
+        <entry name="gapsInnerHorizontal" type="UInt">
             <default>18</default>
         </entry>
-        <entry name="gapsInnerVertical" type="Int">
+        <entry name="gapsInnerVertical" type="UInt">
             <default>18</default>
         </entry>
-        <entry name="overscroll" type="Int">
+        <entry name="overscroll" type="UInt">
             <default>18</default>
         </entry>
-        <entry name="manualScrollStep" type="Int">
+        <entry name="manualScrollStep" type="UInt">
             <default>200</default>
         </entry>
         <entry name="stackColumnsByDefault" type="Bool">
