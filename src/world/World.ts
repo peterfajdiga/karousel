@@ -1,6 +1,6 @@
 class World {
     public config: Config;
-    private grids: Grid[];
+    private gridManager: GridManager;
     private clientMap: Map<AbstractClient, ClientData>;
     private lastFocusedClient: AbstractClient|null;
     private workspaceSignalManager: SignalManager;
@@ -9,7 +9,6 @@ class World {
 
     constructor(config: Config) {
         this.config = config;
-        // TODO: support Plasma activities
         this.clientMap = new Map();
         this.lastFocusedClient = null;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
@@ -24,36 +23,18 @@ class World {
 
         this.screenResizedDelayer = new Delayer(1000, () => {
             // this delay ensures that docks get taken into account by `workspace.clientArea`
-            const grids = this.grids; // workaround for bug in Qt5's JS engine
-            for (const grid of grids) {
+            const gridManager = this.gridManager; // workaround for bug in Qt5's JS engine
+            for (const grid of gridManager.grids()) {
                 grid.arrange();
             }
         });
 
-        this.grids = [];
-        this.updateDesktops();
+        this.gridManager = new GridManager(this, workspace.currentActivity, workspace.desktops);
         this.addExistingClients();
     }
 
     updateDesktops() {
-        const oldDesktopCount = this.grids.length;
-        const newDesktopCount = workspace.desktops;
-        if (newDesktopCount > oldDesktopCount) {
-            for (let i = oldDesktopCount; i < newDesktopCount; i++) {
-                this.grids.push(new Grid(this, i+1));
-            }
-        } else if (newDesktopCount < oldDesktopCount) {
-            const evacuationGrid = this.grids[newDesktopCount-1];
-            const nRemovedDesktops = oldDesktopCount - newDesktopCount;
-            for (let i = 0; i < nRemovedDesktops; i++) {
-                const removedGrid = this.grids.pop();
-                if (removedGrid === undefined) {
-                    throw new Error("this.grids.pop returned undefined");
-                }
-                removedGrid.evacuate(evacuationGrid);
-                removedGrid.destroy();
-            }
-        }
+        this.gridManager.setNDesktops(workspace.desktops);
     }
 
     private addExistingClients() {
@@ -64,21 +45,22 @@ class World {
         }
     }
 
-    getGrid(desktopNumber: number) {
-        console.assert(desktopNumber > 0);
-        const desktopIndex = desktopNumber - 1;
-        if (desktopIndex >= this.grids.length) {
-            return null;
-        }
-        return this.grids[desktopNumber-1];
+    getGrid(activity: string, desktopNumber: number) {
+        console.assert(desktopNumber > 0 && desktopNumber <= workspace.desktops);
+        return this.gridManager.get(activity, desktopNumber);
+    }
+
+    getGridInCurrentActivity(desktopNumber: number) {
+        return this.getGrid(workspace.currentActivity, desktopNumber);
     }
 
     getCurrentGrid() {
-        return this.grids[workspace.currentDesktop-1];
+        return this.getGrid(workspace.currentActivity, workspace.currentDesktop);
     }
 
     getClientGrid(kwinClient: AbstractClient) {
-        return this.grids[kwinClient.desktop-1];
+        console.assert(kwinClient.activities.length === 1);
+        return this.getGrid(kwinClient.activities[0], kwinClient.desktop);
     }
 
     addClient(kwinClient: AbstractClient) {
@@ -206,7 +188,7 @@ class World {
     destroy() {
         this.workspaceSignalManager.disconnect();
         this.removeAllClients();
-        for (const grid of this.grids) {
+        for (const grid of this.gridManager.grids()) {
             grid.destroy();
         }
     }

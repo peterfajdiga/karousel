@@ -286,7 +286,7 @@ function initActions(world: World) {
         columnMoveToDesktop: (desktopIndex: number) => {
             world.doIfTiledFocused((window, column, oldGrid) => {
                 const desktopNumber = desktopIndex + 1;
-                const newGrid = world.getGrid(desktopNumber);
+                const newGrid = world.getGridInCurrentActivity(desktopNumber);
                 if (newGrid === null || newGrid === oldGrid) {
                     return;
                 }
@@ -299,7 +299,7 @@ function initActions(world: World) {
         tailMoveToDesktop: (desktopIndex: number) => {
             world.doIfTiledFocused((window, column, oldGrid) => {
                 const desktopNumber = desktopIndex + 1;
-                const newGrid = world.getGrid(desktopNumber);
+                const newGrid = world.getGridInCurrentActivity(desktopNumber);
                 if (newGrid === null || newGrid === oldGrid) {
                     return;
                 }

@@ -38,29 +38,16 @@ class ClientStateTiled {
                 world.untileClient(kwinClient);
                 return;
             }
-
-            const oldGrid = window.column.grid;
-            const newDesktop = kwinClient.desktop;
-            const newGrid = world.getGrid(newDesktop);
-            if (newGrid === null) {
-                throw new Error("grid does not exist");
-            }
-            if (oldGrid === newGrid) {
-                // window already on the correct grid
-                return;
-            }
-
-            const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
-            window.moveToColumn(newColumn);
-            oldGrid.arrange();
-            newGrid.arrange();
+            ClientStateTiled.moveWindowToCorrectGrid(world, window);
         });
 
         manager.connect(kwinClient.activitiesChanged, (kwinClient: AbstractClient) => {
             if (kwinClient.activities.length !== 1) {
                 // windows on multiple activities are not supported
                 world.untileClient(kwinClient);
+                return;
             }
+            ClientStateTiled.moveWindowToCorrectGrid(world, window);
         })
 
         let lastResize = false;
@@ -97,5 +84,21 @@ class ClientStateTiled {
         });
 
         return manager;
+    }
+
+    static moveWindowToCorrectGrid(world: World, window: Window) {
+        const kwinClient = window.client.kwinClient;
+
+        const oldGrid = window.column.grid;
+        const newGrid = world.getClientGrid(kwinClient);
+        if (oldGrid === newGrid) {
+            // window already on the correct grid
+            return;
+        }
+
+        const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
+        window.moveToColumn(newColumn);
+        oldGrid.arrange();
+        newGrid.arrange();
     }
 }
