@@ -1,6 +1,5 @@
 .PHONY: *
 
-SHELL := /bin/bash -O extglob
 INSTALL_DIR := ~/.local/share/kwin/scripts/karousel
 
 build:
