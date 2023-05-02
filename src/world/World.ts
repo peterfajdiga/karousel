@@ -128,7 +128,8 @@ class World {
         }
 
         const clientState = clientData.getState();
-        if (clientState instanceof ClientStateFloating && canTile(kwinClient)) {
+        if (clientState instanceof ClientStateFloating && canTileEver(kwinClient)) {
+            makeTileable(kwinClient);
             clientData.setState(new ClientStateTiled(this, kwinClient), false);
         } else if (clientState instanceof ClientStateTiled) {
             clientData.setState(new ClientStateFloating(), false);
