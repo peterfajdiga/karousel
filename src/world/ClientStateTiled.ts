@@ -36,7 +36,24 @@ class ClientStateTiled {
             if (kwinClient.desktop === -1) {
                 // windows on all desktops are not supported
                 world.untileClient(kwinClient);
+                return;
             }
+
+            const oldGrid = window.column.grid;
+            const newDesktop = kwinClient.desktop;
+            const newGrid = world.getGrid(newDesktop);
+            if (newGrid === null) {
+                throw new Error("grid does not exist");
+            }
+            if (oldGrid === newGrid) {
+                // window already on the correct grid
+                return;
+            }
+
+            const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
+            window.moveToColumn(newColumn);
+            oldGrid.arrange();
+            newGrid.arrange();
         });
 
         let lastResize = false;

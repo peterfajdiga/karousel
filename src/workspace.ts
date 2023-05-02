@@ -1,27 +1,6 @@
 function initWorkspaceSignalHandlers(world: World) {
     const manager = new SignalManager();
 
-    manager.connect(workspace.desktopPresenceChanged, (kwinClient: AbstractClient, oldDesktop: number) => {
-        world.doIfTiled(kwinClient, (window, column, oldGrid) => {
-            // all desktops case handled in the client signal handler, because the workspace signal isn't fired for some reason
-
-            const newDesktop = kwinClient.desktop;
-            const newGrid = world.getGrid(newDesktop);
-            if (newGrid === null) {
-                throw new Error("grid does not exist");
-            }
-            if (oldGrid === newGrid) {
-                // window already on the correct grid
-                return;
-            }
-
-            const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
-            window.moveToColumn(newColumn);
-            oldGrid.arrange();
-            newGrid.arrange();
-        });
-    });
-
     manager.connect(workspace.currentDesktopChanged, (desktop: number, kwinClient: AbstractClient) => {
         console.log("workspace currentDesktopChanged", desktop, kwinClient);
     });
