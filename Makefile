@@ -2,10 +2,14 @@
 
 INSTALL_DIR := ~/.local/share/kwin/scripts/karousel
 
+config:
+	mkdir -p ./package/contents/config
+	tsc ./src/config/definition.ts ./configgen/kcfg.ts --outFile /dev/stdout | node - > ./package/contents/config/main.xml
+
 build:
 	tsc --outFile ./package/contents/code/main.js
 
-install: build
+install: build config
 	mkdir -p ${INSTALL_DIR}
 	rm -r ${INSTALL_DIR}/*
 	cp -r ./package/* ${INSTALL_DIR}
