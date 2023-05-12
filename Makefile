@@ -14,8 +14,5 @@ install: build config
 	rm -r ${INSTALL_DIR}/*
 	cp -r ./package/* ${INSTALL_DIR}
 
-run: build
-	./run.sh
-
 logs:
 	journalctl -t kwin_x11 -g '^qml:|^file://.*karousel' -f
