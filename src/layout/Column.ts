@@ -131,7 +131,7 @@ class Column {
             remainingPixels -= windowHeight;
             remainingWindows--;
         }
-        // TODO: respect min height and unresizable windows
+        // TODO: respect min height
     }
 
     getFocusTaker() {
