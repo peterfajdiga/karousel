@@ -10,7 +10,7 @@ class SignalManager {
         this.connections.push({ signal: signal, handler: handler });
     }
 
-    disconnect() {
+    destroy() {
         for (const connection of this.connections) {
             connection.signal.disconnect(connection.handler);
         }

@@ -187,7 +187,7 @@ class World {
     }
 
     destroy() {
-        this.workspaceSignalManager.disconnect();
+        this.workspaceSignalManager.destroy();
         this.removeAllClients();
         for (const grid of this.gridManager.grids()) {
             grid.destroy();

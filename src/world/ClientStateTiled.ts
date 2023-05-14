@@ -16,7 +16,7 @@ class ClientStateTiled {
     }
 
     destroy(passFocus: boolean) {
-        this.signalManager.disconnect();
+        this.signalManager.destroy();
 
         const window = this.window;
         const grid = window.column.grid;

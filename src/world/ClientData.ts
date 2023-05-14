@@ -19,7 +19,7 @@ class ClientData {
     destroy(passFocus: boolean) {
         this.state.destroy(passFocus);
         if (this.rulesSignalManager !== null) {
-            this.rulesSignalManager.disconnect();
+            this.rulesSignalManager.destroy();
         }
     }
 }

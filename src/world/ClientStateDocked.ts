@@ -9,7 +9,7 @@ class ClientStateDocked {
     }
 
     destroy(passFocus: boolean) {
-        this.signalManager.disconnect();
+        this.signalManager.destroy();
         this.world.onScreenResized();
     }
 
