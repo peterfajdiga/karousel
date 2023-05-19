@@ -27,7 +27,7 @@ class Grid {
     }
 
     updateArea() {
-        const newClientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop); // TODO: multi-screen support
+        const newClientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop);
         if (newClientArea === this.clientArea) {
             return;
         }
