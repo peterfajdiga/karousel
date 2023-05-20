@@ -1,7 +1,7 @@
 class ClientWrapper {
     public readonly kwinClient: AbstractClient;
     public readonly stateManager: ClientStateManager;
-    private readonly transientFor: ClientWrapper | null;
+    public readonly transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
     private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;

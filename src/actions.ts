@@ -1,7 +1,7 @@
 function initActions(world: World) {
     return {
         focusLeft: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 const prevColumn = grid.getPrevColumn(column);
                 if (prevColumn === null) {
                     return;
@@ -11,7 +11,7 @@ function initActions(world: World) {
         },
 
         focusRight: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 const nextColumn = grid.getNextColumn(column);
                 if (nextColumn === null) {
                     return;
@@ -21,7 +21,7 @@ function initActions(world: World) {
         },
 
         focusUp: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 const prevWindow = column.getPrevWindow(window);
                 if (prevWindow === null) {
                     return;
@@ -31,7 +31,7 @@ function initActions(world: World) {
         },
 
         focusDown: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 const nextWindow = column.getNextWindow(window);
                 if (nextWindow === null) {
                     return;
@@ -61,7 +61,7 @@ function initActions(world: World) {
         },
 
         windowMoveLeft: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 if (column.getWindowCount() === 1) {
                     // move from own column into existing column
                     const prevColumn = grid.getPrevColumn(column);
@@ -80,7 +80,7 @@ function initActions(world: World) {
         },
 
         windowMoveRight: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 if (column.getWindowCount() === 1) {
                     // move from own column into existing column
                     const nextColumn = grid.getNextColumn(column);
@@ -99,21 +99,21 @@ function initActions(world: World) {
         },
 
         windowMoveUp: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveWindowUp(window);
                 grid.arrange(); // TODO (optimization): only arrange moved windows
             });
         },
 
         windowMoveDown: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveWindowDown(window);
                 grid.arrange(); // TODO (optimization): only arrange moved windows
             });
         },
 
         windowMoveStart: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 const newColumn = new Column(grid, null);
                 window.moveToColumn(newColumn);
                 grid.arrange();
@@ -121,7 +121,7 @@ function initActions(world: World) {
         },
 
         windowMoveEnd: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 const newColumn = new Column(grid, grid.getLastColumn());
                 window.moveToColumn(newColumn);
                 grid.arrange();
@@ -129,7 +129,7 @@ function initActions(world: World) {
         },
 
         windowExpand: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(false, (window, column, grid) => {
                 column.toggleStacked();
                 grid.arrange();
             });
@@ -141,35 +141,35 @@ function initActions(world: World) {
         },
 
         columnMoveLeft: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 grid.moveColumnLeft(column);
                 grid.arrange();
             });
         },
 
         columnMoveRight: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 grid.moveColumnRight(column);
                 grid.arrange();
             });
         },
 
         columnMoveStart: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveAfter(null);
                 grid.arrange();
             });
         },
 
         columnMoveEnd: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveAfter(grid.getLastColumn());
                 grid.arrange();
             });
         },
 
         columnExpand: () => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(false, (window, column, grid) => {
                 column.expand();
                 grid.arrange();
             });
@@ -256,7 +256,7 @@ function initActions(world: World) {
         },
 
         windowMoveToColumn: (columnIndex: number) => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 const targetColumn = grid.getColumnAtIndex(columnIndex);
                 if (targetColumn === null) {
                     return null;
@@ -268,7 +268,7 @@ function initActions(world: World) {
         },
 
         columnMoveToColumn: (columnIndex: number) => {
-            world.doIfTiledFocused((window, column, grid) => {
+            world.doIfTiledFocused(true, (window, column, grid) => {
                 const targetColumn = grid.getColumnAtIndex(columnIndex);
                 if (targetColumn === null || targetColumn === column) {
                     return null;
@@ -283,7 +283,7 @@ function initActions(world: World) {
         },
 
         columnMoveToDesktop: (desktopIndex: number) => {
-            world.doIfTiledFocused((window, column, oldGrid) => {
+            world.doIfTiledFocused(true, (window, column, oldGrid) => {
                 const desktopNumber = desktopIndex + 1;
                 const newGrid = world.getGridInCurrentActivity(desktopNumber);
                 if (newGrid === null || newGrid === oldGrid) {
@@ -296,7 +296,7 @@ function initActions(world: World) {
         },
 
         tailMoveToDesktop: (desktopIndex: number) => {
-            world.doIfTiledFocused((window, column, oldGrid) => {
+            world.doIfTiledFocused(true, (window, column, oldGrid) => {
                 const desktopNumber = desktopIndex + 1;
                 const newGrid = world.getGridInCurrentActivity(desktopNumber);
                 if (newGrid === null || newGrid === oldGrid) {

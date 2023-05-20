@@ -165,23 +165,28 @@ class World {
         this.lastFocusedClient = kwinClient;
     }
 
-    doIfTiled(kwinClient: AbstractClient, f: (window: Window, column: Column, grid: Grid) => void) {
-        const client = this.clientMap.get(kwinClient);
-        if (client === undefined) {
-            return;
-        }
-
+    private doIfTiledInner(client: ClientWrapper, followTransient: boolean, f: (window: Window, column: Column, grid: Grid) => void) {
         const clientState = client.stateManager.getState();
         if (clientState instanceof ClientStateTiled) {
             const window = clientState.window;
             const column = window.column;
             const grid = column.grid;
             f(window, column, grid);
+        } else if (followTransient && client.transientFor !== null) {
+            this.doIfTiledInner(client.transientFor, true, f);
         }
     }
 
-    doIfTiledFocused(f: (window: Window, column: Column, grid: Grid) => void) {
-        this.doIfTiled(workspace.activeClient, f);
+    doIfTiled(kwinClient: AbstractClient, followTransient: boolean, f: (window: Window, column: Column, grid: Grid) => void) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
+            return;
+        }
+        this.doIfTiledInner(client, followTransient, f);
+    }
+
+    doIfTiledFocused(followTransient: boolean, f: (window: Window, column: Column, grid: Grid) => void) {
+        this.doIfTiled(workspace.activeClient, followTransient, f);
     }
 
     getFocusedWindow() {
