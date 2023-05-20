@@ -1,13 +1,25 @@
 class ClientWrapper {
     public readonly kwinClient: AbstractClient;
     public readonly stateManager: ClientStateManager;
+    private readonly transientFor: ClientWrapper | null;
+    private readonly transients: ClientWrapper[];
     private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;
     private readonly manipulatingGeometry: Doer;
 
-    constructor(kwinClient: AbstractClient, initialState: ClientState, rulesSignalManager: SignalManager | null) {
+    constructor(
+        kwinClient: AbstractClient,
+        initialState: ClientState,
+        transientFor: ClientWrapper | null,
+        rulesSignalManager: SignalManager | null,
+    ) {
         this.kwinClient = kwinClient;
         this.stateManager = new ClientStateManager(initialState);
+        this.transientFor = transientFor;
+        this.transients = [];
+        if (transientFor !== null) {
+            transientFor.addTransient(this);
+        }
         this.rulesSignalManager = rulesSignalManager;
         this.preferredWidth = kwinClient.frameGeometry.width;
         this.manipulatingGeometry = new Doer();
@@ -79,10 +91,22 @@ class ClientWrapper {
         );
     }
 
+    private addTransient(transient: ClientWrapper) {
+        this.transients.push(transient);
+    }
+
+    private removeTransient(transient: ClientWrapper) {
+        const i = this.transients.indexOf(transient);
+        this.transients.splice(i, 1);
+    }
+
     destroy(passFocus: boolean) {
         this.stateManager.destroy(passFocus);
         if (this.rulesSignalManager !== null) {
             this.rulesSignalManager.destroy();
+        }
+        if (this.transientFor !== null) {
+            this.transientFor.removeTransient(this);
         }
     }
 }

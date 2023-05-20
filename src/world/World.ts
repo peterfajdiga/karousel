@@ -64,9 +64,14 @@ class World {
     }
 
     addClient(kwinClient: AbstractClient) {
-        const rulesSignalManager = this.windowRuleEnforcer.initClientSignalManager(this, kwinClient);
-        const client = new ClientWrapper(kwinClient, new ClientStateFloating(), rulesSignalManager);
+        const client = new ClientWrapper(
+            kwinClient,
+            new ClientStateFloating(),
+            this.findTransientFor(kwinClient),
+            this.windowRuleEnforcer.initClientSignalManager(this, kwinClient),
+        );
         this.clientMap.set(kwinClient, client);
+
         if (kwinClient.dock) {
             client.stateManager.setState(new ClientStateDocked(this, kwinClient), false);
         } else if (this.windowRuleEnforcer.shouldTile(kwinClient)) {
@@ -81,6 +86,19 @@ class World {
         }
         client.destroy(passFocus && kwinClient === this.lastFocusedClient);
         this.clientMap.delete(kwinClient);
+    }
+
+    findTransientFor(kwinClient: AbstractClient) {
+        if (!kwinClient.transient) {
+            return null;
+        }
+
+        const transientFor = this.clientMap.get(kwinClient.transientFor);
+        if (transientFor === undefined) {
+            return null;
+        }
+
+        return transientFor;
     }
 
     minimizeClient(kwinClient: AbstractClient) {
