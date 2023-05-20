@@ -247,13 +247,12 @@ function initActions(world: World) {
         },
 
         focusColumn: (columnIndex: number) => {
-            world.doIfTiledFocused((window, column, grid) => {
-                const targetColumn = grid.getColumnAtIndex(columnIndex);
-                if (targetColumn === null) {
-                    return null;
-                }
-                targetColumn.focus();
-            });
+            const grid = world.getCurrentGrid();
+            const targetColumn = grid.getColumnAtIndex(columnIndex);
+            if (targetColumn === null) {
+                return null;
+            }
+            targetColumn.focus();
         },
 
         windowMoveToColumn: (columnIndex: number) => {
