@@ -1,6 +1,6 @@
 class ClientStateTiled {
-    window: Window;
-    private signalManager: SignalManager;
+    readonly window: Window;
+    private readonly signalManager: SignalManager;
 
     constructor(world: World, kwinClient: AbstractClient) {
         const client = new ClientWrapper(kwinClient);

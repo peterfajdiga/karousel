@@ -1,6 +1,6 @@
 class GridManager {
-    private world: World;
-    private gridsPerActivity: Map<string, Grid[]>;
+    private readonly world: World;
+    private readonly gridsPerActivity: Map<string, Grid[]>;
     private nDesktops: number;
 
     constructor(world: World, currentActivity: string, nDesktops: number) {

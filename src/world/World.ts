@@ -1,11 +1,11 @@
 class World {
-    public config: Config;
-    private gridManager: GridManager;
-    private clientMap: Map<AbstractClient, ClientData>;
+    public readonly config: Config;
+    private readonly gridManager: GridManager;
+    private readonly clientMap: Map<AbstractClient, ClientData>;
     private lastFocusedClient: AbstractClient|null;
-    private workspaceSignalManager: SignalManager;
-    private windowRuleEnforcer: WindowRuleEnforcer;
-    private screenResizedDelayer: Delayer;
+    private readonly workspaceSignalManager: SignalManager;
+    private readonly windowRuleEnforcer: WindowRuleEnforcer;
+    private readonly screenResizedDelayer: Delayer;
 
     constructor(config: Config) {
         this.config = config;

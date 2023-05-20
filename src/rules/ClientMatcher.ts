@@ -1,5 +1,5 @@
 class ClientMatcher {
-    private rules: Map<string, RegExp>;
+    private readonly rules: Map<string, RegExp>;
 
     constructor(rules: Map<string, RegExp>) {
         this.rules = rules;

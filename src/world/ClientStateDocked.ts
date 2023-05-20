@@ -1,6 +1,6 @@
 class ClientStateDocked {
-    private world: World;
-    private signalManager: SignalManager;
+    private readonly world: World;
+    private readonly signalManager: SignalManager;
 
     constructor(world: World, kwinClient: AbstractClient) {
         this.world = world;

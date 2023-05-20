@@ -1,7 +1,7 @@
 class LinkedList<T> {
     private firstNode: LinkedListNode<T>|null;
     private lastNode: LinkedListNode<T>|null;
-    private itemMap: Map<T, LinkedListNode<T>>;
+    private readonly itemMap: Map<T, LinkedListNode<T>>;
 
     constructor() {
         this.firstNode = null;
@@ -196,7 +196,7 @@ class LinkedList<T> {
 
 // TODO (optimization): reuse nodes
 class LinkedListNode<T> {
-    public item: T;
+    public readonly item: T;
     public prev: LinkedListNode<T>|null;
     public next: LinkedListNode<T>|null;
 

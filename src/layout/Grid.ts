@@ -1,14 +1,14 @@
 class Grid {
-    public world: World;
-    private columns: LinkedList<Column>;
+    public readonly world: World;
+    private readonly columns: LinkedList<Column>;
     private lastFocusedColumn: Column|null;
     private scrollX: number;
     private width: number;
     private userResize: boolean; // is any part of the grid being resized by the user
     public clientArea: QRect;
     public tilingArea: QRect;
-    public desktop: number;
-    private userResizeFinishedDelayer: Delayer;
+    public readonly desktop: number;
+    private readonly userResizeFinishedDelayer: Delayer;
 
     constructor(world: World, desktop: number) {
         this.world = world;

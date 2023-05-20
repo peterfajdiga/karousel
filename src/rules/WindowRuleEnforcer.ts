@@ -1,7 +1,7 @@
 class WindowRuleEnforcer {
-    private preferFloating: ClientMatcher;
-    private preferTiling: ClientMatcher;
-    private followCaption: Set<string>;
+    private readonly preferFloating: ClientMatcher;
+    private readonly preferTiling: ClientMatcher;
+    private readonly followCaption: Set<string>;
 
     constructor(world: World, windowRules: WindowRule[]) {
         const [mapFloat, mapTile] = createWindowRuleMaps(windowRules);

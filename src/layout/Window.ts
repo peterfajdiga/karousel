@@ -1,8 +1,8 @@
 class Window {
     public column: Column;
-    public client: ClientWrapper;
+    public readonly client: ClientWrapper;
     public height: number;
-    public focusedState: WindowState;
+    public readonly focusedState: WindowState;
     private skipArrange: boolean;
 
     constructor(client: ClientWrapper, column: Column) {

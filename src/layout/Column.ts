@@ -2,7 +2,7 @@ class Column {
     public grid: Grid;
     public gridX: number;
     public width: number;
-    private windows: LinkedList<Window>;
+    private readonly windows: LinkedList<Window>;
     private stacked: boolean;
     private focusTaker: Window|null;
     private widthBeforeExpand: number;

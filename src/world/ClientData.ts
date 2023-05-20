@@ -1,6 +1,6 @@
 class ClientData {
     private state: ClientState;
-    private rulesSignalManager: SignalManager | null;
+    private readonly rulesSignalManager: SignalManager | null;
 
     constructor(initialState: ClientState, rulesSignalManager: SignalManager | null) {
         this.state = initialState;

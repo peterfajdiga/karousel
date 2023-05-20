@@ -1,7 +1,7 @@
 class ClientWrapper {
-    public kwinClient: AbstractClient;
+    public readonly kwinClient: AbstractClient;
     public preferredWidth: number;
-    private manipulatingGeometry: Doer;
+    private readonly manipulatingGeometry: Doer;
 
     constructor(kwinClient: AbstractClient) {
         this.kwinClient = kwinClient;

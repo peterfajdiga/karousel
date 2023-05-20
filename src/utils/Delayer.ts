@@ -1,5 +1,5 @@
 class Delayer {
-    private timer: QQmlTimer;
+    private readonly timer: QQmlTimer;
 
     constructor(delay: number, f: () => void) {
         this.timer = initQmlTimer();
