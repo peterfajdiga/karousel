@@ -1,7 +1,7 @@
 class World {
     public readonly config: Config;
     private readonly gridManager: GridManager;
-    private readonly clientMap: Map<AbstractClient, ClientData>;
+    private readonly clientMap: Map<AbstractClient, ClientWrapper>;
     private lastFocusedClient: AbstractClient|null;
     private readonly workspaceSignalManager: SignalManager;
     private readonly windowRuleEnforcer: WindowRuleEnforcer;
@@ -64,75 +64,78 @@ class World {
     }
 
     addClient(kwinClient: AbstractClient) {
-        const initialState = kwinClient.dock ? new ClientStateDocked(this, kwinClient) :
-            this.windowRuleEnforcer.shouldTile(kwinClient) ? new ClientStateTiled(this, kwinClient) :
-            new ClientStateFloating();
         const rulesSignalManager = this.windowRuleEnforcer.initClientSignalManager(this, kwinClient);
-        this.clientMap.set(kwinClient, new ClientData(initialState, rulesSignalManager));
+        const client = new ClientWrapper(kwinClient, new ClientStateFloating(), rulesSignalManager);
+        this.clientMap.set(kwinClient, client);
+        if (kwinClient.dock) {
+            client.stateManager.setState(new ClientStateDocked(this, kwinClient), false);
+        } else if (this.windowRuleEnforcer.shouldTile(kwinClient)) {
+            client.stateManager.setState(new ClientStateTiled(this, client), false);
+        }
     }
 
     removeClient(kwinClient: AbstractClient, passFocus: boolean) {
-        const clientData = this.clientMap.get(kwinClient);
-        if (clientData === undefined) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
             return;
         }
-        clientData.destroy(passFocus && kwinClient === this.lastFocusedClient);
+        client.destroy(passFocus && kwinClient === this.lastFocusedClient);
         this.clientMap.delete(kwinClient);
     }
 
     minimizeClient(kwinClient: AbstractClient) {
-        const clientData = this.clientMap.get(kwinClient);
-        if (clientData === undefined) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
             return;
         }
-        if (clientData.getState() instanceof ClientStateTiled) {
-            clientData.setState(new ClientStateTiledMinimized(), kwinClient === this.lastFocusedClient);
+        if (client.stateManager.getState() instanceof ClientStateTiled) {
+            client.stateManager.setState(new ClientStateTiledMinimized(), kwinClient === this.lastFocusedClient);
         }
     }
 
     unminimizeClient(kwinClient: AbstractClient) {
-        const clientData = this.clientMap.get(kwinClient);
-        if (clientData === undefined) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
             return;
         }
-        if (clientData.getState() instanceof ClientStateTiledMinimized) {
-            clientData.setState(new ClientStateTiled(this, kwinClient), false);
+        if (client.stateManager.getState() instanceof ClientStateTiledMinimized) {
+            client.stateManager.setState(new ClientStateTiled(this, client), false);
         }
     }
 
     tileClient(kwinClient: AbstractClient) {
-        const clientData = this.clientMap.get(kwinClient);
-        if (clientData === undefined) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
             return;
         }
-        if (clientData.getState() instanceof ClientStateTiled) {
+        if (client.stateManager.getState() instanceof ClientStateTiled) {
             return;
         }
-        clientData.setState(new ClientStateTiled(this, kwinClient), false);
+        client.stateManager.setState(new ClientStateTiled(this, client), false);
     }
 
     untileClient(kwinClient: AbstractClient) {
-        const clientData = this.clientMap.get(kwinClient);
-        if (clientData === undefined) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
             return;
         }
-        if (clientData.getState() instanceof ClientStateTiled) {
-            clientData.setState(new ClientStateFloating(), false);
+        if (client.stateManager.getState() instanceof ClientStateTiled) {
+            client.stateManager.setState(new ClientStateFloating(), false);
         }
     }
 
     toggleFloatingClient(kwinClient: AbstractClient) {
-        const clientData = this.clientMap.get(kwinClient);
-        if (clientData === undefined) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
             return;
         }
 
-        const clientState = clientData.getState();
+        const clientState = client.stateManager.getState();
         if (clientState instanceof ClientStateFloating && canTileEver(kwinClient)) {
             makeTileable(kwinClient);
-            clientData.setState(new ClientStateTiled(this, kwinClient), false);
+            client.stateManager.setState(new ClientStateTiled(this, client), false);
         } else if (clientState instanceof ClientStateTiled) {
-            clientData.setState(new ClientStateFloating(), false);
+            client.stateManager.setState(new ClientStateFloating(), false);
         }
     }
 
@@ -145,12 +148,12 @@ class World {
     }
 
     doIfTiled(kwinClient: AbstractClient, f: (window: Window, column: Column, grid: Grid) => void) {
-        const clientData = this.clientMap.get(kwinClient);
-        if (clientData === undefined) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
             return;
         }
 
-        const clientState = clientData.getState();
+        const clientState = client.stateManager.getState();
         if (clientState instanceof ClientStateTiled) {
             const window = clientState.window;
             const column = window.column;
@@ -168,11 +171,11 @@ class World {
         if (activeClient === null) {
             return null;
         }
-        const clientData = this.clientMap.get(activeClient);
-        if (clientData === undefined) {
+        const client = this.clientMap.get(activeClient);
+        if (client === undefined) {
             return null;
         }
-        const clientState = clientData.getState();
+        const clientState = client.stateManager.getState();
         if (clientState instanceof ClientStateTiled) {
             return clientState.window;
         } else {

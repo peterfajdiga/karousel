@@ -2,11 +2,10 @@ class ClientStateTiled {
     readonly window: Window;
     private readonly signalManager: SignalManager;
 
-    constructor(world: World, kwinClient: AbstractClient) {
-        const client = new ClientWrapper(kwinClient);
+    constructor(world: World, client: ClientWrapper) {
         client.prepareForTiling();
 
-        const grid = world.getClientGrid(kwinClient);
+        const grid = world.getClientGrid(client.kwinClient);
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
         const window = new Window(client, column);
         grid.arrange();

@@ -1,10 +1,14 @@
 class ClientWrapper {
     public readonly kwinClient: AbstractClient;
+    public readonly stateManager: ClientStateManager;
+    private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;
     private readonly manipulatingGeometry: Doer;
 
-    constructor(kwinClient: AbstractClient) {
+    constructor(kwinClient: AbstractClient, initialState: ClientState, rulesSignalManager: SignalManager | null) {
         this.kwinClient = kwinClient;
+        this.stateManager = new ClientStateManager(initialState);
+        this.rulesSignalManager = rulesSignalManager;
         this.preferredWidth = kwinClient.frameGeometry.width;
         this.manipulatingGeometry = new Doer();
     }
@@ -73,5 +77,12 @@ class ClientWrapper {
             width,
             Math.min(clientRect.height, Math.round(screenSize.height / 2)),
         );
+    }
+
+    destroy(passFocus: boolean) {
+        this.stateManager.destroy(passFocus);
+        if (this.rulesSignalManager !== null) {
+            this.rulesSignalManager.destroy();
+        }
     }
 }

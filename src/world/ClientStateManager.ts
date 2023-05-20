@@ -1,10 +1,8 @@
-class ClientData {
+class ClientStateManager {
     private state: ClientState;
-    private readonly rulesSignalManager: SignalManager | null;
 
-    constructor(initialState: ClientState, rulesSignalManager: SignalManager | null) {
+    constructor(initialState: ClientState) {
         this.state = initialState;
-        this.rulesSignalManager = rulesSignalManager;
     }
 
     setState(newState: ClientState, passFocus: boolean) {
@@ -18,9 +16,6 @@ class ClientData {
 
     destroy(passFocus: boolean) {
         this.state.destroy(passFocus);
-        if (this.rulesSignalManager !== null) {
-            this.rulesSignalManager.destroy();
-        }
     }
 }
 
