@@ -19,7 +19,7 @@ class ClientStateManager {
     }
 }
 
-type ClientState = ClientStateTiled | ClientStateTiledMinimized | ClientStateFloating;
+type ClientState = ClientStateTiled | ClientStateTiledMinimized | ClientStateFloating | ClientStateDocked;
 
 class ClientStateTiledMinimized {
     destroy(passFocus: boolean) {}
