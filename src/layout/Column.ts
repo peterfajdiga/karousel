@@ -32,6 +32,9 @@ class Column {
     }
 
     moveAfter(prevColumn: Column|null) {
+        if (prevColumn === this) {
+            return;
+        }
         this.grid.onColumnMoved(this, prevColumn);
     }
 

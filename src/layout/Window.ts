@@ -19,6 +19,9 @@ class Window {
     }
 
     moveToColumn(targetColumn: Column) {
+        if (targetColumn === this.column) {
+            return;
+        }
         this.column.onWindowRemoved(this, false);
         this.column = targetColumn;
         targetColumn.onWindowAdded(this);
