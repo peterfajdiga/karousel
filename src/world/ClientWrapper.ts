@@ -46,6 +46,7 @@ class ClientWrapper {
     }
 
     private moveTransient(dx: number, dy: number) {
+        // TODO: prevent moving above or below the screen
         if (this.stateManager.getState() instanceof ClientStateFloating) {
             const frame = this.kwinClient.frameGeometry;
             this.kwinClient.frameGeometry = Qt.rect(
