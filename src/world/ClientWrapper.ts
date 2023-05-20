@@ -26,6 +26,10 @@ class ClientWrapper {
     }
 
     place(x: number, y: number, width: number, height: number) {
+        const frame = this.kwinClient.frameGeometry;
+        const dx = x - frame.x;
+        const dy = y - frame.y;
+
         this.manipulatingGeometry.do(() => {
             if (this.kwinClient.resize) {
                 // window is being manually resized, prevent fighting with the user
@@ -33,6 +37,28 @@ class ClientWrapper {
             }
             this.kwinClient.frameGeometry = Qt.rect(x, y, width, height);
         });
+
+        if (this.stateManager.getState() instanceof ClientStateTiled) {
+            for (const transient of this.transients) {
+                transient.moveTransient(dx, dy);
+            }
+        }
+    }
+
+    private moveTransient(dx: number, dy: number) {
+        if (this.stateManager.getState() instanceof ClientStateFloating) {
+            const frame = this.kwinClient.frameGeometry;
+            this.kwinClient.frameGeometry = Qt.rect(
+                frame.x + dx,
+                frame.y + dy,
+                frame.width,
+                frame.height,
+            );
+
+            for (const transient of this.transients) {
+                transient.moveTransient(dx, dy);
+            }
+        }
     }
 
     focus() {
