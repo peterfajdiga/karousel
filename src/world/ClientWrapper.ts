@@ -27,8 +27,12 @@ class ClientWrapper {
 
     place(x: number, y: number, width: number, height: number) {
         const frame = this.kwinClient.frameGeometry;
-        const dx = x - frame.x;
-        const dy = y - frame.y;
+        const oldCenterX = frame.x + frame.width/2;
+        const oldCenterY = frame.y + frame.height/2;
+        const newCenterX = x + width/2;
+        const newCenterY = y + height/2;
+        const dx = Math.round(newCenterX - oldCenterX);
+        const dy = Math.round(newCenterY - oldCenterY);
 
         this.manipulatingGeometry.do(() => {
             if (this.kwinClient.resize) {
@@ -46,7 +50,7 @@ class ClientWrapper {
     }
 
     private moveTransient(dx: number, dy: number) {
-        // TODO: prevent moving above or below the screen
+        // TODO: prevent moving off the grid
         if (this.stateManager.getState() instanceof ClientStateFloating) {
             const frame = this.kwinClient.frameGeometry;
             this.kwinClient.frameGeometry = Qt.rect(
