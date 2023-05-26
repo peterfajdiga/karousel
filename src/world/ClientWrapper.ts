@@ -1,7 +1,7 @@
 class ClientWrapper {
     public readonly kwinClient: AbstractClient;
     public readonly stateManager: ClientStateManager;
-    public readonly transientFor: ClientWrapper | null;
+    public transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
     private readonly signalManager: SignalManager;
     private readonly rulesSignalManager: SignalManager | null;
@@ -127,6 +127,9 @@ class ClientWrapper {
         }
         if (this.transientFor !== null) {
             this.transientFor.removeTransient(this);
+        }
+        for (const transient of this.transients) {
+            transient.transientFor = null;
         }
     }
 
