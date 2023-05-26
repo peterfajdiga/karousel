@@ -3,6 +3,7 @@ class ClientWrapper {
     public readonly stateManager: ClientStateManager;
     public readonly transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
+    private readonly signalManager: SignalManager;
     private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;
     private readonly manipulatingGeometry: Doer;
@@ -20,20 +21,13 @@ class ClientWrapper {
         if (transientFor !== null) {
             transientFor.addTransient(this);
         }
+        this.signalManager = ClientWrapper.initSignalManager(this);
         this.rulesSignalManager = rulesSignalManager;
         this.preferredWidth = kwinClient.frameGeometry.width;
         this.manipulatingGeometry = new Doer();
     }
 
     place(x: number, y: number, width: number, height: number) {
-        const frame = this.kwinClient.frameGeometry;
-        const oldCenterX = frame.x + frame.width/2;
-        const oldCenterY = frame.y + frame.height/2;
-        const newCenterX = x + width/2;
-        const newCenterY = y + height/2;
-        const dx = Math.round(newCenterX - oldCenterX);
-        const dy = Math.round(newCenterY - oldCenterY);
-
         this.manipulatingGeometry.do(() => {
             if (this.kwinClient.resize) {
                 // window is being manually resized, prevent fighting with the user
@@ -41,12 +35,6 @@ class ClientWrapper {
             }
             this.kwinClient.frameGeometry = Qt.rect(x, y, width, height);
         });
-
-        if (this.stateManager.getState() instanceof ClientStateTiled) {
-            for (const transient of this.transients) {
-                transient.moveTransient(dx, dy);
-            }
-        }
     }
 
     private moveTransient(dx: number, dy: number) {
@@ -133,11 +121,31 @@ class ClientWrapper {
 
     destroy(passFocus: boolean) {
         this.stateManager.destroy(passFocus);
+        this.signalManager.destroy();
         if (this.rulesSignalManager !== null) {
             this.rulesSignalManager.destroy();
         }
         if (this.transientFor !== null) {
             this.transientFor.removeTransient(this);
         }
+    }
+
+    static initSignalManager(client: ClientWrapper) {
+        const manager = new SignalManager();
+        manager.connect(client.kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
+            if (client.stateManager.getState() instanceof ClientStateTiled) {
+                const newGeometry = client.kwinClient.frameGeometry;
+                const oldCenterX = oldGeometry.x + oldGeometry.width/2;
+                const oldCenterY = oldGeometry.y + oldGeometry.height/2;
+                const newCenterX = newGeometry.x + newGeometry.width/2;
+                const newCenterY = newGeometry.y + newGeometry.height/2;
+                const dx = Math.round(newCenterX - oldCenterX);
+                const dy = Math.round(newCenterY - oldCenterY);
+                for (const transient of client.transients) {
+                    transient.moveTransient(dx, dy);
+                }
+            }
+        });
+        return manager;
     }
 }
