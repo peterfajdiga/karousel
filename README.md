@@ -12,8 +12,8 @@ unprompted reflow of window content.
 Windows are automatically centered when possible. And when running out of width, windows can be
 scrolled through horizontally.
 
-Similar window managers include [Cardboard](https://gitlab.com/cardboardwm/cardboard) and
-[PaperWM](https://github.com/paperwm/PaperWM).
+Similar window managers include [PaperWM](https://github.com/paperwm/PaperWM) and
+[Cardboard](https://gitlab.com/cardboardwm/cardboard).
 
 ## Limitations
 - Doesn't support multiple screens
