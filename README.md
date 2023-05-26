@@ -1,7 +1,7 @@
 # Karousel
 KWin tiling script with scrolling. Works especially well with ultrawide screens.
 
-https://github.com/peterfajdiga/karousel/assets/22796326/f5054bd7-3f82-48f2-bf2a-4da3bb697c69
+https://github.com/peterfajdiga/karousel/assets/22796326/2ab62d18-09c7-45f9-8fda-e5e36b8d7a02
 
 Karousel works differently from most tiling window managers in that it does not maximize the width
 of windows, as this can be undesirable with wider screens, where it results in excessively wide
