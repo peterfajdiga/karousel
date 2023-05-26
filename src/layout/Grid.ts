@@ -156,8 +156,8 @@ class Grid {
         this.scrollX = x;
     }
 
-    adjustScroll(xDelta: number, force: boolean) {
-        this.setScroll(this.scrollX + xDelta, force);
+    adjustScroll(dx: number, force: boolean) {
+        this.setScroll(this.scrollX + dx, force);
     }
 
     removeOverscroll() {
