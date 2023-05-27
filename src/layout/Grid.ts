@@ -211,7 +211,7 @@ class Grid {
         if (columnToFocus !== null) {
             columnToFocus.focus();
         } else {
-            this.autoAdjustScroll();
+            this.removeOverscroll();
         }
     }
 
