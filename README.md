@@ -1,5 +1,6 @@
 # Karousel
 KWin tiling script with scrolling. Works especially well with ultrawide screens.
+Use with [this](https://github.com/peterfajdiga/kwin4_effect_geometry_change) for animations.
 
 https://github.com/peterfajdiga/karousel/assets/22796326/2ab62d18-09c7-45f9-8fda-e5e36b8d7a02
 
