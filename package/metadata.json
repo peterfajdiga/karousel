@@ -11,7 +11,8 @@
         "ServiceTypes": ["KWin/Script"],
         "Version": "1.0",
         "License": "GPLv3",
-        "Website": "https://github.com/peterfajdiga/karousel"
+        "Website": "https://github.com/peterfajdiga/karousel",
+        "BugReportUrl": "https://github.com/peterfajdiga/karousel/issues"
     },
     "X-Plasma-API": "declarativescript",
     "X-Plasma-MainScript": "code/main.qml",
