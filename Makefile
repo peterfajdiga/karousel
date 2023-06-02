@@ -10,5 +10,8 @@ build:
 install: build config
 	kpackagetool5 --type=KWin/Script -i ./package || kpackagetool5 --type=KWin/Script -u ./package
 
+uninstall:
+	kpackagetool5 --type=KWin/Script -r ./package
+
 logs:
 	journalctl -t kwin_x11 -g '^qml:|^file://.*karousel' -f
