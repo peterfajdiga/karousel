@@ -15,7 +15,7 @@
                         <attribute name="title">
                             <string>General</string>
                         </attribute>
-                        <layout class="QGridLayout" name="layout_tab_general">
+                        <layout class="QGridLayout" name="layout_tab_general" columnstretch="0,1">
                             <item row="0" column="0">
                                 <widget class="QLabel" name="label_gapsOuterTop">
                                     <property name="text">
@@ -214,6 +214,14 @@
                                         <string>Stack columns by default</string>
                                     </property>
                                 </widget>
+                            </item>
+
+                            <item row="9" column="0" colspan="2">
+                                <spacer name="bottomSpacer_tab_general">
+                                    <property name="orientation">
+                                        <enum>Qt::Vertical</enum>
+                                    </property>
+                                </spacer>
                             </item>
                         </layout>
                     </widget>
