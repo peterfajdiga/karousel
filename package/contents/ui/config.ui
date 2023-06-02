@@ -215,6 +215,13 @@
                     </widget>
                 </widget>
             </item>
+         <item>
+            <widget class="QLabel" name="label">
+                <property name="text">
+                    <string>Karousel script needs to be restarted for changes to take effect.</string>
+                </property>
+            </widget>
+        </item>
         </layout>
     </widget>
     <resources/>
