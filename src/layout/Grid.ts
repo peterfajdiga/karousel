@@ -197,18 +197,17 @@ class Grid {
     }
 
     onColumnRemoved(column: Column, passFocus: boolean) {
+        const isLastColumn = this.columns.length() === 1;
+        const nextColumn = this.getNextColumn(column);
+        const columnToFocus = isLastColumn ? null : this.getPrevColumn(column) ?? nextColumn;
         if (column === this.lastFocusedColumn) {
-            this.lastFocusedColumn = null;
+            this.lastFocusedColumn = columnToFocus;
         }
 
-        const lastColumn = this.columns.length() === 1;
-        const columnToFocus = lastColumn || !passFocus ? null : this.getPrevColumn(column) ?? this.getNextColumn(column);
-        const nextColumn = this.columns.getNext(column);
-
         this.columns.remove(column);
-
         this.columnsSetX(nextColumn);
-        if (columnToFocus !== null) {
+
+        if (passFocus && columnToFocus !== null) {
             columnToFocus.focus();
         } else {
             this.removeOverscroll();
