@@ -142,7 +142,7 @@ class Grid {
         this.scrollToColumn(column);
     }
 
-    setScroll(x: number, force: boolean) {
+    private setScroll(x: number, force: boolean) {
         if (!force) {
             let minScroll = 0;
             let maxScroll = this.width - this.tilingArea.width;
@@ -160,11 +160,11 @@ class Grid {
         this.setScroll(this.scrollX + dx, force);
     }
 
-    removeOverscroll() {
+    private removeOverscroll() {
         this.setScroll(this.scrollX, false);
     }
 
-    columnsSetX(firstMovedColumn: Column|null) {
+    private columnsSetX(firstMovedColumn: Column|null) {
         const lastUnmovedColumn = firstMovedColumn === null ? this.columns.getLast() : this.columns.getPrev(firstMovedColumn);
         let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.gridX + lastUnmovedColumn.width + this.world.config.gapsInnerHorizontal;
         if (firstMovedColumn !== null) {
