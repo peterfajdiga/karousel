@@ -175,6 +175,12 @@ function initActions(world: World) {
             });
         },
 
+        columnExpandVisible: () => {
+            const grid = world.getCurrentGrid();
+            grid.expandColumnsVisible();
+            grid.arrange();
+        },
+
         gridScrollLeft: () => {
             gridScroll(world, -world.config.manualScrollStep);
         },

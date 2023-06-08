@@ -114,6 +114,31 @@ class Grid {
         return last;
     }
 
+    expandColumnsVisible() {
+        const startColumn = this.getLeftmostVisibleColumn(true);
+        const endColumn = this.getRightmostVisibleColumn(true);
+        if (startColumn === null || endColumn === null) {
+            return;
+        }
+
+        const startX = startColumn.gridX;
+        const endX = endColumn.gridX + endColumn.width;
+        const width = endX - startX;
+        const scaleRatio = this.tilingArea.width / width;
+        let remainingWidth = this.tilingArea.width;
+
+        for (const column of this.columns.iteratorFrom(startColumn)) {
+            if (column !== endColumn) {
+                const newWidth = Math.round(column.width * scaleRatio);
+                column.setWidth(newWidth, true);
+                remainingWidth -= newWidth + this.world.config.gapsInnerHorizontal;
+            } else {
+                column.setWidth(remainingWidth, true);
+                break;
+            }
+        }
+    }
+
     scrollToColumn(column: Column) {
         const left = column.gridX - this.scrollX; // in screen space
         const right = left + column.width; // in screen space

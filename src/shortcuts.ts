@@ -45,6 +45,7 @@ function registerShortcuts(world: World) {
     registerShortcutDbg("karousel-column-move-start", "Karousel: Move column to start", "Meta+Ctrl+Shift+Home", actions.columnMoveStart);
     registerShortcutDbg("karousel-column-move-end", "Karousel: Move column to end", "Meta+Ctrl+Shift+End", actions.columnMoveEnd);
     registerShortcutDbg("karousel-column-expand", "Karousel: Expand column", "Meta+Ctrl+X", actions.columnExpand);
+    registerShortcutDbg("karousel-column-expand-visible", "Karousel: Expand visible columns", "Meta+Ctrl+Alt+X", actions.columnExpandVisible)
 
     registerShortcutDbg("karousel-grid-scroll-focused", "Karousel: Scroll to focused window", "Meta+Alt+Return", actions.gridScrollFocused);
     registerShortcutDbg("karousel-grid-scroll-left-column", "Karousel: Scroll one column to the left", "Meta+Alt+A", actions.gridScrollLeftColumn);
