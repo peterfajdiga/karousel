@@ -18,13 +18,15 @@ function registerKeyBinding(name: string, description: string, keySequence: stri
     );
 }
 
-function registerNumKeyBindings(name: string, description: string, keySequence: string, callback: (i: number) => void, n: number) {
+function registerNumKeyBindings(name: string, description: string, modifiers: string, fKeys: boolean, callback: (i: number) => void) {
+    const numPrefix = fKeys ? "F" : "";
+    const n = fKeys ? 12 : 9;
     for (let i = 0; i < n; i++) {
         const numKey = String(i + 1);
         registerKeyBinding(
             name + numKey,
             description + numKey,
-            keySequence + numKey,
+            modifiers + "+" + numPrefix + numKey,
             () => callback(i),
         );
     }
@@ -33,12 +35,11 @@ function registerNumKeyBindings(name: string, description: string, keySequence: 
 function registerKeyBindings(world: World) {
     const actions = initActions(world);
     for (const binding of keyBindings) {
-        if (binding.repeat === undefined) {
-            const action = <() => void> actions[binding.action];
-            registerKeyBinding(binding.name, binding.description, binding.defaultKeySequence, action);
-        } else {
-            const action = <(n: number) => void> actions[binding.action];
-            registerNumKeyBindings(binding.name, binding.description, binding.defaultKeySequence, action, binding.repeat);
-        }
+        registerKeyBinding(binding.name, binding.description, binding.defaultKeySequence, actions[binding.action]);
+    }
+
+    const numActions = initNumActions(world);
+    for (const binding of numKeyBindings) {
+        registerNumKeyBindings(binding.name, binding.description, binding.defaultModifiers, binding.fKeys, numActions[binding.action]);
     }
 }

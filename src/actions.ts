@@ -251,7 +251,11 @@ function initActions(world: World) {
             grid.scrollToColumn(nextColumn);
             grid.arrange();
         },
+    };
+}
 
+function initNumActions(world: World) {
+    return {
         focusColumn: (columnIndex: number) => {
             const grid = world.getCurrentGrid();
             const targetColumn = grid.getColumnAtIndex(columnIndex);

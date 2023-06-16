@@ -3,7 +3,14 @@ interface KeyBinding {
     description: string;
     defaultKeySequence: string;
     action: keyof ReturnType<typeof initActions>;
-    repeat?: number;
+}
+
+interface NumKeyBinding {
+    name: string;
+    description: string;
+    defaultModifiers: string;
+    fKeys: boolean;
+    action: keyof ReturnType<typeof initNumActions>;
 }
 
 const keyBindings: KeyBinding[] = [
@@ -175,40 +182,42 @@ const keyBindings: KeyBinding[] = [
         "defaultKeySequence": "Meta+Alt+End",
         "action": "gridScrollEnd",
     },
+];
 
+const numKeyBindings: NumKeyBinding[] = [
     {
         "name": "focus-",
         "description": "Move focus to column ",
-        "defaultKeySequence": "Meta+",
+        "defaultModifiers": "Meta",
+        "fKeys": false,
         "action": "focusColumn",
-        "repeat": 9
     },
     {
         "name": "window-move-to-column-",
         "description": "Move window to column ",
-        "defaultKeySequence": "Meta+Shift+",
+        "defaultModifiers": "Meta+Shift",
+        "fKeys": false,
         "action": "windowMoveToColumn",
-        "repeat": 9
     },
     {
         "name": "column-move-to-column-",
         "description": "Move column to position ",
-        "defaultKeySequence": "Meta+Ctrl+Shift+",
+        "defaultModifiers": "Meta+Ctrl+Shift",
+        "fKeys": false,
         "action": "columnMoveToColumn",
-        "repeat": 9
     },
     {
         "name": "column-move-to-desktop-",
         "description": "Move column to desktop ",
-        "defaultKeySequence": "Meta+Ctrl+Shift+F",
+        "defaultModifiers": "Meta+Ctrl+Shift",
+        "fKeys": true,
         "action": "columnMoveToDesktop",
-        "repeat": 12
     },
     {
         "name": "tail-move-to-desktop-",
         "description": "Move this and all following columns to desktop ",
-        "defaultKeySequence": "Meta+Ctrl+Shift+Alt+F",
+        "defaultModifiers": "Meta+Ctrl+Shift+Alt",
+        "fKeys": true,
         "action": "tailMoveToDesktop",
-        "repeat": 12
     },
 ];
