@@ -1,9 +1,9 @@
-const qmlBase;
-const console;
-const KWin;
-const Qt;
-const workspace;
-const options;
+declare const qmlBase;
+declare const console;
+declare const KWin;
+declare const Qt;
+declare const workspace;
+declare const options;
 
 type AbstractClient = any;
 type TopLevel = any;

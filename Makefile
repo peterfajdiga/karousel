@@ -1,8 +1,10 @@
 .PHONY: *
 
+TSC_SCRIPT_FLAGS = --lib es2020 ./src/extern.d.ts
+
 config:
 	mkdir -p ./package/contents/config
-	tsc ./src/config/definition.ts ./generators/config/kcfg.ts --outFile /dev/stdout | node - > ./package/contents/config/main.xml
+	tsc ${TSC_SCRIPT_FLAGS} ./src/config/definition.ts ./generators/config/kcfg.ts --outFile /dev/stdout | node - > ./package/contents/config/main.xml
 
 build:
 	tsc --outFile ./package/contents/code/main.js
@@ -18,3 +20,12 @@ package:
 
 logs:
 	journalctl -t kwin_x11 -g '^qml:|^file://.*karousel' -f
+
+docs-key-bindings-plain:
+	@tsc ${TSC_SCRIPT_FLAGS} ./src/keyBindings/definition.ts ./generators/docs/keyBindings.ts ./generators/docs/keyBindingsPlain.ts --outFile /dev/stdout | node -
+
+docs-key-bindings-table:
+	@tsc ${TSC_SCRIPT_FLAGS} ./src/keyBindings/definition.ts ./generators/docs/keyBindings.ts ./generators/docs/keyBindingsTable.ts --outFile /dev/stdout | node -
+
+docs-key-bindings-fmt:
+	@tsc ${TSC_SCRIPT_FLAGS} ./src/keyBindings/definition.ts ./generators/docs/keyBindings.ts ./generators/docs/keyBindingsFmt.ts --outFile /dev/stdout | node -
