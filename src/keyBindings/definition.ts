@@ -1,18 +1,3 @@
-interface KeyBinding {
-    name: string;
-    description: string;
-    defaultKeySequence: string;
-    action: keyof ReturnType<typeof initActions>;
-}
-
-interface NumKeyBinding {
-    name: string;
-    description: string;
-    defaultModifiers: string;
-    fKeys: boolean;
-    action: keyof ReturnType<typeof initNumActions>;
-}
-
 const keyBindings: KeyBinding[] = [
     {
         "name": "window-toggle-floating",
