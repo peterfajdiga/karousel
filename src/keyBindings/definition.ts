@@ -132,12 +132,6 @@ const keyBindings: KeyBinding[] = [
         "action": "gridScrollLeftColumn",
     },
     {
-        "name": "grid-scroll-left-column",
-        "description": "Scroll one column to the left",
-        "defaultKeySequence": "Meta+Alt+A",
-        "action": "gridScrollLeftColumn",
-    },
-    {
         "name": "grid-scroll-right-column",
         "description": "Scroll one column to the right",
         "defaultKeySequence": "Meta+Alt+D",
