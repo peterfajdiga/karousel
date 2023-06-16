@@ -2,7 +2,7 @@
 
 config:
 	mkdir -p ./package/contents/config
-	tsc ./src/config/definition.ts ./configgen/kcfg.ts --outFile /dev/stdout | node - > ./package/contents/config/main.xml
+	tsc ./src/config/definition.ts ./generators/config/kcfg.ts --outFile /dev/stdout | node - > ./package/contents/config/main.xml
 
 build:
 	tsc --outFile ./package/contents/code/main.js
