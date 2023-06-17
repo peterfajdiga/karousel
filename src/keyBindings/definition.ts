@@ -121,7 +121,7 @@ const keyBindings: KeyBinding[] = [
     },
     {
         "name": "grid-scroll-focused",
-        "description": "Scroll to focused window",
+        "description": "Center focused window",
         "defaultKeySequence": "Meta+Alt+Return",
         "action": "gridScrollFocused",
     },

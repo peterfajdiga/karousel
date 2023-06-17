@@ -153,6 +153,12 @@ class Grid {
         }
     }
 
+    scrollCenterColumn(column: Column) {
+        const windowCenter = column.gridX + column.width / 2 + this.world.config.gapsInnerHorizontal - this.scrollX; // in screen space
+        const screenCenter = this.tilingArea.x + this.tilingArea.width / 2;
+        this.adjustScroll(Math.round(windowCenter - screenCenter), false);
+    }
+
     autoAdjustScroll() {
         const focusedWindow = this.world.getFocusedWindow();
         if (focusedWindow === null) {

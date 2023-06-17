@@ -216,7 +216,7 @@ function initActions(world: World) {
             }
             const column = focusedWindow.column;
             const grid = column.grid;
-            grid.scrollToColumn(column);
+            grid.scrollCenterColumn(column);
             grid.arrange();
         },
 
