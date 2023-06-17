@@ -79,7 +79,7 @@ const keyBindings: KeyBinding[] = [
     },
     {
         "name": "window-expand",
-        "description": "Expand window",
+        "description": "Expand window (toggle stacked mode)",
         "defaultKeySequence": "Meta+X",
         "action": "windowExpand",
     },
