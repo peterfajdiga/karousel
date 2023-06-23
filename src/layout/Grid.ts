@@ -114,7 +114,7 @@ class Grid {
         return last;
     }
 
-    rescaleVisibleColumns(fullyVisible: boolean) {
+    rescaleVisibleColumns(fullyVisible: boolean, allowScaleUp: boolean) {
         const startColumn = this.getLeftmostVisibleColumn(fullyVisible);
         const endColumn = this.getRightmostVisibleColumn(fullyVisible);
         if (startColumn === null || endColumn === null) {
@@ -126,6 +126,9 @@ class Grid {
         const width = endX - startX;
         let remainingWidth = this.tilingArea.width - 2 * this.world.config.overscroll;
         const scaleRatio = remainingWidth / width;
+        if (!allowScaleUp && scaleRatio >= 1.0) {
+            return;
+        }
 
         for (const column of this.columns.iteratorFrom(startColumn)) {
             if (column !== endColumn) {

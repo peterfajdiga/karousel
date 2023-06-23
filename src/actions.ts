@@ -177,13 +177,13 @@ function initActions(world: World) {
 
         expandVisibleColumns: () => {
             const grid = world.getCurrentGrid();
-            grid.rescaleVisibleColumns(true);
+            grid.rescaleVisibleColumns(true, true);
             grid.arrange();
         },
 
         shrinkVisibleColumns: () => {
             const grid = world.getCurrentGrid();
-            grid.rescaleVisibleColumns(false);
+            grid.rescaleVisibleColumns(false, false);
             grid.arrange();
         },
 
