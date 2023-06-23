@@ -21,8 +21,8 @@ package:
 logs:
 	journalctl -t kwin_x11 -g '^qml:|^file://.*karousel' -f
 
-docs-key-bindings-plain:
-	@tsc ${TSC_SCRIPT_FLAGS} ./src/keyBindings/definition.ts ./generators/docs/keyBindings.ts ./generators/docs/keyBindingsPlain.ts --outFile /dev/stdout | node -
+docs-key-bindings-bbcode:
+	@tsc ${TSC_SCRIPT_FLAGS} ./src/keyBindings/definition.ts ./generators/docs/keyBindings.ts ./generators/docs/keyBindingsBbcode.ts --outFile /dev/stdout | node -
 
 docs-key-bindings-table:
 	@tsc ${TSC_SCRIPT_FLAGS} ./src/keyBindings/definition.ts ./generators/docs/keyBindings.ts ./generators/docs/keyBindingsTable.ts --outFile /dev/stdout | node -
