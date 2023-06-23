@@ -1,6 +1,7 @@
 interface KeyBinding {
     name: string;
     description: string;
+    comment?: string;
     defaultKeySequence: string;
     action: string;
 }
@@ -8,9 +9,14 @@ interface KeyBinding {
 interface NumKeyBinding {
     name: string;
     description: string;
+    comment?: string;
     defaultModifiers: string;
     fKeys: boolean;
     action: string;
+}
+
+function formatComment(comment: string | undefined) {
+    return comment === undefined ? "" : ` (${comment})`;
 }
 
 function printCols(...columns: (string[] | string)[]) {

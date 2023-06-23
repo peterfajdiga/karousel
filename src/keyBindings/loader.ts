@@ -1,6 +1,7 @@
 interface KeyBinding {
     name: string;
     description: string;
+    comment?: string;
     defaultKeySequence: string;
     action: keyof ReturnType<typeof initActions>;
 }
@@ -8,6 +9,7 @@ interface KeyBinding {
 interface NumKeyBinding {
     name: string;
     description: string;
+    comment?: string;
     defaultModifiers: string;
     fKeys: boolean;
     action: keyof ReturnType<typeof initNumActions>;

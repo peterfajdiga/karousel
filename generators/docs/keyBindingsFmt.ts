@@ -7,8 +7,8 @@ const colLeft = [
 ];
 
 const colRight = [
-    ...keyBindings.map((binding: KeyBinding) => binding.description),
-    ...numKeyBindings.map((binding: NumKeyBinding) => binding.description + "N"),
+    ...keyBindings.map((binding: KeyBinding) => `${binding.description}${formatComment(binding.comment)}`),
+    ...numKeyBindings.map((binding: NumKeyBinding) => `${binding.description}N${formatComment(binding.comment)}`),
 ];
 
 printCols(colLeft, " ", colRight);

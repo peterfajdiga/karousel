@@ -44,12 +44,14 @@ const keyBindings: KeyBinding[] = [
     {
         "name": "window-move-left",
         "description": "Move window left",
+        "comment": "Moves window out of and into columns",
         "defaultKeySequence": "Meta+Shift+A",
         "action": "windowMoveLeft",
     },
     {
         "name": "window-move-right",
         "description": "Move window right",
+        "comment": "Moves window out of and into columns",
         "defaultKeySequence": "Meta+Shift+D",
         "action": "windowMoveRight",
     },
@@ -79,7 +81,8 @@ const keyBindings: KeyBinding[] = [
     },
     {
         "name": "window-expand",
-        "description": "Expand window (toggle stacked mode)",
+        "description": "Expand window",
+        "comment": "Expands focused window vertically; toggles stacked layout for focused column",
         "defaultKeySequence": "Meta+X",
         "action": "windowExpand",
     },
@@ -110,24 +113,28 @@ const keyBindings: KeyBinding[] = [
     {
         "name": "column-expand",
         "description": "Expand column",
+        "comment": "Expands focused column horizontally to fill the screen",
         "defaultKeySequence": "Meta+Ctrl+X",
         "action": "columnExpand",
     },
     {
         "name": "expand-visible-columns",
         "description": "Expand fully visible columns",
+        "comment": "Expands fully visible columns to fill the screen",
         "defaultKeySequence": "Meta+Alt++",
         "action": "expandVisibleColumns",
     },
     {
         "name": "shrink-visible-columns",
         "description": "Shrink visible columns",
+        "comment": "Shrinks fully and partially visible columns, making them fully visible and filling the screen",
         "defaultKeySequence": "Meta+Alt+-",
         "action": "shrinkVisibleColumns",
     },
     {
         "name": "grid-scroll-focused",
         "description": "Center focused window",
+        "comment": "Scrolls so that the focused window is centered in the screen",
         "defaultKeySequence": "Meta+Alt+Return",
         "action": "gridScrollFocused",
     },
@@ -180,6 +187,7 @@ const numKeyBindings: NumKeyBinding[] = [
     {
         "name": "window-move-to-column-",
         "description": "Move window to column ",
+        "comment": "Requires manual remapping according to your keyboard layout, e.g. Meta+Shift+1 -> Meta+!",
         "defaultModifiers": "Meta+Shift",
         "fKeys": false,
         "action": "windowMoveToColumn",
@@ -187,6 +195,7 @@ const numKeyBindings: NumKeyBinding[] = [
     {
         "name": "column-move-to-column-",
         "description": "Move column to position ",
+        "comment": "Requires manual remapping according to your keyboard layout, e.g. Meta+Ctrl+Shift+1 -> Meta+Ctrl+!",
         "defaultModifiers": "Meta+Ctrl+Shift",
         "fKeys": false,
         "action": "columnMoveToColumn",
