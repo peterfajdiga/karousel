@@ -124,8 +124,8 @@ class Grid {
         const startX = startColumn.gridX;
         const endX = endColumn.gridX + endColumn.width;
         const width = endX - startX;
-        const scaleRatio = this.tilingArea.width / width;
-        let remainingWidth = this.tilingArea.width;
+        let remainingWidth = this.tilingArea.width - 2 * this.world.config.overscroll;
+        const scaleRatio = remainingWidth / width;
 
         for (const column of this.columns.iteratorFrom(startColumn)) {
             if (column !== endColumn) {
