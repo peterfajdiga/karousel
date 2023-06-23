@@ -177,7 +177,13 @@ function initActions(world: World) {
 
         expandVisibleColumns: () => {
             const grid = world.getCurrentGrid();
-            grid.expandVisibleColumns();
+            grid.rescaleVisibleColumns(true);
+            grid.arrange();
+        },
+
+        shrinkVisibleColumns: () => {
+            const grid = world.getCurrentGrid();
+            grid.rescaleVisibleColumns(false);
             grid.arrange();
         },
 

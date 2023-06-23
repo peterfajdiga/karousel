@@ -114,9 +114,9 @@ class Grid {
         return last;
     }
 
-    expandVisibleColumns() {
-        const startColumn = this.getLeftmostVisibleColumn(true);
-        const endColumn = this.getRightmostVisibleColumn(true);
+    rescaleVisibleColumns(fullyVisible: boolean) {
+        const startColumn = this.getLeftmostVisibleColumn(fullyVisible);
+        const endColumn = this.getRightmostVisibleColumn(fullyVisible);
         if (startColumn === null || endColumn === null) {
             return;
         }
