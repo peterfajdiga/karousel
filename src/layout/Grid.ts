@@ -137,6 +137,8 @@ class Grid {
                 break;
             }
         }
+
+        this.setScroll(startX - this.world.config.overscroll, false);
     }
 
     scrollToColumn(column: Column) {
