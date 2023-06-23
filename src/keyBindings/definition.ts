@@ -114,10 +114,10 @@ const keyBindings: KeyBinding[] = [
         "action": "columnExpand",
     },
     {
-        "name": "column-expand-visible",
+        "name": "expand-visible-columns",
         "description": "Expand visible columns",
         "defaultKeySequence": "Meta+Ctrl+Alt+X",
-        "action": "columnExpandVisible",
+        "action": "expandVisibleColumns",
     },
     {
         "name": "grid-scroll-focused",

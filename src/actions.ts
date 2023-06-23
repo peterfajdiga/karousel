@@ -175,9 +175,9 @@ function initActions(world: World) {
             });
         },
 
-        columnExpandVisible: () => {
+        expandVisibleColumns: () => {
             const grid = world.getCurrentGrid();
-            grid.expandColumnsVisible();
+            grid.expandVisibleColumns();
             grid.arrange();
         },
 

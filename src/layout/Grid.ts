@@ -114,7 +114,7 @@ class Grid {
         return last;
     }
 
-    expandColumnsVisible() {
+    expandVisibleColumns() {
         const startColumn = this.getLeftmostVisibleColumn(true);
         const endColumn = this.getRightmostVisibleColumn(true);
         if (startColumn === null || endColumn === null) {
