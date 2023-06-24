@@ -94,6 +94,11 @@ const configDef = [
         "default": false
     },
     {
+        "name": "resizeNeighborColumn",
+        "type": "Bool",
+        "default": false
+    },
+    {
         "name": "windowRules",
         "type": "String",
         "default": defaultWindowRules

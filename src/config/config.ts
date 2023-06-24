@@ -8,5 +8,6 @@ type Config = {
     overscroll: number,
     manualScrollStep: number,
     stackColumnsByDefault: boolean,
+    resizeNeighborColumn: boolean,
     windowRules: string,
 }
