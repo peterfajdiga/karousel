@@ -132,9 +132,8 @@ class Grid {
 
         for (const column of this.columns.iteratorFrom(startColumn)) {
             if (column !== endColumn) {
-                const newWidth = Math.round(column.width * scaleRatio);
-                column.setWidth(newWidth, true);
-                remainingWidth -= newWidth + this.world.config.gapsInnerHorizontal;
+                column.setWidth(Math.round(column.width * scaleRatio), true);
+                remainingWidth -= column.width + this.world.config.gapsInnerHorizontal;
             } else {
                 column.setWidth(remainingWidth, true);
                 break;

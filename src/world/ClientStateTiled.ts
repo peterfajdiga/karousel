@@ -67,11 +67,19 @@ class ClientStateTiled {
             lastResize = resize;
         });
 
+        let cursorChangedAfterResizeStart = false;
+        manager.connect(kwinClient.moveResizeCursorChanged, () => {
+            cursorChangedAfterResizeStart = true;
+        });
+        manager.connect(kwinClient.clientStartUserMovedResized, () => {
+            cursorChangedAfterResizeStart = false;
+        });
+
         manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
             console.assert(!kwinClient.move, "moved clients are removed in kwinClient.moveResizedChanged");
             const grid = window.column.grid;
             if (kwinClient.resize) {
-                window.onUserResize(oldGeometry);
+                window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);
                 grid.arrange();
             } else {
                 const maximized = rectEqual(kwinClient.frameGeometry, grid.clientArea);

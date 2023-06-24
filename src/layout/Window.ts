@@ -83,15 +83,25 @@ class Window {
         }
     }
 
-    onUserResize(oldGeometry: QRect) {
+    onUserResize(oldGeometry: QRect, resizeNeighborColumn: boolean) {
         const newGeometry = this.client.kwinClient.frameGeometry;
         const widthDelta = newGeometry.width - oldGeometry.width;
         const heightDelta = newGeometry.height - oldGeometry.height;
         if (widthDelta !== 0) {
             this.column.adjustWidth(widthDelta, true);
-            if (newGeometry.x !== oldGeometry.x) {
-                this.column.grid.adjustScroll(widthDelta, true);
+            let leftEdgeDelta = newGeometry.left - oldGeometry.left;
+            const resizingLeftSide = leftEdgeDelta !== 0;
+            if (resizeNeighborColumn) {
+                const neighborColumn = resizingLeftSide ? this.column.grid.getPrevColumn(this.column) : this.column.grid.getNextColumn(this.column);
+                if (neighborColumn !== null) {
+                    const oldNeighborWidth = neighborColumn.width;
+                    neighborColumn.adjustWidth(-widthDelta, true);
+                    if (resizingLeftSide) {
+                        leftEdgeDelta -= neighborColumn.width - oldNeighborWidth;
+                    }
+                }
             }
+            this.column.grid.adjustScroll(-leftEdgeDelta, true);
         }
         if (heightDelta !== 0) {
             this.column.adjustWindowHeight(this, heightDelta, newGeometry.y !== oldGeometry.y);
