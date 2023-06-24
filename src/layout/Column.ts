@@ -6,6 +6,7 @@ class Column {
     private stacked: boolean;
     private focusTaker: Window|null;
     private widthBeforeExpand: number;
+    private static readonly minWidth = 10;
 
     constructor(grid: Grid, prevColumn: Column|null) {
         this.gridX = 0;
@@ -74,12 +75,23 @@ class Column {
         return this.width;
     }
 
+    getMinWidth() {
+        let maxMinWidth = Column.minWidth;
+        for (const window of this.windows.iterator()) {
+            const minWidth = window.client.kwinClient.minSize.width;
+            if (minWidth > maxMinWidth) {
+                maxMinWidth = minWidth;
+            }
+        }
+        return maxMinWidth;
+    }
+
     getMaxWidth() {
         return this.grid.tilingArea.width;
     }
 
     setWidth(width: number, setPreferred: boolean) {
-        width = Math.min(width, this.getMaxWidth());
+        width = clamp(width, this.getMinWidth(), this.getMaxWidth());
         const oldWidth = this.width;
         this.width = width;
         if (setPreferred) {
