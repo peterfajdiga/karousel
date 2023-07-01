@@ -108,6 +108,16 @@ class Column {
         this.setWidth(this.width + widthDelta, setPreferred);
     }
 
+    // returns x position of left edge in grid space
+    getLeft() {
+        return this.gridX;
+    }
+
+    // returns x position of right edge in grid space
+    getRight() {
+        return this.gridX + this.width;
+    }
+
     expand() {
         const maxWidth = this.getMaxWidth();
         const isAlreadyExpanded = this.width === maxWidth && this.widthBeforeExpand > 0;

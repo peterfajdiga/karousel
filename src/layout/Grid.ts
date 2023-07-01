@@ -89,7 +89,7 @@ class Grid {
 
     getLeftmostVisibleColumn(fullyVisible: boolean) {
         for (const column of this.columns.iterator()) {
-            const left = column.gridX - this.scrollX; // in tilingArea space
+            const left = column.getLeft() - this.scrollX; // in tilingArea space
             const right = left + column.width; // in tilingArea space
             const x = fullyVisible ? left : right;
             if (x >= 0) {
@@ -102,7 +102,7 @@ class Grid {
     getRightmostVisibleColumn(fullyVisible: boolean) {
         let last = null;
         for (const column of this.columns.iterator()) {
-            const left = column.gridX - this.scrollX; // in tilingArea space
+            const left = column.getLeft() - this.scrollX; // in tilingArea space
             const right = left + column.width; // in tilingArea space
             const x = fullyVisible ? right : left;
             if (x <= this.tilingArea.width) {
@@ -137,8 +137,8 @@ class Grid {
             return;
         }
 
-        const startX = startColumn.gridX;
-        const endX = endColumn.gridX + endColumn.width;
+        const startX = startColumn.getLeft();
+        const endX = endColumn.getRight();
         const width = endX - startX;
         let remainingWidth = this.tilingArea.width - 2 * this.world.config.overscroll;
         const scaleRatio = remainingWidth / width;
@@ -179,8 +179,8 @@ class Grid {
             return;
         }
 
-        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.gridX + leftColumn.width - this.scrollX; // in tilingArea space
-        const rightVisibleWidth = rightColumn === null ? Infinity : this.tilingArea.width - (rightColumn.gridX - this.scrollX); // in tilingArea space
+        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.getRight() - this.scrollX; // in tilingArea space
+        const rightVisibleWidth = rightColumn === null ? Infinity : this.tilingArea.width - (rightColumn.getLeft() - this.scrollX); // in tilingArea space
         const expandLeft = leftVisibleWidth < rightVisibleWidth;
         const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.world.config.gapsInnerHorizontal;
         if (expandLeft) {
@@ -209,8 +209,8 @@ class Grid {
             return;
         }
 
-        const leftInvisibleWidth = leftColumn === null ? Infinity : -(leftColumn.gridX - this.scrollX); // in tilingArea space
-        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.gridX + rightColumn.width - this.scrollX - this.tilingArea.width; // in tilingArea space
+        const leftInvisibleWidth = leftColumn === null ? Infinity : -(leftColumn.getLeft() - this.scrollX); // in tilingArea space
+        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.getRight() - this.scrollX - this.tilingArea.width; // in tilingArea space
         const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
         const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
         if (shrinkLeft) {
@@ -220,7 +220,7 @@ class Grid {
     }
 
     scrollToColumn(column: Column) {
-        const left = column.gridX - this.scrollX; // in tilingArea space
+        const left = column.getLeft() - this.scrollX; // in tilingArea space
         const right = left + column.width; // in tilingArea space
         const remainingSpace = this.tilingArea.width - column.width;
         const overScrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
@@ -234,7 +234,7 @@ class Grid {
     }
 
     scrollCenterColumn(column: Column) {
-        const windowCenter = column.gridX + column.width / 2 + this.world.config.gapsInnerHorizontal - this.scrollX; // in tilingArea space
+        const windowCenter = column.getRight() / 2 + this.world.config.gapsInnerHorizontal - this.scrollX; // in tilingArea space
         const screenCenter = this.tilingArea.x + this.tilingArea.width / 2;
         this.adjustScroll(Math.round(windowCenter - screenCenter), false);
     }
@@ -277,7 +277,7 @@ class Grid {
 
     private columnsSetX(firstMovedColumn: Column|null) {
         const lastUnmovedColumn = firstMovedColumn === null ? this.columns.getLast() : this.columns.getPrev(firstMovedColumn);
-        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.gridX + lastUnmovedColumn.width + this.world.config.gapsInnerHorizontal;
+        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.getRight() + this.world.config.gapsInnerHorizontal;
         if (firstMovedColumn !== null) {
             for (const column of this.columns.iteratorFrom(firstMovedColumn)) {
                 column.gridX = x;
