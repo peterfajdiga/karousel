@@ -114,6 +114,22 @@ class Grid {
         return last;
     }
 
+    getLeftOffScreenColumn() {
+        const leftVisible = this.getLeftmostVisibleColumn(true);
+        if (leftVisible === null) {
+            return null;
+        }
+        return this.getPrevColumn(leftVisible);
+    }
+
+    getRightOffScreenColumn() {
+        const rightVisible = this.getRightmostVisibleColumn(true);
+        if (rightVisible === null) {
+            return null;
+        }
+        return this.getNextColumn(rightVisible);
+    }
+
     rescaleVisibleColumns(fullyVisible: boolean, allowScaleUp: boolean) {
         const startColumn = this.getLeftmostVisibleColumn(fullyVisible);
         const endColumn = this.getRightmostVisibleColumn(fullyVisible);
@@ -141,6 +157,66 @@ class Grid {
         }
 
         this.setScroll(startX - this.world.config.overscroll, false);
+    }
+
+    increaseColumnWidth(column: Column) {
+        this.scrollToColumn(column);
+        if (this.width < this.tilingArea.width) {
+            column.adjustWidth(this.tilingArea.width - this.width, false);
+            this.arrange();
+            return;
+        }
+
+        let leftColumn = this.getLeftmostVisibleColumn(false);
+        if (leftColumn === column) {
+            leftColumn = null;
+        }
+        let rightColumn = this.getRightmostVisibleColumn(false);
+        if (rightColumn === column) {
+            rightColumn = null;
+        }
+        if (leftColumn === null && rightColumn === null) {
+            return;
+        }
+
+        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.gridX + leftColumn.width - this.scrollX;
+        const rightVisibleWidth = rightColumn === null ? Infinity : this.tilingArea.width - (rightColumn.gridX - this.scrollX);
+        const expandLeft = leftVisibleWidth < rightVisibleWidth;
+        const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.world.config.gapsInnerHorizontal;
+        if (expandLeft) {
+            this.adjustScroll(widthDelta, false);
+        }
+        column.adjustWidth(widthDelta, true);
+    }
+
+    decreaseColumnWidth(column: Column) {
+        this.scrollToColumn(column);
+        if (this.width <= this.tilingArea.width) {
+            column.setWidth(Math.round(column.getWidth() / 2), false);
+            this.arrange();
+            return;
+        }
+
+        let leftColumn = this.getLeftOffScreenColumn();
+        if (leftColumn === column) {
+            leftColumn = null;
+        }
+        let rightColumn = this.getRightOffScreenColumn();
+        if (rightColumn === column) {
+            rightColumn = null;
+        }
+        if (leftColumn === null && rightColumn === null) {
+            return;
+        }
+
+        const leftInvisibleWidth = leftColumn === null ? Infinity : -(leftColumn.gridX - this.scrollX);
+        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.gridX + rightColumn.width - this.scrollX - this.tilingArea.width;
+        const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
+        const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
+        if (shrinkLeft) {
+            this.adjustScroll(-widthDelta, false);
+        }
+        column.adjustWidth(-widthDelta, true);
     }
 
     scrollToColumn(column: Column) {

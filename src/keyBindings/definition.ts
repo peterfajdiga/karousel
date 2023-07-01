@@ -118,6 +118,18 @@ const keyBindings: KeyBinding[] = [
         "action": "columnExpand",
     },
     {
+        "name": "column-width-increase",
+        "description": "Increase column width",
+        "defaultKeySequence": "Meta+Ctrl++",
+        "action": "columnWidthIncrease",
+    },
+    {
+        "name": "column-width-decrease",
+        "description": "Decrease column width",
+        "defaultKeySequence": "Meta+Ctrl+-",
+        "action": "columnWidthDecrease",
+    },
+    {
         "name": "expand-visible-columns",
         "description": "Expand fully visible columns",
         "comment": "Expands fully visible columns to fill the screen",

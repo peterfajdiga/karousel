@@ -175,6 +175,20 @@ function initActions(world: World) {
             });
         },
 
+        columnWidthIncrease: () => {
+            world.doIfTiledFocused(false, (window, column, grid) => {
+                grid.increaseColumnWidth(column);
+                grid.arrange();
+            });
+        },
+
+        columnWidthDecrease: () => {
+            world.doIfTiledFocused(false, (window, column, grid) => {
+                grid.decreaseColumnWidth(column);
+                grid.arrange();
+            });
+        },
+
         expandVisibleColumns: () => {
             const grid = world.getCurrentGrid();
             grid.rescaleVisibleColumns(true, true);
