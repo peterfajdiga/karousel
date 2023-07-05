@@ -114,6 +114,33 @@ class Grid {
         return last;
     }
 
+    isColumnVisible(column: Column, fullyVisible: boolean) {
+        const left = this.gridToTilingSpace(column.getLeft());
+        const right = this.gridToTilingSpace(column.getRight());
+        if (fullyVisible) {
+            return left >= 0 && right <= this.tilingArea.width;
+        } else {
+            return right >= 0 && left <= this.tilingArea.width;
+        }
+    }
+
+    getVisibleColumnsWidth(fullyVisible: boolean) {
+        let width = 0;
+        let nVisible = 0;
+        for (const column of this.columns.iterator()) {
+            if (this.isColumnVisible(column, fullyVisible)) {
+                width += column.width;
+                nVisible++;
+            }
+        }
+
+        if (nVisible > 0) {
+            width += (nVisible-1) * this.world.config.gapsInnerHorizontal;
+        }
+
+        return width;
+    }
+
     getLeftOffScreenColumn() {
         const leftVisible = this.getLeftmostVisibleColumn(true);
         if (leftVisible === null) {
@@ -222,15 +249,19 @@ class Grid {
     scrollToColumn(column: Column) {
         const left = this.gridToTilingSpace(column.getLeft());
         const right = this.gridToTilingSpace(column.getRight());
-        const remainingSpace = this.tilingArea.width - column.width;
-        const overScrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
         if (left < 0) {
-            this.adjustScroll(left - overScrollX, false);
+            this.adjustScroll(left, false);
         } else if (right > this.tilingArea.width) {
-            this.adjustScroll(right - this.tilingArea.width + overScrollX, false);
+            this.adjustScroll(right - this.tilingArea.width, false);
         } else {
             this.removeOverscroll();
+            return;
         }
+
+        const remainingSpace = this.tilingArea.width - this.getVisibleColumnsWidth(true);
+        const overScrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
+        const direction = left < 0 ? -1 : 1;
+        this.adjustScroll(overScrollX * direction, false);
     }
 
     scrollCenterColumn(column: Column) {
