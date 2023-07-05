@@ -189,18 +189,6 @@ function initActions(world: World) {
             });
         },
 
-        expandVisibleColumns: () => {
-            const grid = world.getCurrentGrid();
-            grid.rescaleVisibleColumns(true, true);
-            grid.arrange();
-        },
-
-        shrinkVisibleColumns: () => {
-            const grid = world.getCurrentGrid();
-            grid.rescaleVisibleColumns(false, false);
-            grid.arrange();
-        },
-
         gridScrollLeft: () => {
             gridScroll(world, -world.config.manualScrollStep);
         },

@@ -157,35 +157,6 @@ class Grid {
         return this.getNextColumn(rightVisible);
     }
 
-    rescaleVisibleColumns(fullyVisible: boolean, allowScaleUp: boolean) {
-        const startColumn = this.getLeftmostVisibleColumn(fullyVisible);
-        const endColumn = this.getRightmostVisibleColumn(fullyVisible);
-        if (startColumn === null || endColumn === null) {
-            return;
-        }
-
-        const startX = startColumn.getLeft();
-        const endX = endColumn.getRight();
-        const width = endX - startX;
-        let remainingWidth = this.tilingArea.width - 2 * this.world.config.overscroll;
-        const scaleRatio = remainingWidth / width;
-        if (!allowScaleUp && scaleRatio >= 1.0) {
-            return;
-        }
-
-        for (const column of this.columns.iteratorFrom(startColumn)) {
-            if (column !== endColumn) {
-                column.setWidth(Math.round(column.width * scaleRatio), true);
-                remainingWidth -= column.width + this.world.config.gapsInnerHorizontal;
-            } else {
-                column.setWidth(remainingWidth, true);
-                break;
-            }
-        }
-
-        this.setScroll(startX - this.world.config.overscroll, false);
-    }
-
     increaseColumnWidth(column: Column) {
         this.scrollToColumn(column);
         if (this.width < this.tilingArea.width) {

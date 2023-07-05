@@ -130,20 +130,6 @@ const keyBindings: KeyBinding[] = [
         "action": "columnWidthDecrease",
     },
     {
-        "name": "expand-visible-columns",
-        "description": "Expand fully visible columns",
-        "comment": "Expands fully visible columns to fill the screen",
-        "defaultKeySequence": "Meta+Alt++",
-        "action": "expandVisibleColumns",
-    },
-    {
-        "name": "shrink-visible-columns",
-        "description": "Shrink visible columns",
-        "comment": "Shrinks fully and partially visible columns, making them fully visible and filling the screen",
-        "defaultKeySequence": "Meta+Alt+-",
-        "action": "shrinkVisibleColumns",
-    },
-    {
         "name": "grid-scroll-focused",
         "description": "Center focused window",
         "comment": "Scrolls so that the focused window is centered in the screen",
