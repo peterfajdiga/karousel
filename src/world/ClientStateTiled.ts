@@ -51,7 +51,7 @@ class ClientStateTiled {
 
         let lastResize = false;
         manager.connect(kwinClient.moveResizedChanged, () => {
-            if (kwinClient.move) {
+            if (world.config.untileOnDrag && kwinClient.move) {
                 world.untileClient(kwinClient);
                 return;
             }
@@ -76,7 +76,6 @@ class ClientStateTiled {
         });
 
         manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
-            console.assert(!kwinClient.move, "moved clients are removed in kwinClient.moveResizedChanged");
             const grid = window.column.grid;
             if (kwinClient.resize) {
                 window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);

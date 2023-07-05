@@ -89,6 +89,11 @@ const configDef = [
         "default": 200
     },
     {
+        "name": "untileOnDrag",
+        "type": "Bool",
+        "default": true
+    },
+    {
         "name": "stackColumnsByDefault",
         "type": "Bool",
         "default": false
