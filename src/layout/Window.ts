@@ -91,7 +91,7 @@ class Window {
             this.column.adjustWidth(widthDelta, true);
             let leftEdgeDelta = newGeometry.left - oldGeometry.left;
             const resizingLeftSide = leftEdgeDelta !== 0;
-            if (resizeNeighborColumn && this.column.grid.world.config.resizeNeighborColumn) {
+            if (resizeNeighborColumn && this.column.grid.container.world.config.resizeNeighborColumn) {
                 const neighborColumn = resizingLeftSide ? this.column.grid.getPrevColumn(this.column) : this.column.grid.getNextColumn(this.column);
                 if (neighborColumn !== null) {
                     const oldNeighborWidth = neighborColumn.width;
@@ -101,7 +101,7 @@ class Window {
                     }
                 }
             }
-            this.column.grid.adjustScroll(-leftEdgeDelta, true);
+            this.column.grid.container.adjustScroll(-leftEdgeDelta, true);
         }
         if (heightDelta !== 0) {
             this.column.adjustWindowHeight(this, heightDelta, newGeometry.y !== oldGeometry.y);

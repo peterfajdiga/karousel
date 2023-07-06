@@ -31,7 +31,7 @@ function initWorkspaceSignalHandlers(world: World) {
     manager.connect(workspace.clientMaximizeSet, (kwinClient: AbstractClient, horizontally: boolean, vertically: boolean) => {
         world.doIfTiled(kwinClient, false, (window, column, grid) => {
             window.onMaximizedChanged(horizontally, vertically);
-            grid.arrange();
+            grid.container.arrange();
         });
     });
 
@@ -42,14 +42,14 @@ function initWorkspaceSignalHandlers(world: World) {
         world.onClientFocused(kwinClient);
         world.doIfTiled(kwinClient, true, (window, column, grid) => {
             window.onFocused();
-            grid.arrange();
+            grid.container.arrange();
         });
     });
 
     manager.connect(workspace.clientFullScreenSet, (kwinClient: X11Client, fullScreen: boolean, user: boolean) => {
         world.doIfTiled(kwinClient, false, (window, column, grid) => {
             window.onFullScreenChanged(fullScreen);
-            grid.arrange();
+            grid.container.arrange();
         });
     });
 

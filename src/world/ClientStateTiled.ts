@@ -8,7 +8,7 @@ class ClientStateTiled {
         const grid = world.getClientGrid(client.kwinClient);
         const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
         const window = new Window(client, column);
-        grid.arrange();
+        grid.container.arrange();
 
         this.window = window;
         this.signalManager = ClientStateTiled.initSignalManager(world, window);
@@ -21,9 +21,9 @@ class ClientStateTiled {
         const grid = window.column.grid;
         const clientWrapper = window.client;
         window.destroy(passFocus);
-        grid.arrange();
+        grid.container.arrange();
 
-        clientWrapper.prepareForFloating(grid.clientArea);
+        clientWrapper.prepareForFloating(grid.container.clientArea);
     }
 
     static initSignalManager(world: World, window: Window) {
@@ -76,15 +76,15 @@ class ClientStateTiled {
         });
 
         manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
-            const grid = window.column.grid;
+            const scrollView = window.column.grid.container;
             if (kwinClient.resize) {
                 window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);
-                grid.arrange();
+                scrollView.arrange();
             } else {
-                const maximized = rectEqual(kwinClient.frameGeometry, grid.clientArea);
+                const maximized = rectEqual(kwinClient.frameGeometry, scrollView.clientArea);
                 if (!client.isManipulatingGeometry() && !kwinClient.fullScreen && !maximized) {
                     window.onProgrammaticResize(oldGeometry);
-                    grid.arrange();
+                    scrollView.arrange();
                 }
             }
         });
@@ -104,7 +104,7 @@ class ClientStateTiled {
 
         const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
         window.moveToColumn(newColumn);
-        oldGrid.arrange();
-        newGrid.arrange();
+        oldGrid.container.arrange();
+        newGrid.container.arrange();
     }
 }

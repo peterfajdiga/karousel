@@ -1,55 +1,28 @@
 class Grid {
-    public readonly world: World;
-    private readonly columns: LinkedList<Column>;
+    public readonly container: ScrollView;
+    public readonly columns: LinkedList<Column>; // TODO: make private
     private lastFocusedColumn: Column|null;
-    private scrollX: number;
     private width: number;
     private userResize: boolean; // is any part of the grid being resized by the user
-    public clientArea: QRect;
-    public tilingArea: QRect;
-    public readonly desktop: number;
     private readonly userResizeFinishedDelayer: Delayer;
 
-    constructor(world: World, desktop: number) {
-        this.world = world;
+    constructor(container: ScrollView) {
+        this.container = container;
         this.columns = new LinkedList();
         this.lastFocusedColumn = null;
-        this.scrollX = 0;
         this.width = 0;
         this.userResize = false;
-        this.desktop = desktop;
-        this.updateArea();
         this.userResizeFinishedDelayer = new Delayer(50, () => {
             // this delay prevents windows' contents from freezing after resizing
-            this.autoAdjustScroll();
-            this.arrange();
+            this.container.onGridWidthChanged();
+            this.container.arrange();
         });
-    }
-
-    updateArea() {
-        const newClientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop);
-        if (newClientArea === this.clientArea) {
-            return;
-        }
-
-        this.clientArea = newClientArea;
-        this.tilingArea = Qt.rect(
-            newClientArea.x + this.world.config.gapsOuterLeft,
-            newClientArea.y + this.world.config.gapsOuterTop,
-            newClientArea.width - this.world.config.gapsOuterLeft - this.world.config.gapsOuterRight,
-            newClientArea.height - this.world.config.gapsOuterTop - this.world.config.gapsOuterBottom,
-        )
-        for (const column of this.columns.iterator()) {
-            column.resizeWindows();
-        }
-
-        this.autoAdjustScroll();
     }
 
     moveColumnLeft(column: Column) {
         this.columns.moveBack(column);
         this.columnsSetX(column);
-        this.autoAdjustScroll();
+        this.container.onGridWidthChanged();
     }
 
     moveColumnRight(column: Column) {
@@ -58,6 +31,10 @@ class Grid {
             return;
         }
         this.moveColumnLeft(nextColumn);
+    }
+
+    getWidth() {
+        return this.width;
     }
 
     getPrevColumn(column: Column) {
@@ -87,220 +64,22 @@ class Grid {
         return this.lastFocusedColumn;
     }
 
-    getLeftmostVisibleColumn(fullyVisible: boolean) {
-        for (const column of this.columns.iterator()) {
-            const left = this.gridToTilingSpace(column.getLeft());
-            const right = left + column.width;
-            const x = fullyVisible ? left : right;
-            if (x >= 0) {
-                return column;
-            }
-        }
-        return null;
-    }
-
-    getRightmostVisibleColumn(fullyVisible: boolean) {
-        let last = null;
-        for (const column of this.columns.iterator()) {
-            const left = this.gridToTilingSpace(column.getLeft());
-            const right = left + column.width;
-            const x = fullyVisible ? right : left;
-            if (x <= this.tilingArea.width) {
-                last = column;
-            } else {
-                break;
-            }
-        }
-        return last;
-    }
-
-    isColumnVisible(column: Column, fullyVisible: boolean) {
-        const left = this.gridToTilingSpace(column.getLeft());
-        const right = this.gridToTilingSpace(column.getRight());
-        if (fullyVisible) {
-            return left >= 0 && right <= this.tilingArea.width;
-        } else {
-            return right >= 0 && left <= this.tilingArea.width;
-        }
-    }
-
-    getVisibleColumnsWidth(fullyVisible: boolean) {
-        let width = 0;
-        let nVisible = 0;
-        for (const column of this.columns.iterator()) {
-            if (this.isColumnVisible(column, fullyVisible)) {
-                width += column.width;
-                nVisible++;
-            }
-        }
-
-        if (nVisible > 0) {
-            width += (nVisible-1) * this.world.config.gapsInnerHorizontal;
-        }
-
-        return width;
-    }
-
-    getLeftOffScreenColumn() {
-        const leftVisible = this.getLeftmostVisibleColumn(true);
-        if (leftVisible === null) {
-            return null;
-        }
-        return this.getPrevColumn(leftVisible);
-    }
-
-    getRightOffScreenColumn() {
-        const rightVisible = this.getRightmostVisibleColumn(true);
-        if (rightVisible === null) {
-            return null;
-        }
-        return this.getNextColumn(rightVisible);
-    }
-
-    increaseColumnWidth(column: Column) {
-        this.scrollToColumn(column);
-        if (this.width < this.tilingArea.width) {
-            column.adjustWidth(this.tilingArea.width - this.width, false);
-            this.arrange();
-            return;
-        }
-
-        let leftColumn = this.getLeftmostVisibleColumn(false);
-        if (leftColumn === column) {
-            leftColumn = null;
-        }
-        let rightColumn = this.getRightmostVisibleColumn(false);
-        if (rightColumn === column) {
-            rightColumn = null;
-        }
-        if (leftColumn === null && rightColumn === null) {
-            return;
-        }
-
-        const leftVisibleWidth = leftColumn === null ? Infinity : this.gridToTilingSpace(leftColumn.getRight());
-        const rightVisibleWidth = rightColumn === null ? Infinity : this.tilingArea.width - this.gridToTilingSpace(rightColumn.getLeft());
-        const expandLeft = leftVisibleWidth < rightVisibleWidth;
-        const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.world.config.gapsInnerHorizontal;
-        if (expandLeft) {
-            this.adjustScroll(widthDelta, false);
-        }
-        column.adjustWidth(widthDelta, true);
-    }
-
-    decreaseColumnWidth(column: Column) {
-        this.scrollToColumn(column);
-        if (this.width <= this.tilingArea.width) {
-            column.setWidth(Math.round(column.getWidth() / 2), false);
-            this.arrange();
-            return;
-        }
-
-        let leftColumn = this.getLeftOffScreenColumn();
-        if (leftColumn === column) {
-            leftColumn = null;
-        }
-        let rightColumn = this.getRightOffScreenColumn();
-        if (rightColumn === column) {
-            rightColumn = null;
-        }
-        if (leftColumn === null && rightColumn === null) {
-            return;
-        }
-
-        const leftInvisibleWidth = leftColumn === null ? Infinity : -this.gridToTilingSpace(leftColumn.getLeft());
-        const rightInvisibleWidth = rightColumn === null ? Infinity : this.gridToTilingSpace(rightColumn.getRight()) - this.tilingArea.width;
-        const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
-        const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
-        if (shrinkLeft) {
-            this.adjustScroll(-widthDelta, false);
-        }
-        column.adjustWidth(-widthDelta, true);
-    }
-
-    scrollToColumn(column: Column) {
-        const left = this.gridToTilingSpace(column.getLeft());
-        const right = this.gridToTilingSpace(column.getRight());
-        if (left < 0) {
-            this.adjustScroll(left, false);
-        } else if (right > this.tilingArea.width) {
-            this.adjustScroll(right - this.tilingArea.width, false);
-        } else {
-            this.removeOverscroll();
-            return;
-        }
-
-        const remainingSpace = this.tilingArea.width - this.getVisibleColumnsWidth(true);
-        const overScrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
-        const direction = left < 0 ? -1 : 1;
-        this.adjustScroll(overScrollX * direction, false);
-    }
-
-    scrollCenterColumn(column: Column) {
-        const windowCenter = this.gridToTilingSpace(column.getRight() / 2 + this.world.config.gapsInnerHorizontal);
-        const screenCenter = this.tilingArea.x + this.tilingArea.width / 2;
-        this.adjustScroll(Math.round(windowCenter - screenCenter), false);
-    }
-
-    autoAdjustScroll() {
-        const focusedWindow = this.world.getFocusedWindow();
-        if (focusedWindow === null) {
-            this.removeOverscroll();
-            return;
-        }
-
-        const column = focusedWindow.column;
-        if (column.grid !== this) {
-            return;
-        }
-        this.scrollToColumn(column);
-    }
-
-    private setScroll(x: number, force: boolean) {
-        if (!force) {
-            let minScroll = 0;
-            let maxScroll = this.width - this.tilingArea.width;
-            if (maxScroll < 0) {
-                const centerScroll = Math.round(maxScroll / 2);
-                minScroll = centerScroll;
-                maxScroll = centerScroll;
-            }
-            x = clamp(x, minScroll, maxScroll);
-        }
-        this.scrollX = x;
-    }
-
-    adjustScroll(dx: number, force: boolean) {
-        this.setScroll(this.scrollX + dx, force);
-    }
-
-    private removeOverscroll() {
-        this.setScroll(this.scrollX, false);
-    }
-
-    // convert x coordinate from grid space to tilingArea space
-    gridToTilingSpace(x: number) {
-        return x - this.scrollX;
-    }
-
     private columnsSetX(firstMovedColumn: Column|null) {
         const lastUnmovedColumn = firstMovedColumn === null ? this.columns.getLast() : this.columns.getPrev(firstMovedColumn);
-        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.getRight() + this.world.config.gapsInnerHorizontal;
+        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.getRight() + this.container.world.config.gapsInnerHorizontal;
         if (firstMovedColumn !== null) {
             for (const column of this.columns.iteratorFrom(firstMovedColumn)) {
                 column.gridX = x;
-                x += column.width + this.world.config.gapsInnerHorizontal;
+                x += column.width + this.container.world.config.gapsInnerHorizontal;
             }
         }
-        this.width = x - this.world.config.gapsInnerHorizontal;
+        this.width = x - this.container.world.config.gapsInnerHorizontal;
     }
 
-    arrange() {
-        // TODO (optimization): only arrange visible windows
-        this.updateArea();
-        let x = this.tilingArea.x - this.scrollX;
+    arrange(x: number) {
         for (const column of this.columns.iterator()) {
             column.arrange(x);
-            x += column.getWidth() + this.world.config.gapsInnerHorizontal;
+            x += column.getWidth() + this.container.world.config.gapsInnerHorizontal;
         }
     }
 
@@ -311,7 +90,7 @@ class Grid {
             this.columns.insertAfter(column, prevColumn);
         }
         this.columnsSetX(column);
-        this.autoAdjustScroll();
+        this.container.onGridWidthChanged();
     }
 
     onColumnRemoved(column: Column, passFocus: boolean) {
@@ -328,7 +107,7 @@ class Grid {
         if (passFocus && columnToFocus !== null) {
             columnToFocus.focus();
         } else {
-            this.removeOverscroll();
+            this.container.onGridWidthChanged();
         }
     }
 
@@ -337,14 +116,14 @@ class Grid {
         const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
         this.columns.move(column, prevColumn);
         this.columnsSetX(firstMovedColumn);
-        this.autoAdjustScroll();
+        this.container.onGridReordered();
     }
 
     onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
         if (!this.userResize) {
-            this.autoAdjustScroll();
+            this.container.onGridWidthChanged();
         }
     }
 
@@ -354,7 +133,7 @@ class Grid {
             lastFocusedColumn.restoreToTiled();
         }
         this.lastFocusedColumn = column;
-        this.scrollToColumn(column);
+        this.container.scrollToColumn(column);
     }
 
     onUserResizeStarted() {

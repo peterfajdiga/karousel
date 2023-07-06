@@ -47,7 +47,7 @@ function initActions(world: World) {
                 return;
             }
             firstColumn.focus();
-            grid.arrange();
+            grid.container.arrange();
         },
 
         focusEnd: () => {
@@ -57,7 +57,7 @@ function initActions(world: World) {
                 return;
             }
             lastColumn.focus();
-            grid.arrange();
+            grid.container.arrange();
         },
 
         windowMoveLeft: () => {
@@ -69,13 +69,13 @@ function initActions(world: World) {
                         return;
                     }
                     window.moveToColumn(prevColumn);
-                    grid.autoAdjustScroll();
+                    grid.container.onGridReordered();
                 } else {
                     // move from shared column into own column
                     const newColumn = new Column(grid, grid.getPrevColumn(column));
                     window.moveToColumn(newColumn);
                 }
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
@@ -88,27 +88,27 @@ function initActions(world: World) {
                         return;
                     }
                     window.moveToColumn(nextColumn);
-                    grid.autoAdjustScroll();
+                    grid.container.onGridReordered();
                 } else {
                     // move from shared column into own column
                     const newColumn = new Column(grid, column);
                     window.moveToColumn(newColumn);
                 }
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
         windowMoveUp: () => {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveWindowUp(window);
-                grid.arrange(); // TODO (optimization): only arrange moved windows
+                grid.container.arrange(); // TODO (optimization): only arrange moved windows
             });
         },
 
         windowMoveDown: () => {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveWindowDown(window);
-                grid.arrange(); // TODO (optimization): only arrange moved windows
+                grid.container.arrange(); // TODO (optimization): only arrange moved windows
             });
         },
 
@@ -116,7 +116,7 @@ function initActions(world: World) {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 const newColumn = new Column(grid, null);
                 window.moveToColumn(newColumn);
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
@@ -124,14 +124,14 @@ function initActions(world: World) {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 const newColumn = new Column(grid, grid.getLastColumn());
                 window.moveToColumn(newColumn);
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
         windowExpand: () => {
             world.doIfTiledFocused(false, (window, column, grid) => {
                 column.toggleStacked();
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
@@ -143,49 +143,49 @@ function initActions(world: World) {
         columnMoveLeft: () => {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 grid.moveColumnLeft(column);
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
         columnMoveRight: () => {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 grid.moveColumnRight(column);
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
         columnMoveStart: () => {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveAfter(null);
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
         columnMoveEnd: () => {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveAfter(grid.getLastColumn());
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
         columnExpand: () => {
             world.doIfTiledFocused(false, (window, column, grid) => {
                 column.expand();
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
         columnWidthIncrease: () => {
             world.doIfTiledFocused(false, (window, column, grid) => {
-                grid.increaseColumnWidth(column);
-                grid.arrange();
+                grid.container.increaseColumnWidth(column);
+                grid.container.arrange();
             });
         },
 
         columnWidthDecrease: () => {
             world.doIfTiledFocused(false, (window, column, grid) => {
-                grid.decreaseColumnWidth(column);
-                grid.arrange();
+                grid.container.decreaseColumnWidth(column);
+                grid.container.arrange();
             });
         },
 
@@ -203,8 +203,8 @@ function initActions(world: World) {
             if (firstColumn === null) {
                 return;
             }
-            grid.scrollToColumn(firstColumn);
-            grid.arrange();
+            grid.container.scrollToColumn(firstColumn);
+            grid.container.arrange();
         },
 
         gridScrollEnd: () => {
@@ -213,8 +213,8 @@ function initActions(world: World) {
             if (lastColumn === null) {
                 return;
             }
-            grid.scrollToColumn(lastColumn);
-            grid.arrange();
+            grid.container.scrollToColumn(lastColumn);
+            grid.container.arrange();
         },
 
         gridScrollFocused: () => {
@@ -224,13 +224,13 @@ function initActions(world: World) {
             }
             const column = focusedWindow.column;
             const grid = column.grid;
-            grid.scrollCenterColumn(column);
-            grid.arrange();
+            grid.container.scrollCenterColumn(column);
+            grid.container.arrange();
         },
 
         gridScrollLeftColumn: () => {
             const grid = world.getCurrentGrid();
-            const column = grid.getLeftmostVisibleColumn(true);
+            const column = grid.container.getLeftmostVisibleColumn(true);
             if (column === null) {
                 return;
             }
@@ -240,13 +240,13 @@ function initActions(world: World) {
                 return;
             }
 
-            grid.scrollToColumn(prevColumn);
-            grid.arrange();
+            grid.container.scrollToColumn(prevColumn);
+            grid.container.arrange();
         },
 
         gridScrollRightColumn: () => {
             const grid = world.getCurrentGrid();
-            const column = grid.getRightmostVisibleColumn(true);
+            const column = grid.container.getRightmostVisibleColumn(true);
             if (column === null) {
                 return;
             }
@@ -256,8 +256,8 @@ function initActions(world: World) {
                 return;
             }
 
-            grid.scrollToColumn(nextColumn);
-            grid.arrange();
+            grid.container.scrollToColumn(nextColumn);
+            grid.container.arrange();
         },
     };
 }
@@ -280,8 +280,8 @@ function initNumActions(world: World) {
                     return null;
                 }
                 window.moveToColumn(targetColumn);
-                grid.autoAdjustScroll();
-                grid.arrange();
+                grid.container.onGridReordered();
+                grid.container.arrange();
             });
         },
 
@@ -296,7 +296,7 @@ function initNumActions(world: World) {
                 } else {
                     column.moveAfter(grid.getPrevColumn(targetColumn));
                 }
-                grid.arrange();
+                grid.container.arrange();
             });
         },
 
@@ -308,8 +308,8 @@ function initNumActions(world: World) {
                     return;
                 }
                 column.moveToGrid(newGrid, newGrid.getLastColumn());
-                oldGrid.arrange();
-                newGrid.arrange();
+                oldGrid.container.arrange();
+                newGrid.container.arrange();
             });
         },
 
@@ -321,8 +321,8 @@ function initNumActions(world: World) {
                     return;
                 }
                 oldGrid.evacuateTail(newGrid, column);
-                oldGrid.arrange();
-                newGrid.arrange();
+                oldGrid.container.arrange();
+                newGrid.container.arrange();
             });
         },
     };
@@ -331,8 +331,8 @@ function initNumActions(world: World) {
 function gridScroll(world: World, amount: number) {
     const scrollAmount = amount;
     const grid = world.getCurrentGrid();
-    grid.adjustScroll(scrollAmount, false);
-    grid.arrange();
+    grid.container.adjustScroll(scrollAmount, false);
+    grid.container.arrange();
 }
 
 function canTileEver(kwinClient: AbstractClient) {

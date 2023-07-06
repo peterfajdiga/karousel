@@ -1,6 +1,6 @@
 class World {
     public readonly config: Config;
-    private readonly gridManager: GridManager;
+    private readonly scrollViewManager: ScrollViewManager;
     private readonly clientMap: Map<AbstractClient, ClientWrapper>;
     private lastFocusedClient: AbstractClient|null;
     private readonly workspaceSignalManager: SignalManager;
@@ -23,18 +23,18 @@ class World {
 
         this.screenResizedDelayer = new Delayer(1000, () => {
             // this delay ensures that docks get taken into account by `workspace.clientArea`
-            const gridManager = this.gridManager; // workaround for bug in Qt5's JS engine
-            for (const grid of gridManager.grids()) {
-                grid.arrange();
+            const gridManager = this.scrollViewManager; // workaround for bug in Qt5's JS engine
+            for (const scrollView of gridManager.scrollViews()) {
+                scrollView.arrange();
             }
         });
 
-        this.gridManager = new GridManager(this, workspace.currentActivity, workspace.desktops);
+        this.scrollViewManager = new ScrollViewManager(this, workspace.currentActivity, workspace.desktops);
         this.addExistingClients();
     }
 
     updateDesktops() {
-        this.gridManager.setNDesktops(workspace.desktops);
+        this.scrollViewManager.setNDesktops(workspace.desktops);
     }
 
     private addExistingClients() {
@@ -47,7 +47,7 @@ class World {
 
     getGrid(activity: string, desktopNumber: number) {
         console.assert(desktopNumber > 0 && desktopNumber <= workspace.desktops);
-        return this.gridManager.get(activity, desktopNumber);
+        return this.scrollViewManager.get(activity, desktopNumber).grid;
     }
 
     getGridInCurrentActivity(desktopNumber: number) {
@@ -215,8 +215,8 @@ class World {
     destroy() {
         this.workspaceSignalManager.destroy();
         this.removeAllClients();
-        for (const grid of this.gridManager.grids()) {
-            grid.destroy();
+        for (const scrollView of this.scrollViewManager.scrollViews()) {
+            scrollView.destroy();
         }
     }
 
