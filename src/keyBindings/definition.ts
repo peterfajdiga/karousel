@@ -111,13 +111,6 @@ const keyBindings: KeyBinding[] = [
         "action": "columnMoveEnd",
     },
     {
-        "name": "column-expand",
-        "description": "Expand column",
-        "comment": "Expands focused column horizontally to fill the screen",
-        "defaultKeySequence": "Meta+Ctrl+X",
-        "action": "columnExpand",
-    },
-    {
         "name": "column-width-increase",
         "description": "Increase column width",
         "defaultKeySequence": "Meta+Ctrl++",

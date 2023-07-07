@@ -5,7 +5,6 @@ class Column {
     private readonly windows: LinkedList<Window>;
     private stacked: boolean;
     private focusTaker: Window|null;
-    private widthBeforeExpand: number;
     private static readonly minWidth = 10;
 
     constructor(grid: Grid, prevColumn: Column|null) {
@@ -14,7 +13,6 @@ class Column {
         this.windows = new LinkedList();
         this.stacked = grid.container.world.config.stackColumnsByDefault;
         this.focusTaker = null;
-        this.widthBeforeExpand = 0;
         this.grid = grid;
         this.grid.onColumnAdded(this, prevColumn);
     }
@@ -116,17 +114,6 @@ class Column {
     // returns x position of right edge in grid space
     getRight() {
         return this.gridX + this.width;
-    }
-
-    expand() {
-        const maxWidth = this.getMaxWidth();
-        const isAlreadyExpanded = this.width === maxWidth && this.widthBeforeExpand > 0;
-        if (isAlreadyExpanded) {
-            this.setWidth(this.widthBeforeExpand, false);
-        } else {
-            this.widthBeforeExpand = this.width;
-            this.setWidth(maxWidth, false);
-        }
     }
 
     adjustWindowHeight(window: Window, heightDelta: number, top: boolean) {

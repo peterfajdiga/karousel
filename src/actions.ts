@@ -168,13 +168,6 @@ function initActions(world: World) {
             });
         },
 
-        columnExpand: () => {
-            world.doIfTiledFocused(false, (window, column, grid) => {
-                column.expand();
-                grid.container.arrange();
-            });
-        },
-
         columnWidthIncrease: () => {
             world.doIfTiledFocused(false, (window, column, grid) => {
                 grid.increaseColumnWidth(column);
