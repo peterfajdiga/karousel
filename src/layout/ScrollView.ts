@@ -27,141 +27,9 @@ class ScrollView {
             newClientArea.width - this.world.config.gapsOuterLeft - this.world.config.gapsOuterRight,
             newClientArea.height - this.world.config.gapsOuterTop - this.world.config.gapsOuterBottom,
         )
-        for (const column of this.grid.columns.iterator()) {
-            column.resizeWindows();
-        }
+        this.grid.onScreenSizeChanged();
 
         this.autoAdjustScroll();
-    }
-
-    getLeftmostVisibleColumn(fullyVisible: boolean) {
-        for (const column of this.grid.columns.iterator()) {
-            const left = this.gridToTilingSpace(column.getLeft());
-            const right = left + column.width;
-            const x = fullyVisible ? left : right;
-            if (x >= 0) {
-                return column;
-            }
-        }
-        return null;
-    }
-
-    getRightmostVisibleColumn(fullyVisible: boolean) {
-        let last = null;
-        for (const column of this.grid.columns.iterator()) {
-            const left = this.gridToTilingSpace(column.getLeft());
-            const right = left + column.width;
-            const x = fullyVisible ? right : left;
-            if (x <= this.tilingArea.width) {
-                last = column;
-            } else {
-                break;
-            }
-        }
-        return last;
-    }
-
-    isColumnVisible(column: Column, fullyVisible: boolean) {
-        const left = this.gridToTilingSpace(column.getLeft());
-        const right = this.gridToTilingSpace(column.getRight());
-        if (fullyVisible) {
-            return left >= 0 && right <= this.tilingArea.width;
-        } else {
-            return right >= 0 && left <= this.tilingArea.width;
-        }
-    }
-
-    getVisibleColumnsWidth(fullyVisible: boolean) {
-        let width = 0;
-        let nVisible = 0;
-        for (const column of this.grid.columns.iterator()) {
-            if (this.isColumnVisible(column, fullyVisible)) {
-                width += column.width;
-                nVisible++;
-            }
-        }
-
-        if (nVisible > 0) {
-            width += (nVisible-1) * this.world.config.gapsInnerHorizontal;
-        }
-
-        return width;
-    }
-
-    getLeftOffScreenColumn() {
-        const leftVisible = this.getLeftmostVisibleColumn(true);
-        if (leftVisible === null) {
-            return null;
-        }
-        return this.grid.getPrevColumn(leftVisible);
-    }
-
-    getRightOffScreenColumn() {
-        const rightVisible = this.getRightmostVisibleColumn(true);
-        if (rightVisible === null) {
-            return null;
-        }
-        return this.grid.getNextColumn(rightVisible);
-    }
-
-    increaseColumnWidth(column: Column) {
-        this.scrollToColumn(column);
-        if (this.grid.getWidth() < this.tilingArea.width) {
-            column.adjustWidth(this.tilingArea.width - this.grid.getWidth(), false);
-            this.arrange();
-            return;
-        }
-
-        let leftColumn = this.getLeftmostVisibleColumn(false);
-        if (leftColumn === column) {
-            leftColumn = null;
-        }
-        let rightColumn = this.getRightmostVisibleColumn(false);
-        if (rightColumn === column) {
-            rightColumn = null;
-        }
-        if (leftColumn === null && rightColumn === null) {
-            return;
-        }
-
-        const leftVisibleWidth = leftColumn === null ? Infinity : this.gridToTilingSpace(leftColumn.getRight());
-        const rightVisibleWidth = rightColumn === null ? Infinity : this.tilingArea.width - this.gridToTilingSpace(rightColumn.getLeft());
-        const expandLeft = leftVisibleWidth < rightVisibleWidth;
-        const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.world.config.gapsInnerHorizontal;
-        if (expandLeft) {
-            this.adjustScroll(widthDelta, false);
-        }
-        column.adjustWidth(widthDelta, true);
-    }
-
-    decreaseColumnWidth(column: Column) {
-        this.scrollToColumn(column);
-        if (this.grid.getWidth() <= this.tilingArea.width) {
-            column.setWidth(Math.round(column.getWidth() / 2), false);
-            this.arrange();
-            return;
-        }
-
-        let leftColumn = this.getLeftOffScreenColumn();
-        if (leftColumn === column) {
-            leftColumn = null;
-        }
-        let rightColumn = this.getRightOffScreenColumn();
-        if (rightColumn === column) {
-            rightColumn = null;
-        }
-        if (leftColumn === null && rightColumn === null) {
-            return;
-        }
-
-        const leftInvisibleWidth = leftColumn === null ? Infinity : -this.gridToTilingSpace(leftColumn.getLeft());
-        const rightInvisibleWidth = rightColumn === null ? Infinity : this.gridToTilingSpace(rightColumn.getRight()) - this.tilingArea.width;
-        const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
-        const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
-        if (shrinkLeft) {
-            this.adjustScroll(-widthDelta, false);
-        }
-        column.adjustWidth(-widthDelta, true);
     }
 
     scrollToColumn(column: Column) {
@@ -176,7 +44,7 @@ class ScrollView {
             return;
         }
 
-        const remainingSpace = this.tilingArea.width - this.getVisibleColumnsWidth(true);
+        const remainingSpace = this.tilingArea.width - this.grid.getVisibleColumnsWidth(this.getScrollPos(), true);
         const overScrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
         const direction = left < 0 ? -1 : 1;
         this.adjustScroll(overScrollX * direction, false);
@@ -200,6 +68,13 @@ class ScrollView {
             return;
         }
         this.scrollToColumn(column);
+    }
+
+    public getScrollPos() {
+        return {
+            left: this.scrollX,
+            right: this.scrollX + this.tilingArea.width,
+        };
     }
 
     private setScroll(x: number, force: boolean) {
@@ -246,4 +121,9 @@ class ScrollView {
     public destroy() {
         this.grid.destroy();
     }
+}
+
+type ScrollPos = { // TODO: use Qt Rect
+    left: number,
+    right: number,
 }

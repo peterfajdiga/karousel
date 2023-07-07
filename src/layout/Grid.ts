@@ -1,6 +1,6 @@
 class Grid {
     public readonly container: ScrollView;
-    public readonly columns: LinkedList<Column>; // TODO: make private
+    private readonly columns: LinkedList<Column>;
     private lastFocusedColumn: Column|null;
     private width: number;
     private userResize: boolean; // is any part of the grid being resized by the user
@@ -76,6 +76,136 @@ class Grid {
         this.width = x - this.container.world.config.gapsInnerHorizontal;
     }
 
+    getLeftmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
+        for (const column of this.columns.iterator()) {
+            const x = fullyVisible ? column.getLeft() : column.getRight();
+            if (x >= scrollPos.left) {
+                return column;
+            }
+        }
+        return null;
+    }
+
+    getRightmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
+        let last = null;
+        for (const column of this.columns.iterator()) {
+            const x = fullyVisible ? column.getRight() : column.getLeft();
+            if (x <= scrollPos.right) {
+                last = column;
+            } else {
+                break;
+            }
+        }
+        return last;
+    }
+
+    isColumnVisible(column: Column, scrollPos: ScrollPos, fullyVisible: boolean) {
+        const left = column.getLeft();
+        const right = column.getRight();
+        if (fullyVisible) {
+            return left >= scrollPos.left && right <= scrollPos.right;
+        } else {
+            return right >= scrollPos.left && left <= scrollPos.right;
+        }
+    }
+
+    getVisibleColumnsWidth(scrollPos: ScrollPos, fullyVisible: boolean) {
+        let width = 0;
+        let nVisible = 0;
+        for (const column of this.columns.iterator()) {
+            if (this.isColumnVisible(column, scrollPos, fullyVisible)) {
+                width += column.width;
+                nVisible++;
+            }
+        }
+
+        if (nVisible > 0) {
+            width += (nVisible-1) * this.container.world.config.gapsInnerHorizontal;
+        }
+
+        return width;
+    }
+
+    getLeftOffScreenColumn(scrollPos: ScrollPos) {
+        const leftVisible = this.getLeftmostVisibleColumn(scrollPos, true);
+        if (leftVisible === null) {
+            return null;
+        }
+        return this.getPrevColumn(leftVisible);
+    }
+
+    getRightOffScreenColumn(scrollPos: ScrollPos) {
+        const rightVisible = this.getRightmostVisibleColumn(scrollPos, true);
+        if (rightVisible === null) {
+            return null;
+        }
+        return this.getNextColumn(rightVisible);
+    }
+
+    increaseColumnWidth(column: Column) {
+        this.container.scrollToColumn(column); // TODO: only calculate scrollPos
+        const scrollPos = this.container.getScrollPos();
+        const viewWidth = scrollPos.right - scrollPos.left;
+        if (this.width < viewWidth) {
+            column.adjustWidth(viewWidth - this.width, false);
+            this.container.arrange();
+            return;
+        }
+
+        let leftColumn = this.getLeftmostVisibleColumn(scrollPos, false);
+        if (leftColumn === column) {
+            leftColumn = null;
+        }
+        let rightColumn = this.getRightmostVisibleColumn(scrollPos, false);
+        if (rightColumn === column) {
+            rightColumn = null;
+        }
+        if (leftColumn === null && rightColumn === null) {
+            return;
+        }
+
+        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.getRight() - scrollPos.left;
+        const rightVisibleWidth = rightColumn === null ? Infinity : scrollPos.right - rightColumn.getLeft();
+        const expandLeft = leftVisibleWidth < rightVisibleWidth;
+        const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.container.world.config.gapsInnerHorizontal;
+        if (expandLeft) {
+            this.container.adjustScroll(widthDelta, false);
+        }
+        column.adjustWidth(widthDelta, true);
+    }
+
+    decreaseColumnWidth(column: Column) {
+        this.container.scrollToColumn(column); // TODO: only calculate scrollPos
+        const scrollPos = this.container.getScrollPos();
+        const viewWidth = scrollPos.right - scrollPos.left;
+        if (this.width <= viewWidth) {
+            column.setWidth(Math.round(column.getWidth() / 2), false);
+            this.container.arrange();
+            return;
+        }
+
+        let leftColumn = this.getLeftOffScreenColumn(scrollPos);
+        if (leftColumn === column) {
+            leftColumn = null;
+        }
+        let rightColumn = this.getRightOffScreenColumn(scrollPos);
+        if (rightColumn === column) {
+            rightColumn = null;
+        }
+        if (leftColumn === null && rightColumn === null) {
+            return;
+        }
+
+        const leftInvisibleWidth = leftColumn === null ? Infinity : scrollPos.left - leftColumn.getLeft();
+        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.getRight() - scrollPos.right;
+        const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
+        const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
+        if (shrinkLeft) {
+            this.container.adjustScroll(-widthDelta, false);
+        }
+        column.adjustWidth(-widthDelta, true);
+    }
+
     arrange(x: number) {
         for (const column of this.columns.iterator()) {
             column.arrange(x);
@@ -134,6 +264,12 @@ class Grid {
         }
         this.lastFocusedColumn = column;
         this.container.scrollToColumn(column);
+    }
+
+    onScreenSizeChanged() {
+        for (const column of this.columns.iterator()) {
+            column.resizeWindows();
+        }
     }
 
     onUserResizeStarted() {
