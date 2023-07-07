@@ -39,15 +39,15 @@ class ScrollView {
         const initialScrollPos = this.getCurrentScrollPos();
 
         let targetScrollX: number;
-        if (left < initialScrollPos.left) {
+        if (left < initialScrollPos.getLeft()) {
             targetScrollX = this.clampScrollX(left);
-        } else if (right > initialScrollPos.right) {
+        } else if (right > initialScrollPos.getRight()) {
             targetScrollX = this.clampScrollX(right - this.tilingArea.width);
         } else {
             return this.getScrollPos(this.clampScrollX(this.scrollX));
         }
 
-        const overscroll = this.getTargetOverscroll(targetScrollX, left < initialScrollPos.left);
+        const overscroll = this.getTargetOverscroll(targetScrollX, left < initialScrollPos.getLeft());
         return this.getScrollPos(this.clampScrollX(targetScrollX + overscroll));
     }
 
@@ -63,7 +63,7 @@ class ScrollView {
     }
 
     scrollToColumn(column: Column) {
-        this.scrollX = this.getScrollPosForColumn(column).left;
+        this.scrollX = this.getScrollPosForColumn(column).x;
     }
 
     scrollCenterColumn(column: Column) {
@@ -87,10 +87,7 @@ class ScrollView {
     }
 
     private getScrollPos(scrollX: number) {
-        return {
-            left: scrollX,
-            right: scrollX + this.tilingArea.width,
-        }
+        return new ScrollPos(scrollX, this.tilingArea.width);
     }
 
     public getCurrentScrollPos() {
@@ -113,7 +110,7 @@ class ScrollView {
     }
 
     private applyScrollPos(scrollPos: ScrollPos) {
-        this.scrollX = scrollPos.left;
+        this.scrollX = scrollPos.x;
     }
 
     adjustScroll(dx: number, force: boolean) {
@@ -141,9 +138,4 @@ class ScrollView {
     public destroy() {
         this.grid.destroy();
     }
-}
-
-type ScrollPos = { // TODO: use Qt Rect
-    left: number,
-    right: number,
 }

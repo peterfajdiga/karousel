@@ -79,7 +79,7 @@ class Grid {
     getLeftmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
         for (const column of this.columns.iterator()) {
             const x = fullyVisible ? column.getLeft() : column.getRight();
-            if (x >= scrollPos.left) {
+            if (x >= scrollPos.getLeft()) {
                 return column;
             }
         }
@@ -90,7 +90,7 @@ class Grid {
         let last = null;
         for (const column of this.columns.iterator()) {
             const x = fullyVisible ? column.getRight() : column.getLeft();
-            if (x <= scrollPos.right) {
+            if (x <= scrollPos.getRight()) {
                 last = column;
             } else {
                 break;
@@ -103,9 +103,9 @@ class Grid {
         const left = column.getLeft();
         const right = column.getRight();
         if (fullyVisible) {
-            return left >= scrollPos.left && right <= scrollPos.right;
+            return left >= scrollPos.getLeft() && right <= scrollPos.getRight();
         } else {
-            return right >= scrollPos.left && left <= scrollPos.right;
+            return right >= scrollPos.getLeft() && left <= scrollPos.getRight();
         }
     }
 
@@ -144,9 +144,8 @@ class Grid {
 
     increaseColumnWidth(column: Column) {
         const scrollPos = this.container.getScrollPosForColumn(column);
-        const viewWidth = scrollPos.right - scrollPos.left;
-        if (this.width < viewWidth) {
-            column.adjustWidth(viewWidth - this.width, false);
+        if (this.width < scrollPos.width) {
+            column.adjustWidth(scrollPos.width - this.width, false);
             this.container.arrange();
             return;
         }
@@ -163,8 +162,8 @@ class Grid {
             return;
         }
 
-        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.getRight() - scrollPos.left;
-        const rightVisibleWidth = rightColumn === null ? Infinity : scrollPos.right - rightColumn.getLeft();
+        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.getRight() - scrollPos.getLeft();
+        const rightVisibleWidth = rightColumn === null ? Infinity : scrollPos.getRight() - rightColumn.getLeft();
         const expandLeft = leftVisibleWidth < rightVisibleWidth;
         const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.container.world.config.gapsInnerHorizontal;
         if (expandLeft) {
@@ -175,8 +174,7 @@ class Grid {
 
     decreaseColumnWidth(column: Column) {
         const scrollPos = this.container.getScrollPosForColumn(column);
-        const viewWidth = scrollPos.right - scrollPos.left;
-        if (this.width <= viewWidth) {
+        if (this.width <= scrollPos.width) {
             column.setWidth(Math.round(column.getWidth() / 2), false);
             this.container.arrange();
             return;
@@ -194,8 +192,8 @@ class Grid {
             return;
         }
 
-        const leftInvisibleWidth = leftColumn === null ? Infinity : scrollPos.left - leftColumn.getLeft();
-        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.getRight() - scrollPos.right;
+        const leftInvisibleWidth = leftColumn === null ? Infinity : scrollPos.getLeft() - leftColumn.getLeft();
+        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.getRight() - scrollPos.getRight();
         const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
         const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
         if (shrinkLeft) {
