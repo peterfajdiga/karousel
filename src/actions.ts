@@ -230,7 +230,7 @@ function initActions(world: World) {
 
         gridScrollLeftColumn: () => {
             const grid = world.getCurrentGrid();
-            const column = grid.getLeftmostVisibleColumn(grid.container.getScrollPos(), true);
+            const column = grid.getLeftmostVisibleColumn(grid.container.getCurrentScrollPos(), true);
             if (column === null) {
                 return;
             }
@@ -246,7 +246,7 @@ function initActions(world: World) {
 
         gridScrollRightColumn: () => {
             const grid = world.getCurrentGrid();
-            const column = grid.getRightmostVisibleColumn(grid.container.getScrollPos(), true);
+            const column = grid.getRightmostVisibleColumn(grid.container.getCurrentScrollPos(), true);
             if (column === null) {
                 return;
             }

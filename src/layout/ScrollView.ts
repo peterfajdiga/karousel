@@ -32,22 +32,27 @@ class ScrollView {
         this.autoAdjustScroll();
     }
 
-    scrollToColumn(column: Column) {
+    // calculates ScrollPos that scrolls the column into view
+    public getScrollPosForColumn(column: Column) {
         const left = this.gridToTilingSpace(column.getLeft());
         const right = this.gridToTilingSpace(column.getRight());
+        let scrollPos: ScrollPos;
         if (left < 0) {
-            this.adjustScroll(left, false);
+            scrollPos = this.getScrollPos(this.clampScrollX(this.scrollX + left));
         } else if (right > this.tilingArea.width) {
-            this.adjustScroll(right - this.tilingArea.width, false);
+            scrollPos = this.getScrollPos(this.clampScrollX(this.scrollX + right - this.tilingArea.width));
         } else {
-            this.removeOverscroll();
-            return;
+            return this.getScrollPos(this.clampScrollX(this.scrollX));
         }
 
-        const remainingSpace = this.tilingArea.width - this.grid.getVisibleColumnsWidth(this.getScrollPos(), true);
+        const remainingSpace = this.tilingArea.width - this.grid.getVisibleColumnsWidth(scrollPos, true);
         const overScrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
         const direction = left < 0 ? -1 : 1;
-        this.adjustScroll(overScrollX * direction, false);
+        return this.getScrollPos(this.clampScrollX(scrollPos.left + overScrollX * direction));
+    }
+
+    scrollToColumn(column: Column) {
+        this.scrollX = this.getScrollPosForColumn(column).left;
     }
 
     scrollCenterColumn(column: Column) {
@@ -70,25 +75,34 @@ class ScrollView {
         this.scrollToColumn(column);
     }
 
-    public getScrollPos() {
+    private getScrollPos(scrollX: number) {
         return {
-            left: this.scrollX,
-            right: this.scrollX + this.tilingArea.width,
-        };
+            left: scrollX,
+            right: scrollX + this.tilingArea.width,
+        }
+    }
+
+    public getCurrentScrollPos() {
+        return this.getScrollPos(this.scrollX);
+    }
+
+    private clampScrollX(x: number) {
+        let minScroll = 0;
+        let maxScroll = this.grid.getWidth() - this.tilingArea.width;
+        if (maxScroll < 0) {
+            const centerScroll = Math.round(maxScroll / 2);
+            minScroll = centerScroll;
+            maxScroll = centerScroll;
+        }
+        return clamp(x, minScroll, maxScroll);
     }
 
     private setScroll(x: number, force: boolean) {
-        if (!force) {
-            let minScroll = 0;
-            let maxScroll = this.grid.getWidth() - this.tilingArea.width;
-            if (maxScroll < 0) {
-                const centerScroll = Math.round(maxScroll / 2);
-                minScroll = centerScroll;
-                maxScroll = centerScroll;
-            }
-            x = clamp(x, minScroll, maxScroll);
-        }
-        this.scrollX = x;
+        this.scrollX = force ? x : this.clampScrollX(x);
+    }
+
+    private applyScrollPos(scrollPos: ScrollPos) {
+        this.scrollX = scrollPos.left;
     }
 
     adjustScroll(dx: number, force: boolean) {
@@ -105,6 +119,7 @@ class ScrollView {
         this.grid.arrange(this.tilingArea.x - this.scrollX);
     }
 
+    // TODO: remove
     // convert x coordinate from grid space to tilingArea space
     gridToTilingSpace(x: number) {
         return x - this.scrollX;
