@@ -56,7 +56,7 @@ class ScrollView {
     }
 
     scrollCenterColumn(column: Column) {
-        const windowCenter = this.gridToTilingSpace(column.getRight() / 2 + this.world.config.gapsInnerHorizontal);
+        const windowCenter = this.gridToTilingSpace(column.getLeft() + column.width / 2 + this.world.config.gapsInnerHorizontal);
         const screenCenter = this.tilingArea.x + this.tilingArea.width / 2;
         this.adjustScroll(Math.round(windowCenter - screenCenter), false);
     }
