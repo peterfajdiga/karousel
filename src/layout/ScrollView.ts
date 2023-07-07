@@ -34,21 +34,32 @@ class ScrollView {
 
     // calculates ScrollPos that scrolls the column into view
     public getScrollPosForColumn(column: Column) {
-        const left = this.gridToTilingSpace(column.getLeft());
-        const right = this.gridToTilingSpace(column.getRight());
-        let scrollPos: ScrollPos;
-        if (left < 0) {
-            scrollPos = this.getScrollPos(this.clampScrollX(this.scrollX + left));
-        } else if (right > this.tilingArea.width) {
-            scrollPos = this.getScrollPos(this.clampScrollX(this.scrollX + right - this.tilingArea.width));
+        const left = column.getLeft();
+        const right = column.getRight();
+        const initialScrollPos = this.getCurrentScrollPos();
+
+        let targetScrollX: number;
+        if (left < initialScrollPos.left) {
+            targetScrollX = this.clampScrollX(left);
+        } else if (right > initialScrollPos.right) {
+            targetScrollX = this.clampScrollX(right - this.tilingArea.width);
         } else {
             return this.getScrollPos(this.clampScrollX(this.scrollX));
         }
 
-        const remainingSpace = this.tilingArea.width - this.grid.getVisibleColumnsWidth(scrollPos, true);
-        const overScrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
-        const direction = left < 0 ? -1 : 1;
-        return this.getScrollPos(this.clampScrollX(scrollPos.left + overScrollX * direction));
+        const overscroll = this.getTargetOverscroll(targetScrollX, left < initialScrollPos.left);
+        return this.getScrollPos(this.clampScrollX(targetScrollX + overscroll));
+    }
+
+    private getTargetOverscroll(targetScrollX: number, scrollLeft: boolean) {
+        if (this.world.config.overscroll === 0) {
+            return 0;
+        }
+        const visibleColumnsWidth = this.grid.getVisibleColumnsWidth(this.getScrollPos(targetScrollX), true);
+        const remainingSpace = this.tilingArea.width - visibleColumnsWidth;
+        const overscrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
+        const direction = scrollLeft ? -1 : 1;
+        return overscrollX * direction;
     }
 
     scrollToColumn(column: Column) {
