@@ -130,12 +130,6 @@ class ScrollView {
         this.grid.arrange(this.tilingArea.x - this.scrollX);
     }
 
-    // TODO: remove
-    // convert x coordinate from grid space to tilingArea space
-    gridToTilingSpace(x: number) {
-        return x - this.scrollX;
-    }
-
     public onGridWidthChanged() {
         this.autoAdjustScroll();
     }
