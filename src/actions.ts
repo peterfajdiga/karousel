@@ -128,13 +128,6 @@ function initActions(world: World) {
             });
         },
 
-        windowExpand: () => {
-            world.doIfTiledFocused(false, (window, column, grid) => {
-                column.toggleStacked();
-                grid.container.arrange();
-            });
-        },
-
         windowToggleFloating: () => {
             const kwinClient = workspace.activeClient;
             world.toggleFloatingClient(kwinClient);
@@ -164,6 +157,13 @@ function initActions(world: World) {
         columnMoveEnd: () => {
             world.doIfTiledFocused(true, (window, column, grid) => {
                 column.moveAfter(grid.getLastColumn());
+                grid.container.arrange();
+            });
+        },
+
+        columnToggleStacked: () => {
+            world.doIfTiledFocused(false, (window, column, grid) => {
+                column.toggleStacked();
                 grid.container.arrange();
             });
         },

@@ -80,11 +80,10 @@ const keyBindings: KeyBinding[] = [
         "action": "windowMoveEnd",
     },
     {
-        "name": "window-expand",
-        "description": "Expand window",
-        "comment": "Expands focused window vertically; toggles stacked layout for focused column",
+        "name": "column-toggle-stacked",
+        "description": "Toggle stacked layout for focused column",
         "defaultKeySequence": "Meta+X",
-        "action": "windowExpand",
+        "action": "columnToggleStacked",
     },
     {
         "name": "column-move-left",
