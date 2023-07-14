@@ -77,9 +77,10 @@ class Grid {
     }
 
     getLeftmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
+        const scrollX = scrollPos.getLeft();
         for (const column of this.columns.iterator()) {
-            const x = fullyVisible ? column.getLeft() : column.getRight();
-            if (x >= scrollPos.getLeft()) {
+            const x = fullyVisible ? column.getLeft() : column.getRight() + (this.container.world.config.gapsInnerHorizontal - 1);
+            if (x >= scrollX) {
                 return column;
             }
         }
@@ -87,10 +88,11 @@ class Grid {
     }
 
     getRightmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
+        const scrollX = scrollPos.getRight();
         let last = null;
         for (const column of this.columns.iterator()) {
-            const x = fullyVisible ? column.getRight() : column.getLeft();
-            if (x <= scrollPos.getRight()) {
+            const x = fullyVisible ? column.getRight() : column.getLeft() - (this.container.world.config.gapsInnerHorizontal - 1);
+            if (x <= scrollX) {
                 last = column;
             } else {
                 break;

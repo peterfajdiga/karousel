@@ -210,9 +210,11 @@ class Column {
 
     public isVisible(scrollPos: ScrollPos, fullyVisible: boolean) {
         if (fullyVisible) {
-            return this.getLeft() >= scrollPos.getLeft() && this.getRight() <= scrollPos.getRight();
+            return this.getLeft() >= scrollPos.getLeft() &&
+                this.getRight() <= scrollPos.getRight();
         } else {
-            return this.getRight() >= scrollPos.getLeft() && this.getLeft() <= scrollPos.getRight();
+            return this.getRight() + this.grid.container.world.config.gapsInnerHorizontal > scrollPos.getLeft() &&
+                this.getLeft() - this.grid.container.world.config.gapsInnerHorizontal < scrollPos.getRight();
         }
     }
 
