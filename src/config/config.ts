@@ -6,7 +6,6 @@ type Config = {
     gapsInnerHorizontal: number,
     gapsInnerVertical: number,
     overscroll: number,
-    manualScrollStep: number,
     untileOnDrag: boolean,
     stackColumnsByDefault: boolean,
     resizeNeighborColumn: boolean,

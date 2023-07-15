@@ -182,14 +182,6 @@ function initActions(world: World) {
             });
         },
 
-        gridScrollLeft: () => {
-            gridScroll(world, -world.config.manualScrollStep);
-        },
-
-        gridScrollRight: () => {
-            gridScroll(world, world.config.manualScrollStep);
-        },
-
         gridScrollStart: () => {
             const grid = world.getCurrentGrid();
             const firstColumn = grid.getFirstColumn();

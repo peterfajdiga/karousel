@@ -84,11 +84,6 @@ const configDef = [
         "default": 18
     },
     {
-        "name": "manualScrollStep",
-        "type": "UInt",
-        "default": 200
-    },
-    {
         "name": "untileOnDrag",
         "type": "Bool",
         "default": true
