@@ -38,6 +38,12 @@ class World {
                 marginRight: config.gapsOuterRight,
                 overscroll: config.overscroll,
             },
+            {
+                gapsInnerHorizontal: config.gapsInnerHorizontal,
+                gapsInnerVertical: config.gapsInnerVertical,
+                stackColumnsByDefault: config.stackColumnsByDefault,
+                resizeNeighborColumn: config.resizeNeighborColumn,
+            },
             workspace.currentActivity,
             workspace.desktops,
         );

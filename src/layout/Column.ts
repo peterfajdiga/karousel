@@ -11,7 +11,7 @@ class Column {
         this.gridX = 0;
         this.width = 0;
         this.windows = new LinkedList();
-        this.stacked = grid.container.world.config.stackColumnsByDefault;
+        this.stacked = grid.config.stackColumnsByDefault;
         this.focusTaker = null;
         this.grid = grid;
         this.grid.onColumnAdded(this, prevColumn);
@@ -132,10 +132,10 @@ class Column {
             return;
         }
         if (nWindows === 1) {
-            this.stacked = this.grid.container.world.config.stackColumnsByDefault;
+            this.stacked = this.grid.config.stackColumnsByDefault;
         }
 
-        let remainingPixels = this.grid.container.tilingArea.height - (nWindows-1) * this.grid.container.world.config.gapsInnerVertical;
+        let remainingPixels = this.grid.container.tilingArea.height - (nWindows-1) * this.grid.config.gapsInnerVertical;
         let remainingWindows = nWindows;
         for (const window of this.windows.iterator()) {
             const windowHeight = Math.round(remainingPixels / remainingWindows);
@@ -170,7 +170,7 @@ class Column {
         for (const window of this.windows.iterator()) {
             window.client.setShade(false);
             window.arrange(x, y, this.width, window.height);
-            y += window.height + this.grid.container.world.config.gapsInnerVertical;
+            y += window.height + this.grid.config.gapsInnerVertical;
         }
     }
 
@@ -187,7 +187,7 @@ class Column {
         }
 
         const nCollapsed = this.getWindowCount() - 1;
-        const expandedHeight = this.grid.container.tilingArea.height - nCollapsed * (collapsedHeight + this.grid.container.world.config.gapsInnerVertical);
+        const expandedHeight = this.grid.container.tilingArea.height - nCollapsed * (collapsedHeight + this.grid.config.gapsInnerVertical);
         let y = this.grid.container.tilingArea.y;
         for (const window of this.windows.iterator()) {
             if (window === expandedWindow) {
@@ -197,7 +197,7 @@ class Column {
                 window.arrange(x, y, this.width, window.height);
                 y += collapsedHeight;
             }
-            y += this.grid.container.world.config.gapsInnerVertical;
+            y += this.grid.config.gapsInnerVertical;
         }
     }
 
@@ -213,8 +213,8 @@ class Column {
             return this.getLeft() >= scrollPos.getLeft() &&
                 this.getRight() <= scrollPos.getRight();
         } else {
-            return this.getRight() + this.grid.container.world.config.gapsInnerHorizontal > scrollPos.getLeft() &&
-                this.getLeft() - this.grid.container.world.config.gapsInnerHorizontal < scrollPos.getRight();
+            return this.getRight() + this.grid.config.gapsInnerHorizontal > scrollPos.getLeft() &&
+                this.getLeft() - this.grid.config.gapsInnerHorizontal < scrollPos.getRight();
         }
     }
 

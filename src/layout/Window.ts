@@ -91,7 +91,7 @@ class Window {
             this.column.adjustWidth(widthDelta, true);
             let leftEdgeDelta = newGeometry.left - oldGeometry.left;
             const resizingLeftSide = leftEdgeDelta !== 0;
-            if (resizeNeighborColumn && this.column.grid.container.world.config.resizeNeighborColumn) {
+            if (resizeNeighborColumn && this.column.grid.config.resizeNeighborColumn) {
                 const neighborColumn = resizingLeftSide ? this.column.grid.getPrevColumn(this.column) : this.column.grid.getNextColumn(this.column);
                 if (neighborColumn !== null) {
                     const oldNeighborWidth = neighborColumn.width;

@@ -7,12 +7,12 @@ class ScrollView {
     public clientArea: QRect;
     public tilingArea: QRect;
 
-    constructor(world: World, desktop: number, config: ScrollView.Config) {
+    constructor(world: World, desktop: number, config: ScrollView.Config, layoutConfig: LayoutConfig) {
         this.config = config;
         this.world = world;
         this.scrollX = 0;
         this.desktop = desktop;
-        this.grid = new Grid(this);
+        this.grid = new Grid(this, layoutConfig);
         this.updateArea();
     }
 
