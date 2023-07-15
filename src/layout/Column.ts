@@ -208,6 +208,14 @@ class Column {
         this.stacked = !this.stacked;
     }
 
+    public isVisible(scrollPos: ScrollPos, fullyVisible: boolean) {
+        if (fullyVisible) {
+            return this.getLeft() >= scrollPos.getLeft() && this.getRight() <= scrollPos.getRight();
+        } else {
+            return this.getRight() >= scrollPos.getLeft() && this.getLeft() <= scrollPos.getRight();
+        }
+    }
+
     onWindowAdded(window: Window) {
         this.windows.insertEnd(window);
         if (this.width === 0) {

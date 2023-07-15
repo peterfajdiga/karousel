@@ -99,21 +99,11 @@ class Grid {
         return last;
     }
 
-    isColumnVisible(column: Column, scrollPos: ScrollPos, fullyVisible: boolean) {
-        const left = column.getLeft();
-        const right = column.getRight();
-        if (fullyVisible) {
-            return left >= scrollPos.getLeft() && right <= scrollPos.getRight();
-        } else {
-            return right >= scrollPos.getLeft() && left <= scrollPos.getRight();
-        }
-    }
-
     getVisibleColumnsWidth(scrollPos: ScrollPos, fullyVisible: boolean) {
         let width = 0;
         let nVisible = 0;
         for (const column of this.columns.iterator()) {
-            if (this.isColumnVisible(column, scrollPos, fullyVisible)) {
+            if (column.isVisible(scrollPos, fullyVisible)) {
                 width += column.width;
                 nVisible++;
             }
