@@ -29,7 +29,18 @@ class World {
             }
         });
 
-        this.scrollViewManager = new ScrollViewManager(this, workspace.currentActivity, workspace.desktops);
+        this.scrollViewManager = new ScrollViewManager(
+            this,
+            {
+                marginTop: config.gapsOuterTop,
+                marginBottom: config.gapsOuterBottom,
+                marginLeft: config.gapsOuterLeft,
+                marginRight: config.gapsOuterRight,
+                overscroll: config.overscroll,
+            },
+            workspace.currentActivity,
+            workspace.desktops,
+        );
         this.addExistingClients();
     }
 

@@ -1,9 +1,11 @@
 class ScrollViewManager {
     private readonly world: World;
+    private readonly config: ScrollView.Config;
     private readonly scrollViewsPerActivity: Map<string, ScrollView[]>;
     private nDesktops: number;
 
-    constructor(world: World, currentActivity: string, nDesktops: number) {
+    constructor(world: World, config: ScrollView.Config, currentActivity: string, nDesktops: number) {
+        this.config = config;
         this.world = world;
         this.scrollViewsPerActivity = new Map();
         this.nDesktops = 0;
@@ -41,7 +43,7 @@ class ScrollViewManager {
         const nStart = scrollViews.length;
         for (let i = 0; i < n; i++) {
             const desktopNumber = nStart + i + 1;
-            scrollViews.push(new ScrollView(this.world, desktopNumber));
+            scrollViews.push(new ScrollView(this.world, desktopNumber, this.config));
         }
     }
 

@@ -1,12 +1,14 @@
 class ScrollView {
     public readonly world: World;
     public readonly grid: Grid;
+    public readonly desktop: number;
+    private readonly config: ScrollView.Config;
     private scrollX: number;
     public clientArea: QRect;
     public tilingArea: QRect;
-    public readonly desktop: number;
 
-    constructor(world: World, desktop: number) {
+    constructor(world: World, desktop: number, config: ScrollView.Config) {
+        this.config = config;
         this.world = world;
         this.scrollX = 0;
         this.desktop = desktop;
@@ -22,10 +24,10 @@ class ScrollView {
 
         this.clientArea = newClientArea;
         this.tilingArea = Qt.rect(
-            newClientArea.x + this.world.config.gapsOuterLeft,
-            newClientArea.y + this.world.config.gapsOuterTop,
-            newClientArea.width - this.world.config.gapsOuterLeft - this.world.config.gapsOuterRight,
-            newClientArea.height - this.world.config.gapsOuterTop - this.world.config.gapsOuterBottom,
+            newClientArea.x + this.config.marginLeft,
+            newClientArea.y + this.config.marginTop,
+            newClientArea.width - this.config.marginLeft - this.config.marginRight,
+            newClientArea.height - this.config.marginTop - this.config.marginBottom,
         )
         this.grid.onScreenSizeChanged();
 
@@ -52,12 +54,12 @@ class ScrollView {
     }
 
     private getTargetOverscroll(targetScrollX: number, scrollLeft: boolean) {
-        if (this.world.config.overscroll === 0) {
+        if (this.config.overscroll === 0) {
             return 0;
         }
         const visibleColumnsWidth = this.grid.getVisibleColumnsWidth(this.getScrollPos(targetScrollX), true);
         const remainingSpace = this.tilingArea.width - visibleColumnsWidth;
-        const overscrollX = Math.min(this.world.config.overscroll, Math.round(remainingSpace / 2));
+        const overscrollX = Math.min(this.config.overscroll, Math.round(remainingSpace / 2));
         const direction = scrollLeft ? -1 : 1;
         return overscrollX * direction;
     }
@@ -137,5 +139,15 @@ class ScrollView {
 
     public destroy() {
         this.grid.destroy();
+    }
+}
+
+module ScrollView {
+    export type Config = {
+        marginTop: number,
+        marginBottom: number,
+        marginLeft: number,
+        marginRight: number,
+        overscroll: number,
     }
 }
