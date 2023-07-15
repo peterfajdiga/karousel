@@ -51,7 +51,7 @@ class ClientStateTiled {
 
         let lastResize = false;
         manager.connect(kwinClient.moveResizedChanged, () => {
-            if (world.config.untileOnDrag && kwinClient.move) {
+            if (world.untileOnDrag && kwinClient.move) {
                 world.untileClient(kwinClient);
                 return;
             }

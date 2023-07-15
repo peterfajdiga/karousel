@@ -1,5 +1,5 @@
 class World {
-    public readonly config: Config;
+    public readonly untileOnDrag: boolean;
     private readonly scrollViewManager: ScrollViewManager;
     private readonly clientMap: Map<AbstractClient, ClientWrapper>;
     private lastFocusedClient: AbstractClient|null;
@@ -8,7 +8,7 @@ class World {
     private readonly screenResizedDelayer: Delayer;
 
     constructor(config: Config) {
-        this.config = config;
+        this.untileOnDrag = config.untileOnDrag;
         this.clientMap = new Map();
         this.lastFocusedClient = null;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
