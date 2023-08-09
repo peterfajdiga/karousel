@@ -22,6 +22,8 @@ Similar window managers include [PaperWM](https://github.com/paperwm/PaperWM) an
 - Doesn't support windows on multiple activities
 
 ## Key bindings
+The key bindings can be configured in KDE System Settings among KWin's own keyboard shortcuts.
+Here's the default ones:
 | Shortcut                 | Action                                                                                                                         |
 | ---                      | ---                                                                                                                            |
 | Meta+Space               | Toggle floating                                                                                                                |
