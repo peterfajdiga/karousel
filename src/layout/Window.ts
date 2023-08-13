@@ -29,7 +29,7 @@ class Window {
 
     arrange(x: number, y: number, width: number, height: number) {
         if (this.skipArrange) {
-            // window is being manually resized, prevent fighting with the user
+            // window is maximized, fullscreen, or being manually resized, prevent fighting with the user
             return;
         }
         this.client.place(x, y, width, height);
