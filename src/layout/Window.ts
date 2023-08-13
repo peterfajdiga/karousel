@@ -94,10 +94,10 @@ class Window {
             if (resizeNeighborColumn && this.column.grid.config.resizeNeighborColumn) {
                 const neighborColumn = resizingLeftSide ? this.column.grid.getPrevColumn(this.column) : this.column.grid.getNextColumn(this.column);
                 if (neighborColumn !== null) {
-                    const oldNeighborWidth = neighborColumn.width;
+                    const oldNeighborWidth = neighborColumn.getWidth();
                     neighborColumn.adjustWidth(-widthDelta, true);
                     if (resizingLeftSide) {
-                        leftEdgeDelta -= neighborColumn.width - oldNeighborWidth;
+                        leftEdgeDelta -= neighborColumn.getWidth() - oldNeighborWidth;
                     }
                 }
             }

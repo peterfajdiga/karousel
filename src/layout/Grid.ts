@@ -72,7 +72,7 @@ class Grid {
         if (firstMovedColumn !== null) {
             for (const column of this.columns.iteratorFrom(firstMovedColumn)) {
                 column.gridX = x;
-                x += column.width + this.config.gapsInnerHorizontal;
+                x += column.getWidth() + this.config.gapsInnerHorizontal;
             }
         }
         this.width = x - this.config.gapsInnerHorizontal;
@@ -108,7 +108,7 @@ class Grid {
         let nVisible = 0;
         for (const column of this.columns.iterator()) {
             if (column.isVisible(scrollPos, fullyVisible)) {
-                width += column.width;
+                width += column.getWidth();
                 nVisible++;
             }
         }

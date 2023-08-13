@@ -1,7 +1,7 @@
 class Column {
     public grid: Grid;
     public gridX: number;
-    public width: number; // TODO: increase column width to contain transients
+    private width: number; // TODO: increase column width to contain transients
     private readonly windows: LinkedList<Window>;
     private stacked: boolean;
     private focusTaker: Window|null;
