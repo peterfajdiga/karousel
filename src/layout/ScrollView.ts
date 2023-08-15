@@ -127,6 +127,7 @@ class ScrollView {
         // TODO (optimization): only arrange visible windows
         this.updateArea();
         this.grid.arrange(this.tilingArea.x - this.scrollX);
+        this.world.ensureFocusedTransientsVisible(); // TODO: refactor - call from elsewhere
     }
 
     public onGridWidthChanged() {

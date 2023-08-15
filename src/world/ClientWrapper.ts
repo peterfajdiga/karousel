@@ -119,6 +119,25 @@ class ClientWrapper {
         this.transients.splice(i, 1);
     }
 
+    public ensureTransientsVisible(screenSize: QRect) {
+        for (const transient of this.transients) {
+            if (transient.stateManager.getState() instanceof ClientStateFloating) {
+                transient.ensureVisible(screenSize);
+                transient.ensureTransientsVisible(screenSize);
+
+            }
+        }
+    }
+
+    public ensureVisible(screenSize: QRect) {
+        const frame = this.kwinClient.frameGeometry;
+        if (frame.left < 0) {
+            frame.x = 0;
+        } else if (frame.right > screenSize.width) {
+            frame.x = screenSize.width - frame.width;
+        }
+    }
+
     destroy(passFocus: boolean) {
         this.stateManager.destroy(passFocus);
         this.signalManager.destroy();

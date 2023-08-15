@@ -113,6 +113,12 @@ class World {
         return transientFor;
     }
 
+    public ensureFocusedTransientsVisible() {
+        this.doIfTiledFocused(true, (window, column, grid) => {
+            window.client.ensureTransientsVisible(grid.container.clientArea);
+        });
+    }
+
     minimizeClient(kwinClient: AbstractClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
