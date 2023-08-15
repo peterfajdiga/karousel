@@ -49,8 +49,8 @@ function registerNumKeyBindings(name: string, description: string, modifiers: st
     }
 }
 
-function registerKeyBindings(world: World) {
-    const actions = Actions.init(world);
+function registerKeyBindings(world: World, config: Config) {
+    const actions = Actions.init(world, config);
     for (const binding of keyBindings) {
         registerKeyBinding(binding.name, binding.description, binding.defaultKeySequence, actions[binding.action]);
     }

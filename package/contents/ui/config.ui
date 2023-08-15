@@ -184,7 +184,31 @@
                                 </widget>
                             </item>
 
+                            <item row="7" column="0">
+                                <widget class="QLabel" name="label_manualScrollStep">
+                                    <property name="text">
+                                        <string>Manual scroll step size:</string>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                                    </property>
+                                </widget>
+                            </item>
                             <item row="7" column="1">
+                                <widget class="QSpinBox" name="kcfg_manualScrollStep">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="8" column="1">
                                 <widget class="QCheckBox" name="kcfg_untileOnDrag">
                                     <property name="text">
                                         <string>Un-tile windows by dragging them</string>
@@ -192,7 +216,7 @@
                                 </widget>
                             </item>
 
-                            <item row="8" column="1">
+                            <item row="9" column="1">
                                 <widget class="QCheckBox" name="kcfg_stackColumnsByDefault">
                                     <property name="text">
                                         <string>Stack columns by default</string>
@@ -200,7 +224,7 @@
                                 </widget>
                             </item>
 
-                            <item row="9" column="1">
+                            <item row="10" column="1">
                                 <widget class="QCheckBox" name="kcfg_resizeNeighborColumn">
                                     <property name="text">
                                         <string>Resize neighbor column on edge resize</string>
@@ -208,7 +232,7 @@
                                 </widget>
                             </item>
 
-                            <item row="10" column="0" colspan="2">
+                            <item row="11" column="0" colspan="2">
                                 <spacer name="bottomSpacer_tab_general">
                                     <property name="orientation">
                                         <enum>Qt::Vertical</enum>

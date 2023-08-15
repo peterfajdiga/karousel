@@ -1,6 +1,6 @@
 function init() {
     const config = loadConfig();
     const world = new World(config);
-    registerKeyBindings(world);
+    registerKeyBindings(world, config);
     return world;
 }

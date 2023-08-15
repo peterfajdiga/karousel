@@ -1,5 +1,5 @@
 module Actions {
-    export function init(world: World) {
+    export function init(world: World, config: Config) {
         return {
             focusLeft: () => {
                 world.doIfTiledFocused(true, (window, column, grid) => {
@@ -183,6 +183,14 @@ module Actions {
                 });
             },
 
+            gridScrollLeft: () => {
+                gridScroll(world, -config.manualScrollStep);
+            },
+
+            gridScrollRight: () => {
+                gridScroll(world, config.manualScrollStep);
+            },
+
             gridScrollStart: () => {
                 const grid = world.getCurrentGrid();
                 const firstColumn = grid.getFirstColumn();
@@ -319,5 +327,9 @@ module Actions {
         const grid = world.getCurrentGrid();
         grid.container.adjustScroll(scrollAmount, false);
         grid.container.arrange();
+    }
+
+    export type Config = {
+        manualScrollStep: number,
     }
 }
