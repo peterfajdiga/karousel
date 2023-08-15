@@ -166,8 +166,8 @@ class World {
         }
 
         const clientState = client.stateManager.getState();
-        if (clientState instanceof ClientStateFloating && canTileEver(kwinClient)) {
-            makeTileable(kwinClient);
+        if (clientState instanceof ClientStateFloating && Clients.canTileEver(kwinClient)) {
+            Clients.makeTileable(kwinClient);
             client.stateManager.setState(new ClientStateTiled(this, client), false);
         } else if (clientState instanceof ClientStateTiled) {
             client.stateManager.setState(new ClientStateFloating(), false);

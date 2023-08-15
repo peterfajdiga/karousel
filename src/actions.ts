@@ -319,23 +319,3 @@ function gridScroll(world: World, amount: number) {
     grid.container.adjustScroll(scrollAmount, false);
     grid.container.arrange();
 }
-
-function canTileEver(kwinClient: AbstractClient) {
-    return kwinClient.resizeable;
-}
-
-function canTileNow(kwinClient: AbstractClient) {
-    return canTileEver(kwinClient) && !kwinClient.minimized && kwinClient.desktop > 0 && kwinClient.activities.length === 1;
-}
-
-function makeTileable(kwinClient: AbstractClient) {
-    if (kwinClient.minimized) {
-        kwinClient.minimized = false;
-    }
-    if (kwinClient.desktop <= 0) {
-        kwinClient.desktop = workspace.currentDesktop;
-    }
-    if (kwinClient.activities.length !== 1) {
-        kwinClient.activities = [workspace.currentActivity];
-    }
-}
