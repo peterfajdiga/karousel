@@ -189,7 +189,8 @@ class Grid {
         const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
         const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
         if (shrinkLeft) {
-            this.container.adjustScroll(-widthDelta, false);
+            const maxDelta = column.getWidth() - column.getMinWidth();
+            this.container.adjustScroll(-Math.min(widthDelta, maxDelta), false);
         }
         column.adjustWidth(-widthDelta, true);
     }
