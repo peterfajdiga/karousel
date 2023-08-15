@@ -3,7 +3,7 @@ interface KeyBinding {
     description: string;
     comment?: string;
     defaultKeySequence: string;
-    action: keyof ReturnType<typeof initActions>;
+    action: keyof ReturnType<typeof Actions.init>;
 }
 
 interface NumKeyBinding {
@@ -12,7 +12,7 @@ interface NumKeyBinding {
     comment?: string;
     defaultModifiers: string;
     fKeys: boolean;
-    action: keyof ReturnType<typeof initNumActions>;
+    action: keyof ReturnType<typeof Actions.initNum>;
 }
 
 function catchWrap(f: () => void) {
@@ -50,12 +50,12 @@ function registerNumKeyBindings(name: string, description: string, modifiers: st
 }
 
 function registerKeyBindings(world: World) {
-    const actions = initActions(world);
+    const actions = Actions.init(world);
     for (const binding of keyBindings) {
         registerKeyBinding(binding.name, binding.description, binding.defaultKeySequence, actions[binding.action]);
     }
 
-    const numActions = initNumActions(world);
+    const numActions = Actions.initNum(world);
     for (const binding of numKeyBindings) {
         registerNumKeyBindings(binding.name, binding.description, binding.defaultModifiers, binding.fKeys, numActions[binding.action]);
     }
