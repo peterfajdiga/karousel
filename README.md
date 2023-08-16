@@ -49,6 +49,8 @@ Here's the default ones:
 | Meta+Alt+Return          | Center focused window (Scrolls so that the focused window is centered in the screen)                                           |
 | Meta+Alt+A               | Scroll one column to the left                                                                                                  |
 | Meta+Alt+D               | Scroll one column to the right                                                                                                 |
+| Meta+Alt+PgUp            | Scroll left                                                                                                                    |
+| Meta+Alt+PgDown          | Scroll right                                                                                                                   |
 | Meta+Alt+Home            | Scroll to start                                                                                                                |
 | Meta+Alt+End             | Scroll to end                                                                                                                  |
 | Meta+[N]                 | Move focus to column N                                                                                                         |
