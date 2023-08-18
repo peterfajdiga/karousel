@@ -34,7 +34,7 @@ class ScrollView {
         this.autoAdjustScroll();
     }
 
-    // calculates ScrollPos that scrolls the column into view
+    // calculates ScrollView.Pos that scrolls the column into view
     public getScrollPosForColumn(column: Column) {
         const left = column.getLeft();
         const right = column.getRight();
@@ -89,7 +89,7 @@ class ScrollView {
     }
 
     private getScrollPos(scrollX: number) {
-        return new ScrollPos(scrollX, this.tilingArea.width);
+        return new ScrollView.Pos(scrollX, this.tilingArea.width);
     }
 
     public getCurrentScrollPos() {
@@ -111,7 +111,7 @@ class ScrollView {
         this.scrollX = force ? x : this.clampScrollX(x);
     }
 
-    private applyScrollPos(scrollPos: ScrollPos) {
+    private applyScrollPos(scrollPos: ScrollView.Pos) {
         this.scrollX = scrollPos.x;
     }
 
@@ -150,5 +150,23 @@ module ScrollView {
         marginLeft: number,
         marginRight: number,
         overscroll: number,
+    }
+
+    export class Pos {
+        public readonly x: number;
+        public readonly width: number;
+
+        constructor(x: number, width: number) {
+            this.x = x;
+            this.width = width;
+        }
+
+        public getLeft() {
+            return this.x;
+        }
+
+        public getRight() {
+            return this.x + this.width;
+        }
     }
 }
