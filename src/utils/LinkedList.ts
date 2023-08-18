@@ -1,7 +1,7 @@
 class LinkedList<T> {
-    private firstNode: LinkedListNode<T>|null;
-    private lastNode: LinkedListNode<T>|null;
-    private readonly itemMap: Map<T, LinkedListNode<T>>;
+    private firstNode: LinkedList.Node<T>|null;
+    private lastNode: LinkedList.Node<T>|null;
+    private readonly itemMap: Map<T, LinkedList.Node<T>>;
 
     constructor() {
         this.firstNode = null;
@@ -35,13 +35,13 @@ class LinkedList<T> {
         this.insert(item, this.lastNode, null);
     }
 
-    private insert(item: T, prevNode: LinkedListNode<T>|null, nextNode: LinkedListNode<T>|null) {
-        const node = new LinkedListNode(item);
+    private insert(item: T, prevNode: LinkedList.Node<T>|null, nextNode: LinkedList.Node<T>|null) {
+        const node = new LinkedList.Node(item);
         this.itemMap.set(item, node);
         this.insertNode(node, prevNode, nextNode);
     }
 
-    private insertNode(node: LinkedListNode<T>, prevNode: LinkedListNode<T>|null, nextNode: LinkedListNode<T>|null) {
+    private insertNode(node: LinkedList.Node<T>, prevNode: LinkedList.Node<T>|null, nextNode: LinkedList.Node<T>|null) {
         node.prev = prevNode;
         node.next = nextNode;
         if (nextNode !== null) {
@@ -104,7 +104,7 @@ class LinkedList<T> {
         this.removeNode(node);
     }
 
-    private removeNode(node: LinkedListNode<T>) {
+    private removeNode(node: LinkedList.Node<T>) {
         const prevNode = node.prev;
         const nextNode = node.next;
         if (prevNode !== null) {
@@ -125,7 +125,7 @@ class LinkedList<T> {
         return this.itemMap.has(item);
     }
 
-    private swap(node0: LinkedListNode<T>, node1: LinkedListNode<T>) {
+    private swap(node0: LinkedList.Node<T>, node1: LinkedList.Node<T>) {
         console.assert(node0.next === node1 && node1.prev === node0);
         const prevNode = node0.prev;
         const nextNode = node1.next;
@@ -188,21 +188,23 @@ class LinkedList<T> {
     }
 
     public *iteratorFrom(startItem: T) {
-        for (let node: LinkedListNode<T>|null = this.getNode(startItem); node !== null; node = node.next) {
+        for (let node: LinkedList.Node<T>|null = this.getNode(startItem); node !== null; node = node.next) {
             yield node.item;
         }
     }
 }
 
-// TODO (optimization): reuse nodes
-class LinkedListNode<T> {
-    public readonly item: T;
-    public prev: LinkedListNode<T>|null;
-    public next: LinkedListNode<T>|null;
+namespace LinkedList {
+    // TODO (optimization): reuse nodes
+    export class Node<T> {
+        public readonly item: T;
+        public prev: Node<T> | null;
+        public next: Node<T> | null;
 
-    constructor(item: T) {
-        this.item = item;
-        this.prev = null;
-        this.next = null;
+        constructor(item: T) {
+            this.item = item;
+            this.prev = null;
+            this.next = null;
+        }
     }
 }
