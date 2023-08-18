@@ -24,7 +24,7 @@ class Grid {
     moveColumnLeft(column: Column) {
         this.columns.moveBack(column);
         this.columnsSetX(column);
-        this.container.onGridWidthChanged();
+        this.container.onGridReordered();
     }
 
     moveColumnRight(column: Column) {
