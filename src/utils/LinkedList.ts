@@ -17,21 +17,21 @@ class LinkedList<T> {
         return node;
     }
 
-    insertBefore(item: T, nextItem: T) {
+    public insertBefore(item: T, nextItem: T) {
         const nextNode = this.getNode(nextItem);
         this.insert(item, nextNode.prev, nextNode);
     }
 
-    insertAfter(item: T, prevItem: T) {
+    public insertAfter(item: T, prevItem: T) {
         const prevNode = this.getNode(prevItem);
         this.insert(item, prevNode, prevNode.next);
     }
 
-    insertStart(item: T) {
+    public insertStart(item: T) {
         this.insert(item, null, this.firstNode);
     }
 
-    insertEnd(item: T) {
+    public insertEnd(item: T) {
         this.insert(item, this.lastNode, null);
     }
 
@@ -60,31 +60,31 @@ class LinkedList<T> {
         }
     }
 
-    getPrev(item: T) {
+    public getPrev(item: T) {
         const prevNode = this.getNode(item).prev;
         return prevNode === null ? null : prevNode.item;
     }
 
-    getNext(item: T) {
+    public getNext(item: T) {
         const nextNode = this.getNode(item).next;
         return nextNode === null ? null : nextNode.item;
     }
 
-    getFirst() {
+    public getFirst() {
         if (this.firstNode === null) {
             return null;
         }
         return this.firstNode.item;
     }
 
-    getLast() {
+    public getLast() {
         if (this.lastNode === null) {
             return null;
         }
         return this.lastNode.item;
     }
 
-    getItemAtIndex(index: number) {
+    public getItemAtIndex(index: number) {
         let node = this.firstNode;
         if (node === null) {
             return null;
@@ -98,7 +98,7 @@ class LinkedList<T> {
         return node.item;
     }
 
-    remove(item: T) {
+    public remove(item: T) {
         const node = this.getNode(item);
         this.itemMap.delete(item);
         this.removeNode(node);
@@ -121,7 +121,7 @@ class LinkedList<T> {
         }
     }
 
-    contains(item: T) {
+    public contains(item: T) {
         return this.itemMap.has(item);
     }
 
@@ -150,7 +150,7 @@ class LinkedList<T> {
         }
     }
 
-    move(item: T, prevItem: T|null) {
+    public move(item: T, prevItem: T|null) {
         const node = this.getNode(item);
         this.removeNode(node);
         if (prevItem === null) {
@@ -161,7 +161,7 @@ class LinkedList<T> {
         }
     }
 
-    moveBack(item: T) {
+    public moveBack(item: T) {
         const node = this.getNode(item);
         if (node.prev !== null) {
             console.assert(node !== this.firstNode);
@@ -169,7 +169,7 @@ class LinkedList<T> {
         }
     }
 
-    moveForward(item: T) {
+    public moveForward(item: T) {
         const node = this.getNode(item);
         if (node.next !== null) {
             console.assert(node !== this.lastNode);
@@ -177,17 +177,17 @@ class LinkedList<T> {
         }
     }
 
-    length() {
+    public length() {
         return this.itemMap.size;
     }
 
-    *iterator() {
+    public *iterator() {
         for (let node = this.firstNode; node !== null; node = node.next) {
             yield node.item;
         }
     }
 
-    *iteratorFrom(startItem: T) {
+    public *iteratorFrom(startItem: T) {
         for (let node: LinkedListNode<T>|null = this.getNode(startItem); node !== null; node = node.next) {
             yield node.item;
         }

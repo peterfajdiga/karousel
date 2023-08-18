@@ -14,7 +14,7 @@ class ClientStateTiled {
         this.signalManager = ClientStateTiled.initSignalManager(world, window);
     }
 
-    destroy(passFocus: boolean) {
+    public destroy(passFocus: boolean) {
         this.signalManager.destroy();
 
         const window = this.window;
@@ -26,7 +26,7 @@ class ClientStateTiled {
         clientWrapper.prepareForFloating(grid.container.clientArea);
     }
 
-    static initSignalManager(world: World, window: Window) {
+    private static initSignalManager(world: World, window: Window) {
         const client = window.client;
         const kwinClient = client.kwinClient;
         const manager = new SignalManager();
@@ -92,7 +92,7 @@ class ClientStateTiled {
         return manager;
     }
 
-    static moveWindowToCorrectGrid(world: World, window: Window) {
+    private static moveWindowToCorrectGrid(world: World, window: Window) {
         const kwinClient = window.client.kwinClient;
 
         const oldGrid = window.column.grid;

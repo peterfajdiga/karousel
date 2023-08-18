@@ -5,13 +5,13 @@ class Doer {
         this.nCalls = 0;
     }
 
-    do (f: () => void) {
+    public do (f: () => void) {
         this.nCalls++;
         f();
         this.nCalls--;
     }
 
-    isDoing() {
+    public isDoing() {
         return this.nCalls > 0;
     }
 }

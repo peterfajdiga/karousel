@@ -21,13 +21,13 @@ class Grid {
         });
     }
 
-    moveColumnLeft(column: Column) {
+    public moveColumnLeft(column: Column) {
         this.columns.moveBack(column);
         this.columnsSetX(column);
         this.container.onGridReordered();
     }
 
-    moveColumnRight(column: Column) {
+    public moveColumnRight(column: Column) {
         const nextColumn = this.columns.getNext(column);
         if (nextColumn === null) {
             return;
@@ -35,31 +35,31 @@ class Grid {
         this.moveColumnLeft(nextColumn);
     }
 
-    getWidth() {
+    public getWidth() {
         return this.width;
     }
 
-    getPrevColumn(column: Column) {
+    public getPrevColumn(column: Column) {
         return this.columns.getPrev(column);
     }
 
-    getNextColumn(column: Column) {
+    public getNextColumn(column: Column) {
         return this.columns.getNext(column);
     }
 
-    getFirstColumn() {
+    public getFirstColumn() {
         return this.columns.getFirst();
     }
 
-    getLastColumn() {
+    public getLastColumn() {
         return this.columns.getLast();
     }
 
-    getColumnAtIndex(i: number) {
+    public getColumnAtIndex(i: number) {
         return this.columns.getItemAtIndex(i);
     }
 
-    getLastFocusedColumn() {
+    public getLastFocusedColumn() {
         if (this.lastFocusedColumn === null || this.lastFocusedColumn.grid !== this) {
             return null;
         }
@@ -78,7 +78,7 @@ class Grid {
         this.width = x - this.config.gapsInnerHorizontal;
     }
 
-    getLeftmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
+    public getLeftmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
         const scrollX = scrollPos.getLeft();
         for (const column of this.columns.iterator()) {
             const x = fullyVisible ? column.getLeft() : column.getRight() + (this.config.gapsInnerHorizontal - 1);
@@ -89,7 +89,7 @@ class Grid {
         return null;
     }
 
-    getRightmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
+    public getRightmostVisibleColumn(scrollPos: ScrollPos, fullyVisible: boolean) {
         const scrollX = scrollPos.getRight();
         let last = null;
         for (const column of this.columns.iterator()) {
@@ -103,7 +103,7 @@ class Grid {
         return last;
     }
 
-    getVisibleColumnsWidth(scrollPos: ScrollPos, fullyVisible: boolean) {
+    public getVisibleColumnsWidth(scrollPos: ScrollPos, fullyVisible: boolean) {
         let width = 0;
         let nVisible = 0;
         for (const column of this.columns.iterator()) {
@@ -120,7 +120,7 @@ class Grid {
         return width;
     }
 
-    getLeftOffScreenColumn(scrollPos: ScrollPos) {
+    private getLeftOffScreenColumn(scrollPos: ScrollPos) {
         const leftVisible = this.getLeftmostVisibleColumn(scrollPos, true);
         if (leftVisible === null) {
             return null;
@@ -128,7 +128,7 @@ class Grid {
         return this.getPrevColumn(leftVisible);
     }
 
-    getRightOffScreenColumn(scrollPos: ScrollPos) {
+    private getRightOffScreenColumn(scrollPos: ScrollPos) {
         const rightVisible = this.getRightmostVisibleColumn(scrollPos, true);
         if (rightVisible === null) {
             return null;
@@ -136,7 +136,7 @@ class Grid {
         return this.getNextColumn(rightVisible);
     }
 
-    increaseColumnWidth(column: Column) {
+    public increaseColumnWidth(column: Column) {
         const scrollPos = this.container.getScrollPosForColumn(column);
         if (this.width < scrollPos.width) {
             column.adjustWidth(scrollPos.width - this.width, false);
@@ -165,7 +165,7 @@ class Grid {
         column.adjustWidth(widthDelta, true);
     }
 
-    decreaseColumnWidth(column: Column) {
+    public decreaseColumnWidth(column: Column) {
         const scrollPos = this.container.getScrollPosForColumn(column);
         if (this.width <= scrollPos.width) {
             column.setWidth(Math.round(column.getWidth() / 2), false);
@@ -195,14 +195,14 @@ class Grid {
         column.adjustWidth(-widthDelta, true);
     }
 
-    arrange(x: number) {
+    public arrange(x: number) {
         for (const column of this.columns.iterator()) {
             column.arrange(x);
             x += column.getWidth() + this.config.gapsInnerHorizontal;
         }
     }
 
-    onColumnAdded(column: Column, prevColumn: Column|null) {
+    public onColumnAdded(column: Column, prevColumn: Column|null) {
         if (prevColumn === null) {
             this.columns.insertStart(column);
         } else {
@@ -212,7 +212,7 @@ class Grid {
         this.container.onGridWidthChanged();
     }
 
-    onColumnRemoved(column: Column, passFocus: boolean) {
+    public onColumnRemoved(column: Column, passFocus: boolean) {
         const isLastColumn = this.columns.length() === 1;
         const nextColumn = this.getNextColumn(column);
         const columnToFocus = isLastColumn ? null : this.getPrevColumn(column) ?? nextColumn;
@@ -230,7 +230,7 @@ class Grid {
         }
     }
 
-    onColumnMoved(column: Column, prevColumn: Column|null) {
+    public onColumnMoved(column: Column, prevColumn: Column|null) {
         const movedLeft = prevColumn === null ? true : column.isAfter(prevColumn);
         const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
         this.columns.move(column, prevColumn);
@@ -238,7 +238,7 @@ class Grid {
         this.container.onGridReordered();
     }
 
-    onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
+    public onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
         if (!this.userResize) {
@@ -246,7 +246,7 @@ class Grid {
         }
     }
 
-    onColumnFocused(column: Column) {
+    public onColumnFocused(column: Column) {
         const lastFocusedColumn = this.getLastFocusedColumn();
         if (lastFocusedColumn !== null) {
             lastFocusedColumn.restoreToTiled();
@@ -255,34 +255,34 @@ class Grid {
         this.container.scrollToColumn(column);
     }
 
-    onScreenSizeChanged() {
+    public onScreenSizeChanged() {
         for (const column of this.columns.iterator()) {
             column.resizeWindows();
         }
     }
 
-    onUserResizeStarted() {
+    public onUserResizeStarted() {
         this.userResize = true;
     }
 
-    onUserResizeFinished() {
+    public onUserResizeFinished() {
         this.userResize = false;
         this.userResizeFinishedDelayer.run();
     }
 
-    evacuateTail(targetGrid: Grid, startColumn: Column) {
+    public evacuateTail(targetGrid: Grid, startColumn: Column) {
         for (const column of this.columns.iteratorFrom(startColumn)) {
             column.moveToGrid(targetGrid, targetGrid.getLastColumn());
         }
     }
 
-    evacuate(targetGrid: Grid) {
+    public evacuate(targetGrid: Grid) {
         for (const column of this.columns.iterator()) {
             column.moveToGrid(targetGrid, targetGrid.getLastColumn());
         }
     }
 
-    destroy() {
+    public destroy() {
         this.userResizeFinishedDelayer.destroy();
     }
 }

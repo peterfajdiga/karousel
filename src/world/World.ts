@@ -45,7 +45,7 @@ class World {
         this.addExistingClients();
     }
 
-    updateDesktops() {
+    public updateDesktops() {
         this.scrollViewManager.setNDesktops(workspace.desktops);
     }
 
@@ -57,25 +57,25 @@ class World {
         }
     }
 
-    getGrid(activity: string, desktopNumber: number) {
+    private getGrid(activity: string, desktopNumber: number) {
         console.assert(desktopNumber > 0 && desktopNumber <= workspace.desktops);
         return this.scrollViewManager.get(activity, desktopNumber).grid;
     }
 
-    getGridInCurrentActivity(desktopNumber: number) {
+    public getGridInCurrentActivity(desktopNumber: number) {
         return this.getGrid(workspace.currentActivity, desktopNumber);
     }
 
-    getCurrentGrid() {
+    public getCurrentGrid() {
         return this.getGrid(workspace.currentActivity, workspace.currentDesktop);
     }
 
-    getClientGrid(kwinClient: AbstractClient) {
+    public getClientGrid(kwinClient: AbstractClient) {
         console.assert(kwinClient.activities.length === 1);
         return this.getGrid(kwinClient.activities[0], kwinClient.desktop);
     }
 
-    addClient(kwinClient: AbstractClient) {
+    public addClient(kwinClient: AbstractClient) {
         const client = new ClientWrapper(
             kwinClient,
             new ClientStateFloating(),
@@ -91,7 +91,7 @@ class World {
         }
     }
 
-    removeClient(kwinClient: AbstractClient, passFocus: boolean) {
+    public removeClient(kwinClient: AbstractClient, passFocus: boolean) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -100,7 +100,7 @@ class World {
         this.clientMap.delete(kwinClient);
     }
 
-    findTransientFor(kwinClient: AbstractClient) {
+    private findTransientFor(kwinClient: AbstractClient) {
         if (!kwinClient.transient) {
             return null;
         }
@@ -119,7 +119,7 @@ class World {
         });
     }
 
-    minimizeClient(kwinClient: AbstractClient) {
+    public minimizeClient(kwinClient: AbstractClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -129,7 +129,7 @@ class World {
         }
     }
 
-    unminimizeClient(kwinClient: AbstractClient) {
+    public unminimizeClient(kwinClient: AbstractClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -139,7 +139,7 @@ class World {
         }
     }
 
-    tileClient(kwinClient: AbstractClient) {
+    public tileClient(kwinClient: AbstractClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -150,7 +150,7 @@ class World {
         client.stateManager.setState(new ClientStateTiled(this, client), false);
     }
 
-    untileClient(kwinClient: AbstractClient) {
+    public untileClient(kwinClient: AbstractClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -160,7 +160,7 @@ class World {
         }
     }
 
-    toggleFloatingClient(kwinClient: AbstractClient) {
+    public toggleFloatingClient(kwinClient: AbstractClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -175,11 +175,11 @@ class World {
         }
     }
 
-    hasClient(kwinClient: AbstractClient) {
+    public hasClient(kwinClient: AbstractClient) {
         return this.clientMap.has(kwinClient);
     }
 
-    onClientFocused(kwinClient: AbstractClient) {
+    public onClientFocused(kwinClient: AbstractClient) {
         this.lastFocusedClient = kwinClient;
     }
 
@@ -195,7 +195,7 @@ class World {
         }
     }
 
-    doIfTiled(kwinClient: AbstractClient, followTransient: boolean, f: (window: Window, column: Column, grid: Grid) => void) {
+    public doIfTiled(kwinClient: AbstractClient, followTransient: boolean, f: (window: Window, column: Column, grid: Grid) => void) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -203,11 +203,11 @@ class World {
         this.doIfTiledInner(client, followTransient, f);
     }
 
-    doIfTiledFocused(followTransient: boolean, f: (window: Window, column: Column, grid: Grid) => void) {
+    public doIfTiledFocused(followTransient: boolean, f: (window: Window, column: Column, grid: Grid) => void) {
         this.doIfTiled(workspace.activeClient, followTransient, f);
     }
 
-    getFocusedWindow() {
+    public getFocusedWindow() {
         const activeClient = workspace.activeClient;
         if (activeClient === null) {
             return null;
@@ -224,13 +224,13 @@ class World {
         }
     }
 
-    removeAllClients() {
+    private removeAllClients() {
         for (const kwinClient of Array.from(this.clientMap.keys())) {
             this.removeClient(kwinClient, false);
         }
     }
 
-    destroy() {
+    public destroy() {
         this.workspaceSignalManager.destroy();
         this.removeAllClients();
         for (const scrollView of this.scrollViewManager.scrollViews()) {
@@ -238,7 +238,7 @@ class World {
         }
     }
 
-    onScreenResized() {
+    public onScreenResized() {
         this.screenResizedDelayer.run();
     }
 }

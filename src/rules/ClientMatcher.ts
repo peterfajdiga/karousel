@@ -5,7 +5,7 @@ class ClientMatcher {
         this.rules = rules;
     }
 
-    matches(kwinClient: AbstractClient) {
+    public matches(kwinClient: AbstractClient) {
         const rule = this.rules.get(String(kwinClient.resourceClass));
         if (rule === undefined) {
             return false;

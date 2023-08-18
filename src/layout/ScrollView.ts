@@ -16,7 +16,7 @@ class ScrollView {
         this.updateArea();
     }
 
-    updateArea() {
+    private updateArea() {
         const newClientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop);
         if (newClientArea === this.clientArea) {
             return;
@@ -64,11 +64,11 @@ class ScrollView {
         return overscrollX * direction;
     }
 
-    scrollToColumn(column: Column) {
+    public scrollToColumn(column: Column) {
         this.scrollX = this.getScrollPosForColumn(column).x;
     }
 
-    scrollCenterColumn(column: Column) {
+    public scrollCenterColumn(column: Column) {
         const windowCenter = column.getLeft() + column.getWidth() / 2;
         const screenCenter = this.scrollX + this.tilingArea.width / 2;
         this.adjustScroll(Math.round(windowCenter - screenCenter), false);
@@ -115,7 +115,7 @@ class ScrollView {
         this.scrollX = scrollPos.x;
     }
 
-    adjustScroll(dx: number, force: boolean) {
+    public adjustScroll(dx: number, force: boolean) {
         this.setScroll(this.scrollX + dx, force);
     }
 

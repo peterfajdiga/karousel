@@ -7,11 +7,11 @@ class Delayer {
         this.timer.triggered.connect(f);
     }
 
-    run() {
+    public run() {
         this.timer.restart();
     }
 
-    destroy() {
+    public destroy() {
         this.timer.destroy();
     }
 }

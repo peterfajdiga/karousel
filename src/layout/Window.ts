@@ -18,7 +18,7 @@ class Window {
         column.onWindowAdded(this);
     }
 
-    moveToColumn(targetColumn: Column) {
+    public moveToColumn(targetColumn: Column) {
         if (targetColumn === this.column) {
             return;
         }
@@ -27,7 +27,7 @@ class Window {
         targetColumn.onWindowAdded(this);
     }
 
-    arrange(x: number, y: number, width: number, height: number) {
+    public arrange(x: number, y: number, width: number, height: number) {
         if (this.skipArrange) {
             // window is maximized, fullscreen, or being manually resized, prevent fighting with the user
             return;
@@ -41,7 +41,7 @@ class Window {
         }
     }
 
-    focus() {
+    public focus() {
         if (this.client.isShaded()) {
             // workaround for KWin deactivating clients when unshading immediately after activation
             this.client.setShade(false);
@@ -49,15 +49,15 @@ class Window {
         this.client.focus();
     }
 
-    isFocused() {
+    public isFocused() {
         return this.client.isFocused();
     }
 
-    onFocused() {
+    public onFocused() {
         this.column.onWindowFocused(this);
     }
 
-    restoreToTiled() {
+    public restoreToTiled() {
         if (this.isFocused()) {
             return;
         }
@@ -65,7 +65,7 @@ class Window {
         this.client.setFullScreen(false);
     }
 
-    onMaximizedChanged(horizontally: boolean, vertically: boolean) {
+    public onMaximizedChanged(horizontally: boolean, vertically: boolean) {
         const maximized = horizontally || vertically;
         this.skipArrange = maximized;
         this.client.kwinClient.keepBelow = !maximized;
@@ -75,7 +75,7 @@ class Window {
         }
     }
 
-    onFullScreenChanged(fullScreen: boolean) {
+    public onFullScreenChanged(fullScreen: boolean) {
         this.skipArrange = fullScreen;
         if (this.isFocused()) {
             this.client.kwinClient.keepBelow = !fullScreen;
@@ -83,7 +83,7 @@ class Window {
         }
     }
 
-    onUserResize(oldGeometry: QRect, resizeNeighborColumn: boolean) {
+    public onUserResize(oldGeometry: QRect, resizeNeighborColumn: boolean) {
         const newGeometry = this.client.kwinClient.frameGeometry;
         const widthDelta = newGeometry.width - oldGeometry.width;
         const heightDelta = newGeometry.height - oldGeometry.height;
@@ -108,12 +108,12 @@ class Window {
         }
     }
 
-    onProgrammaticResize(oldGeometry: QRect) {
+    public onProgrammaticResize(oldGeometry: QRect) {
         const newGeometry = this.client.kwinClient.frameGeometry;
         this.column.setWidth(newGeometry.width, true);
     }
 
-    destroy(passFocus: boolean) {
+    public destroy(passFocus: boolean) {
         this.column.onWindowRemoved(this, passFocus);
     }
 }

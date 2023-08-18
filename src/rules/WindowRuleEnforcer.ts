@@ -10,14 +10,14 @@ class WindowRuleEnforcer {
         this.followCaption = new Set([...mapFloat.keys(), ...mapTile.keys()]);
     }
 
-    shouldTile(kwinClient: AbstractClient) {
+    public shouldTile(kwinClient: AbstractClient) {
         return Clients.canTileNow(kwinClient) && (
             this.preferTiling.matches(kwinClient) ||
             kwinClient.normalWindow && kwinClient.managed && !this.preferFloating.matches(kwinClient)
         );
     }
 
-    initClientSignalManager(world: World, kwinClient: AbstractClient) {
+    public initClientSignalManager(world: World, kwinClient: AbstractClient) {
         if (!this.followCaption.has(kwinClient.resourceClass)) {
             return null;
         }

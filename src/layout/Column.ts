@@ -17,7 +17,7 @@ class Column {
         this.grid.onColumnAdded(this, prevColumn);
     }
 
-    moveToGrid(targetGrid: Grid, prevColumn: Column|null) {
+    public moveToGrid(targetGrid: Grid, prevColumn: Column|null) {
         if (targetGrid === this.grid) {
             this.grid.onColumnMoved(this, prevColumn);
         } else {
@@ -30,50 +30,50 @@ class Column {
         }
     }
 
-    moveAfter(prevColumn: Column|null) {
+    public moveAfter(prevColumn: Column|null) {
         if (prevColumn === this) {
             return;
         }
         this.grid.onColumnMoved(this, prevColumn);
     }
 
-    isAfter(other: Column) {
+    public isAfter(other: Column) {
         return this.gridX > other.gridX;
     }
 
-    isBefore(other: Column) {
+    public isBefore(other: Column) {
         return this.gridX < other.gridX;
     }
 
-    moveWindowUp(window: Window) {
+    public moveWindowUp(window: Window) {
         this.windows.moveBack(window);
     }
 
-    moveWindowDown(window: Window) {
+    public moveWindowDown(window: Window) {
         this.windows.moveForward(window);
     }
 
-    getWindowCount() {
+    public getWindowCount() {
         return this.windows.length();
     }
 
-    isEmpty() {
+    public isEmpty() {
         return this.getWindowCount() === 0;
     }
 
-    getPrevWindow(window: Window) {
+    public getPrevWindow(window: Window) {
         return this.windows.getPrev(window);
     }
 
-    getNextWindow(window: Window) {
+    public getNextWindow(window: Window) {
         return this.windows.getNext(window);
     }
 
-    getWidth() {
+    public getWidth() {
         return this.width;
     }
 
-    getMinWidth() {
+    public getMinWidth() {
         let maxMinWidth = Column.minWidth;
         for (const window of this.windows.iterator()) {
             const minWidth = window.client.kwinClient.minSize.width;
@@ -84,11 +84,11 @@ class Column {
         return maxMinWidth;
     }
 
-    getMaxWidth() {
+    public getMaxWidth() {
         return this.grid.container.tilingArea.width;
     }
 
-    setWidth(width: number, setPreferred: boolean) {
+    public setWidth(width: number, setPreferred: boolean) {
         width = clamp(width, this.getMinWidth(), this.getMaxWidth());
         const oldWidth = this.width;
         this.width = width;
@@ -102,21 +102,21 @@ class Column {
         }
     }
 
-    adjustWidth(widthDelta: number, setPreferred: boolean) {
+    public adjustWidth(widthDelta: number, setPreferred: boolean) {
         this.setWidth(this.width + widthDelta, setPreferred);
     }
 
     // returns x position of left edge in grid space
-    getLeft() {
+    public getLeft() {
         return this.gridX;
     }
 
     // returns x position of right edge in grid space
-    getRight() {
+    public getRight() {
         return this.gridX + this.width;
     }
 
-    adjustWindowHeight(window: Window, heightDelta: number, top: boolean) {
+    public adjustWindowHeight(window: Window, heightDelta: number, top: boolean) {
         const otherWindow = top ? this.windows.getPrev(window) : this.windows.getNext(window);
         if (otherWindow === null) {
             return;
@@ -126,7 +126,7 @@ class Column {
         otherWindow.height -= heightDelta;
     }
 
-    resizeWindows() {
+    public resizeWindows() {
         const nWindows = this.windows.length();
         if (nWindows === 0) {
             return;
@@ -146,14 +146,14 @@ class Column {
         // TODO: respect min height
     }
 
-    getFocusTaker() {
+    private getFocusTaker() {
         if (this.focusTaker === null || !this.windows.contains(this.focusTaker)) {
             return null;
         }
         return this.focusTaker;
     }
 
-    focus() {
+    public focus() {
         const window = this.getFocusTaker() ?? this.windows.getFirst();
         if (window === null) {
             return;
@@ -161,7 +161,7 @@ class Column {
         window.focus();
     }
 
-    arrange(x: number) {
+    public arrange(x: number) {
         if (this.stacked && this.windows.length() >= 2) {
             this.arrangeStacked(x);
             return;
@@ -174,7 +174,7 @@ class Column {
         }
     }
 
-    arrangeStacked(x: number) {
+    public arrangeStacked(x: number) {
         const expandedWindow = this.getFocusTaker();
         let collapsedHeight;
         for (const window of this.windows.iterator()) {
@@ -201,7 +201,7 @@ class Column {
         }
     }
 
-    toggleStacked() {
+    public toggleStacked() {
         if (this.windows.length() < 2) {
             return;
         }
@@ -218,7 +218,7 @@ class Column {
         }
     }
 
-    onWindowAdded(window: Window) {
+    public onWindowAdded(window: Window) {
         this.windows.insertEnd(window);
         if (this.width === 0) {
             this.setWidth(window.client.preferredWidth, false);
@@ -232,7 +232,7 @@ class Column {
         }
     }
 
-    onWindowRemoved(window: Window, passFocus: boolean) {
+    public onWindowRemoved(window: Window, passFocus: boolean) {
         const lastWindow = this.windows.length() === 1;
         const windowToFocus = this.getPrevWindow(window) ?? this.getNextWindow(window);
 
@@ -253,19 +253,19 @@ class Column {
         }
     }
 
-    onWindowFocused(window: Window) {
+    public onWindowFocused(window: Window) {
         this.grid.onColumnFocused(this);
         this.focusTaker = window;
     }
 
-    restoreToTiled() {
+    public restoreToTiled() {
         const lastFocusedWindow = this.getFocusTaker();
         if (lastFocusedWindow !== null) {
             lastFocusedWindow.restoreToTiled();
         }
     }
 
-    destroy(passFocus: boolean) {
+    private destroy(passFocus: boolean) {
         this.grid.onColumnRemoved(this, passFocus);
     }
 }
