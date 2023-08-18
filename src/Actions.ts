@@ -212,7 +212,7 @@ module Actions {
             },
 
             gridScrollFocused: () => {
-                const focusedWindow = world.getFocusedWindow();
+                const focusedWindow = world.getFocusedWindow(true);
                 if (focusedWindow === null) {
                     return;
                 }

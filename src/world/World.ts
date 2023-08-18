@@ -214,21 +214,18 @@ class World {
         this.doIfTiled(workspace.activeClient, followTransient, f);
     }
 
-    public getFocusedWindow() {
+    public getFocusedWindow(followTransient: boolean) {
         const activeClient = workspace.activeClient;
         if (activeClient === null) {
             return null;
         }
+
         const client = this.clientMap.get(activeClient);
         if (client === undefined) {
             return null;
         }
-        const clientState = client.stateManager.getState();
-        if (clientState instanceof ClientStateTiled) {
-            return clientState.window;
-        } else {
-            return null;
-        }
+
+        return this.findTiledWindow(client, followTransient);
     }
 
     private removeAllClients() {

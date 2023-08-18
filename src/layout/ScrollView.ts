@@ -75,7 +75,7 @@ class ScrollView {
     }
 
     private autoAdjustScroll() {
-        const focusedWindow = this.world.getFocusedWindow();
+        const focusedWindow = this.world.getFocusedWindow(true);
         if (focusedWindow === null) {
             this.removeOverscroll();
             return;
