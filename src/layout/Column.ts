@@ -215,7 +215,7 @@ class Column {
         this.grid.container.onLayoutChanged();
     }
 
-    public isVisible(scrollPos: ScrollView.Pos, fullyVisible: boolean) {
+    public isVisible(scrollPos: Desktop.Pos, fullyVisible: boolean) {
         if (fullyVisible) {
             return this.getLeft() >= scrollPos.getLeft() &&
                 this.getRight() <= scrollPos.getRight();

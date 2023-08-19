@@ -11,31 +11,31 @@ function initWorkspaceSignalHandlers(world: World) {
                 kwinClient.activities = [workspace.currentActivity];
             }
         }
-        world.do((clientManager, svm) => {
+        world.do((clientManager, desktopManager) => {
             clientManager.addClient(kwinClient)
         });
     });
 
     manager.connect(workspace.clientRemoved, (kwinClient: AbstractClient) => {
-        world.do((clientManager, svm) => {
+        world.do((clientManager, desktopManager) => {
             clientManager.removeClient(kwinClient, true);
         });
     });
 
     manager.connect(workspace.clientMinimized, (kwinClient: AbstractClient) => {
-        world.do((clientManager, svm) => {
+        world.do((clientManager, desktopManager) => {
             clientManager.minimizeClient(kwinClient);
         });
     });
 
     manager.connect(workspace.clientUnminimized, (kwinClient: AbstractClient) => {
-        world.do((clientManager, svm) => {
+        world.do((clientManager, desktopManager) => {
             clientManager.unminimizeClient(kwinClient);
         });
     });
 
     manager.connect(workspace.clientMaximizeSet, (kwinClient: AbstractClient, horizontally: boolean, vertically: boolean) => {
-        world.doIfTiled(kwinClient, false, (world, svm, window, column, grid) => {
+        world.doIfTiled(kwinClient, false, (world, desktopManager, window, column, grid) => {
             window.onMaximizedChanged(horizontally, vertically);
         });
     });
@@ -44,13 +44,13 @@ function initWorkspaceSignalHandlers(world: World) {
         if (kwinClient === null) {
             return;
         }
-        world.do((clientManager, svm) => {
+        world.do((clientManager, desktopManager) => {
             clientManager.onClientFocused(kwinClient);
         });
     });
 
     manager.connect(workspace.clientFullScreenSet, (kwinClient: X11Client, fullScreen: boolean, user: boolean) => {
-        world.doIfTiled(kwinClient, false, (clientManager, svm, window, column, grid) => {
+        world.doIfTiled(kwinClient, false, (clientManager, desktopManager, window, column, grid) => {
             window.onFullScreenChanged(fullScreen);
         });
     });

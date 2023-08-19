@@ -2,7 +2,7 @@ module Actions {
     export function init(world: World, config: Config) {
         return {
             focusLeft: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     const prevColumn = grid.getPrevColumn(column);
                     if (prevColumn === null) {
                         return;
@@ -12,7 +12,7 @@ module Actions {
             },
 
             focusRight: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     const nextColumn = grid.getNextColumn(column);
                     if (nextColumn === null) {
                         return;
@@ -22,7 +22,7 @@ module Actions {
             },
 
             focusUp: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     const prevWindow = column.getPrevWindow(window);
                     if (prevWindow === null) {
                         return;
@@ -32,7 +32,7 @@ module Actions {
             },
 
             focusDown: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     const nextWindow = column.getNextWindow(window);
                     if (nextWindow === null) {
                         return;
@@ -42,8 +42,8 @@ module Actions {
             },
 
             focusStart: () => {
-                world.do((clientManager, svm) => {
-                    const grid = svm.getCurrent().grid;
+                world.do((clientManager, desktopManager) => {
+                    const grid = desktopManager.getCurrent().grid;
                     const firstColumn = grid.getFirstColumn();
                     if (firstColumn === null) {
                         return;
@@ -53,8 +53,8 @@ module Actions {
             },
 
             focusEnd: () => {
-                world.do((clientManager, svm) => {
-                    const grid = svm.getCurrent().grid;
+                world.do((clientManager, desktopManager) => {
+                    const grid = desktopManager.getCurrent().grid;
                     const lastColumn = grid.getLastColumn();
                     if (lastColumn === null) {
                         return;
@@ -64,7 +64,7 @@ module Actions {
             },
 
             windowMoveLeft: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     if (column.getWindowCount() === 1) {
                         // move from own column into existing column
                         const prevColumn = grid.getPrevColumn(column);
@@ -82,7 +82,7 @@ module Actions {
             },
 
             windowMoveRight: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     if (column.getWindowCount() === 1) {
                         // move from own column into existing column
                         const nextColumn = grid.getNextColumn(column);
@@ -101,27 +101,27 @@ module Actions {
 
             windowMoveUp: () => {
                 // TODO (optimization): only arrange moved windows
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     column.moveWindowUp(window);
                 });
             },
 
             windowMoveDown: () => {
                 // TODO (optimization): only arrange moved windows
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     column.moveWindowDown(window);
                 });
             },
 
             windowMoveStart: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     const newColumn = new Column(grid, null);
                     window.moveToColumn(newColumn);
                 });
             },
 
             windowMoveEnd: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     const newColumn = new Column(grid, grid.getLastColumn());
                     window.moveToColumn(newColumn);
                 });
@@ -129,49 +129,49 @@ module Actions {
 
             windowToggleFloating: () => {
                 const kwinClient = workspace.activeClient;
-                world.do((clientManager, svm) => {
+                world.do((clientManager, desktopManager) => {
                     clientManager.toggleFloatingClient(kwinClient);
                 });
             },
 
             columnMoveLeft: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     grid.moveColumnLeft(column);
                 });
             },
 
             columnMoveRight: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     grid.moveColumnRight(column);
                 });
             },
 
             columnMoveStart: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     column.moveAfter(null);
                 });
             },
 
             columnMoveEnd: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     column.moveAfter(grid.getLastColumn());
                 });
             },
 
             columnToggleStacked: () => {
-                world.doIfTiledFocused(false, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(false, (world, desktopManager, window, column, grid) => {
                     column.toggleStacked();
                 });
             },
 
             columnWidthIncrease: () => {
-                world.doIfTiledFocused(false, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(false, (world, desktopManager, window, column, grid) => {
                     grid.increaseColumnWidth(column);
                 });
             },
 
             columnWidthDecrease: () => {
-                world.doIfTiledFocused(false, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(false, (world, desktopManager, window, column, grid) => {
                     grid.decreaseColumnWidth(column);
                 });
             },
@@ -185,8 +185,8 @@ module Actions {
             },
 
             gridScrollStart: () => {
-                world.do((clientManager, svm) => {
-                    const grid = svm.getCurrent().grid;
+                world.do((clientManager, desktopManager) => {
+                    const grid = desktopManager.getCurrent().grid;
                     const firstColumn = grid.getFirstColumn();
                     if (firstColumn === null) {
                         return;
@@ -196,8 +196,8 @@ module Actions {
             },
 
             gridScrollEnd: () => {
-                world.do((clientManager, svm) => {
-                    const grid = svm.getCurrent().grid;
+                world.do((clientManager, desktopManager) => {
+                    const grid = desktopManager.getCurrent().grid;
                     const lastColumn = grid.getLastColumn();
                     if (lastColumn === null) {
                         return;
@@ -207,14 +207,14 @@ module Actions {
             },
 
             gridScrollFocused: () => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     grid.container.scrollCenterColumn(column);
                 })
             },
 
             gridScrollLeftColumn: () => {
-                world.do((clientManager, svm) => {
-                    const grid = svm.getCurrent().grid;
+                world.do((clientManager, desktopManager) => {
+                    const grid = desktopManager.getCurrent().grid;
                     const column = grid.getLeftmostVisibleColumn(grid.container.getCurrentScrollPos(), true);
                     if (column === null) {
                         return;
@@ -230,8 +230,8 @@ module Actions {
             },
 
             gridScrollRightColumn: () => {
-                world.do((clientManager, svm) => {
-                    const grid = svm.getCurrent().grid;
+                world.do((clientManager, desktopManager) => {
+                    const grid = desktopManager.getCurrent().grid;
                     const column = grid.getRightmostVisibleColumn(grid.container.getCurrentScrollPos(), true);
                     if (column === null) {
                         return;
@@ -251,8 +251,8 @@ module Actions {
     export function initNum(world: World) {
         return {
             focusColumn: (columnIndex: number) => {
-                world.do((clientManager, svm) => {
-                    const grid = svm.getCurrent().grid;
+                world.do((clientManager, desktopManager) => {
+                    const grid = desktopManager.getCurrent().grid;
                     const targetColumn = grid.getColumnAtIndex(columnIndex);
                     if (targetColumn === null) {
                         return null;
@@ -262,7 +262,7 @@ module Actions {
             },
 
             windowMoveToColumn: (columnIndex: number) => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     const targetColumn = grid.getColumnAtIndex(columnIndex);
                     if (targetColumn === null) {
                         return null;
@@ -273,7 +273,7 @@ module Actions {
             },
 
             columnMoveToColumn: (columnIndex: number) => {
-                world.doIfTiledFocused(true, (world, svm, window, column, grid) => {
+                world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
                     const targetColumn = grid.getColumnAtIndex(columnIndex);
                     if (targetColumn === null || targetColumn === column) {
                         return null;
@@ -287,9 +287,9 @@ module Actions {
             },
 
             columnMoveToDesktop: (desktopIndex: number) => {
-                world.doIfTiledFocused(true, (clientManager, svm, window, column, oldGrid) => {
+                world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, oldGrid) => {
                     const desktopNumber = desktopIndex + 1;
-                    const newGrid = svm.getInCurrentActivity(desktopNumber).grid;
+                    const newGrid = desktopManager.getInCurrentActivity(desktopNumber).grid;
                     if (newGrid === null || newGrid === oldGrid) {
                         return;
                     }
@@ -298,9 +298,9 @@ module Actions {
             },
 
             tailMoveToDesktop: (desktopIndex: number) => {
-                world.doIfTiledFocused(true, (clientManager, svm, window, column, oldGrid) => {
+                world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, oldGrid) => {
                     const desktopNumber = desktopIndex + 1;
-                    const newGrid = svm.getInCurrentActivity(desktopNumber).grid;
+                    const newGrid = desktopManager.getInCurrentActivity(desktopNumber).grid;
                     if (newGrid === null || newGrid === oldGrid) {
                         return;
                     }
@@ -311,8 +311,8 @@ module Actions {
     }
 
     function gridScroll(world: World, amount: number) {
-        world.do((clientManager, svm) => {
-            const grid = svm.getCurrent().grid;
+        world.do((clientManager, desktopManager) => {
+            const grid = desktopManager.getCurrent().grid;
             grid.container.adjustScroll(amount, false);
         });
     }

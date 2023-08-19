@@ -1,13 +1,13 @@
-class ScrollView {
+class Desktop {
     public readonly grid: Grid;
     public readonly desktopNumber: number;
-    private readonly config: ScrollView.Config;
+    private readonly config: Desktop.Config;
     private scrollX: number;
     private dirty: boolean;
     public clientArea: QRect;
     public tilingArea: QRect;
 
-    constructor(desktopNumber: number, config: ScrollView.Config, layoutConfig: LayoutConfig) {
+    constructor(desktopNumber: number, config: Desktop.Config, layoutConfig: LayoutConfig) {
         this.config = config;
         this.scrollX = 0;
         this.dirty = false;
@@ -34,7 +34,7 @@ class ScrollView {
         this.autoAdjustScroll();
     }
 
-    // calculates ScrollView.Pos that scrolls the column into view
+    // calculates Desktop.Pos that scrolls the column into view
     public getScrollPosForColumn(column: Column) {
         const left = column.getLeft();
         const right = column.getRight();
@@ -89,7 +89,7 @@ class ScrollView {
     }
 
     private getScrollPos(scrollX: number) {
-        return new ScrollView.Pos(scrollX, this.tilingArea.width);
+        return new Desktop.Pos(scrollX, this.tilingArea.width);
     }
 
     public getCurrentScrollPos() {
@@ -115,7 +115,7 @@ class ScrollView {
         }
     }
 
-    private applyScrollPos(scrollPos: ScrollView.Pos) {
+    private applyScrollPos(scrollPos: Desktop.Pos) {
         this.setScroll(scrollPos.x, true);
     }
 
@@ -146,7 +146,7 @@ class ScrollView {
     }
 }
 
-module ScrollView {
+module Desktop {
     export type Config = {
         marginTop: number,
         marginBottom: number,

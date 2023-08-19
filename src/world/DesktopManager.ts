@@ -1,13 +1,13 @@
-class ScrollViewManager {
-    private readonly config: ScrollView.Config;
+class DesktopManager {
+    private readonly config: Desktop.Config;
     public readonly layoutConfig: LayoutConfig;
-    private readonly scrollViewsPerActivity: Map<string, ScrollView[]>;
+    private readonly desktopsPerActivity: Map<string, Desktop[]>;
     private nVirtualDesktops: number;
 
-    constructor(config: ScrollView.Config, layoutConfig: LayoutConfig, currentActivity: string) {
+    constructor(config: Desktop.Config, layoutConfig: LayoutConfig, currentActivity: string) {
         this.config = config;
         this.layoutConfig = layoutConfig;
-        this.scrollViewsPerActivity = new Map();
+        this.desktopsPerActivity = new Map();
         this.nVirtualDesktops = 0;
         this.update()
         this.addActivity(currentActivity);
@@ -22,10 +22,10 @@ class ScrollViewManager {
         if (desktopIndex >= this.nVirtualDesktops || this.nVirtualDesktops < 0) {
             throw new Error("invalid desktop number: " + String(desktopNumber));
         }
-        if (!this.scrollViewsPerActivity.has(activity)) {
+        if (!this.desktopsPerActivity.has(activity)) {
             this.addActivity(activity);
         }
-        return this.scrollViewsPerActivity.get(activity)![desktopIndex];
+        return this.desktopsPerActivity.get(activity)![desktopIndex];
     }
 
     public getCurrent() {
@@ -51,55 +51,55 @@ class ScrollViewManager {
     }
 
     private addDesktopsToActivities(n: number) {
-        for (const scrollViews of this.scrollViewsPerActivity.values()) {
-            this.addDesktops(scrollViews, n);
+        for (const desktops of this.desktopsPerActivity.values()) {
+            this.addDesktops(desktops, n);
         }
     }
 
-    private addDesktops(scrollViews: ScrollView[], n: number) {
-        const nStart = scrollViews.length;
+    private addDesktops(desktops: Desktop[], n: number) {
+        const nStart = desktops.length;
         for (let i = 0; i < n; i++) {
             const desktopNumber = nStart + i + 1;
-            scrollViews.push(new ScrollView(desktopNumber, this.config, this.layoutConfig));
+            desktops.push(new Desktop(desktopNumber, this.config, this.layoutConfig));
         }
     }
 
     private removeDesktopsFromActivities(n: number) {
         const lastRemainingDesktopIndex = this.nVirtualDesktops - n - 1;
-        for (const scrollViews of this.scrollViewsPerActivity.values()) {
-            const targetScrollView = scrollViews[lastRemainingDesktopIndex];
+        for (const desktops of this.desktopsPerActivity.values()) {
+            const targetDesktop = desktops[lastRemainingDesktopIndex];
             for (let i = 0; i < n; i++) {
-                const removedScrollView = scrollViews.pop()!;
-                removedScrollView.grid.evacuate(targetScrollView.grid);
+                const removedDesktop = desktops.pop()!;
+                removedDesktop.grid.evacuate(targetDesktop.grid);
             }
         }
     }
 
     private addActivity(activity: string) {
-        const scrollViews: ScrollView[] = [];
-        this.addDesktops(scrollViews, this.nVirtualDesktops);
-        this.scrollViewsPerActivity.set(activity, scrollViews);
+        const desktops: Desktop[] = [];
+        this.addDesktops(desktops, this.nVirtualDesktops);
+        this.desktopsPerActivity.set(activity, desktops);
     }
 
     private removeActivity(activity: string) {
-        const removedScrollViews = this.scrollViewsPerActivity.get(activity)!;
-        this.scrollViewsPerActivity.delete(activity);
-        const targetActivityScrollViews = this.scrollViewsPerActivity.values().next().value;
-        for (let i = 0; i < removedScrollViews.length; i++) {
-            removedScrollViews[i].grid.evacuate(targetActivityScrollViews[i]);
+        const removedDesktops = this.desktopsPerActivity.get(activity)!;
+        this.desktopsPerActivity.delete(activity);
+        const targetActivityDesktops = this.desktopsPerActivity.values().next().value;
+        for (let i = 0; i < removedDesktops.length; i++) {
+            removedDesktops[i].grid.evacuate(targetActivityDesktops[i]);
         }
     }
 
     public destroy() {
-        for (const scrollView of this.scrollViews()) {
-            scrollView.destroy();
+        for (const desktop of this.desktops()) {
+            desktop.destroy();
         }
     }
 
-    public *scrollViews() {
-        for (const scrollViews of this.scrollViewsPerActivity.values()) {
-            for (const scrollView of scrollViews) {
-                yield scrollView;
+    public *desktops() {
+        for (const desktops of this.desktopsPerActivity.values()) {
+            for (const desktop of desktops) {
+                yield desktop;
             }
         }
     }

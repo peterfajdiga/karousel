@@ -29,30 +29,30 @@ class ClientStateTiled {
         const manager = new SignalManager();
 
         manager.connect(kwinClient.desktopChanged, () => {
-            world.do((clientManager, svm) => {
+            world.do((clientManager, desktopManager) => {
                 if (kwinClient.desktop === -1) {
                     // windows on all desktops are not supported
                     clientManager.untileClient(kwinClient);
                     return;
                 }
-                ClientStateTiled.moveWindowToCorrectGrid(svm, window);
+                ClientStateTiled.moveWindowToCorrectGrid(desktopManager, window);
             });
         });
 
         manager.connect(kwinClient.activitiesChanged, (kwinClient: AbstractClient) => {
-            world.do((clientManager, svm) => {
+            world.do((clientManager, desktopManager) => {
                 if (kwinClient.activities.length !== 1) {
                     // windows on multiple activities are not supported
                     clientManager.untileClient(kwinClient);
                     return;
                 }
-                ClientStateTiled.moveWindowToCorrectGrid(svm, window);
+                ClientStateTiled.moveWindowToCorrectGrid(desktopManager, window);
             });
         })
 
         let lastResize = false;
         manager.connect(kwinClient.moveResizedChanged, () => {
-            world.do((clientManager, svm) => {
+            world.do((clientManager, desktopManager) => {
                 if (world.untileOnDrag && kwinClient.move) {
                     clientManager.untileClient(kwinClient);
                     return;
@@ -79,12 +79,12 @@ class ClientStateTiled {
         });
 
         manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
-            world.do((clientManager, svm) => {
-                const scrollView = window.column.grid.container;
+            world.do((clientManager, desktopManager) => {
+                const desktop = window.column.grid.container;
                 if (kwinClient.resize) {
                     window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);
                 } else {
-                    const maximized = rectEqual(kwinClient.frameGeometry, scrollView.clientArea);
+                    const maximized = rectEqual(kwinClient.frameGeometry, desktop.clientArea);
                     if (!client.isManipulatingGeometry() && !kwinClient.fullScreen && !maximized) {
                         window.onProgrammaticResize(oldGeometry);
                     }
@@ -95,11 +95,11 @@ class ClientStateTiled {
         return manager;
     }
 
-    private static moveWindowToCorrectGrid(svm: ScrollViewManager, window: Window) {
+    private static moveWindowToCorrectGrid(desktopManager: DesktopManager, window: Window) {
         const kwinClient = window.client.kwinClient;
 
         const oldGrid = window.column.grid;
-        const newGrid = svm.getForClient(kwinClient).grid;
+        const newGrid = desktopManager.getForClient(kwinClient).grid;
         if (oldGrid === newGrid) {
             // window already on the correct grid
             return;

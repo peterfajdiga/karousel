@@ -1,13 +1,13 @@
 class ClientManager {
     private readonly world: World;
-    private readonly scrollViewManager: ScrollViewManager;
+    private readonly desktopManager: DesktopManager;
     private readonly clientMap: Map<AbstractClient, ClientWrapper>;
     private lastFocusedClient: AbstractClient|null;
     private readonly windowRuleEnforcer: WindowRuleEnforcer;
 
-    constructor(config: Config, world: World, svm: ScrollViewManager) {
+    constructor(config: Config, world: World, desktopManager: DesktopManager) {
         this.world = world;
-        this.scrollViewManager = svm;
+        this.desktopManager = desktopManager;
         this.clientMap = new Map();
         this.lastFocusedClient = null;
 
@@ -33,7 +33,7 @@ class ClientManager {
         if (kwinClient.dock) {
             client.stateManager.setState(new ClientStateDocked(this.world, kwinClient), false);
         } else if (this.windowRuleEnforcer.shouldTile(kwinClient)) {
-            const grid = this.scrollViewManager.getForClient(client.kwinClient).grid;
+            const grid = this.desktopManager.getForClient(client.kwinClient).grid;
             client.stateManager.setState(new ClientStateTiled(this.world, client, grid), false);
         }
     }
@@ -77,7 +77,7 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientStateTiledMinimized) {
-            const grid = this.scrollViewManager.getForClient(client.kwinClient).grid;
+            const grid = this.desktopManager.getForClient(client.kwinClient).grid;
             client.stateManager.setState(new ClientStateTiled(this.world, client, grid), false);
         }
     }
@@ -90,7 +90,7 @@ class ClientManager {
         if (client.stateManager.getState() instanceof ClientStateTiled) {
             return;
         }
-        const grid = this.scrollViewManager.getForClient(client.kwinClient).grid;
+        const grid = this.desktopManager.getForClient(client.kwinClient).grid;
         client.stateManager.setState(new ClientStateTiled(this.world, client, grid), false);
     }
 
@@ -113,7 +113,7 @@ class ClientManager {
         const clientState = client.stateManager.getState();
         if (clientState instanceof ClientStateFloating && Clients.canTileEver(kwinClient)) {
             Clients.makeTileable(kwinClient);
-            const grid = this.scrollViewManager.getForClient(client.kwinClient).grid;
+            const grid = this.desktopManager.getForClient(client.kwinClient).grid;
             client.stateManager.setState(new ClientStateTiled(this.world, client, grid), false);
         } else if (clientState instanceof ClientStateTiled) {
             client.stateManager.setState(new ClientStateFloating(), false);

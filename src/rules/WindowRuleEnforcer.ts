@@ -26,7 +26,7 @@ class WindowRuleEnforcer {
         const manager = new SignalManager();
         manager.connect(kwinClient.captionChanged, () => {
             const shouldTile = enforcer.shouldTile(kwinClient);
-            world.do((clientManager, svm) => {
+            world.do((clientManager, desktopManager) => {
                 if (shouldTile) {
                     clientManager.tileClient(kwinClient);
                 } else {
