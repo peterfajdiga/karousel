@@ -17,7 +17,7 @@ class DesktopManager {
         this.setNVirtualDesktops(workspace.desktops);
     }
 
-    public get(activity: string, desktopNumber: number) {
+    public getDesktop(activity: string, desktopNumber: number) {
         const desktopIndex = desktopNumber - 1;
         if (desktopIndex >= this.nVirtualDesktops || this.nVirtualDesktops < 0) {
             throw new Error("invalid desktop number: " + String(desktopNumber));
@@ -28,17 +28,17 @@ class DesktopManager {
         return this.desktopsPerActivity.get(activity)![desktopIndex];
     }
 
-    public getCurrent() {
-        return this.get(workspace.currentActivity, workspace.currentDesktop);
+    public getCurrentDesktop() {
+        return this.getDesktop(workspace.currentActivity, workspace.currentDesktop);
     }
 
-    public getInCurrentActivity(desktopNumber: number) {
-        return this.get(workspace.currentActivity, desktopNumber);
+    public getDesktopInCurrentActivity(desktopNumber: number) {
+        return this.getDesktop(workspace.currentActivity, desktopNumber);
     }
 
-    public getForClient(kwinClient: AbstractClient) {
+    public getDesktopForClient(kwinClient: AbstractClient) {
         console.assert(kwinClient.activities.length === 1);
-        return this.get(kwinClient.activities[0], kwinClient.desktop);
+        return this.getDesktop(kwinClient.activities[0], kwinClient.desktop);
     }
 
     private setNVirtualDesktops(nVirtualDesktops: number) {

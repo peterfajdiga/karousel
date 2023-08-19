@@ -47,7 +47,7 @@ class World {
     }
 
     public update() {
-        this.desktopManager.getCurrent().arrange();
+        this.desktopManager.getCurrentDesktop().arrange();
     }
 
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {

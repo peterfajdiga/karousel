@@ -99,7 +99,7 @@ class ClientStateTiled {
         const kwinClient = window.client.kwinClient;
 
         const oldGrid = window.column.grid;
-        const newGrid = desktopManager.getForClient(kwinClient).grid;
+        const newGrid = desktopManager.getDesktopForClient(kwinClient).grid;
         if (oldGrid === newGrid) {
             // window already on the correct grid
             return;

@@ -43,7 +43,7 @@ module Actions {
 
             focusStart: () => {
                 world.do((clientManager, desktopManager) => {
-                    const grid = desktopManager.getCurrent().grid;
+                    const grid = desktopManager.getCurrentDesktop().grid;
                     const firstColumn = grid.getFirstColumn();
                     if (firstColumn === null) {
                         return;
@@ -54,7 +54,7 @@ module Actions {
 
             focusEnd: () => {
                 world.do((clientManager, desktopManager) => {
-                    const grid = desktopManager.getCurrent().grid;
+                    const grid = desktopManager.getCurrentDesktop().grid;
                     const lastColumn = grid.getLastColumn();
                     if (lastColumn === null) {
                         return;
@@ -186,7 +186,7 @@ module Actions {
 
             gridScrollStart: () => {
                 world.do((clientManager, desktopManager) => {
-                    const grid = desktopManager.getCurrent().grid;
+                    const grid = desktopManager.getCurrentDesktop().grid;
                     const firstColumn = grid.getFirstColumn();
                     if (firstColumn === null) {
                         return;
@@ -197,7 +197,7 @@ module Actions {
 
             gridScrollEnd: () => {
                 world.do((clientManager, desktopManager) => {
-                    const grid = desktopManager.getCurrent().grid;
+                    const grid = desktopManager.getCurrentDesktop().grid;
                     const lastColumn = grid.getLastColumn();
                     if (lastColumn === null) {
                         return;
@@ -214,7 +214,7 @@ module Actions {
 
             gridScrollLeftColumn: () => {
                 world.do((clientManager, desktopManager) => {
-                    const grid = desktopManager.getCurrent().grid;
+                    const grid = desktopManager.getCurrentDesktop().grid;
                     const column = grid.getLeftmostVisibleColumn(grid.container.getCurrentScrollPos(), true);
                     if (column === null) {
                         return;
@@ -231,7 +231,7 @@ module Actions {
 
             gridScrollRightColumn: () => {
                 world.do((clientManager, desktopManager) => {
-                    const grid = desktopManager.getCurrent().grid;
+                    const grid = desktopManager.getCurrentDesktop().grid;
                     const column = grid.getRightmostVisibleColumn(grid.container.getCurrentScrollPos(), true);
                     if (column === null) {
                         return;
@@ -252,7 +252,7 @@ module Actions {
         return {
             focusColumn: (columnIndex: number) => {
                 world.do((clientManager, desktopManager) => {
-                    const grid = desktopManager.getCurrent().grid;
+                    const grid = desktopManager.getCurrentDesktop().grid;
                     const targetColumn = grid.getColumnAtIndex(columnIndex);
                     if (targetColumn === null) {
                         return null;
@@ -289,7 +289,7 @@ module Actions {
             columnMoveToDesktop: (desktopIndex: number) => {
                 world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, oldGrid) => {
                     const desktopNumber = desktopIndex + 1;
-                    const newGrid = desktopManager.getInCurrentActivity(desktopNumber).grid;
+                    const newGrid = desktopManager.getDesktopInCurrentActivity(desktopNumber).grid;
                     if (newGrid === null || newGrid === oldGrid) {
                         return;
                     }
@@ -300,7 +300,7 @@ module Actions {
             tailMoveToDesktop: (desktopIndex: number) => {
                 world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, oldGrid) => {
                     const desktopNumber = desktopIndex + 1;
-                    const newGrid = desktopManager.getInCurrentActivity(desktopNumber).grid;
+                    const newGrid = desktopManager.getDesktopInCurrentActivity(desktopNumber).grid;
                     if (newGrid === null || newGrid === oldGrid) {
                         return;
                     }
@@ -312,7 +312,7 @@ module Actions {
 
     function gridScroll(world: World, amount: number) {
         world.do((clientManager, desktopManager) => {
-            const grid = desktopManager.getCurrent().grid;
+            const grid = desktopManager.getCurrentDesktop().grid;
             grid.container.adjustScroll(amount, false);
         });
     }
