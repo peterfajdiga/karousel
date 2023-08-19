@@ -46,7 +46,7 @@ class World {
         this.desktopManager.update();
     }
 
-    public update() {
+    private update() {
         this.desktopManager.getCurrentDesktop().arrange();
     }
 
