@@ -27,7 +27,7 @@ class ClientWrapper {
         this.manipulatingGeometry = new Doer();
     }
 
-    place(x: number, y: number, width: number, height: number) {
+    public place(x: number, y: number, width: number, height: number) {
         this.manipulatingGeometry.do(() => {
             if (this.kwinClient.resize) {
                 // window is being manually resized, prevent fighting with the user
@@ -56,47 +56,47 @@ class ClientWrapper {
         }
     }
 
-    focus() {
+    public focus() {
         workspace.activeClient = this.kwinClient;
     }
 
-    isFocused() {
+    public isFocused() {
         return workspace.activeClient === this.kwinClient;
     }
 
-    setMaximize(horizontally: boolean, vertically: boolean) {
+    public setMaximize(horizontally: boolean, vertically: boolean) {
         this.manipulatingGeometry.do(() => {
             this.kwinClient.setMaximize(vertically, horizontally);
         });
     }
 
-    setFullScreen(fullScreen: boolean) {
+    public setFullScreen(fullScreen: boolean) {
         this.manipulatingGeometry.do(() => {
             this.kwinClient.fullScreen = fullScreen;
         });
     }
 
-    setShade(shade: boolean) {
+    public setShade(shade: boolean) {
         this.manipulatingGeometry.do(() => {
             this.kwinClient.shade = shade;
         });
     }
 
-    isShaded() {
+    public isShaded() {
         return this.kwinClient.shade;
     }
 
-    isManipulatingGeometry() {
+    public isManipulatingGeometry() {
         return this.manipulatingGeometry.isDoing();
     }
 
-    prepareForTiling() {
+    public prepareForTiling() {
         this.kwinClient.keepBelow = true;
         this.setFullScreen(false);
         this.setMaximize(false, false);
     }
 
-    prepareForFloating(screenSize: QRect) {
+    public prepareForFloating(screenSize: QRect) {
         this.kwinClient.keepBelow = false;
         this.setShade(false);
         this.setFullScreen(false);
@@ -142,7 +142,7 @@ class ClientWrapper {
         }
     }
 
-    destroy(passFocus: boolean) {
+    public destroy(passFocus: boolean) {
         this.stateManager.destroy(passFocus);
         this.signalManager.destroy();
         if (this.rulesSignalManager !== null) {
@@ -156,7 +156,7 @@ class ClientWrapper {
         }
     }
 
-    static initSignalManager(client: ClientWrapper) {
+    private static initSignalManager(client: ClientWrapper) {
         const manager = new SignalManager();
         manager.connect(client.kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
             if (client.stateManager.getState() instanceof ClientStateTiled) {

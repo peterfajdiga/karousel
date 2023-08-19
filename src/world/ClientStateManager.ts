@@ -5,16 +5,16 @@ class ClientStateManager {
         this.state = initialState;
     }
 
-    setState(newState: ClientState, passFocus: boolean) {
+    public setState(newState: ClientState, passFocus: boolean) {
         this.state.destroy(passFocus);
         this.state = newState;
     }
 
-    getState() {
+    public getState() {
         return this.state;
     }
 
-    destroy(passFocus: boolean) {
+    public destroy(passFocus: boolean) {
         this.state.destroy(passFocus);
     }
 }
@@ -22,9 +22,9 @@ class ClientStateManager {
 type ClientState = ClientStateTiled | ClientStateTiledMinimized | ClientStateFloating | ClientStateDocked;
 
 class ClientStateTiledMinimized {
-    destroy(passFocus: boolean) {}
+    public destroy(passFocus: boolean) {}
 }
 
 class ClientStateFloating {
-    destroy(passFocus: boolean) {}
+    public destroy(passFocus: boolean) {}
 }

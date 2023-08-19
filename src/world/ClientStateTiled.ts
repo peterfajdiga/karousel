@@ -1,5 +1,5 @@
 class ClientStateTiled {
-    readonly window: Window;
+    public readonly window: Window;
     private readonly signalManager: SignalManager;
 
     constructor(world: World, client: ClientWrapper, grid: Grid) {

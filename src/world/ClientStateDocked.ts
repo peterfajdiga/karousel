@@ -8,7 +8,7 @@ class ClientStateDocked {
         world.onScreenResized();
     }
 
-    destroy(passFocus: boolean) {
+    public destroy(passFocus: boolean) {
         this.signalManager.destroy();
         this.world.onScreenResized();
     }
