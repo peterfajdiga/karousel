@@ -88,7 +88,7 @@ class Grid {
         this.width = x - this.config.gapsInnerHorizontal;
     }
 
-    public getLeftmostVisibleColumn(scrollPos: Desktop.Pos, fullyVisible: boolean) {
+    public getLeftmostVisibleColumn(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
         const scrollX = scrollPos.getLeft();
         for (const column of this.columns.iterator()) {
             const x = fullyVisible ? column.getLeft() : column.getRight() + (this.config.gapsInnerHorizontal - 1);
@@ -99,7 +99,7 @@ class Grid {
         return null;
     }
 
-    public getRightmostVisibleColumn(scrollPos: Desktop.Pos, fullyVisible: boolean) {
+    public getRightmostVisibleColumn(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
         const scrollX = scrollPos.getRight();
         let last = null;
         for (const column of this.columns.iterator()) {
@@ -113,7 +113,7 @@ class Grid {
         return last;
     }
 
-    public getVisibleColumnsWidth(scrollPos: Desktop.Pos, fullyVisible: boolean) {
+    public getVisibleColumnsWidth(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
         let width = 0;
         let nVisible = 0;
         for (const column of this.columns.iterator()) {
@@ -130,7 +130,7 @@ class Grid {
         return width;
     }
 
-    private getLeftOffScreenColumn(scrollPos: Desktop.Pos) {
+    private getLeftOffScreenColumn(scrollPos: Desktop.ScrollPos) {
         const leftVisible = this.getLeftmostVisibleColumn(scrollPos, true);
         if (leftVisible === null) {
             return null;
@@ -138,7 +138,7 @@ class Grid {
         return this.getPrevColumn(leftVisible);
     }
 
-    private getRightOffScreenColumn(scrollPos: Desktop.Pos) {
+    private getRightOffScreenColumn(scrollPos: Desktop.ScrollPos) {
         const rightVisible = this.getRightmostVisibleColumn(scrollPos, true);
         if (rightVisible === null) {
             return null;

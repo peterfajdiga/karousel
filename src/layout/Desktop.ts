@@ -89,7 +89,7 @@ class Desktop {
     }
 
     private getScrollPos(scrollX: number) {
-        return new Desktop.Pos(scrollX, this.tilingArea.width);
+        return new Desktop.ScrollPos(scrollX, this.tilingArea.width);
     }
 
     public getCurrentScrollPos() {
@@ -115,7 +115,7 @@ class Desktop {
         }
     }
 
-    private applyScrollPos(scrollPos: Desktop.Pos) {
+    private applyScrollPos(scrollPos: Desktop.ScrollPos) {
         this.setScroll(scrollPos.x, true);
     }
 
@@ -155,7 +155,7 @@ module Desktop {
         overscroll: number,
     }
 
-    export class Pos {
+    export class ScrollPos {
         public readonly x: number;
         public readonly width: number;
 
