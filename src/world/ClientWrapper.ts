@@ -37,10 +37,10 @@ class ClientWrapper {
         });
     }
 
-    private moveTransient(dx: number, dy: number, desktop: number) {
+    private moveTransient(dx: number, dy: number, desktopNumber: number) {
         // TODO: prevent moving off the grid
         if (this.stateManager.getState() instanceof ClientStateFloating) {
-            if (this.kwinClient.desktop === desktop) {
+            if (this.kwinClient.desktop === desktopNumber) {
                 const frame = this.kwinClient.frameGeometry;
                 this.kwinClient.frameGeometry = Qt.rect(
                     frame.x + dx,
@@ -51,7 +51,7 @@ class ClientWrapper {
             }
 
             for (const transient of this.transients) {
-                transient.moveTransient(dx, dy, desktop);
+                transient.moveTransient(dx, dy, desktopNumber);
             }
         }
     }

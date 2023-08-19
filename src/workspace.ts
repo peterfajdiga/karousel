@@ -55,7 +55,7 @@ function initWorkspaceSignalHandlers(world: World) {
         });
     });
 
-    manager.connect(workspace.numberDesktopsChanged, (oldNumberOfDesktops: number) => {
+    manager.connect(workspace.numberDesktopsChanged, (oldNumberOfVirtualDesktops: number) => {
         world.updateDesktops();
     });
 

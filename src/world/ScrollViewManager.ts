@@ -2,24 +2,24 @@ class ScrollViewManager {
     private readonly config: ScrollView.Config;
     public readonly layoutConfig: LayoutConfig;
     private readonly scrollViewsPerActivity: Map<string, ScrollView[]>;
-    private nDesktops: number;
+    private nVirtualDesktops: number;
 
     constructor(config: ScrollView.Config, layoutConfig: LayoutConfig, currentActivity: string) {
         this.config = config;
         this.layoutConfig = layoutConfig;
         this.scrollViewsPerActivity = new Map();
-        this.nDesktops = 0;
+        this.nVirtualDesktops = 0;
         this.update()
         this.addActivity(currentActivity);
     }
 
     public update() {
-        this.setNDesktops(workspace.desktops);
+        this.setNVirtualDesktops(workspace.desktops);
     }
 
     public get(activity: string, desktopNumber: number) {
         const desktopIndex = desktopNumber - 1;
-        if (desktopIndex >= this.nDesktops || this.nDesktops < 0) {
+        if (desktopIndex >= this.nVirtualDesktops || this.nVirtualDesktops < 0) {
             throw new Error("invalid desktop number: " + String(desktopNumber));
         }
         if (!this.scrollViewsPerActivity.has(activity)) {
@@ -41,13 +41,13 @@ class ScrollViewManager {
         return this.get(kwinClient.activities[0], kwinClient.desktop);
     }
 
-    private setNDesktops(nDesktops: number) {
-        if (nDesktops > this.nDesktops) {
-            this.addDesktopsToActivities(nDesktops - this.nDesktops);
-        } else if (nDesktops < this.nDesktops) {
-            this.removeDesktopsFromActivities(this.nDesktops - nDesktops);
+    private setNVirtualDesktops(nVirtualDesktops: number) {
+        if (nVirtualDesktops > this.nVirtualDesktops) {
+            this.addDesktopsToActivities(nVirtualDesktops - this.nVirtualDesktops);
+        } else if (nVirtualDesktops < this.nVirtualDesktops) {
+            this.removeDesktopsFromActivities(this.nVirtualDesktops - nVirtualDesktops);
         }
-        this.nDesktops = nDesktops;
+        this.nVirtualDesktops = nVirtualDesktops;
     }
 
     private addDesktopsToActivities(n: number) {
@@ -65,7 +65,7 @@ class ScrollViewManager {
     }
 
     private removeDesktopsFromActivities(n: number) {
-        const lastRemainingDesktopIndex = this.nDesktops - n - 1;
+        const lastRemainingDesktopIndex = this.nVirtualDesktops - n - 1;
         for (const scrollViews of this.scrollViewsPerActivity.values()) {
             const targetScrollView = scrollViews[lastRemainingDesktopIndex];
             for (let i = 0; i < n; i++) {
@@ -77,7 +77,7 @@ class ScrollViewManager {
 
     private addActivity(activity: string) {
         const scrollViews: ScrollView[] = [];
-        this.addDesktops(scrollViews, this.nDesktops);
+        this.addDesktops(scrollViews, this.nVirtualDesktops);
         this.scrollViewsPerActivity.set(activity, scrollViews);
     }
 

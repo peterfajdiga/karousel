@@ -25,7 +25,7 @@ class Column {
             this.grid = targetGrid;
             targetGrid.onColumnAdded(this, prevColumn);
             for (const window of this.windows.iterator()) {
-                window.client.kwinClient.desktop = targetGrid.container.desktop;
+                window.client.kwinClient.desktop = targetGrid.container.desktopNumber;
             }
         }
     }

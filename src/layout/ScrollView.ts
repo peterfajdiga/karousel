@@ -1,23 +1,23 @@
 class ScrollView {
     public readonly grid: Grid;
-    public readonly desktop: number;
+    public readonly desktopNumber: number;
     private readonly config: ScrollView.Config;
     private scrollX: number;
     private dirty: boolean;
     public clientArea: QRect;
     public tilingArea: QRect;
 
-    constructor(desktop: number, config: ScrollView.Config, layoutConfig: LayoutConfig) {
+    constructor(desktopNumber: number, config: ScrollView.Config, layoutConfig: LayoutConfig) {
         this.config = config;
         this.scrollX = 0;
         this.dirty = false;
-        this.desktop = desktop;
+        this.desktopNumber = desktopNumber;
         this.grid = new Grid(this, layoutConfig);
         this.updateArea();
     }
 
     private updateArea() {
-        const newClientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktop);
+        const newClientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktopNumber);
         if (newClientArea === this.clientArea) {
             return;
         }
