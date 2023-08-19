@@ -37,19 +37,21 @@ class ClientWrapper {
         });
     }
 
-    private moveTransient(dx: number, dy: number) {
+    private moveTransient(dx: number, dy: number, desktop: number) {
         // TODO: prevent moving off the grid
         if (this.stateManager.getState() instanceof ClientStateFloating) {
-            const frame = this.kwinClient.frameGeometry;
-            this.kwinClient.frameGeometry = Qt.rect(
-                frame.x + dx,
-                frame.y + dy,
-                frame.width,
-                frame.height,
-            );
+            if (this.kwinClient.desktop === desktop) {
+                const frame = this.kwinClient.frameGeometry;
+                this.kwinClient.frameGeometry = Qt.rect(
+                    frame.x + dx,
+                    frame.y + dy,
+                    frame.width,
+                    frame.height,
+                );
+            }
 
             for (const transient of this.transients) {
-                transient.moveTransient(dx, dy);
+                transient.moveTransient(dx, dy, desktop);
             }
         }
     }
@@ -124,12 +126,14 @@ class ClientWrapper {
             if (transient.stateManager.getState() instanceof ClientStateFloating) {
                 transient.ensureVisible(screenSize);
                 transient.ensureTransientsVisible(screenSize);
-
             }
         }
     }
 
     public ensureVisible(screenSize: QRect) {
+        if (this.kwinClient.desktop !== workspace.currentDesktop) {
+            return;
+        }
         const frame = this.kwinClient.frameGeometry;
         if (frame.left < 0) {
             frame.x = 0;
@@ -164,7 +168,7 @@ class ClientWrapper {
                 const dx = Math.round(newCenterX - oldCenterX);
                 const dy = Math.round(newCenterY - oldCenterY);
                 for (const transient of client.transients) {
-                    transient.moveTransient(dx, dy);
+                    transient.moveTransient(dx, dy, client.kwinClient.desktop);
                 }
             }
         });
