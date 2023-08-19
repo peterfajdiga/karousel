@@ -3,7 +3,7 @@ class WindowRuleEnforcer {
     private readonly preferTiling: ClientMatcher;
     private readonly followCaption: Set<string>;
 
-    constructor(world: World, windowRules: WindowRule[]) {
+    constructor(windowRules: WindowRule[]) {
         const [mapFloat, mapTile] = createWindowRuleMaps(windowRules);
         this.preferFloating = new ClientMatcher(mapFloat);
         this.preferTiling = new ClientMatcher(mapTile);
@@ -26,11 +26,13 @@ class WindowRuleEnforcer {
         const manager = new SignalManager();
         manager.connect(kwinClient.captionChanged, () => {
             const shouldTile = enforcer.shouldTile(kwinClient);
-            if (shouldTile) {
-                world.tileClient(kwinClient);
-            } else {
-                world.untileClient(kwinClient);
-            }
+            world.do((clientManager, svm) => {
+                if (shouldTile) {
+                    clientManager.tileClient(kwinClient);
+                } else {
+                    clientManager.untileClient(kwinClient);
+                }
+            });
         });
         return manager;
     }

@@ -63,6 +63,7 @@ class Window {
         }
         this.client.setMaximize(false, false);
         this.client.setFullScreen(false);
+        this.column.grid.container.onLayoutChanged();
     }
 
     public onMaximizedChanged(horizontally: boolean, vertically: boolean) {

@@ -16,7 +16,8 @@ class Grid {
         this.userResize = false;
         this.userResizeFinishedDelayer = new Delayer(50, () => {
             // this delay prevents windows' contents from freezing after resizing
-            this.container.onGridWidthChanged();
+            this.container.onLayoutChanged();
+            this.container.autoAdjustScroll();
             this.container.arrange();
         });
     }
@@ -24,7 +25,8 @@ class Grid {
     public moveColumnLeft(column: Column) {
         this.columns.moveBack(column);
         this.columnsSetX(column);
-        this.container.onGridReordered();
+        this.container.onLayoutChanged();
+        this.container.autoAdjustScroll();
     }
 
     public moveColumnRight(column: Column) {
@@ -64,6 +66,14 @@ class Grid {
             return null;
         }
         return this.lastFocusedColumn;
+    }
+
+    public getLastFocusedWindow() {
+        const lastFocusedColumn = this.getLastFocusedColumn();
+        if (lastFocusedColumn === null) {
+            return null;
+        }
+        return lastFocusedColumn.getFocusTaker();
     }
 
     private columnsSetX(firstMovedColumn: Column|null) {
@@ -200,6 +210,11 @@ class Grid {
             column.arrange(x);
             x += column.getWidth() + this.config.gapsInnerHorizontal;
         }
+
+        const focusedWindow = this.getLastFocusedWindow();
+        if (focusedWindow !== null) {
+            focusedWindow.client.ensureTransientsVisible(this.container.clientArea);
+        }
     }
 
     public onColumnAdded(column: Column, prevColumn: Column|null) {
@@ -209,7 +224,8 @@ class Grid {
             this.columns.insertAfter(column, prevColumn);
         }
         this.columnsSetX(column);
-        this.container.onGridWidthChanged();
+        this.container.onLayoutChanged();
+        this.container.autoAdjustScroll();
     }
 
     public onColumnRemoved(column: Column, passFocus: boolean) {
@@ -226,8 +242,9 @@ class Grid {
         if (passFocus && columnToFocus !== null) {
             columnToFocus.focus();
         } else {
-            this.container.onGridWidthChanged();
+            this.container.autoAdjustScroll();
         }
+        this.container.onLayoutChanged();
     }
 
     public onColumnMoved(column: Column, prevColumn: Column|null) {
@@ -235,15 +252,17 @@ class Grid {
         const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
         this.columns.move(column, prevColumn);
         this.columnsSetX(firstMovedColumn);
-        this.container.onGridReordered();
+        this.container.onLayoutChanged();
+        this.container.autoAdjustScroll();
     }
 
     public onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
         if (!this.userResize) {
-            this.container.onGridWidthChanged();
+            this.container.autoAdjustScroll();
         }
+        this.container.onLayoutChanged();
     }
 
     public onColumnFocused(column: Column) {

@@ -2,7 +2,6 @@ function initWorkspaceSignalHandlers(world: World) {
     const manager = new SignalManager();
 
     manager.connect(workspace.clientAdded, (kwinClient: AbstractClient) => {
-        console.assert(!world.hasClient(kwinClient));
         if (Clients.canTileEver(kwinClient)) {
             // never open new tileable clients on all desktops or activities
             if (kwinClient.desktop <= 0) {
@@ -12,26 +11,32 @@ function initWorkspaceSignalHandlers(world: World) {
                 kwinClient.activities = [workspace.currentActivity];
             }
         }
-        world.addClient(kwinClient);
+        world.do((clientManager, svm) => {
+            clientManager.addClient(kwinClient)
+        });
     });
 
     manager.connect(workspace.clientRemoved, (kwinClient: AbstractClient) => {
-        console.assert(world.hasClient(kwinClient));
-        world.removeClient(kwinClient, true);
+        world.do((clientManager, svm) => {
+            clientManager.removeClient(kwinClient, true);
+        });
     });
 
     manager.connect(workspace.clientMinimized, (kwinClient: AbstractClient) => {
-        world.minimizeClient(kwinClient);
+        world.do((clientManager, svm) => {
+            clientManager.minimizeClient(kwinClient);
+        });
     });
 
     manager.connect(workspace.clientUnminimized, (kwinClient: AbstractClient) => {
-        world.unminimizeClient(kwinClient);
+        world.do((clientManager, svm) => {
+            clientManager.unminimizeClient(kwinClient);
+        });
     });
 
     manager.connect(workspace.clientMaximizeSet, (kwinClient: AbstractClient, horizontally: boolean, vertically: boolean) => {
-        world.doIfTiled(kwinClient, false, (window, column, grid) => {
+        world.doIfTiled(kwinClient, false, (world, svm, window, column, grid) => {
             window.onMaximizedChanged(horizontally, vertically);
-            grid.container.arrange();
         });
     });
 
@@ -39,17 +44,14 @@ function initWorkspaceSignalHandlers(world: World) {
         if (kwinClient === null) {
             return;
         }
-        world.onClientFocused(kwinClient);
-        world.doIfTiled(kwinClient, true, (window, column, grid) => {
-            window.onFocused();
-            grid.container.arrange();
+        world.do((clientManager, svm) => {
+            clientManager.onClientFocused(kwinClient);
         });
     });
 
     manager.connect(workspace.clientFullScreenSet, (kwinClient: X11Client, fullScreen: boolean, user: boolean) => {
-        world.doIfTiled(kwinClient, false, (window, column, grid) => {
+        world.doIfTiled(kwinClient, false, (clientManager, svm, window, column, grid) => {
             window.onFullScreenChanged(fullScreen);
-            grid.container.arrange();
         });
     });
 

@@ -47,10 +47,12 @@ class Column {
 
     public moveWindowUp(window: Window) {
         this.windows.moveBack(window);
+        this.grid.container.onLayoutChanged();
     }
 
     public moveWindowDown(window: Window) {
         this.windows.moveForward(window);
+        this.grid.container.onLayoutChanged();
     }
 
     public getWindowCount() {
@@ -124,6 +126,8 @@ class Column {
 
         window.height += heightDelta;
         otherWindow.height -= heightDelta;
+
+        this.grid.container.onLayoutChanged();
     }
 
     public resizeWindows() {
@@ -144,9 +148,11 @@ class Column {
             remainingWindows--;
         }
         // TODO: respect min height
+
+        this.grid.container.onLayoutChanged();
     }
 
-    private getFocusTaker() {
+    public getFocusTaker() {
         if (this.focusTaker === null || !this.windows.contains(this.focusTaker)) {
             return null;
         }
@@ -206,6 +212,7 @@ class Column {
             return;
         }
         this.stacked = !this.stacked;
+        this.grid.container.onLayoutChanged();
     }
 
     public isVisible(scrollPos: ScrollView.Pos, fullyVisible: boolean) {
@@ -230,6 +237,8 @@ class Column {
         if (window.isFocused()) {
             this.onWindowFocused(window);
         }
+
+        this.grid.container.onLayoutChanged();
     }
 
     public onWindowRemoved(window: Window, passFocus: boolean) {
@@ -251,6 +260,8 @@ class Column {
                 windowToFocus.focus();
             }
         }
+
+        this.grid.container.onLayoutChanged();
     }
 
     public onWindowFocused(window: Window) {

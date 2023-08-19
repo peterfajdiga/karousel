@@ -1,16 +1,16 @@
 class ScrollView {
-    public readonly world: World;
     public readonly grid: Grid;
     public readonly desktop: number;
     private readonly config: ScrollView.Config;
     private scrollX: number;
+    private dirty: boolean;
     public clientArea: QRect;
     public tilingArea: QRect;
 
-    constructor(world: World, desktop: number, config: ScrollView.Config, layoutConfig: LayoutConfig) {
+    constructor(desktop: number, config: ScrollView.Config, layoutConfig: LayoutConfig) {
         this.config = config;
-        this.world = world;
         this.scrollX = 0;
+        this.dirty = false;
         this.desktop = desktop;
         this.grid = new Grid(this, layoutConfig);
         this.updateArea();
@@ -65,7 +65,7 @@ class ScrollView {
     }
 
     public scrollToColumn(column: Column) {
-        this.scrollX = this.getScrollPosForColumn(column).x;
+        this.setScroll(this.getScrollPosForColumn(column).x, true);
     }
 
     public scrollCenterColumn(column: Column) {
@@ -74,18 +74,18 @@ class ScrollView {
         this.adjustScroll(Math.round(windowCenter - screenCenter), false);
     }
 
-    private autoAdjustScroll() {
-        const focusedWindow = this.world.getFocusedWindow(true);
-        if (focusedWindow === null) {
+    public autoAdjustScroll() {
+        const focusedColumn = this.grid.getLastFocusedColumn();
+        if (focusedColumn === null) {
             this.removeOverscroll();
             return;
         }
 
-        const column = focusedWindow.column;
-        if (column.grid !== this.grid) {
+        if (focusedColumn.grid !== this.grid) {
             return;
         }
-        this.scrollToColumn(column);
+
+        this.scrollToColumn(focusedColumn);
     }
 
     private getScrollPos(scrollX: number) {
@@ -108,11 +108,15 @@ class ScrollView {
     }
 
     private setScroll(x: number, force: boolean) {
+        const oldScrollX = this.scrollX;
         this.scrollX = force ? x : this.clampScrollX(x);
+        if (this.scrollX !== oldScrollX) {
+            this.onLayoutChanged();
+        }
     }
 
     private applyScrollPos(scrollPos: ScrollView.Pos) {
-        this.scrollX = scrollPos.x;
+        this.setScroll(scrollPos.x, true);
     }
 
     public adjustScroll(dx: number, force: boolean) {
@@ -126,16 +130,15 @@ class ScrollView {
     public arrange() {
         // TODO (optimization): only arrange visible windows
         this.updateArea();
+        if (!this.dirty) {
+            return;
+        }
         this.grid.arrange(this.tilingArea.x - this.scrollX);
-        this.world.ensureFocusedTransientsVisible(); // TODO: refactor - call from elsewhere
+        this.dirty = false;
     }
 
-    public onGridWidthChanged() {
-        this.autoAdjustScroll();
-    }
-
-    public onGridReordered() {
-        this.autoAdjustScroll();
+    public onLayoutChanged() {
+        this.dirty = true;
     }
 
     public destroy() {
