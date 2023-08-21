@@ -16,6 +16,10 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "krunner",
+        "tile": false
+    },
+    {
         "class": "zoom",
         "caption": "Zoom Cloud Meetings",
         "tile": false
