@@ -146,7 +146,7 @@ class Desktop {
     }
 }
 
-module Desktop {
+namespace Desktop {
     export type Config = {
         marginTop: number,
         marginBottom: number,

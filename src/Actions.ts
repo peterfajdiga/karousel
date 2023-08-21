@@ -1,4 +1,4 @@
-module Actions {
+namespace Actions {
     export function init(world: World, config: Config) {
         return {
             focusLeft: () => {

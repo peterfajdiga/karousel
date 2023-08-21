@@ -1,4 +1,4 @@
-module Clients {
+namespace Clients {
     export function canTileEver(kwinClient: AbstractClient) {
         return kwinClient.resizeable;
     }
