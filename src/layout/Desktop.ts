@@ -42,9 +42,9 @@ class Desktop {
 
         let targetScrollX: number;
         if (left < initialScrollPos.getLeft()) {
-            targetScrollX = this.clampScrollX(left);
+            targetScrollX = left;
         } else if (right > initialScrollPos.getRight()) {
-            targetScrollX = this.clampScrollX(right - this.tilingArea.width);
+            targetScrollX = right - this.tilingArea.width;
         } else {
             return this.getScrollPos(this.clampScrollX(this.scrollX));
         }
