@@ -63,7 +63,7 @@ class Window {
         }
         this.client.setMaximize(false, false);
         this.client.setFullScreen(false);
-        this.column.grid.container.onLayoutChanged();
+        this.column.grid.desktop.onLayoutChanged();
     }
 
     public onMaximizedChanged(horizontally: boolean, vertically: boolean) {
@@ -102,7 +102,7 @@ class Window {
                     }
                 }
             }
-            this.column.grid.container.adjustScroll(-leftEdgeDelta, true);
+            this.column.grid.desktop.adjustScroll(-leftEdgeDelta, true);
         }
         if (heightDelta !== 0) {
             this.column.adjustWindowHeight(this, heightDelta, newGeometry.y !== oldGeometry.y);
@@ -112,7 +112,7 @@ class Window {
     public onFrameGeometryChanged(oldGeometry: QRect) {
         const newGeometry = this.client.kwinClient.frameGeometry;
         this.column.setWidth(newGeometry.width, true);
-        this.column.grid.container.onLayoutChanged();
+        this.column.grid.desktop.onLayoutChanged();
     }
 
     public destroy(passFocus: boolean) {

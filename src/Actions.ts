@@ -72,7 +72,7 @@ namespace Actions {
                             return;
                         }
                         window.moveToColumn(prevColumn);
-                        grid.container.autoAdjustScroll();
+                        grid.desktop.autoAdjustScroll();
                     } else {
                         // move from shared column into own column
                         const newColumn = new Column(grid, grid.getPrevColumn(column));
@@ -90,7 +90,7 @@ namespace Actions {
                             return;
                         }
                         window.moveToColumn(nextColumn);
-                        grid.container.autoAdjustScroll();
+                        grid.desktop.autoAdjustScroll();
                     } else {
                         // move from shared column into own column
                         const newColumn = new Column(grid, column);
@@ -191,7 +191,7 @@ namespace Actions {
                     if (firstColumn === null) {
                         return;
                     }
-                    grid.container.scrollToColumn(firstColumn);
+                    grid.desktop.scrollToColumn(firstColumn);
                 });
             },
 
@@ -202,20 +202,20 @@ namespace Actions {
                     if (lastColumn === null) {
                         return;
                     }
-                    grid.container.scrollToColumn(lastColumn);
+                    grid.desktop.scrollToColumn(lastColumn);
                 });
             },
 
             gridScrollFocused: () => {
                 world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
-                    grid.container.scrollCenterColumn(column);
+                    grid.desktop.scrollCenterColumn(column);
                 })
             },
 
             gridScrollLeftColumn: () => {
                 world.do((clientManager, desktopManager) => {
                     const grid = desktopManager.getCurrentDesktop().grid;
-                    const column = grid.getLeftmostVisibleColumn(grid.container.getCurrentScrollPos(), true);
+                    const column = grid.getLeftmostVisibleColumn(grid.desktop.getCurrentScrollPos(), true);
                     if (column === null) {
                         return;
                     }
@@ -225,14 +225,14 @@ namespace Actions {
                         return;
                     }
 
-                    grid.container.scrollToColumn(prevColumn);
+                    grid.desktop.scrollToColumn(prevColumn);
                 });
             },
 
             gridScrollRightColumn: () => {
                 world.do((clientManager, desktopManager) => {
                     const grid = desktopManager.getCurrentDesktop().grid;
-                    const column = grid.getRightmostVisibleColumn(grid.container.getCurrentScrollPos(), true);
+                    const column = grid.getRightmostVisibleColumn(grid.desktop.getCurrentScrollPos(), true);
                     if (column === null) {
                         return;
                     }
@@ -242,7 +242,7 @@ namespace Actions {
                         return;
                     }
 
-                    grid.container.scrollToColumn(nextColumn);
+                    grid.desktop.scrollToColumn(nextColumn);
                 });
             },
         };
@@ -268,7 +268,7 @@ namespace Actions {
                         return null;
                     }
                     window.moveToColumn(targetColumn);
-                    grid.container.autoAdjustScroll();
+                    grid.desktop.autoAdjustScroll();
                 });
             },
 
@@ -313,7 +313,7 @@ namespace Actions {
     function gridScroll(world: World, amount: number) {
         world.do((clientManager, desktopManager) => {
             const grid = desktopManager.getCurrentDesktop().grid;
-            grid.container.adjustScroll(amount, false);
+            grid.desktop.adjustScroll(amount, false);
         });
     }
 

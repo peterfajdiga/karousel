@@ -20,7 +20,7 @@ class ClientStateTiled {
         const clientWrapper = window.client;
         window.destroy(passFocus);
 
-        clientWrapper.prepareForFloating(grid.container.clientArea);
+        clientWrapper.prepareForFloating(grid.desktop.clientArea);
     }
 
     private static initSignalManager(world: World, window: Window) {
@@ -80,7 +80,7 @@ class ClientStateTiled {
 
         manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
             world.do((clientManager, desktopManager) => {
-                const desktop = window.column.grid.container;
+                const desktop = window.column.grid.desktop;
                 if (kwinClient.resize) {
                     window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);
                 } else {

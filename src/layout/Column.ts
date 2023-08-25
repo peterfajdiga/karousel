@@ -25,7 +25,7 @@ class Column {
             this.grid = targetGrid;
             targetGrid.onColumnAdded(this, prevColumn);
             for (const window of this.windows.iterator()) {
-                window.client.kwinClient.desktop = targetGrid.container.desktopNumber;
+                window.client.kwinClient.desktop = targetGrid.desktop.desktopNumber;
             }
         }
     }
@@ -47,12 +47,12 @@ class Column {
 
     public moveWindowUp(window: Window) {
         this.windows.moveBack(window);
-        this.grid.container.onLayoutChanged();
+        this.grid.desktop.onLayoutChanged();
     }
 
     public moveWindowDown(window: Window) {
         this.windows.moveForward(window);
-        this.grid.container.onLayoutChanged();
+        this.grid.desktop.onLayoutChanged();
     }
 
     public getWindowCount() {
@@ -87,7 +87,7 @@ class Column {
     }
 
     public getMaxWidth() {
-        return this.grid.container.tilingArea.width;
+        return this.grid.desktop.tilingArea.width;
     }
 
     public setWidth(width: number, setPreferred: boolean) {
@@ -127,7 +127,7 @@ class Column {
         window.height += heightDelta;
         otherWindow.height -= heightDelta;
 
-        this.grid.container.onLayoutChanged();
+        this.grid.desktop.onLayoutChanged();
     }
 
     public resizeWindows() {
@@ -139,7 +139,7 @@ class Column {
             this.stacked = this.grid.config.stackColumnsByDefault;
         }
 
-        let remainingPixels = this.grid.container.tilingArea.height - (nWindows-1) * this.grid.config.gapsInnerVertical;
+        let remainingPixels = this.grid.desktop.tilingArea.height - (nWindows-1) * this.grid.config.gapsInnerVertical;
         let remainingWindows = nWindows;
         for (const window of this.windows.iterator()) {
             const windowHeight = Math.round(remainingPixels / remainingWindows);
@@ -149,7 +149,7 @@ class Column {
         }
         // TODO: respect min height
 
-        this.grid.container.onLayoutChanged();
+        this.grid.desktop.onLayoutChanged();
     }
 
     public getFocusTaker() {
@@ -172,7 +172,7 @@ class Column {
             this.arrangeStacked(x);
             return;
         }
-        let y = this.grid.container.tilingArea.y;
+        let y = this.grid.desktop.tilingArea.y;
         for (const window of this.windows.iterator()) {
             window.client.setShade(false);
             window.arrange(x, y, this.width, window.height);
@@ -193,8 +193,8 @@ class Column {
         }
 
         const nCollapsed = this.getWindowCount() - 1;
-        const expandedHeight = this.grid.container.tilingArea.height - nCollapsed * (collapsedHeight + this.grid.config.gapsInnerVertical);
-        let y = this.grid.container.tilingArea.y;
+        const expandedHeight = this.grid.desktop.tilingArea.height - nCollapsed * (collapsedHeight + this.grid.config.gapsInnerVertical);
+        let y = this.grid.desktop.tilingArea.y;
         for (const window of this.windows.iterator()) {
             if (window === expandedWindow) {
                 window.arrange(x, y, this.width, expandedHeight);
@@ -212,7 +212,7 @@ class Column {
             return;
         }
         this.stacked = !this.stacked;
-        this.grid.container.onLayoutChanged();
+        this.grid.desktop.onLayoutChanged();
     }
 
     public isVisible(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
@@ -238,7 +238,7 @@ class Column {
             this.onWindowFocused(window);
         }
 
-        this.grid.container.onLayoutChanged();
+        this.grid.desktop.onLayoutChanged();
     }
 
     public onWindowRemoved(window: Window, passFocus: boolean) {
@@ -261,7 +261,7 @@ class Column {
             }
         }
 
-        this.grid.container.onLayoutChanged();
+        this.grid.desktop.onLayoutChanged();
     }
 
     public onWindowFocused(window: Window) {

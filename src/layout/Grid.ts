@@ -1,5 +1,5 @@
 class Grid {
-    public readonly container: Desktop;
+    public readonly desktop: Desktop;
     public readonly config: LayoutConfig;
     private readonly columns: LinkedList<Column>;
     private lastFocusedColumn: Column|null;
@@ -7,8 +7,8 @@ class Grid {
     private userResize: boolean; // is any part of the grid being resized by the user
     private readonly userResizeFinishedDelayer: Delayer;
 
-    constructor(container: Desktop, config: LayoutConfig) {
-        this.container = container;
+    constructor(desktop: Desktop, config: LayoutConfig) {
+        this.desktop = desktop;
         this.config = config;
         this.columns = new LinkedList();
         this.lastFocusedColumn = null;
@@ -16,17 +16,17 @@ class Grid {
         this.userResize = false;
         this.userResizeFinishedDelayer = new Delayer(50, () => {
             // this delay prevents windows' contents from freezing after resizing
-            this.container.onLayoutChanged();
-            this.container.autoAdjustScroll();
-            this.container.arrange();
+            this.desktop.onLayoutChanged();
+            this.desktop.autoAdjustScroll();
+            this.desktop.arrange();
         });
     }
 
     public moveColumnLeft(column: Column) {
         this.columns.moveBack(column);
         this.columnsSetX(column);
-        this.container.onLayoutChanged();
-        this.container.autoAdjustScroll();
+        this.desktop.onLayoutChanged();
+        this.desktop.autoAdjustScroll();
     }
 
     public moveColumnRight(column: Column) {
@@ -147,7 +147,7 @@ class Grid {
     }
 
     public increaseColumnWidth(column: Column) {
-        const scrollPos = this.container.getScrollPosForColumn(column);
+        const scrollPos = this.desktop.getScrollPosForColumn(column);
         if (this.width < scrollPos.width) {
             column.adjustWidth(scrollPos.width - this.width, false);
             return;
@@ -170,13 +170,13 @@ class Grid {
         const expandLeft = leftVisibleWidth < rightVisibleWidth;
         const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.config.gapsInnerHorizontal;
         if (expandLeft) {
-            this.container.adjustScroll(widthDelta, false);
+            this.desktop.adjustScroll(widthDelta, false);
         }
         column.adjustWidth(widthDelta, true);
     }
 
     public decreaseColumnWidth(column: Column) {
-        const scrollPos = this.container.getScrollPosForColumn(column);
+        const scrollPos = this.desktop.getScrollPosForColumn(column);
         if (this.width <= scrollPos.width) {
             column.setWidth(Math.round(column.getWidth() / 2), false);
             return;
@@ -200,7 +200,7 @@ class Grid {
         const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
         if (shrinkLeft) {
             const maxDelta = column.getWidth() - column.getMinWidth();
-            this.container.adjustScroll(-Math.min(widthDelta, maxDelta), false);
+            this.desktop.adjustScroll(-Math.min(widthDelta, maxDelta), false);
         }
         column.adjustWidth(-widthDelta, true);
     }
@@ -213,7 +213,7 @@ class Grid {
 
         const focusedWindow = this.getLastFocusedWindow();
         if (focusedWindow !== null) {
-            focusedWindow.client.ensureTransientsVisible(this.container.clientArea);
+            focusedWindow.client.ensureTransientsVisible(this.desktop.clientArea);
         }
     }
 
@@ -224,8 +224,8 @@ class Grid {
             this.columns.insertAfter(column, prevColumn);
         }
         this.columnsSetX(column);
-        this.container.onLayoutChanged();
-        this.container.autoAdjustScroll();
+        this.desktop.onLayoutChanged();
+        this.desktop.autoAdjustScroll();
     }
 
     public onColumnRemoved(column: Column, passFocus: boolean) {
@@ -242,9 +242,9 @@ class Grid {
         if (passFocus && columnToFocus !== null) {
             columnToFocus.focus();
         } else {
-            this.container.autoAdjustScroll();
+            this.desktop.autoAdjustScroll();
         }
-        this.container.onLayoutChanged();
+        this.desktop.onLayoutChanged();
     }
 
     public onColumnMoved(column: Column, prevColumn: Column|null) {
@@ -252,17 +252,17 @@ class Grid {
         const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
         this.columns.move(column, prevColumn);
         this.columnsSetX(firstMovedColumn);
-        this.container.onLayoutChanged();
-        this.container.autoAdjustScroll();
+        this.desktop.onLayoutChanged();
+        this.desktop.autoAdjustScroll();
     }
 
     public onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
         if (!this.userResize) {
-            this.container.autoAdjustScroll();
+            this.desktop.autoAdjustScroll();
         }
-        this.container.onLayoutChanged();
+        this.desktop.onLayoutChanged();
     }
 
     public onColumnFocused(column: Column) {
@@ -271,7 +271,7 @@ class Grid {
             lastFocusedColumn.restoreToTiled();
         }
         this.lastFocusedColumn = column;
-        this.container.scrollToColumn(column);
+        this.desktop.scrollToColumn(column);
     }
 
     public onScreenSizeChanged() {
