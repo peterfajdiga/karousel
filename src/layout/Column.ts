@@ -108,6 +108,19 @@ class Column {
         this.setWidth(this.width + widthDelta, setPreferred);
     }
 
+    public updateWidth() {
+        let minErr = Infinity;
+        let closestPreferredWidth = this.width;
+        for (const window of this.windows.iterator()) {
+            const err = Math.abs(window.client.preferredWidth - this.width);
+            if (err < minErr) {
+                minErr = err;
+                closestPreferredWidth = window.client.preferredWidth;
+            }
+        }
+        this.setWidth(closestPreferredWidth, false);
+    }
+
     // returns x position of left edge in grid space
     public getLeft() {
         return this.gridX;

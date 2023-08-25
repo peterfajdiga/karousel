@@ -276,6 +276,7 @@ class Grid {
 
     public onScreenSizeChanged() {
         for (const column of this.columns.iterator()) {
+            column.updateWidth();
             column.resizeWindows();
         }
     }
