@@ -61,8 +61,8 @@ class Window {
         if (this.isFocused()) {
             return;
         }
-        this.client.setMaximize(false, false);
         this.client.setFullScreen(false);
+        this.client.setMaximize(false, false);
         this.column.grid.desktop.onLayoutChanged();
     }
 
