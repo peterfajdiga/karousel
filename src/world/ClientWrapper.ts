@@ -1,6 +1,6 @@
 class ClientWrapper {
     public readonly kwinClient: AbstractClient;
-    public readonly stateManager: ClientStateManager;
+    public readonly stateManager: ClientState.Manager;
     public transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
     private readonly signalManager: SignalManager;
@@ -10,12 +10,12 @@ class ClientWrapper {
 
     constructor(
         kwinClient: AbstractClient,
-        initialState: ClientState,
+        initialState: ClientState.State,
         transientFor: ClientWrapper | null,
         rulesSignalManager: SignalManager | null,
     ) {
         this.kwinClient = kwinClient;
-        this.stateManager = new ClientStateManager(initialState);
+        this.stateManager = new ClientState.Manager(initialState);
         this.transientFor = transientFor;
         this.transients = [];
         if (transientFor !== null) {
@@ -39,7 +39,7 @@ class ClientWrapper {
 
     private moveTransient(dx: number, dy: number, desktopNumber: number) {
         // TODO: prevent moving off the grid
-        if (this.stateManager.getState() instanceof ClientStateFloating) {
+        if (this.stateManager.getState() instanceof ClientState.Floating) {
             if (this.kwinClient.desktop === desktopNumber) {
                 const frame = this.kwinClient.frameGeometry;
                 this.kwinClient.frameGeometry = Qt.rect(
@@ -123,7 +123,7 @@ class ClientWrapper {
 
     public ensureTransientsVisible(screenSize: QRect) {
         for (const transient of this.transients) {
-            if (transient.stateManager.getState() instanceof ClientStateFloating) {
+            if (transient.stateManager.getState() instanceof ClientState.Floating) {
                 transient.ensureVisible(screenSize);
                 transient.ensureTransientsVisible(screenSize);
             }
@@ -159,7 +159,7 @@ class ClientWrapper {
     private static initSignalManager(client: ClientWrapper) {
         const manager = new SignalManager();
         manager.connect(client.kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
-            if (client.stateManager.getState() instanceof ClientStateTiled) {
+            if (client.stateManager.getState() instanceof ClientState.Tiled) {
                 const newGeometry = client.kwinClient.frameGeometry;
                 const oldCenterX = oldGeometry.x + oldGeometry.width/2;
                 const oldCenterY = oldGeometry.y + oldGeometry.height/2;
