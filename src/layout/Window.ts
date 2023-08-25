@@ -109,9 +109,10 @@ class Window {
         }
     }
 
-    public onProgrammaticResize(oldGeometry: QRect) {
+    public onFrameGeometryChanged(oldGeometry: QRect) {
         const newGeometry = this.client.kwinClient.frameGeometry;
         this.column.setWidth(newGeometry.width, true);
+        this.column.grid.container.onLayoutChanged();
     }
 
     public destroy(passFocus: boolean) {
