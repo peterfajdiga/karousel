@@ -93,6 +93,9 @@ class ClientWrapper {
     public prepareForTiling() {
         this.kwinClient.keepBelow = true;
         this.setFullScreen(false);
+        if (this.kwinClient.tile !== null) {
+            this.setMaximize(false, true); // disable quick tile mode
+        }
         this.setMaximize(false, false);
     }
 
@@ -100,7 +103,9 @@ class ClientWrapper {
         this.kwinClient.keepBelow = false;
         this.setShade(false);
         this.setFullScreen(false);
-        this.setMaximize(false, false);
+        if (this.kwinClient.tile === null) {
+            this.setMaximize(false, false);
+        }
 
         const clientRect = this.kwinClient.frameGeometry;
         const width = this.preferredWidth;
