@@ -243,7 +243,7 @@
                     </widget>
                     <widget class="QWidget" name="tab_windowRules">
                         <attribute name="title">
-                            <string>Window rules</string>
+                            <string>Window Rules</string>
                         </attribute>
                         <layout class="QVBoxLayout" name="layout_tab_windowRules">
                             <item>
