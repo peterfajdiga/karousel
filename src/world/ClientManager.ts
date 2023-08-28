@@ -15,6 +15,7 @@ class ClientManager {
         try {
             parsedWindowRules = JSON.parse(config.windowRules);
         } catch (error: any) {
+            notificationInvalidWindowRules.sendEvent();
             console.log("failed to parse windowRules:", error);
         }
         this.windowRuleEnforcer = new WindowRuleEnforcer(parsedWindowRules);

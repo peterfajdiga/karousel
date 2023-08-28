@@ -1,4 +1,5 @@
 declare const qmlBase;
+declare const notificationInvalidWindowRules;
 declare const console;
 declare const KWin;
 declare const Qt;
