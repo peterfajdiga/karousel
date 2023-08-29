@@ -1,7 +1,7 @@
 function initWorkspaceSignalHandlers(world: World) {
     const manager = new SignalManager();
 
-    manager.connect(workspace.clientAdded, (kwinClient: AbstractClient) => {
+    manager.connect(workspace.clientAdded, (kwinClient: KwinClient) => {
         if (Clients.canTileEver(kwinClient)) {
             // never open new tileable clients on all desktops or activities
             if (kwinClient.desktop <= 0) {

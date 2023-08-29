@@ -10,6 +10,8 @@ declare const Qt: {
 
 type QmlObject = any;
 
+type QByteArray = string;
+
 type QRect = {
     x: number;
     y: number;
@@ -19,6 +21,11 @@ type QRect = {
     bottom: number;
     left: number;
     right: number;
+}
+
+type QSize = {
+    width: number;
+    height: number;
 }
 
 type QSignal = {

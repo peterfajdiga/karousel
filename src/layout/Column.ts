@@ -206,7 +206,7 @@ class Column {
         }
 
         const nCollapsed = this.getWindowCount() - 1;
-        const expandedHeight = this.grid.desktop.tilingArea.height - nCollapsed * (collapsedHeight + this.grid.config.gapsInnerVertical);
+        const expandedHeight = this.grid.desktop.tilingArea.height - nCollapsed * (collapsedHeight! + this.grid.config.gapsInnerVertical);
         let y = this.grid.desktop.tilingArea.y;
         for (const window of this.windows.iterator()) {
             if (window === expandedWindow) {
@@ -214,7 +214,7 @@ class Column {
                 y += expandedHeight;
             } else {
                 window.arrange(x, y, this.width, window.height);
-                y += collapsedHeight;
+                y += collapsedHeight!;
             }
             y += this.grid.config.gapsInnerVertical;
         }

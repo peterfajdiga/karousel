@@ -1,5 +1,5 @@
 class ClientWrapper {
-    public readonly kwinClient: AbstractClient;
+    public readonly kwinClient: TopLevel;
     public readonly stateManager: ClientState.Manager;
     public transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
@@ -9,7 +9,7 @@ class ClientWrapper {
     private readonly manipulatingGeometry: Doer;
 
     constructor(
-        kwinClient: AbstractClient,
+        kwinClient: TopLevel,
         initialState: ClientState.State,
         transientFor: ClientWrapper | null,
         rulesSignalManager: SignalManager | null,

@@ -21,7 +21,7 @@ class ClientManager {
         this.windowRuleEnforcer = new WindowRuleEnforcer(parsedWindowRules);
     }
 
-    public addClient(kwinClient: AbstractClient) {
+    public addClient(kwinClient: TopLevel) {
         console.assert(!this.hasClient(kwinClient));
         const client = new ClientWrapper(
             kwinClient,
