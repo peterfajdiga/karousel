@@ -1,4 +1,4 @@
-declare const qmlBase;
+declare const qmlBase: QmlObject;
 declare const notificationInvalidWindowRules: Notification;
 
 type Notification = {

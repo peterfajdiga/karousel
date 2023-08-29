@@ -4,8 +4,8 @@ class Desktop {
     private readonly config: Desktop.Config;
     private scrollX: number;
     private dirty: boolean;
-    public clientArea: QRect;
-    public tilingArea: QRect;
+    public clientArea!: QRect;
+    public tilingArea!: QRect;
 
     constructor(desktopNumber: number, config: Desktop.Config, layoutConfig: LayoutConfig) {
         this.config = config;
