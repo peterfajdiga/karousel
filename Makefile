@@ -1,6 +1,6 @@
 .PHONY: *
 
-TSC_SCRIPT_FLAGS = --lib es2020 ./src/extern.d.ts
+TSC_SCRIPT_FLAGS = --lib es2020 ./src/extern/qt.d.ts
 
 config:
 	mkdir -p ./package/contents/config
