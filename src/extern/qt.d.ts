@@ -28,14 +28,14 @@ type QSize = {
     height: number;
 }
 
-type QSignal = {
-    connect(handler: (...args: any[]) => void): void;
-    disconnect(handler: (...args: any[]) => void): void;
+type QSignal<T extends unknown[]> = {
+    connect(handler: (...args: [...T]) => void): void;
+    disconnect(handler: (...args: [...T]) => void): void;
 }
 
 type QQmlTimer = {
     interval: number;
-    triggered: QSignal;
+    triggered: QSignal<[void]>;
     restart(): void;
     destroy(): void;
 }

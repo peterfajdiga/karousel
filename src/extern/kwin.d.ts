@@ -15,14 +15,14 @@ declare const workspace: {
     currentActivity: string;
 
     // Signals
-    clientAdded: QSignal;
-    clientRemoved: QSignal;
-    clientMinimized: QSignal;
-    clientUnminimized: QSignal;
-    clientMaximizeSet: QSignal;
-    clientActivated: QSignal;
-    numberDesktopsChanged: QSignal;
-    virtualScreenSizeChanged: QSignal;
+    clientAdded: QSignal<[KwinClient]>;
+    clientRemoved: QSignal<[AbstractClient]>;
+    clientMinimized: QSignal<[AbstractClient]>;
+    clientUnminimized: QSignal<[AbstractClient]>;
+    clientMaximizeSet: QSignal<[AbstractClient, horizontally: boolean, vertically: boolean]>;
+    clientActivated: QSignal<[AbstractClient]>;
+    numberDesktopsChanged: QSignal<[oldNumberOfVirtualDesktops: number]>;
+    virtualScreenSizeChanged: QSignal<[void]>;
 
     // Functions
     clientArea(option: ClientAreaOption, screenNumber: number, desktopNumber: number);
@@ -52,14 +52,14 @@ interface AbstractClient {
     minimized: boolean;
 
     // Signals
-    fullScreenChanged: QSignal;
-    desktopChanged: QSignal;
-    activitiesChanged: QSignal;
-    captionChanged: QSignal;
-    tileChanged: QSignal;
-    moveResizedChanged: QSignal;
-    moveResizeCursorChanged: QSignal;
-    clientStartUserMovedResized: QSignal;
+    fullScreenChanged: QSignal<[void]>;
+    desktopChanged: QSignal<[void]>;
+    activitiesChanged: QSignal<[AbstractClient]>;
+    captionChanged: QSignal<[void]>;
+    tileChanged: QSignal<[Tile]>;
+    moveResizedChanged: QSignal<[void]>;
+    moveResizeCursorChanged: QSignal<[void]>;
+    clientStartUserMovedResized: QSignal<[void]>;
 
     // Functions
     setMaximize(vertically: boolean, horizontally: boolean): void;
@@ -74,7 +74,7 @@ interface TopLevel extends AbstractClient {
     managed: boolean;
 
     // Signals
-    frameGeometryChanged: QSignal;
+    frameGeometryChanged: QSignal<[TopLevel, oldGeometry: QRect]>;
 }
 
 interface KwinClient extends TopLevel {}

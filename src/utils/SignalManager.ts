@@ -1,11 +1,11 @@
 class SignalManager {
-    private connections: { signal: QSignal, handler: (...args: any[]) => void }[];
+    private connections: { signal: QSignal<any>, handler: (...args: any) => void }[];
 
     constructor() {
         this.connections = [];
     }
 
-    public connect(signal: QSignal, handler: (...args: any[]) => void) {
+    public connect<T extends unknown[]>(signal: QSignal<T>, handler: (...args: [...T]) => void) {
         signal.connect(handler);
         this.connections.push({ signal: signal, handler: handler });
     }
