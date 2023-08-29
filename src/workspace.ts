@@ -49,12 +49,6 @@ function initWorkspaceSignalHandlers(world: World) {
         });
     });
 
-    manager.connect(workspace.clientFullScreenSet, (kwinClient: X11Client, fullScreen: boolean, user: boolean) => {
-        world.doIfTiled(kwinClient, false, (clientManager, desktopManager, window, column, grid) => {
-            window.onFullScreenChanged(fullScreen);
-        });
-    });
-
     manager.connect(workspace.numberDesktopsChanged, (oldNumberOfVirtualDesktops: number) => {
         world.updateDesktops();
     });

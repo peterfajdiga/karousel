@@ -93,6 +93,10 @@ namespace ClientState {
                 });
             });
 
+            manager.connect(kwinClient.fullScreenChanged, () => {
+                window.onFullScreenChanged(kwinClient.fullScreen);
+            });
+
             manager.connect(kwinClient.tileChanged, (tile: Tile) => {
                 if (tile !== null) {
                     world.do((clientManager, desktopManager) => {

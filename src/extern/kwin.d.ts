@@ -21,7 +21,6 @@ declare const workspace: {
     clientUnminimized: QSignal;
     clientMaximizeSet: QSignal;
     clientActivated: QSignal;
-    clientFullScreenSet: QSignal;
     numberDesktopsChanged: QSignal;
     virtualScreenSizeChanged: QSignal;
 
@@ -53,6 +52,7 @@ interface AbstractClient {
     minimized: boolean;
 
     // Signals
+    fullScreenChanged: QSignal;
     desktopChanged: QSignal;
     activitiesChanged: QSignal;
     captionChanged: QSignal;
