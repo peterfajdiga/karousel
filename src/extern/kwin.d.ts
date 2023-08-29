@@ -78,5 +78,3 @@ interface TopLevel extends AbstractClient {
 }
 
 interface KwinClient extends TopLevel {}
-
-interface X11Client extends TopLevel {}
