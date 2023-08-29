@@ -29,8 +29,8 @@ type QSize = {
 }
 
 type QSignal = {
-    connect(handler: (...args: any[]) => void);
-    disconnect(handler: (...args: any[]) => void);
+    connect(handler: (...args: any[]) => void): void;
+    disconnect(handler: (...args: any[]) => void): void;
 }
 
 type QQmlTimer = {
