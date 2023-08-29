@@ -4,8 +4,8 @@ class Desktop {
     private readonly config: Desktop.Config;
     private scrollX: number;
     private dirty: boolean;
-    public clientArea!: QRect;
-    public tilingArea!: QRect;
+    public clientArea: QRect;
+    public tilingArea: QRect;
 
     constructor(desktopNumber: number, config: Desktop.Config, layoutConfig: LayoutConfig) {
         this.config = config;
@@ -13,25 +13,31 @@ class Desktop {
         this.dirty = false;
         this.desktopNumber = desktopNumber;
         this.grid = new Grid(this, layoutConfig);
-        this.updateArea();
+        this.clientArea = Desktop.getClientArea(desktopNumber);
+        this.tilingArea = Desktop.getTilingArea(this.clientArea, config);
     }
 
     private updateArea() {
-        const newClientArea = workspace.clientArea(workspace.PlacementArea, 0, this.desktopNumber);
+        const newClientArea = Desktop.getClientArea(this.desktopNumber);
         if (newClientArea === this.clientArea) {
             return;
         }
-
-        this.clientArea = newClientArea;
-        this.tilingArea = Qt.rect(
-            newClientArea.x + this.config.marginLeft,
-            newClientArea.y + this.config.marginTop,
-            newClientArea.width - this.config.marginLeft - this.config.marginRight,
-            newClientArea.height - this.config.marginTop - this.config.marginBottom,
-        )
+        this.tilingArea = Desktop.getTilingArea(this.clientArea, this.config);
         this.grid.onScreenSizeChanged();
-
         this.autoAdjustScroll();
+    }
+
+    private static getClientArea(desktopNumber: number) {
+        return workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
+    }
+
+    private static getTilingArea(clientArea: QRect, config: Desktop.Config) {
+        return Qt.rect(
+            clientArea.x + config.marginLeft,
+            clientArea.y + config.marginTop,
+            clientArea.width - config.marginLeft - config.marginRight,
+            clientArea.height - config.marginTop - config.marginBottom,
+        )
     }
 
     // calculates Desktop.Pos that scrolls the column into view
