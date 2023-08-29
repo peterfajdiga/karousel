@@ -1,4 +1,4 @@
-interface KeyBinding {
+type KeyBinding = {
     name: string;
     description: string;
     comment?: string;
@@ -6,7 +6,7 @@ interface KeyBinding {
     action: keyof ReturnType<typeof Actions.init>;
 }
 
-interface NumKeyBinding {
+type NumKeyBinding = {
     name: string;
     description: string;
     comment?: string;
