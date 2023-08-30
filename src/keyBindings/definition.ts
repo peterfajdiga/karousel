@@ -14,18 +14,21 @@ const keyBindings: KeyBinding[] = [
     {
         "name": "focus-right",
         "description": "Move focus right",
+        "comment": "Clashes with default KDE shortcuts, may require manual remapping",
         "defaultKeySequence": "Meta+D",
         "action": "focusRight",
     },
     {
         "name": "focus-up",
         "description": "Move focus up",
+        "comment": "Clashes with default KDE shortcuts, may require manual remapping",
         "defaultKeySequence": "Meta+W",
         "action": "focusUp",
     },
     {
         "name": "focus-down",
         "description": "Move focus down",
+        "comment": "Clashes with default KDE shortcuts, may require manual remapping",
         "defaultKeySequence": "Meta+S",
         "action": "focusDown",
     },
@@ -170,6 +173,7 @@ const numKeyBindings: NumKeyBinding[] = [
     {
         "name": "focus-",
         "description": "Move focus to column ",
+        "comment": "Clashes with default KDE shortcuts, may require manual remapping",
         "defaultModifiers": "Meta",
         "fKeys": false,
         "action": "focusColumn",
