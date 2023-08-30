@@ -22,7 +22,8 @@ class Desktop {
         if (newClientArea === this.clientArea) {
             return;
         }
-        this.tilingArea = Desktop.getTilingArea(this.clientArea, this.config);
+        this.clientArea = newClientArea;
+        this.tilingArea = Desktop.getTilingArea(newClientArea, this.config);
         this.grid.onScreenSizeChanged();
         this.autoAdjustScroll();
     }
