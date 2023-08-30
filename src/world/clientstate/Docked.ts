@@ -1,5 +1,5 @@
 namespace ClientState {
-    export class Docked {
+    export class Docked implements State {
         private readonly world: World;
         private readonly signalManager: SignalManager;
 

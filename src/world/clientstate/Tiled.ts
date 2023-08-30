@@ -1,5 +1,5 @@
 namespace ClientState {
-    export class Tiled {
+    export class Tiled implements State {
         public readonly window: Window;
         private readonly signalManager: SignalManager;
 

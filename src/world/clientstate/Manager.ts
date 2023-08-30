@@ -20,13 +20,15 @@ namespace ClientState {
         }
     }
 
-    export type State = ClientState.Tiled | ClientState.TiledMinimized | ClientState.Floating | ClientState.Docked;
+    export type State = {
+        destroy(passFocus: boolean): void;
+    }
 
-    export class TiledMinimized {
+    export class TiledMinimized implements State {
         public destroy(passFocus: boolean) {}
     }
 
-    export class Floating {
+    export class Floating implements State {
         public destroy(passFocus: boolean) {}
     }
 }
