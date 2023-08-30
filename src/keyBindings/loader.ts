@@ -38,12 +38,15 @@ function registerKeyBinding(name: string, description: string, keySequence: stri
 function registerNumKeyBindings(name: string, description: string, modifiers: string, fKeys: boolean, callback: (i: number) => void) {
     const numPrefix = fKeys ? "F" : "";
     const n = fKeys ? 12 : 9;
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < 12; i++) {
         const numKey = String(i + 1);
+        const keySequence = i < n ?
+            modifiers + "+" + numPrefix + numKey :
+            "";
         registerKeyBinding(
             name + numKey,
             description + numKey,
-            modifiers + "+" + numPrefix + numKey,
+            keySequence,
             () => callback(i),
         );
     }
