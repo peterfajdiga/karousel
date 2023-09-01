@@ -21,21 +21,21 @@ type QRect = {
     bottom: number;
     left: number;
     right: number;
-}
+};
 
 type QSize = {
     width: number;
     height: number;
-}
+};
 
 type QSignal<T extends unknown[]> = {
     connect(handler: (...args: [...T]) => void): void;
     disconnect(handler: (...args: [...T]) => void): void;
-}
+};
 
 type QQmlTimer = {
     interval: number;
     triggered: QSignal<[void]>;
     restart(): void;
     destroy(): void;
-}
+};

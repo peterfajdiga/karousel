@@ -3,4 +3,4 @@ type LayoutConfig = {
     gapsInnerVertical: number,
     stackColumnsByDefault: boolean,
     resizeNeighborColumn: boolean,
-}
+};

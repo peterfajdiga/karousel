@@ -11,4 +11,4 @@ type Config = {
     stackColumnsByDefault: boolean,
     resizeNeighborColumn: boolean,
     windowRules: string,
-}
+};

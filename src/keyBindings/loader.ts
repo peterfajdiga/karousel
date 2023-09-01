@@ -4,7 +4,7 @@ type KeyBinding = {
     comment?: string;
     defaultKeySequence: string;
     action: keyof ReturnType<typeof Actions.init>;
-}
+};
 
 type NumKeyBinding = {
     name: string;
@@ -13,7 +13,7 @@ type NumKeyBinding = {
     defaultModifiers: string;
     fKeys: boolean;
     action: keyof ReturnType<typeof Actions.initNum>;
-}
+};
 
 function catchWrap(f: () => void) {
     return () => {

@@ -160,7 +160,7 @@ namespace Desktop {
         marginLeft: number,
         marginRight: number,
         overscroll: number,
-    }
+    };
 
     export class ScrollPos {
         public readonly x: number;

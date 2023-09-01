@@ -22,7 +22,7 @@ namespace ClientState {
 
     export type State = {
         destroy(passFocus: boolean): void;
-    }
+    };
 
     export class TiledMinimized implements State {
         public destroy(passFocus: boolean) {}

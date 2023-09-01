@@ -319,5 +319,5 @@ namespace Actions {
 
     export type Config = {
         manualScrollStep: number,
-    }
+    };
 }
