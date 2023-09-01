@@ -5,9 +5,6 @@ declare const KWin: {
 };
 
 declare const workspace: {
-    // Enums
-    PlacementArea: ClientAreaOption;
-
     // Read-write Properties
     activeClient: AbstractClient;
     desktops: number;
@@ -29,7 +26,6 @@ declare const workspace: {
     clientList(): TopLevel[];
 };
 
-type ClientAreaOption = any;
 type Tile = any;
 
 interface AbstractClient {

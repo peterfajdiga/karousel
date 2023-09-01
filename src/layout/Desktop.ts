@@ -29,7 +29,7 @@ class Desktop {
     }
 
     private static getClientArea(desktopNumber: number) {
-        return workspace.clientArea(workspace.PlacementArea, 0, desktopNumber);
+        return workspace.clientArea(ClientAreaOption.PlacementArea, 0, desktopNumber);
     }
 
     private static getTilingArea(clientArea: QRect, config: Desktop.Config) {
