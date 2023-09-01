@@ -6,10 +6,12 @@ declare const KWin: {
 
 declare const workspace: {
     // Read-write Properties
+    readonly desktops: number;
+    readonly currentDesktop: number;
+    readonly currentActivity: string;
+
+    // Read-write Properties
     activeClient: AbstractClient;
-    desktops: number;
-    currentDesktop: number;
-    currentActivity: string;
 
     // Signals
     clientAdded: QSignal<[KwinClient]>;
@@ -30,14 +32,14 @@ type Tile = any;
 
 interface AbstractClient {
     // Read-only Properties
-    caption: string;
-    minSize: QSize;
-    transient: boolean;
-    transientFor: AbstractClient;
-    move: boolean;
-    resize: boolean;
-    resizeable: boolean;
-    tile: Tile;
+    readonly caption: string;
+    readonly minSize: QSize;
+    readonly transient: boolean;
+    readonly transientFor: AbstractClient;
+    readonly move: boolean;
+    readonly resize: boolean;
+    readonly resizeable: boolean;
+    readonly tile: Tile;
 
     // Read-write Properties
     fullScreen: boolean;
@@ -63,11 +65,13 @@ interface AbstractClient {
 
 interface TopLevel extends AbstractClient {
     // Read-only Properties
+    readonly resourceClass: QByteArray;
+    readonly dock: boolean;
+    readonly normalWindow: boolean;
+    readonly managed: boolean;
+
+    // Read-write Properties
     frameGeometry: QRect;
-    resourceClass: QByteArray;
-    dock: boolean;
-    normalWindow: boolean;
-    managed: boolean;
 
     // Signals
     frameGeometryChanged: QSignal<[TopLevel, oldGeometry: QRect]>;
