@@ -18,10 +18,10 @@ namespace ClientState {
 
             const window = this.window;
             const grid = window.column.grid;
-            const clientWrapper = window.client;
+            const client = window.client;
             window.destroy(passFocus);
 
-            clientWrapper.prepareForFloating(grid.desktop.clientArea);
+            client.prepareForFloating(grid.desktop.clientArea);
         }
 
         private static initSignalManager(world: World, window: Window) {
