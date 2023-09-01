@@ -20,8 +20,8 @@ function catchWrap(f: () => void) {
         try {
             f();
         } catch (error: any) {
-            console.log(error);
-            console.log(error.stack);
+            log(error);
+            log(error.stack);
         }
     };
 }
