@@ -8,7 +8,7 @@ declare const Qt: {
     createQmlObject(qml: string, parent: QmlObject);
 };
 
-type QmlObject = any;
+type QmlObject = unknown;
 
 type QByteArray = string;
 
