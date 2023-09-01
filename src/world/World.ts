@@ -11,8 +11,8 @@ class World {
 
         this.screenResizedDelayer = new Delayer(1000, () => {
             // this delay ensures that docks get taken into account by `workspace.clientArea`
-            const gridManager = this.desktopManager; // workaround for bug in Qt5's JS engine
-            for (const desktop of gridManager.desktops()) {
+            const desktopManager = this.desktopManager; // workaround for bug in Qt5's JS engine
+            for (const desktop of desktopManager.desktops()) {
                 desktop.onLayoutChanged();
             }
             this.update();
