@@ -32,10 +32,10 @@ class ClientManager {
         this.clientMap.set(kwinClient, client);
 
         if (kwinClient.dock) {
-            client.stateManager.setState(new ClientState.Docked(this.world, kwinClient), false);
+            client.stateManager.setState(() => new ClientState.Docked(this.world, kwinClient), false);
         } else if (this.windowRuleEnforcer.shouldTile(kwinClient)) {
             const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
-            client.stateManager.setState(new ClientState.Tiled(this.world, client, grid), false);
+            client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
         }
     }
 
@@ -68,7 +68,7 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            client.stateManager.setState(new ClientState.TiledMinimized(), kwinClient === this.lastFocusedClient);
+            client.stateManager.setState(() => new ClientState.TiledMinimized(), kwinClient === this.lastFocusedClient);
         }
     }
 
@@ -79,7 +79,7 @@ class ClientManager {
         }
         if (client.stateManager.getState() instanceof ClientState.TiledMinimized) {
             const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
-            client.stateManager.setState(new ClientState.Tiled(this.world, client, grid), false);
+            client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
         }
     }
 
@@ -92,7 +92,7 @@ class ClientManager {
             return;
         }
         const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
-        client.stateManager.setState(new ClientState.Tiled(this.world, client, grid), false);
+        client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
     }
 
     public untileClient(kwinClient: AbstractClient) {
@@ -101,7 +101,7 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            client.stateManager.setState(new ClientState.Floating(), false);
+            client.stateManager.setState(() => new ClientState.Floating(), false);
         }
     }
 
@@ -115,9 +115,9 @@ class ClientManager {
         if (clientState instanceof ClientState.Floating && Clients.canTileEver(kwinClient)) {
             Clients.makeTileable(kwinClient);
             const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
-            client.stateManager.setState(new ClientState.Tiled(this.world, client, grid), false);
+            client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
         } else if (clientState instanceof ClientState.Tiled) {
-            client.stateManager.setState(new ClientState.Floating(), false);
+            client.stateManager.setState(() => new ClientState.Floating(), false);
         }
     }
 

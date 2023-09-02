@@ -6,9 +6,9 @@ namespace ClientState {
             this.state = initialState;
         }
 
-        public setState(newState: ClientState.State, passFocus: boolean) {
+        public setState(constructNewState: () => ClientState.State, passFocus: boolean) {
             this.state.destroy(passFocus);
-            this.state = newState;
+            this.state = constructNewState();
         }
 
         public getState() {
