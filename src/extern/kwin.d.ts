@@ -64,6 +64,7 @@ interface AbstractClient {
 
 interface TopLevel extends AbstractClient {
     // Read-only Properties
+    readonly screen: number;
     readonly resourceClass: QByteArray;
     readonly dock: boolean;
     readonly normalWindow: boolean;

@@ -18,4 +18,14 @@ namespace Clients {
             kwinClient.activities = [workspace.currentActivity];
         }
     }
+
+    export function isMaximizedGeometry(kwinClient: TopLevel) {
+        const maximizeArea = workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.screen, kwinClient.desktop);
+        return kwinClient.frameGeometry === maximizeArea;
+    }
+
+    export function isFullScreenGeometry(kwinClient: TopLevel) {
+        const fullScreenArea = workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.screen, kwinClient.desktop);
+        return kwinClient.frameGeometry === fullScreenArea;
+    }
 }

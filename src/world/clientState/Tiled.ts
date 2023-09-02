@@ -81,14 +81,10 @@ namespace ClientState {
 
             manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
                 world.do((clientManager, desktopManager) => {
-                    const desktop = window.column.grid.desktop;
                     if (kwinClient.resize) {
                         window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);
-                    } else {
-                        const maximized = kwinClient.frameGeometry === desktop.clientArea;
-                        if (!client.isManipulatingGeometry() && !kwinClient.fullScreen && !maximized) {
-                            window.onFrameGeometryChanged();
-                        }
+                    } else if (!client.isManipulatingGeometry() && !Clients.isMaximizedGeometry(kwinClient) && !Clients.isFullScreenGeometry(kwinClient)) {
+                        window.onFrameGeometryChanged();
                     }
                 });
             });
