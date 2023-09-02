@@ -39,7 +39,6 @@ interface AbstractClient {
     readonly move: boolean;
     readonly resize: boolean;
     readonly resizeable: boolean;
-    readonly tile: Tile;
 
     // Read-write Properties
     fullScreen: boolean;
@@ -47,6 +46,7 @@ interface AbstractClient {
     keepBelow: boolean;
     shade: boolean;
     minimized: boolean;
+    tile: Tile;
 
     // Signals
     fullScreenChanged: QSignal<[void]>;
