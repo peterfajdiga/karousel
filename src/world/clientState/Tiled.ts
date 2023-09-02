@@ -85,7 +85,7 @@ namespace ClientState {
                     if (kwinClient.resize) {
                         window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);
                     } else {
-                        const maximized = rectEqual(kwinClient.frameGeometry, desktop.clientArea);
+                        const maximized = kwinClient.frameGeometry === desktop.clientArea;
                         if (!client.isManipulatingGeometry() && !kwinClient.fullScreen && !maximized) {
                             window.onFrameGeometryChanged();
                         }
