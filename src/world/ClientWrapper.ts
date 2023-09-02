@@ -99,21 +99,25 @@ class ClientWrapper {
         this.setMaximize(false, false);
     }
 
-    public prepareForFloating(screenSize: QRect) {
+    public restoreAfterTiling(screenSize: QRect) {
         this.kwinClient.keepBelow = false;
         this.setShade(false);
         this.setFullScreen(false);
         if (this.kwinClient.tile === null) {
             this.setMaximize(false, false);
         }
+        this.ensureVisible(screenSize);
+    }
 
+    public prepareForFloating() {
+        const placementArea = workspace.clientArea(ClientAreaOption.PlacementArea, this.kwinClient.screen, this.kwinClient.desktop);
         const clientRect = this.kwinClient.frameGeometry;
         const width = this.preferredWidth;
         this.place(
-            clamp(clientRect.x, screenSize.left, screenSize.right - width),
+            clientRect.x,
             clientRect.y,
             width,
-            Math.min(clientRect.height, Math.round(screenSize.height / 2)),
+            Math.min(clientRect.height, Math.round(placementArea.height / 2)),
         );
     }
 

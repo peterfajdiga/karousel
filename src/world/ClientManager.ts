@@ -25,7 +25,7 @@ class ClientManager {
         console.assert(!this.hasClient(kwinClient));
         const client = new ClientWrapper(
             kwinClient,
-            new ClientState.Floating(),
+            new ClientState.Floating(null),
             this.findTransientFor(kwinClient),
             this.windowRuleEnforcer.initClientSignalManager(this.world, kwinClient),
         );
@@ -101,7 +101,7 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(), false);
+            client.stateManager.setState(() => new ClientState.Floating(client), false);
         }
     }
 
@@ -117,7 +117,7 @@ class ClientManager {
             const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
             client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
         } else if (clientState instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(), false);
+            client.stateManager.setState(() => new ClientState.Floating(client), false);
         }
     }
 

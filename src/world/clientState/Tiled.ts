@@ -21,7 +21,7 @@ namespace ClientState {
             const client = window.client;
             window.destroy(passFocus);
 
-            client.prepareForFloating(grid.desktop.clientArea);
+            client.restoreAfterTiling(grid.desktop.clientArea);
         }
 
         private static initSignalManager(world: World, window: Window) {
