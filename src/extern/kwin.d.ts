@@ -11,7 +11,7 @@ declare const workspace: {
     readonly currentActivity: string;
 
     // Read-write Properties
-    activeClient: AbstractClient;
+    activeClient: KwinClient;
 
     // Signals
     clientAdded: QSignal<[KwinClient]>;
@@ -43,7 +43,6 @@ interface AbstractClient {
 
     // Read-write Properties
     fullScreen: boolean;
-    desktop: number;
     activities: string[];
     keepBelow: boolean;
     shade: boolean;
@@ -72,6 +71,7 @@ interface TopLevel extends AbstractClient {
 
     // Read-write Properties
     frameGeometry: QRect;
+    desktop: number;
 
     // Signals
     frameGeometryChanged: QSignal<[TopLevel, oldGeometry: QRect]>;

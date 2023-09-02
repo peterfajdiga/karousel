@@ -36,7 +36,7 @@ class DesktopManager {
         return this.getDesktop(workspace.currentActivity, desktopNumber);
     }
 
-    public getDesktopForClient(kwinClient: AbstractClient) {
+    public getDesktopForClient(kwinClient: TopLevel) {
         console.assert(kwinClient.activities.length === 1);
         return this.getDesktop(kwinClient.activities[0], kwinClient.desktop);
     }

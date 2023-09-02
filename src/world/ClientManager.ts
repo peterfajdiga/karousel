@@ -105,7 +105,7 @@ class ClientManager {
         }
     }
 
-    public toggleFloatingClient(kwinClient: AbstractClient) {
+    public toggleFloatingClient(kwinClient: TopLevel) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;

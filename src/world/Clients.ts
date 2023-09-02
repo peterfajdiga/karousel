@@ -3,11 +3,11 @@ namespace Clients {
         return kwinClient.resizeable;
     }
 
-    export function canTileNow(kwinClient: AbstractClient) {
+    export function canTileNow(kwinClient: TopLevel) {
         return canTileEver(kwinClient) && !kwinClient.minimized && kwinClient.desktop > 0 && kwinClient.activities.length === 1;
     }
 
-    export function makeTileable(kwinClient: AbstractClient) {
+    export function makeTileable(kwinClient: TopLevel) {
         if (kwinClient.minimized) {
             kwinClient.minimized = false;
         }
