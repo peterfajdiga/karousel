@@ -92,7 +92,7 @@ class Window {
         }
     }
 
-    public onFrameGeometryChanged(oldGeometry: QRect) {
+    public onFrameGeometryChanged() {
         const newGeometry = this.client.kwinClient.frameGeometry;
         this.column.setWidth(newGeometry.width, true);
         this.column.grid.desktop.onLayoutChanged();

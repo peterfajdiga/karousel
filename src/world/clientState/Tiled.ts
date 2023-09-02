@@ -87,7 +87,7 @@ namespace ClientState {
                     } else {
                         const maximized = rectEqual(kwinClient.frameGeometry, desktop.clientArea);
                         if (!client.isManipulatingGeometry() && !kwinClient.fullScreen && !maximized) {
-                            window.onFrameGeometryChanged(oldGeometry);
+                            window.onFrameGeometryChanged();
                         }
                     }
                 });
