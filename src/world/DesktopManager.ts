@@ -19,7 +19,7 @@ class DesktopManager {
 
     public getDesktop(activity: string, desktopNumber: number) {
         const desktopIndex = desktopNumber - 1;
-        if (desktopIndex >= this.nVirtualDesktops || this.nVirtualDesktops < 0) {
+        if (desktopIndex >= this.nVirtualDesktops || desktopIndex < 0) {
             throw new Error("invalid desktop number: " + String(desktopNumber));
         }
         if (!this.desktopsPerActivity.has(activity)) {
