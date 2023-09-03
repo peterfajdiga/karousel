@@ -10,12 +10,10 @@ Item {
 
     Component.onCompleted: {
         qmlBase.karouselInstance = Karousel.init();
-        print("script started");
     }
 
     Component.onDestruction: {
         qmlBase.karouselInstance.destroy();
-        print("script stopped");
     }
 
     Notification {
