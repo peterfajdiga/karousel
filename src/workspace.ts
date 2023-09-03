@@ -52,6 +52,14 @@ function initWorkspaceSignalHandlers(world: World) {
         });
     });
 
+    manager.connect(workspace.currentDesktopChanged, () => {
+        world.do(() => {}); // re-arrange desktop
+    });
+
+    manager.connect(workspace.currentActivityChanged, () => {
+        world.do(() => {}); // re-arrange desktop
+    });
+
     manager.connect(workspace.numberDesktopsChanged, (oldNumberOfVirtualDesktops: number) => {
         world.updateDesktops();
     });

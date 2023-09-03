@@ -14,6 +14,7 @@ declare const workspace: {
     activeClient: KwinClient;
 
     // Signals
+    currentDesktopChanged: QSignal<[oldDesktopNumber: number]>
     clientAdded: QSignal<[KwinClient]>;
     clientRemoved: QSignal<[AbstractClient]>;
     clientMinimized: QSignal<[AbstractClient]>;
@@ -21,6 +22,7 @@ declare const workspace: {
     clientMaximizeSet: QSignal<[AbstractClient, horizontally: boolean, vertically: boolean]>;
     clientActivated: QSignal<[AbstractClient]>;
     numberDesktopsChanged: QSignal<[oldNumberOfVirtualDesktops: number]>;
+    currentActivityChanged: QSignal<[newActivity: string]>;
     virtualScreenSizeChanged: QSignal<[void]>;
 
     // Functions
