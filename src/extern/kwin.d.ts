@@ -42,7 +42,7 @@ interface AbstractClient {
 
     // Read-write Properties
     fullScreen: boolean;
-    activities: string[];
+    activities: string[]; // empty array means all activities
     keepBelow: boolean;
     shade: boolean;
     minimized: boolean;
@@ -72,7 +72,7 @@ interface TopLevel extends AbstractClient {
 
     // Read-write Properties
     frameGeometry: QRect;
-    desktop: number;
+    desktop: number; // -1 means all desktops
 
     // Signals
     frameGeometryChanged: QSignal<[TopLevel, oldGeometry: QRect]>;
