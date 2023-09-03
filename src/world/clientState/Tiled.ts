@@ -10,7 +10,7 @@ namespace ClientState {
             const window = new Window(client, column);
 
             this.window = window;
-            this.signalManager = ClientState.Tiled.initSignalManager(world, window);
+            this.signalManager = Tiled.initSignalManager(world, window);
         }
 
         public destroy(passFocus: boolean) {
@@ -36,7 +36,7 @@ namespace ClientState {
                         clientManager.untileClient(kwinClient);
                         return;
                     }
-                    ClientState.Tiled.moveWindowToCorrectGrid(desktopManager, window);
+                    Tiled.moveWindowToCorrectGrid(desktopManager, window);
                 });
             });
 
@@ -47,7 +47,7 @@ namespace ClientState {
                         clientManager.untileClient(kwinClient);
                         return;
                     }
-                    ClientState.Tiled.moveWindowToCorrectGrid(desktopManager, window);
+                    Tiled.moveWindowToCorrectGrid(desktopManager, window);
                 });
             })
 

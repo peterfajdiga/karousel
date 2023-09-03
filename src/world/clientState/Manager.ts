@@ -1,12 +1,12 @@
 namespace ClientState {
     export class Manager {
-        private state: ClientState.State;
+        private state: State;
 
-        constructor(initialState: ClientState.State) {
+        constructor(initialState: State) {
             this.state = initialState;
         }
 
-        public setState(constructNewState: () => ClientState.State, passFocus: boolean) {
+        public setState(constructNewState: () => State, passFocus: boolean) {
             this.state.destroy(passFocus);
             this.state = constructNewState();
         }

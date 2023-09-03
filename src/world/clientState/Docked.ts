@@ -5,7 +5,7 @@ namespace ClientState {
 
         constructor(world: World, kwinClient: TopLevel) {
             this.world = world;
-            this.signalManager = ClientState.Docked.initSignalManager(world, kwinClient);
+            this.signalManager = Docked.initSignalManager(world, kwinClient);
             world.onScreenResized();
         }
 
