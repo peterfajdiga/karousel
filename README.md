@@ -28,9 +28,9 @@ Here's the default ones:
 | ---                      | ---                                                                                                                            |
 | Meta+Space               | Toggle floating                                                                                                                |
 | Meta+A                   | Move focus left                                                                                                                |
-| Meta+D                   | Move focus right                                                                                                               |
-| Meta+W                   | Move focus up                                                                                                                  |
-| Meta+S                   | Move focus down                                                                                                                |
+| Meta+D                   | Move focus right (Clashes with default KDE shortcuts, may require manual remapping)                                            |
+| Meta+W                   | Move focus up (Clashes with default KDE shortcuts, may require manual remapping)                                               |
+| Meta+S                   | Move focus down (Clashes with default KDE shortcuts, may require manual remapping)                                             |
 | Meta+Home                | Move focus to start                                                                                                            |
 | Meta+End                 | Move focus to end                                                                                                              |
 | Meta+Shift+A             | Move window left (Moves window out of and into columns)                                                                        |
@@ -53,7 +53,7 @@ Here's the default ones:
 | Meta+Alt+PgDown          | Scroll right                                                                                                                   |
 | Meta+Alt+Home            | Scroll to start                                                                                                                |
 | Meta+Alt+End             | Scroll to end                                                                                                                  |
-| Meta+[N]                 | Move focus to column N                                                                                                         |
+| Meta+[N]                 | Move focus to column N (Clashes with default KDE shortcuts, may require manual remapping)                                      |
 | Meta+Shift+[N]           | Move window to column N (Requires manual remapping according to your keyboard layout, e.g. Meta+Shift+1 -> Meta+!)             |
 | Meta+Ctrl+Shift+[N]      | Move column to position N (Requires manual remapping according to your keyboard layout, e.g. Meta+Ctrl+Shift+1 -> Meta+Ctrl+!) |
 | Meta+Ctrl+Shift+F[N]     | Move column to desktop N                                                                                                       |
