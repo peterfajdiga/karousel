@@ -83,7 +83,11 @@ namespace ClientState {
                 world.do((clientManager, desktopManager) => {
                     if (kwinClient.resize) {
                         window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);
-                    } else if (!client.isManipulatingGeometry() && !Clients.isMaximizedGeometry(kwinClient) && !Clients.isFullScreenGeometry(kwinClient)) {
+                    } else if (
+                        !client.isManipulatingGeometry() &&
+                        !Clients.isMaximizedGeometry(kwinClient) &&
+                        !Clients.isFullScreenGeometry(kwinClient) // not using `kwinClient.fullScreen` because it may not be set yet at this point
+                    ) {
                         window.onFrameGeometryChanged();
                     }
                 });
