@@ -4,7 +4,7 @@ namespace ClientState {
         private readonly signalManager: SignalManager;
 
         constructor(world: World, client: ClientWrapper, grid: Grid) {
-            client.prepareForTiling();
+            Tiled.prepareClientForTiling(client);
 
             const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
             const window = new Window(client, column);
@@ -21,7 +21,7 @@ namespace ClientState {
             const client = window.client;
             window.destroy(passFocus);
 
-            client.restoreAfterTiling(grid.desktop.clientArea);
+            Tiled.restoreClientAfterTiling(client, grid.desktop.clientArea);
         }
 
         private static initSignalManager(world: World, window: Window) {
@@ -120,6 +120,25 @@ namespace ClientState {
 
             const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
             window.moveToColumn(newColumn);
+        }
+
+        private static prepareClientForTiling(client: ClientWrapper) {
+            client.kwinClient.keepBelow = true;
+            client.setFullScreen(false);
+            if (client.kwinClient.tile !== null) {
+                client.setMaximize(false, true); // disable quick tile mode
+            }
+            client.setMaximize(false, false);
+        }
+
+        private static restoreClientAfterTiling(client: ClientWrapper, screenSize: QRect) {
+            client.kwinClient.keepBelow = false;
+            client.setShade(false);
+            client.setFullScreen(false);
+            if (client.kwinClient.tile === null) {
+                client.setMaximize(false, false);
+            }
+            client.ensureVisible(screenSize);
         }
     }
 }

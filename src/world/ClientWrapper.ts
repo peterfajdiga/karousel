@@ -90,37 +90,6 @@ class ClientWrapper {
         return this.manipulatingGeometry.isDoing();
     }
 
-    public prepareForTiling() {
-        this.kwinClient.keepBelow = true;
-        this.setFullScreen(false);
-        if (this.kwinClient.tile !== null) {
-            this.setMaximize(false, true); // disable quick tile mode
-        }
-        this.setMaximize(false, false);
-    }
-
-    public restoreAfterTiling(screenSize: QRect) {
-        this.kwinClient.keepBelow = false;
-        this.setShade(false);
-        this.setFullScreen(false);
-        if (this.kwinClient.tile === null) {
-            this.setMaximize(false, false);
-        }
-        this.ensureVisible(screenSize);
-    }
-
-    public prepareForFloating() {
-        const placementArea = workspace.clientArea(ClientAreaOption.PlacementArea, this.kwinClient.screen, this.kwinClient.desktop);
-        const clientRect = this.kwinClient.frameGeometry;
-        const width = this.preferredWidth;
-        this.place(
-            clientRect.x,
-            clientRect.y,
-            width,
-            Math.min(clientRect.height, Math.round(placementArea.height / 2)),
-        );
-    }
-
     private addTransient(transient: ClientWrapper) {
         this.transients.push(transient);
     }
