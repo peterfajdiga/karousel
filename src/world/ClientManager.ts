@@ -23,20 +23,24 @@ class ClientManager {
 
     public addClient(kwinClient: TopLevel) {
         console.assert(!this.hasClient(kwinClient));
+
+        let constructState: (client: ClientWrapper) => ClientState.State;
+        if (kwinClient.dock) {
+            constructState = () => new ClientState.Docked(this.world, kwinClient);
+        } else if (this.windowRuleEnforcer.shouldTile(kwinClient)) {
+            const grid = this.desktopManager.getDesktopForClient(kwinClient).grid;
+            constructState = (client: ClientWrapper) => new ClientState.Tiled(this.world, client, grid);
+        } else {
+            constructState = (client: ClientWrapper) => new ClientState.Floating(client);
+        }
+
         const client = new ClientWrapper(
             kwinClient,
-            (client: ClientWrapper) => new ClientState.Floating(client),
+            constructState,
             this.findTransientFor(kwinClient),
             this.windowRuleEnforcer.initClientSignalManager(this.world, kwinClient),
         );
         this.clientMap.set(kwinClient, client);
-
-        if (kwinClient.dock) {
-            client.stateManager.setState(() => new ClientState.Docked(this.world, kwinClient), false);
-        } else if (this.windowRuleEnforcer.shouldTile(kwinClient)) {
-            const grid = this.desktopManager.getDesktopForClient(kwinClient).grid;
-            client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
-        }
     }
 
     public removeClient(kwinClient: AbstractClient, passFocus: boolean) {
