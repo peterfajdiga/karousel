@@ -25,7 +25,7 @@ class ClientManager {
         console.assert(!this.hasClient(kwinClient));
         const client = new ClientWrapper(
             kwinClient,
-            new ClientState.Floating(null),
+            (client: ClientWrapper) => new ClientState.Floating(client),
             this.findTransientFor(kwinClient),
             this.windowRuleEnforcer.initClientSignalManager(this.world, kwinClient),
         );

@@ -10,21 +10,21 @@ class ClientWrapper {
 
     constructor(
         kwinClient: TopLevel,
-        initialState: ClientState.State,
+        constructInitialState: (client: ClientWrapper) => ClientState.State,
         transientFor: ClientWrapper | null,
         rulesSignalManager: SignalManager | null,
     ) {
         this.kwinClient = kwinClient;
-        this.stateManager = new ClientState.Manager(initialState);
         this.transientFor = transientFor;
         this.transients = [];
         if (transientFor !== null) {
             transientFor.addTransient(this);
         }
-        this.signalManager = ClientWrapper.initSignalManager(this);
         this.rulesSignalManager = rulesSignalManager;
         this.preferredWidth = kwinClient.frameGeometry.width;
         this.manipulatingGeometry = new Doer();
+        this.stateManager = new ClientState.Manager(constructInitialState(this));
+        this.signalManager = ClientWrapper.initSignalManager(this);
     }
 
     public place(x: number, y: number, width: number, height: number) {
