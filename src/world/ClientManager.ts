@@ -34,7 +34,7 @@ class ClientManager {
         if (kwinClient.dock) {
             client.stateManager.setState(() => new ClientState.Docked(this.world, kwinClient), false);
         } else if (this.windowRuleEnforcer.shouldTile(kwinClient)) {
-            const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
+            const grid = this.desktopManager.getDesktopForClient(kwinClient).grid;
             client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
         }
     }
