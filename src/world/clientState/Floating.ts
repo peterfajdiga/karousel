@@ -1,14 +1,14 @@
 namespace ClientState {
     export class Floating implements State {
-        constructor(client: ClientWrapper) {
-            if (client.kwinClient.tile === null) {
-                Floating.prepareClientForFloating(client);
+        constructor(client: ClientWrapper, limitHeight: boolean) {
+            if (limitHeight && client.kwinClient.tile === null) {
+                Floating.limitHeight(client);
             }
         }
 
         public destroy(passFocus: boolean) {}
 
-        private static prepareClientForFloating(client: ClientWrapper) {
+        private static limitHeight(client: ClientWrapper) {
             const placementArea = workspace.clientArea(ClientAreaOption.PlacementArea, client.kwinClient.screen, client.kwinClient.desktop);
             const clientRect = client.kwinClient.frameGeometry;
             const width = client.preferredWidth;

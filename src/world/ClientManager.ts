@@ -31,7 +31,7 @@ class ClientManager {
             const grid = this.desktopManager.getDesktopForClient(kwinClient).grid;
             constructState = (client: ClientWrapper) => new ClientState.Tiled(this.world, client, grid);
         } else {
-            constructState = (client: ClientWrapper) => new ClientState.Floating(client);
+            constructState = (client: ClientWrapper) => new ClientState.Floating(client, false);
         }
 
         const client = new ClientWrapper(
@@ -105,7 +105,7 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(client), false);
+            client.stateManager.setState(() => new ClientState.Floating(client, true), false);
         }
     }
 
@@ -121,7 +121,7 @@ class ClientManager {
             const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
             client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
         } else if (clientState instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(client), false);
+            client.stateManager.setState(() => new ClientState.Floating(client, true), false);
         }
     }
 
