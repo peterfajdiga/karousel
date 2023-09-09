@@ -80,6 +80,15 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
+                const newGeometry = client.kwinClient.frameGeometry;
+                const oldCenterX = oldGeometry.x + oldGeometry.width/2;
+                const oldCenterY = oldGeometry.y + oldGeometry.height/2;
+                const newCenterX = newGeometry.x + newGeometry.width/2;
+                const newCenterY = newGeometry.y + newGeometry.height/2;
+                const dx = Math.round(newCenterX - oldCenterX);
+                const dy = Math.round(newCenterY - oldCenterY);
+                client.moveTransients(dx, dy);
+
                 world.do((clientManager, desktopManager) => {
                     if (kwinClient.resize) {
                         window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);

@@ -3,7 +3,6 @@ class ClientWrapper {
     public readonly stateManager: ClientState.Manager;
     public transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
-    private readonly signalManager: SignalManager;
     private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;
     private readonly manipulatingGeometry: Doer;
@@ -24,7 +23,6 @@ class ClientWrapper {
         this.preferredWidth = kwinClient.frameGeometry.width;
         this.manipulatingGeometry = new Doer();
         this.stateManager = new ClientState.Manager(constructInitialState(this));
-        this.signalManager = ClientWrapper.initSignalManager(this);
     }
 
     public place(x: number, y: number, width: number, height: number) {
@@ -53,6 +51,12 @@ class ClientWrapper {
             for (const transient of this.transients) {
                 transient.moveTransient(dx, dy, desktopNumber);
             }
+        }
+    }
+
+    public moveTransients(dx: number, dy: number) {
+        for (const transient of this.transients) {
+            transient.moveTransient(dx, dy, this.kwinClient.desktop);
         }
     }
 
@@ -122,7 +126,6 @@ class ClientWrapper {
 
     public destroy(passFocus: boolean) {
         this.stateManager.destroy(passFocus);
-        this.signalManager.destroy();
         if (this.rulesSignalManager !== null) {
             this.rulesSignalManager.destroy();
         }
@@ -132,24 +135,5 @@ class ClientWrapper {
         for (const transient of this.transients) {
             transient.transientFor = null;
         }
-    }
-
-    private static initSignalManager(client: ClientWrapper) {
-        const manager = new SignalManager();
-        manager.connect(client.kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
-            if (client.stateManager.getState() instanceof ClientState.Tiled) {
-                const newGeometry = client.kwinClient.frameGeometry;
-                const oldCenterX = oldGeometry.x + oldGeometry.width/2;
-                const oldCenterY = oldGeometry.y + oldGeometry.height/2;
-                const newCenterX = newGeometry.x + newGeometry.width/2;
-                const newCenterY = newGeometry.y + newGeometry.height/2;
-                const dx = Math.round(newCenterX - oldCenterX);
-                const dy = Math.round(newCenterY - oldCenterY);
-                for (const transient of client.transients) {
-                    transient.moveTransient(dx, dy, client.kwinClient.desktop);
-                }
-            }
-        });
-        return manager;
     }
 }
