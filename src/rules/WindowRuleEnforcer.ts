@@ -12,8 +12,11 @@ class WindowRuleEnforcer {
 
     public shouldTile(kwinClient: TopLevel) {
         return Clients.canTileNow(kwinClient) && (
-            this.preferTiling.matches(kwinClient) ||
-            kwinClient.normalWindow && kwinClient.managed && !this.preferFloating.matches(kwinClient)
+            this.preferTiling.matches(kwinClient) || (
+                kwinClient.normalWindow &&
+                kwinClient.managed &&
+                !this.preferFloating.matches(kwinClient)
+            )
         );
     }
 
