@@ -67,7 +67,7 @@ class Window {
 
     public onFullScreenChanged(fullScreen: boolean) {
         this.skipArrange = fullScreen;
-        if (this.column.grid.config.tiledKeepBelow && this.isFocused()) {
+        if (this.column.grid.config.tiledKeepBelow) {
             this.client.kwinClient.keepBelow = !fullScreen;
         }
         if (this.column.grid.config.maximizedKeepAbove) {
