@@ -1,5 +1,6 @@
 class ClientManager {
     private readonly world: World;
+    private readonly config: ClientManager.Config;
     private readonly desktopManager: DesktopManager;
     private readonly clientMap: Map<AbstractClient, ClientWrapper>;
     private lastFocusedClient: AbstractClient|null;
@@ -7,6 +8,7 @@ class ClientManager {
 
     constructor(config: Config, world: World, desktopManager: DesktopManager) {
         this.world = world;
+        this.config = { keepAbove: config.floatingKeepAbove };
         this.desktopManager = desktopManager;
         this.clientMap = new Map();
         this.lastFocusedClient = null;
@@ -31,7 +33,7 @@ class ClientManager {
             const grid = this.desktopManager.getDesktopForClient(kwinClient).grid;
             constructState = (client: ClientWrapper) => new ClientState.Tiled(this.world, client, grid);
         } else {
-            constructState = (client: ClientWrapper) => new ClientState.Floating(client, false);
+            constructState = (client: ClientWrapper) => new ClientState.Floating(client, this.config, false);
         }
 
         const client = new ClientWrapper(
@@ -105,7 +107,7 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(client, true), false);
+            client.stateManager.setState(() => new ClientState.Floating(client, this.config, true), false);
         }
     }
 
@@ -121,7 +123,7 @@ class ClientManager {
             const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
             client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
         } else if (clientState instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(client, true), false);
+            client.stateManager.setState(() => new ClientState.Floating(client, this.config, true), false);
         }
     }
 
@@ -165,5 +167,11 @@ class ClientManager {
 
     public destroy() {
         this.removeAllClients();
+    }
+}
+
+namespace ClientManager {
+    export type Config = {
+        keepAbove: boolean,
     }
 }

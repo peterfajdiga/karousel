@@ -57,13 +57,21 @@ class Window {
     public onMaximizedChanged(horizontally: boolean, vertically: boolean) {
         const maximized = horizontally || vertically;
         this.skipArrange = maximized;
-        this.client.kwinClient.keepBelow = !maximized;
+        if (this.column.grid.config.tiledKeepBelow) {
+            this.client.kwinClient.keepBelow = !maximized;
+        }
+        if (this.column.grid.config.maximizedKeepAbove) {
+            this.client.kwinClient.keepAbove = maximized;
+        }
     }
 
     public onFullScreenChanged(fullScreen: boolean) {
         this.skipArrange = fullScreen;
-        if (this.isFocused()) {
+        if (this.column.grid.config.tiledKeepBelow && this.isFocused()) {
             this.client.kwinClient.keepBelow = !fullScreen;
+        }
+        if (this.column.grid.config.maximizedKeepAbove) {
+            this.client.kwinClient.keepAbove = fullScreen;
         }
     }
 

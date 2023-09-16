@@ -10,5 +10,7 @@ type Config = {
     untileOnDrag: boolean,
     stackColumnsByDefault: boolean,
     resizeNeighborColumn: boolean,
+    tiledKeepBelow: boolean,
+    floatingKeepAbove: boolean,
     windowRules: string,
 };

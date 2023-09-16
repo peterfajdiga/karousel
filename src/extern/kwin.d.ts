@@ -45,6 +45,7 @@ interface AbstractClient {
     // Read-write Properties
     fullScreen: boolean;
     activities: string[]; // empty array means all activities
+    keepAbove: boolean;
     keepBelow: boolean;
     shade: boolean;
     minimized: boolean;

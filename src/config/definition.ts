@@ -108,6 +108,16 @@ const configDef = [
         "default": false
     },
     {
+        "name": "tiledKeepBelow",
+        "type": "Bool",
+        "default": true
+    },
+    {
+        "name": "floatingKeepAbove",
+        "type": "Bool",
+        "default": false
+    },
+    {
         "name": "windowRules",
         "type": "String",
         "default": defaultWindowRules

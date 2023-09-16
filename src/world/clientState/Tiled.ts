@@ -4,7 +4,7 @@ namespace ClientState {
         private readonly signalManager: SignalManager;
 
         constructor(world: World, client: ClientWrapper, grid: Grid) {
-            Tiled.prepareClientForTiling(client);
+            Tiled.prepareClientForTiling(client, grid.config);
 
             const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
             const window = new Window(client, column);
@@ -21,7 +21,7 @@ namespace ClientState {
             const client = window.client;
             window.destroy(passFocus);
 
-            Tiled.restoreClientAfterTiling(client, grid.desktop.clientArea);
+            Tiled.restoreClientAfterTiling(client, grid.config, grid.desktop.clientArea);
         }
 
         private static initSignalManager(world: World, window: Window) {
@@ -131,8 +131,10 @@ namespace ClientState {
             window.moveToColumn(newColumn);
         }
 
-        private static prepareClientForTiling(client: ClientWrapper) {
-            client.kwinClient.keepBelow = true;
+        private static prepareClientForTiling(client: ClientWrapper, config: LayoutConfig) {
+            if (config.tiledKeepBelow) {
+                client.kwinClient.keepBelow = true;
+            }
             client.setFullScreen(false);
             if (client.kwinClient.tile !== null) {
                 client.setMaximize(false, true); // disable quick tile mode
@@ -140,8 +142,10 @@ namespace ClientState {
             client.setMaximize(false, false);
         }
 
-        private static restoreClientAfterTiling(client: ClientWrapper, screenSize: QRect) {
-            client.kwinClient.keepBelow = false;
+        private static restoreClientAfterTiling(client: ClientWrapper, config: LayoutConfig, screenSize: QRect) {
+            if (config.tiledKeepBelow) {
+                client.kwinClient.keepBelow = false;
+            }
             client.setShade(false);
             client.setFullScreen(false);
             if (client.kwinClient.tile === null) {

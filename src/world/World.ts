@@ -26,7 +26,14 @@ class World {
                 marginRight: config.gapsOuterRight,
                 overscroll: config.overscroll,
             },
-            config,
+            {
+                gapsInnerHorizontal: config.gapsInnerHorizontal,
+                gapsInnerVertical: config.gapsInnerVertical,
+                stackColumnsByDefault: config.stackColumnsByDefault,
+                resizeNeighborColumn: config.resizeNeighborColumn,
+                tiledKeepBelow: config.tiledKeepBelow,
+                maximizedKeepAbove: config.floatingKeepAbove,
+            },
             workspace.currentActivity,
         );
         this.clientManager = new ClientManager(config, this, this.desktopManager);

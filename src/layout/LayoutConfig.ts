@@ -3,4 +3,6 @@ type LayoutConfig = {
     gapsInnerVertical: number,
     stackColumnsByDefault: boolean,
     resizeNeighborColumn: boolean,
+    tiledKeepBelow: boolean,
+    maximizedKeepAbove: boolean,
 };
