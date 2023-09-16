@@ -2,14 +2,16 @@ class ClientManager {
     private readonly world: World;
     private readonly config: ClientManager.Config;
     private readonly desktopManager: DesktopManager;
+    private readonly pinManager: PinManager;
     private readonly clientMap: Map<AbstractClient, ClientWrapper>;
     private lastFocusedClient: AbstractClient|null;
     private readonly windowRuleEnforcer: WindowRuleEnforcer;
 
-    constructor(config: Config, world: World, desktopManager: DesktopManager) {
+    constructor(config: Config, world: World, desktopManager: DesktopManager, pinManager: PinManager) {
         this.world = world;
         this.config = { keepAbove: config.floatingKeepAbove };
         this.desktopManager = desktopManager;
+        this.pinManager = pinManager;
         this.clientMap = new Map();
         this.lastFocusedClient = null;
 
@@ -33,7 +35,7 @@ class ClientManager {
             const grid = this.desktopManager.getDesktopForClient(kwinClient).grid;
             constructState = (client: ClientWrapper) => new ClientState.Tiled(this.world, client, grid);
         } else {
-            constructState = (client: ClientWrapper) => new ClientState.Floating(client, this.config, false);
+            constructState = (client: ClientWrapper) => new ClientState.Floating(this.world, client, this.config, false);
         }
 
         const client = new ClientWrapper(
@@ -101,13 +103,38 @@ class ClientManager {
         client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
     }
 
-    public untileClient(kwinClient: AbstractClient) {
+    public untileClient(kwinClient: TopLevel) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(client, this.config, true), false);
+            client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), false);
+        }
+    }
+
+    public pinClient(kwinClient: TopLevel, mode: Clients.QuickTileMode) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
+            return;
+        }
+        client.stateManager.setState(() => new ClientState.Pinned(this.world, this.pinManager, this.desktopManager, kwinClient, this.config), false);
+        this.pinManager.setClient(kwinClient, mode);
+        for (const desktop of this.desktopManager.getDesktopsForClient(kwinClient)) {
+            desktop.onPinsChanged();
+        }
+    }
+
+    public unpinClient(kwinClient: TopLevel) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
+            return;
+        }
+        console.assert(client.stateManager.getState() instanceof ClientState.Pinned);
+        client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), false);
+        this.pinManager.removeClient(kwinClient);
+        for (const desktop of this.desktopManager.getDesktopsForClient(kwinClient)) {
+            desktop.onPinsChanged();
         }
     }
 
@@ -118,12 +145,12 @@ class ClientManager {
         }
 
         const clientState = client.stateManager.getState();
-        if (clientState instanceof ClientState.Floating && Clients.canTileEver(kwinClient)) {
+        if ((clientState instanceof ClientState.Floating || clientState instanceof ClientState.Pinned) && Clients.canTileEver(kwinClient)) {
             Clients.makeTileable(kwinClient);
             const grid = this.desktopManager.getDesktopForClient(client.kwinClient).grid;
             client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
         } else if (clientState instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(client, this.config, true), false);
+            client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), false);
         }
     }
 

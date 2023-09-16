@@ -7,3 +7,8 @@ function clamp(value: number, min: number, max: number) {
     }
     return value;
 }
+
+function union<T>(array0: T[], array1: T[]) {
+    const set = new Set([...array0, ...array1]);
+    return [...set];
+}

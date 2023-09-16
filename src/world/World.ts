@@ -2,6 +2,7 @@ class World {
     public readonly untileOnDrag: boolean;
     private readonly desktopManager: DesktopManager;
     public readonly clientManager: ClientManager;
+    private readonly pinManager: PinManager;
     private readonly workspaceSignalManager: SignalManager;
     private readonly screenResizedDelayer: Delayer;
 
@@ -18,7 +19,10 @@ class World {
             this.update();
         });
 
+        this.pinManager = new PinManager();
+
         this.desktopManager = new DesktopManager(
+            this.pinManager,
             {
                 marginTop: config.gapsOuterTop,
                 marginBottom: config.gapsOuterBottom,
@@ -36,7 +40,7 @@ class World {
             },
             workspace.currentActivity,
         );
-        this.clientManager = new ClientManager(config, this, this.desktopManager);
+        this.clientManager = new ClientManager(config, this, this.desktopManager, this.pinManager);
         this.addExistingClients();
         this.update();
     }

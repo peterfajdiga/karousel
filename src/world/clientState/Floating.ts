@@ -2,8 +2,9 @@ namespace ClientState {
     export class Floating implements State {
         private readonly client: ClientWrapper;
         private readonly config: ClientManager.Config;
+        private readonly signalManager: SignalManager;
 
-        constructor(client: ClientWrapper, config: ClientManager.Config, limitHeight: boolean) {
+        constructor(world: World, client: ClientWrapper, config: ClientManager.Config, limitHeight: boolean) {
             this.client = client;
             this.config = config;
             if (config.keepAbove) {
@@ -12,9 +13,11 @@ namespace ClientState {
             if (limitHeight && client.kwinClient.tile === null) {
                 Floating.limitHeight(client);
             }
+            this.signalManager = Floating.initSignalManager(world, client.kwinClient);
         }
 
         public destroy(passFocus: boolean) {
+            this.signalManager.destroy();
             if (this.config.keepAbove) {
                 this.client.kwinClient.keepAbove = false;
             }
@@ -30,6 +33,34 @@ namespace ClientState {
                 width,
                 Math.min(clientRect.height, Math.round(placementArea.height / 2)),
             );
+        }
+
+        private static initSignalManager(world: World, kwinClient: TopLevel) {
+            const manager = new SignalManager();
+
+            manager.connect(kwinClient.tileChanged, () => {
+                // on X11, this fires after `frameGeometryChanged`
+                const quickTileMode = Clients.guessQuickTileMode(kwinClient);
+                if (quickTileMode !== Clients.QuickTileMode.Untiled) {
+                    world.do((clientManager, desktopManager) => {
+                        clientManager.pinClient(kwinClient, quickTileMode);
+                    });
+                }
+            });
+            
+            manager.connect(kwinClient.frameGeometryChanged, () => {
+                // on Wayland, this fires after `tileChanged`
+                if (kwinClient.tile !== null) {
+                    const quickTileMode = Clients.guessQuickTileMode(kwinClient);
+                    if (quickTileMode !== Clients.QuickTileMode.Untiled) {
+                        world.do((clientManager, desktopManager) => {
+                            clientManager.pinClient(kwinClient, quickTileMode);
+                        });
+                    }
+                }
+            })
+
+            return manager;
         }
     }
 }

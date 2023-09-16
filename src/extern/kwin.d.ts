@@ -54,7 +54,7 @@ interface AbstractClient {
     // Signals
     fullScreenChanged: QSignal<[void]>;
     desktopChanged: QSignal<[void]>;
-    activitiesChanged: QSignal<[AbstractClient]>;
+    activitiesChanged: QSignal<[KwinClient]>;
     captionChanged: QSignal<[void]>;
     tileChanged: QSignal<[Tile]>;
     moveResizedChanged: QSignal<[void]>;

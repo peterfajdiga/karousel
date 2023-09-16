@@ -1,30 +1,35 @@
 class Desktop {
     public readonly grid: Grid;
     public readonly desktopNumber: number;
+    private readonly pinManager: PinManager;
     private readonly config: Desktop.Config;
     private scrollX: number;
     private dirty: boolean;
+    private dirtyPins: boolean;
     public clientArea: QRect;
     public tilingArea: QRect;
 
-    constructor(desktopNumber: number, config: Desktop.Config, layoutConfig: LayoutConfig) {
+    constructor(desktopNumber: number, pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig) {
+        this.pinManager = pinManager;
         this.config = config;
         this.scrollX = 0;
-        this.dirty = false;
+        this.dirty = true;
+        this.dirtyPins = true;
         this.desktopNumber = desktopNumber;
         this.grid = new Grid(this, layoutConfig);
         this.clientArea = Desktop.getClientArea(desktopNumber);
-        this.tilingArea = Desktop.getTilingArea(this.clientArea, config);
+        this.tilingArea = Desktop.getTilingArea(this.clientArea, desktopNumber, pinManager, config);
     }
 
     private updateArea() {
         const newClientArea = Desktop.getClientArea(this.desktopNumber);
-        if (newClientArea === this.clientArea) {
+        if (newClientArea === this.clientArea && !this.dirtyPins) {
             return;
         }
         this.clientArea = newClientArea;
-        this.tilingArea = Desktop.getTilingArea(newClientArea, this.config);
+        this.tilingArea = Desktop.getTilingArea(newClientArea, this.desktopNumber, this.pinManager, this.config);
         this.dirty = true;
+        this.dirtyPins = false;
         this.grid.onScreenSizeChanged();
         this.autoAdjustScroll();
     }
@@ -33,12 +38,18 @@ class Desktop {
         return workspace.clientArea(ClientAreaOption.PlacementArea, 0, desktopNumber);
     }
 
-    private static getTilingArea(clientArea: QRect, config: Desktop.Config) {
+    private static getTilingArea(clientArea: QRect, desktopNumber: number, pinManager: PinManager, config: Desktop.Config) {
+        const pinMargins = pinManager.getMargins(desktopNumber, clientArea);
+        const marginTop = config.marginTop + pinMargins.top;
+        const marginBottom = config.marginBottom + pinMargins.bottom;
+        const marginLeft = config.marginLeft + pinMargins.left;
+        const marginRight = config.marginRight + pinMargins.right;
+
         return Qt.rect(
-            clientArea.x + config.marginLeft,
-            clientArea.y + config.marginTop,
-            clientArea.width - config.marginLeft - config.marginRight,
-            clientArea.height - config.marginTop - config.marginBottom,
+            clientArea.x + marginLeft,
+            clientArea.y + marginTop,
+            clientArea.width - marginLeft - marginRight,
+            clientArea.height - marginTop - marginBottom,
         )
     }
 
@@ -147,6 +158,11 @@ class Desktop {
 
     public onLayoutChanged() {
         this.dirty = true;
+    }
+
+    public onPinsChanged() {
+        this.dirty = true;
+        this.dirtyPins = true;
     }
 
     public destroy() {

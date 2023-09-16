@@ -1,10 +1,12 @@
 class DesktopManager {
+    private readonly pinManager: PinManager;
     private readonly config: Desktop.Config;
     public readonly layoutConfig: LayoutConfig;
     private readonly desktopsPerActivity: Map<string, Desktop[]>;
     private nVirtualDesktops: number;
 
-    constructor(config: Desktop.Config, layoutConfig: LayoutConfig, currentActivity: string) {
+    constructor(pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig, currentActivity: string) {
+        this.pinManager = pinManager;
         this.config = config;
         this.layoutConfig = layoutConfig;
         this.desktopsPerActivity = new Map();
@@ -37,7 +39,7 @@ class DesktopManager {
     }
 
     public getDesktopForClient(kwinClient: TopLevel) {
-        console.assert(kwinClient.activities.length === 1);
+        console.assert(kwinClient.activities.length === 1 && kwinClient.desktop > 0);
         return this.getDesktop(kwinClient.activities[0], kwinClient.desktop);
     }
 
@@ -60,7 +62,7 @@ class DesktopManager {
         const nStart = desktops.length;
         for (let i = 0; i < n; i++) {
             const desktopNumber = nStart + i + 1;
-            desktops.push(new Desktop(desktopNumber, this.config, this.layoutConfig));
+            desktops.push(new Desktop(desktopNumber, this.pinManager, this.config, this.layoutConfig));
         }
     }
 
@@ -100,6 +102,45 @@ class DesktopManager {
         for (const desktops of this.desktopsPerActivity.values()) {
             for (const desktop of desktops) {
                 yield desktop;
+            }
+        }
+    }
+
+    public *getDesktopsForClient(kwinClient: TopLevel) {
+        const activities = kwinClient.activities.length > 0 ? kwinClient.activities : this.desktopsPerActivity.keys();
+        for (const activity of activities) {
+            if (!this.desktopsPerActivity.has(activity)) {
+                this.addActivity(activity);
+            }
+            const activityDesktops = this.desktopsPerActivity.get(activity)!;
+            if (kwinClient.desktop === -1) {
+                for (const desktop of activityDesktops) {
+                    yield desktop;
+                }
+            } else {
+                const desktopIndex = kwinClient.desktop - 1;
+                yield activityDesktops[desktopIndex];
+            }
+        }
+    }
+
+    // empty array means all
+    public *getDesktops(desktopNumbers: number[], inputActivities: string[]) {
+        const activities = inputActivities.length > 0 ? inputActivities : this.desktopsPerActivity.keys();
+        for (const activity of activities) {
+            if (!this.desktopsPerActivity.has(activity)) {
+                this.addActivity(activity);
+            }
+            const activityDesktops = this.desktopsPerActivity.get(activity)!;
+            if (desktopNumbers.length === 0) {
+                for (const desktop of activityDesktops) {
+                    yield desktop;
+                }
+            } else {
+                for (const desktopNumber of desktopNumbers) {
+                    const desktopIndex = desktopNumber - 1;
+                    yield activityDesktops[desktopIndex];
+                }
             }
         }
     }

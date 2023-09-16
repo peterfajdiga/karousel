@@ -40,7 +40,7 @@ namespace ClientState {
                 });
             });
 
-            manager.connect(kwinClient.activitiesChanged, (kwinClient: AbstractClient) => {
+            manager.connect(kwinClient.activitiesChanged, () => {
                 world.do((clientManager, desktopManager) => {
                     if (kwinClient.activities.length !== 1) {
                         // windows on multiple activities are not supported
@@ -80,6 +80,17 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
+                // on Wayland, this fires after `tileChanged`
+                if (kwinClient.tile !== null) {
+                    const quickTileMode = Clients.guessQuickTileMode(kwinClient);
+                    if (quickTileMode !== Clients.QuickTileMode.Untiled) {
+                        world.do((clientManager, desktopManager) => {
+                            clientManager.pinClient(kwinClient, quickTileMode);
+                        });
+                        return;
+                    }
+                }
+
                 const newGeometry = client.kwinClient.frameGeometry;
                 const oldCenterX = oldGeometry.x + oldGeometry.width/2;
                 const oldCenterY = oldGeometry.y + oldGeometry.height/2;
@@ -106,11 +117,13 @@ namespace ClientState {
                 window.onFullScreenChanged(kwinClient.fullScreen);
             });
 
-            manager.connect(kwinClient.tileChanged, (tile: Tile) => {
-                if (tile !== null) {
+            manager.connect(kwinClient.tileChanged, () => {
+                // on X11, this fires after `frameGeometryChanged`
+                const quickTileMode = Clients.guessQuickTileMode(kwinClient);
+                if (quickTileMode !== Clients.QuickTileMode.Untiled) {
                     world.do((clientManager, desktopManager) => {
-                        clientManager.untileClient(kwinClient);
-                    })
+                        clientManager.pinClient(kwinClient, quickTileMode);
+                    });
                 }
             });
 
