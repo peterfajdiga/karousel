@@ -98,19 +98,19 @@ namespace ClientState {
                 const newCenterY = newGeometry.y + newGeometry.height/2;
                 const dx = Math.round(newCenterX - oldCenterX);
                 const dy = Math.round(newCenterY - oldCenterY);
-                client.moveTransients(dx, dy);
+                if (dx !== 0 || dy !== 0) {
+                    client.moveTransients(dx, dy);
+                }
 
-                world.do((clientManager, desktopManager) => {
-                    if (kwinClient.resize) {
-                        window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart);
-                    } else if (
-                        !client.isManipulatingGeometry() &&
-                        !Clients.isMaximizedGeometry(kwinClient) &&
-                        !Clients.isFullScreenGeometry(kwinClient) // not using `kwinClient.fullScreen` because it may not be set yet at this point
-                    ) {
-                        window.onFrameGeometryChanged();
-                    }
-                });
+                if (kwinClient.resize) {
+                    world.do(() => window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart));
+                } else if (
+                    !client.isManipulatingGeometry() &&
+                    !Clients.isMaximizedGeometry(kwinClient) &&
+                    !Clients.isFullScreenGeometry(kwinClient) // not using `kwinClient.fullScreen` because it may not be set yet at this point
+                ) {
+                    world.do(() => window.onFrameGeometryChanged());
+                }
             });
 
             manager.connect(kwinClient.fullScreenChanged, () => {
