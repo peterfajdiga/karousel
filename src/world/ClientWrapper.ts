@@ -6,6 +6,7 @@ class ClientWrapper {
     private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;
     private readonly manipulatingGeometry: Doer;
+    private lastPlacement: QRect | null; // workaround for issue #19
 
     constructor(
         kwinClient: TopLevel,
@@ -22,6 +23,7 @@ class ClientWrapper {
         this.rulesSignalManager = rulesSignalManager;
         this.preferredWidth = kwinClient.frameGeometry.width;
         this.manipulatingGeometry = new Doer();
+        this.lastPlacement = null;
         this.stateManager = new ClientState.Manager(constructInitialState(this));
     }
 
@@ -31,7 +33,8 @@ class ClientWrapper {
                 // window is being manually resized, prevent fighting with the user
                 return;
             }
-            this.kwinClient.frameGeometry = Qt.rect(x, y, width, height);
+            this.lastPlacement = Qt.rect(x, y, width, height);
+            this.kwinClient.frameGeometry = this.lastPlacement;
         });
     }
 
@@ -90,7 +93,10 @@ class ClientWrapper {
         return this.kwinClient.shade;
     }
 
-    public isManipulatingGeometry() {
+    public isManipulatingGeometry(newGeometry: QRect | null) {
+        if (newGeometry !== null && newGeometry === this.lastPlacement) {
+            return true;
+        }
         return this.manipulatingGeometry.isDoing();
     }
 
