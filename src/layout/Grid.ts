@@ -149,7 +149,7 @@ class Grid {
     public increaseColumnWidth(column: Column) {
         const scrollPos = this.desktop.getScrollPosForColumn(column);
         if (this.width < scrollPos.width) {
-            column.adjustWidth(scrollPos.width - this.width, false);
+            column.adjustWidth(scrollPos.width - this.width, true);
             return;
         }
 
@@ -178,7 +178,7 @@ class Grid {
     public decreaseColumnWidth(column: Column) {
         const scrollPos = this.desktop.getScrollPosForColumn(column);
         if (this.width <= scrollPos.width) {
-            column.setWidth(Math.round(column.getWidth() / 2), false);
+            column.setWidth(Math.round(column.getWidth() / 2), true);
             return;
         }
 
