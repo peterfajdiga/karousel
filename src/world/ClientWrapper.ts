@@ -39,7 +39,6 @@ class ClientWrapper {
     }
 
     private moveTransient(dx: number, dy: number, desktopNumber: number) {
-        // TODO: prevent moving off the grid
         if (this.stateManager.getState() instanceof ClientState.Floating) {
             if (this.kwinClient.desktop === desktopNumber) {
                 const frame = this.kwinClient.frameGeometry;
