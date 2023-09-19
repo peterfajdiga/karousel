@@ -108,6 +108,11 @@ const configDef = [
         "default": false
     },
     {
+        "name": "reMaximize",
+        "type": "Bool",
+        "default": false
+    },
+    {
         "name": "tiledKeepBelow",
         "type": "Bool",
         "default": true

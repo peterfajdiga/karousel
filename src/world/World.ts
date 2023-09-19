@@ -35,6 +35,7 @@ class World {
                 gapsInnerVertical: config.gapsInnerVertical,
                 stackColumnsByDefault: config.stackColumnsByDefault,
                 resizeNeighborColumn: config.resizeNeighborColumn,
+                reMaximize: config.reMaximize,
                 tiledKeepBelow: config.tiledKeepBelow,
                 maximizedKeepAbove: config.floatingKeepAbove,
             },

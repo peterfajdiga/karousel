@@ -34,7 +34,7 @@ class Window {
         }
 
         let maximized = false;
-        if (this.isFocused()) {
+        if (this.column.grid.config.reMaximize && this.isFocused()) {
             // do this here rather than in `onFocused` to ensure it happens after placement
             // (otherwise placement may not happen at all)
             if (this.focusedState.maximizedVertically || this.focusedState.maximizedHorizontally) {
