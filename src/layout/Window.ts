@@ -32,12 +32,22 @@ class Window {
             // window is maximized, fullscreen, or being manually resized, prevent fighting with the user
             return;
         }
-        this.client.place(x, y, width, height);
+
+        let maximized = false;
         if (this.isFocused()) {
             // do this here rather than in `onFocused` to ensure it happens after placement
             // (otherwise placement may not happen at all)
-            this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
-            this.client.setFullScreen(this.focusedState.fullScreen);
+            if (this.focusedState.maximizedVertically || this.focusedState.maximizedHorizontally) {
+                this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
+                maximized = true;
+            }
+            if (this.focusedState.fullScreen) {
+                this.client.setFullScreen(true);
+                maximized = true;
+            }
+        }
+        if (!maximized) {
+            this.client.place(x, y, width, height);
         }
     }
 
