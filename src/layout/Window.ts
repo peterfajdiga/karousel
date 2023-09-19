@@ -63,6 +63,7 @@ class Window {
         if (this.column.grid.config.maximizedKeepAbove) {
             this.client.kwinClient.keepAbove = maximized;
         }
+        this.column.grid.desktop.onLayoutChanged();
     }
 
     public onFullScreenChanged(fullScreen: boolean) {
@@ -73,6 +74,7 @@ class Window {
         if (this.column.grid.config.maximizedKeepAbove) {
             this.client.kwinClient.keepAbove = fullScreen;
         }
+        this.column.grid.desktop.onLayoutChanged();
     }
 
     public onUserResize(oldGeometry: QRect, resizeNeighborColumn: boolean) {

@@ -114,7 +114,7 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.fullScreenChanged, () => {
-                window.onFullScreenChanged(kwinClient.fullScreen);
+                world.do(() => window.onFullScreenChanged(kwinClient.fullScreen));
             });
 
             manager.connect(kwinClient.tileChanged, () => {
