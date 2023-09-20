@@ -1,5 +1,5 @@
 class ClientWrapper {
-    public readonly kwinClient: TopLevel;
+    public readonly kwinClient: KwinClient;
     public readonly stateManager: ClientState.Manager;
     public transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
@@ -9,7 +9,7 @@ class ClientWrapper {
     private lastPlacement: QRect | null; // workaround for issue #19
 
     constructor(
-        kwinClient: TopLevel,
+        kwinClient: KwinClient,
         constructInitialState: (client: ClientWrapper) => ClientState.State,
         transientFor: ClientWrapper | null,
         rulesSignalManager: SignalManager | null,

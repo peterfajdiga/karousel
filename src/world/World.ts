@@ -68,7 +68,7 @@ class World {
     }
 
     public doIfTiled(
-        kwinClient: AbstractClient,
+        kwinClient: KwinClient,
         followTransient: boolean,
         f: (clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) => void,
     ) {

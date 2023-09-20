@@ -1,15 +1,15 @@
 class PinManager {
-    private readonly pinnedClients: Map<TopLevel, Clients.QuickTileMode>;
+    private readonly pinnedClients: Map<KwinClient, Clients.QuickTileMode>;
 
     constructor() {
         this.pinnedClients = new Map();
     }
 
-    public setClient(kwinClient: TopLevel, mode: Clients.QuickTileMode) {
+    public setClient(kwinClient: KwinClient, mode: Clients.QuickTileMode) {
         this.pinnedClients.set(kwinClient, mode);
     }
 
-    public removeClient(kwinClient: TopLevel) {
+    public removeClient(kwinClient: KwinClient) {
         this.pinnedClients.delete(kwinClient);
     }
 

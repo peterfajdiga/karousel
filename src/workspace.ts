@@ -16,25 +16,25 @@ function initWorkspaceSignalHandlers(world: World) {
         });
     });
 
-    manager.connect(workspace.clientRemoved, (kwinClient: AbstractClient) => {
+    manager.connect(workspace.clientRemoved, (kwinClient: KwinClient) => {
         world.do((clientManager, desktopManager) => {
             clientManager.removeClient(kwinClient, true);
         });
     });
 
-    manager.connect(workspace.clientMinimized, (kwinClient: AbstractClient) => {
+    manager.connect(workspace.clientMinimized, (kwinClient: KwinClient) => {
         world.do((clientManager, desktopManager) => {
             clientManager.minimizeClient(kwinClient);
         });
     });
 
-    manager.connect(workspace.clientUnminimized, (kwinClient: AbstractClient) => {
+    manager.connect(workspace.clientUnminimized, (kwinClient: KwinClient) => {
         world.do((clientManager, desktopManager) => {
             clientManager.unminimizeClient(kwinClient);
         });
     });
 
-    manager.connect(workspace.clientMaximizeSet, (kwinClient: AbstractClient, horizontally: boolean, vertically: boolean) => {
+    manager.connect(workspace.clientMaximizeSet, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
         if ((horizontally || vertically) && kwinClient.tile !== null) {
             kwinClient.tile = null;
         }
@@ -43,7 +43,7 @@ function initWorkspaceSignalHandlers(world: World) {
         });
     });
 
-    manager.connect(workspace.clientActivated, (kwinClient: AbstractClient) => {
+    manager.connect(workspace.clientActivated, (kwinClient: KwinClient) => {
         if (kwinClient === null) {
             return;
         }

@@ -35,7 +35,7 @@ namespace ClientState {
             );
         }
 
-        private static initSignalManager(world: World, kwinClient: TopLevel) {
+        private static initSignalManager(world: World, kwinClient: KwinClient) {
             const manager = new SignalManager();
 
             manager.connect(kwinClient.tileChanged, () => {

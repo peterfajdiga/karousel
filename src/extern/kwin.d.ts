@@ -16,31 +16,36 @@ declare const workspace: {
     // Signals
     currentDesktopChanged: QSignal<[oldDesktopNumber: number]>
     clientAdded: QSignal<[KwinClient]>;
-    clientRemoved: QSignal<[AbstractClient]>;
-    clientMinimized: QSignal<[AbstractClient]>;
-    clientUnminimized: QSignal<[AbstractClient]>;
-    clientMaximizeSet: QSignal<[AbstractClient, horizontally: boolean, vertically: boolean]>;
-    clientActivated: QSignal<[AbstractClient]>;
+    clientRemoved: QSignal<[KwinClient]>;
+    clientMinimized: QSignal<[KwinClient]>;
+    clientUnminimized: QSignal<[KwinClient]>;
+    clientMaximizeSet: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>;
+    clientActivated: QSignal<[KwinClient]>;
     numberDesktopsChanged: QSignal<[oldNumberOfVirtualDesktops: number]>;
     currentActivityChanged: QSignal<[newActivity: string]>;
     virtualScreenSizeChanged: QSignal<[void]>;
 
     // Functions
     clientArea(option: ClientAreaOption, screenNumber: number, desktopNumber: number);
-    clientList(): TopLevel[];
+    clientList(): KwinClient[];
 };
 
 type Tile = any;
 
-interface AbstractClient {
+interface KwinClient {
     // Read-only Properties
     readonly caption: string;
     readonly minSize: QSize;
     readonly transient: boolean;
-    readonly transientFor: AbstractClient;
+    readonly transientFor: KwinClient;
     readonly move: boolean;
     readonly resize: boolean;
     readonly resizeable: boolean;
+    readonly screen: number;
+    readonly resourceClass: QByteArray;
+    readonly dock: boolean;
+    readonly normalWindow: boolean;
+    readonly managed: boolean;
 
     // Read-write Properties
     fullScreen: boolean;
@@ -49,6 +54,8 @@ interface AbstractClient {
     keepBelow: boolean;
     shade: boolean;
     minimized: boolean;
+    frameGeometry: QRect;
+    desktop: number; // -1 means all desktops
     tile: Tile;
 
     // Signals
@@ -60,25 +67,8 @@ interface AbstractClient {
     moveResizedChanged: QSignal<[void]>;
     moveResizeCursorChanged: QSignal<[void]>;
     clientStartUserMovedResized: QSignal<[void]>;
+    frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QRect]>;
 
     // Functions
     setMaximize(vertically: boolean, horizontally: boolean): void;
 }
-
-interface TopLevel extends AbstractClient {
-    // Read-only Properties
-    readonly screen: number;
-    readonly resourceClass: QByteArray;
-    readonly dock: boolean;
-    readonly normalWindow: boolean;
-    readonly managed: boolean;
-
-    // Read-write Properties
-    frameGeometry: QRect;
-    desktop: number; // -1 means all desktops
-
-    // Signals
-    frameGeometryChanged: QSignal<[TopLevel, oldGeometry: QRect]>;
-}
-
-interface KwinClient extends TopLevel {}

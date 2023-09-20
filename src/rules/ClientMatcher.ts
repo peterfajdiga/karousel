@@ -5,7 +5,7 @@ class ClientMatcher {
         this.rules = rules;
     }
 
-    public matches(kwinClient: TopLevel) {
+    public matches(kwinClient: KwinClient) {
         const rule = this.rules.get(kwinClient.resourceClass);
         if (rule === undefined) {
             return false;

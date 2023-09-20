@@ -1,13 +1,13 @@
 namespace Clients {
-    export function canTileEver(kwinClient: AbstractClient) {
+    export function canTileEver(kwinClient: KwinClient) {
         return kwinClient.resizeable;
     }
 
-    export function canTileNow(kwinClient: TopLevel) {
+    export function canTileNow(kwinClient: KwinClient) {
         return canTileEver(kwinClient) && !kwinClient.minimized && kwinClient.desktop > 0 && kwinClient.activities.length === 1;
     }
 
-    export function makeTileable(kwinClient: TopLevel) {
+    export function makeTileable(kwinClient: KwinClient) {
         if (kwinClient.minimized) {
             kwinClient.minimized = false;
         }
@@ -19,21 +19,21 @@ namespace Clients {
         }
     }
 
-    export function isMaximizedGeometry(kwinClient: TopLevel) {
+    export function isMaximizedGeometry(kwinClient: KwinClient) {
         const maximizeArea = workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.screen, kwinClient.desktop);
         return kwinClient.frameGeometry === maximizeArea;
     }
 
-    export function isFullScreenGeometry(kwinClient: TopLevel) {
+    export function isFullScreenGeometry(kwinClient: KwinClient) {
         const fullScreenArea = workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.screen, kwinClient.desktop);
         return kwinClient.frameGeometry === fullScreenArea;
     }
 
-    export function isOnVirtualDesktop(kwinClient: TopLevel, desktopNumber: number) {
+    export function isOnVirtualDesktop(kwinClient: KwinClient, desktopNumber: number) {
         return kwinClient.desktop === desktopNumber || kwinClient.desktop === -1;
     }
 
-    export function guessQuickTileMode(kwinClient: TopLevel) {
+    export function guessQuickTileMode(kwinClient: KwinClient) {
         const clientArea = workspace.clientArea(ClientAreaOption.PlacementArea, 0, kwinClient.desktop);
         const frame = kwinClient.frameGeometry;
         const top = frame.top === clientArea.top;

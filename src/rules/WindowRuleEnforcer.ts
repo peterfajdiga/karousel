@@ -10,7 +10,7 @@ class WindowRuleEnforcer {
         this.followCaption = new Set([...mapFloat.keys(), ...mapTile.keys()]);
     }
 
-    public shouldTile(kwinClient: TopLevel) {
+    public shouldTile(kwinClient: KwinClient) {
         return Clients.canTileNow(kwinClient) && (
             this.preferTiling.matches(kwinClient) || (
                 kwinClient.normalWindow &&
@@ -21,7 +21,7 @@ class WindowRuleEnforcer {
         );
     }
 
-    public initClientSignalManager(world: World, kwinClient: TopLevel) {
+    public initClientSignalManager(world: World, kwinClient: KwinClient) {
         if (!this.followCaption.has(kwinClient.resourceClass)) {
             return null;
         }

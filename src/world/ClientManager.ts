@@ -3,8 +3,8 @@ class ClientManager {
     private readonly config: ClientManager.Config;
     private readonly desktopManager: DesktopManager;
     private readonly pinManager: PinManager;
-    private readonly clientMap: Map<AbstractClient, ClientWrapper>;
-    private lastFocusedClient: AbstractClient|null;
+    private readonly clientMap: Map<KwinClient, ClientWrapper>;
+    private lastFocusedClient: KwinClient|null;
     private readonly windowRuleEnforcer: WindowRuleEnforcer;
 
     constructor(config: Config, world: World, desktopManager: DesktopManager, pinManager: PinManager) {
@@ -25,7 +25,7 @@ class ClientManager {
         this.windowRuleEnforcer = new WindowRuleEnforcer(parsedWindowRules);
     }
 
-    public addClient(kwinClient: TopLevel) {
+    public addClient(kwinClient: KwinClient) {
         console.assert(!this.hasClient(kwinClient));
 
         let constructState: (client: ClientWrapper) => ClientState.State;
@@ -47,7 +47,7 @@ class ClientManager {
         this.clientMap.set(kwinClient, client);
     }
 
-    public removeClient(kwinClient: AbstractClient, passFocus: boolean) {
+    public removeClient(kwinClient: KwinClient, passFocus: boolean) {
         console.assert(this.hasClient(kwinClient));
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
@@ -57,7 +57,7 @@ class ClientManager {
         this.clientMap.delete(kwinClient);
     }
 
-    private findTransientFor(kwinClient: AbstractClient) {
+    private findTransientFor(kwinClient: KwinClient) {
         if (!kwinClient.transient) {
             return null;
         }
@@ -70,7 +70,7 @@ class ClientManager {
         return transientFor;
     }
 
-    public minimizeClient(kwinClient: AbstractClient) {
+    public minimizeClient(kwinClient: KwinClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -80,7 +80,7 @@ class ClientManager {
         }
     }
 
-    public unminimizeClient(kwinClient: AbstractClient) {
+    public unminimizeClient(kwinClient: KwinClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -91,7 +91,7 @@ class ClientManager {
         }
     }
 
-    public tileClient(kwinClient: AbstractClient) {
+    public tileClient(kwinClient: KwinClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -103,7 +103,7 @@ class ClientManager {
         client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
     }
 
-    public untileClient(kwinClient: TopLevel) {
+    public untileClient(kwinClient: KwinClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -113,7 +113,7 @@ class ClientManager {
         }
     }
 
-    public pinClient(kwinClient: TopLevel, mode: Clients.QuickTileMode) {
+    public pinClient(kwinClient: KwinClient, mode: Clients.QuickTileMode) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -125,7 +125,7 @@ class ClientManager {
         }
     }
 
-    public unpinClient(kwinClient: TopLevel) {
+    public unpinClient(kwinClient: KwinClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -138,7 +138,7 @@ class ClientManager {
         }
     }
 
-    public toggleFloatingClient(kwinClient: TopLevel) {
+    public toggleFloatingClient(kwinClient: KwinClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
@@ -154,11 +154,11 @@ class ClientManager {
         }
     }
 
-    public hasClient(kwinClient: AbstractClient) {
+    public hasClient(kwinClient: KwinClient) {
         return this.clientMap.has(kwinClient);
     }
 
-    public onClientFocused(kwinClient: AbstractClient) {
+    public onClientFocused(kwinClient: KwinClient) {
         this.lastFocusedClient = kwinClient;
         const window = this.findTiledWindow(kwinClient, true);
         if (window !== null) {
@@ -166,7 +166,7 @@ class ClientManager {
         }
     }
 
-    public findTiledWindow(kwinClient: AbstractClient, followTransient: boolean) {
+    public findTiledWindow(kwinClient: KwinClient, followTransient: boolean) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return null;

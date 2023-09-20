@@ -38,7 +38,7 @@ class DesktopManager {
         return this.getDesktop(workspace.currentActivity, desktopNumber);
     }
 
-    public getDesktopForClient(kwinClient: TopLevel) {
+    public getDesktopForClient(kwinClient: KwinClient) {
         console.assert(kwinClient.activities.length === 1 && kwinClient.desktop > 0);
         return this.getDesktop(kwinClient.activities[0], kwinClient.desktop);
     }
@@ -106,7 +106,7 @@ class DesktopManager {
         }
     }
 
-    public *getDesktopsForClient(kwinClient: TopLevel) {
+    public *getDesktopsForClient(kwinClient: KwinClient) {
         const activities = kwinClient.activities.length > 0 ? kwinClient.activities : this.desktopsPerActivity.keys();
         for (const activity of activities) {
             if (!this.desktopsPerActivity.has(activity)) {

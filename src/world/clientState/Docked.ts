@@ -3,7 +3,7 @@ namespace ClientState {
         private readonly world: World;
         private readonly signalManager: SignalManager;
 
-        constructor(world: World, kwinClient: TopLevel) {
+        constructor(world: World, kwinClient: KwinClient) {
             this.world = world;
             this.signalManager = Docked.initSignalManager(world, kwinClient);
             world.onScreenResized();
@@ -14,9 +14,9 @@ namespace ClientState {
             this.world.onScreenResized();
         }
 
-        private static initSignalManager(world: World, kwinClient: TopLevel) {
+        private static initSignalManager(world: World, kwinClient: KwinClient) {
             const manager = new SignalManager();
-            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
+            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QRect) => {
                 world.onScreenResized();
             });
             return manager;

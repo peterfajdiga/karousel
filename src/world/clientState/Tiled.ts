@@ -79,7 +79,7 @@ namespace ClientState {
                 cursorChangedAfterResizeStart = false;
             });
 
-            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
+            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QRect) => {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {
                     const quickTileMode = Clients.guessQuickTileMode(kwinClient);

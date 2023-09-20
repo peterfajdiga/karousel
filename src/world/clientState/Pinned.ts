@@ -1,12 +1,12 @@
 namespace ClientState {
     export class Pinned implements State {
-        private readonly kwinClient: TopLevel;
+        private readonly kwinClient: KwinClient;
         private readonly pinManager: PinManager;
         private readonly desktopManager: DesktopManager;
         private readonly config: ClientManager.Config;
         private readonly signalManager: SignalManager;
 
-        constructor(world: World, pinManager: PinManager, desktopManager: DesktopManager, kwinClient: TopLevel, config: ClientManager.Config) {
+        constructor(world: World, pinManager: PinManager, desktopManager: DesktopManager, kwinClient: KwinClient, config: ClientManager.Config) {
             this.kwinClient = kwinClient;
             this.pinManager = pinManager;
             this.desktopManager = desktopManager;
@@ -28,7 +28,7 @@ namespace ClientState {
             }
         }
 
-        private static initSignalManager(world: World, pinManager: PinManager, kwinClient: TopLevel) {
+        private static initSignalManager(world: World, pinManager: PinManager, kwinClient: KwinClient) {
             const manager = new SignalManager();
             let oldDesktopNumber = kwinClient.desktop;
             let oldActivities = kwinClient.activities;
@@ -42,7 +42,7 @@ namespace ClientState {
                 }
             });
 
-            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: TopLevel, oldGeometry: QRect) => {
+            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QRect) => {
                 const quickTileMode = Clients.guessQuickTileMode(kwinClient);
                 if (quickTileMode === Clients.QuickTileMode.Untiled) {
                     world.do((clientManager, desktopManager) => {
