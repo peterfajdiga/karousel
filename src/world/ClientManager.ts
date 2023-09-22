@@ -131,7 +131,7 @@ class ClientManager {
             return;
         }
         console.assert(client.stateManager.getState() instanceof ClientState.Pinned);
-        client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), false);
+        client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, false), false);
         this.pinManager.removeClient(kwinClient);
         for (const desktop of this.desktopManager.getDesktopsForClient(kwinClient)) {
             desktop.onPinsChanged();
