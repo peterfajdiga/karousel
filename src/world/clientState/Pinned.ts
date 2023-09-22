@@ -34,8 +34,7 @@ namespace ClientState {
             let oldActivities = kwinClient.activities;
 
             manager.connect(kwinClient.tileChanged, () => {
-                const quickTileMode = Clients.guessQuickTileMode(kwinClient);
-                if (quickTileMode === Clients.QuickTileMode.Untiled) {
+                if (kwinClient.tile === null) {
                     world.do((clientManager, desktopManager) => {
                         clientManager.unpinClient(kwinClient);
                     });
@@ -43,8 +42,7 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QRect) => {
-                const quickTileMode = Clients.guessQuickTileMode(kwinClient);
-                if (quickTileMode === Clients.QuickTileMode.Untiled) {
+                if (kwinClient.tile === null) {
                     world.do((clientManager, desktopManager) => {
                         clientManager.unpinClient(kwinClient);
                     });
@@ -52,6 +50,7 @@ namespace ClientState {
                 }
 
                 world.do((clientManager, desktopManager) => {
+                    const quickTileMode = Clients.guessQuickTileMode(kwinClient);
                     pinManager.setClient(kwinClient, quickTileMode);
                     for (const desktop of desktopManager.getDesktopsForClient(kwinClient)) {
                         desktop.onPinsChanged();
