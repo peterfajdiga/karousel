@@ -85,7 +85,7 @@ const configDef = [
     {
         "name": "overscroll",
         "type": "UInt",
-        "default": 18
+        "default": 0
     },
     {
         "name": "manualScrollStep",
