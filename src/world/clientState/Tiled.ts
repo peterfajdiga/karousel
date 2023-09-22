@@ -54,8 +54,10 @@ namespace ClientState {
             let lastResize = false;
             manager.connect(kwinClient.moveResizedChanged, () => {
                 world.do((clientManager, desktopManager) => {
-                    if (world.untileOnDrag && kwinClient.move) {
-                        clientManager.untileClient(kwinClient);
+                    if (kwinClient.move) {
+                        if (world.untileOnDrag) {
+                            clientManager.untileClient(kwinClient);
+                        }
                         return;
                     }
 
