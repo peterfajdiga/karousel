@@ -181,7 +181,7 @@ class Column {
     }
 
     public arrange(x: number) {
-        if (this.stacked && this.windows.length() >= 2) {
+        if (this.stacked && this.windows.length() >= 2 && this.canStack()) {
             this.arrangeStacked(x);
             return;
         }
@@ -226,6 +226,15 @@ class Column {
         }
         this.stacked = !this.stacked;
         this.grid.desktop.onLayoutChanged();
+    }
+
+    private canStack() {
+        for (const window of this.windows.iterator()) {
+            if (!window.client.kwinClient.shadeable) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public isVisible(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {

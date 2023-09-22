@@ -34,6 +34,7 @@ type Tile = any;
 
 interface KwinClient {
     // Read-only Properties
+    readonly shadeable: boolean;
     readonly caption: string;
     readonly minSize: QSize;
     readonly transient: boolean;
