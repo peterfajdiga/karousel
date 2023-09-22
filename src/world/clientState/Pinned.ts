@@ -50,8 +50,6 @@ namespace ClientState {
                 }
 
                 world.do((clientManager, desktopManager) => {
-                    const quickTileMode = Clients.guessQuickTileMode(kwinClient);
-                    pinManager.setClient(kwinClient, quickTileMode);
                     for (const desktop of desktopManager.getDesktopsForClient(kwinClient)) {
                         desktop.onPinsChanged();
                     }

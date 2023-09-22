@@ -113,13 +113,13 @@ class ClientManager {
         }
     }
 
-    public pinClient(kwinClient: KwinClient, mode: Clients.QuickTileMode) {
+    public pinClient(kwinClient: KwinClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
         }
         client.stateManager.setState(() => new ClientState.Pinned(this.world, this.pinManager, this.desktopManager, kwinClient, this.config), false);
-        this.pinManager.setClient(kwinClient, mode);
+        this.pinManager.addClient(kwinClient);
         for (const desktop of this.desktopManager.getDesktopsForClient(kwinClient)) {
             desktop.onPinsChanged();
         }

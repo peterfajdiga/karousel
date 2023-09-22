@@ -39,17 +39,16 @@ class Desktop {
     }
 
     private static getTilingArea(clientArea: QRect, desktopNumber: number, pinManager: PinManager, config: Desktop.Config) {
-        const pinMargins = pinManager.getMargins(desktopNumber, clientArea);
-        const marginTop = config.marginTop + pinMargins.top;
-        const marginBottom = config.marginBottom + pinMargins.bottom;
-        const marginLeft = config.marginLeft + pinMargins.left;
-        const marginRight = config.marginRight + pinMargins.right;
-
+        const availableSpace = pinManager.getAvailableSpace(desktopNumber, clientArea);
+        const top = availableSpace.top + config.marginTop;
+        const bottom = availableSpace.bottom - config.marginBottom;
+        const left = availableSpace.left + config.marginLeft;
+        const right = availableSpace.right - config.marginRight;
         return Qt.rect(
-            clientArea.x + marginLeft,
-            clientArea.y + marginTop,
-            clientArea.width - marginLeft - marginRight,
-            clientArea.height - marginTop - marginBottom,
+            left,
+            top,
+            right - left + 1,
+            bottom - top + 1,
         )
     }
 

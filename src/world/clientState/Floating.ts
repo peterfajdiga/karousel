@@ -42,8 +42,7 @@ namespace ClientState {
                 // on X11, this fires after `frameGeometryChanged`
                 if (kwinClient.tile !== null) {
                     world.do((clientManager, desktopManager) => {
-                        const quickTileMode = Clients.guessQuickTileMode(kwinClient);
-                        clientManager.pinClient(kwinClient, quickTileMode);
+                        clientManager.pinClient(kwinClient);
                     });
                 }
             });
@@ -52,8 +51,7 @@ namespace ClientState {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {
                     world.do((clientManager, desktopManager) => {
-                        const quickTileMode = Clients.guessQuickTileMode(kwinClient);
-                        clientManager.pinClient(kwinClient, quickTileMode);
+                        clientManager.pinClient(kwinClient);
                     });
                 }
             })
