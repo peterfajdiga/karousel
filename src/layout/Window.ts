@@ -2,7 +2,7 @@ class Window {
     public column: Column;
     public readonly client: ClientWrapper;
     public height: number;
-    public readonly focusedState: WindowState;
+    public readonly focusedState: Window.State;
     private skipArrange: boolean;
 
     constructor(client: ClientWrapper, column: Column) {
@@ -142,8 +142,10 @@ class Window {
     }
 }
 
-type WindowState = {
-    fullScreen: boolean,
-    maximizedHorizontally: boolean,
-    maximizedVertically: boolean,
+namespace Window {
+    export type State = {
+        fullScreen: boolean,
+        maximizedHorizontally: boolean,
+        maximizedVertically: boolean,
+    }
 }
