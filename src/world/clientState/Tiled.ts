@@ -1,7 +1,7 @@
 namespace ClientState {
     export class Tiled implements State {
         public readonly window: Window;
-        private readonly defaultState: { skipSwitcher: boolean };
+        private readonly defaultState: Tiled.WindowState;
         private readonly signalManager: SignalManager;
 
         constructor(world: World, client: ClientWrapper, grid: Grid) {
@@ -158,7 +158,7 @@ namespace ClientState {
             client.setMaximize(false, false);
         }
 
-        private static restoreClientAfterTiling(client: ClientWrapper, config: LayoutConfig, defaultState: { skipSwitcher: boolean }, screenSize: QRect) {
+        private static restoreClientAfterTiling(client: ClientWrapper, config: LayoutConfig, defaultState: Tiled.WindowState, screenSize: QRect) {
             if (config.skipSwitcher) {
                 client.kwinClient.skipSwitcher = defaultState.skipSwitcher;
             }
@@ -171,6 +171,12 @@ namespace ClientState {
                 client.setMaximize(false, false);
             }
             client.ensureVisible(screenSize);
+        }
+    }
+
+    namespace Tiled {
+        export type WindowState = {
+            skipSwitcher: boolean,
         }
     }
 }
