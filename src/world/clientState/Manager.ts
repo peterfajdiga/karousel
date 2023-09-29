@@ -21,6 +21,6 @@ namespace ClientState {
     }
 
     export type State = {
-        destroy(passFocus: boolean): void;
+        destroy(passFocus: boolean): void,
     };
 }
