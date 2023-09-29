@@ -85,6 +85,7 @@ const keyBindings: KeyBinding[] = [
     {
         "name": "column-toggle-stacked",
         "description": "Toggle stacked layout for focused column",
+        "comment": "One window in the column visible, others shaded; not supported on Wayland",
         "defaultKeySequence": "Meta+X",
         "action": "columnToggleStacked",
     },
