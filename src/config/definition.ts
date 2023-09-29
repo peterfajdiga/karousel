@@ -113,6 +113,11 @@ const configDef = [
         "default": false
     },
     {
+        "name": "skipSwitcher",
+        "type": "Bool",
+        "default": false
+    },
+    {
         "name": "tiledKeepBelow",
         "type": "Bool",
         "default": true

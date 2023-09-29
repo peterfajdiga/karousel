@@ -51,6 +51,7 @@ interface KwinClient {
     // Read-write Properties
     fullScreen: boolean;
     activities: string[]; // empty array means all activities
+    skipSwitcher: boolean;
     keepAbove: boolean;
     keepBelow: boolean;
     shade: boolean;

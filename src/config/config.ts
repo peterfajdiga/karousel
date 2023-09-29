@@ -11,6 +11,7 @@ type Config = {
     stackColumnsByDefault: boolean,
     resizeNeighborColumn: boolean,
     reMaximize: boolean,
+    skipSwitcher: boolean,
     tiledKeepBelow: boolean,
     floatingKeepAbove: boolean,
     windowRules: string,

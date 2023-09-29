@@ -1,9 +1,11 @@
 namespace ClientState {
     export class Tiled implements State {
         public readonly window: Window;
+        private readonly defaultState: { skipSwitcher: boolean };
         private readonly signalManager: SignalManager;
 
         constructor(world: World, client: ClientWrapper, grid: Grid) {
+            this.defaultState = { skipSwitcher: client.kwinClient.skipSwitcher };
             Tiled.prepareClientForTiling(client, grid.config);
 
             const column = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
@@ -21,7 +23,7 @@ namespace ClientState {
             const client = window.client;
             window.destroy(passFocus);
 
-            Tiled.restoreClientAfterTiling(client, grid.config, grid.desktop.clientArea);
+            Tiled.restoreClientAfterTiling(client, grid.config, this.defaultState, grid.desktop.clientArea);
         }
 
         private static initSignalManager(world: World, window: Window) {
@@ -143,6 +145,9 @@ namespace ClientState {
         }
 
         private static prepareClientForTiling(client: ClientWrapper, config: LayoutConfig) {
+            if (config.skipSwitcher) {
+                client.kwinClient.skipSwitcher = true;
+            }
             if (config.tiledKeepBelow) {
                 client.kwinClient.keepBelow = true;
             }
@@ -153,7 +158,10 @@ namespace ClientState {
             client.setMaximize(false, false);
         }
 
-        private static restoreClientAfterTiling(client: ClientWrapper, config: LayoutConfig, screenSize: QRect) {
+        private static restoreClientAfterTiling(client: ClientWrapper, config: LayoutConfig, defaultState: { skipSwitcher: boolean }, screenSize: QRect) {
+            if (config.skipSwitcher) {
+                client.kwinClient.skipSwitcher = defaultState.skipSwitcher;
+            }
             if (config.tiledKeepBelow) {
                 client.kwinClient.keepBelow = false;
             }

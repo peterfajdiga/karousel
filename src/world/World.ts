@@ -36,6 +36,7 @@ class World {
                 stackColumnsByDefault: config.stackColumnsByDefault,
                 resizeNeighborColumn: config.resizeNeighborColumn,
                 reMaximize: config.reMaximize,
+                skipSwitcher: config.skipSwitcher,
                 tiledKeepBelow: config.tiledKeepBelow,
                 maximizedKeepAbove: config.floatingKeepAbove,
             },

@@ -4,6 +4,7 @@ type LayoutConfig = {
     stackColumnsByDefault: boolean,
     resizeNeighborColumn: boolean,
     reMaximize: boolean,
+    skipSwitcher: boolean,
     tiledKeepBelow: boolean,
     maximizedKeepAbove: boolean,
 };

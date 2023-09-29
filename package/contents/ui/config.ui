@@ -245,8 +245,15 @@
                                     </property>
                                 </widget>
                             </item>
-
                             <item row="13" column="1">
+                                <widget class="QCheckBox" name="kcfg_skipSwitcher">
+                                    <property name="text">
+                                        <string>Tiled windows skip switcher</string>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="14" column="1">
                                 <spacer name="separator_layering">
                                     <property name="orientation">
                                         <enum>Qt::Vertical</enum>
@@ -262,21 +269,21 @@
                                     </property>
                                 </spacer>
                             </item>
-                            <item row="14" column="0">
+                            <item row="15" column="0">
                                 <widget class="QLabel" name="label_layering">
                                     <property name="text">
                                         <string>Layering mode:</string>
                                     </property>
                                 </widget>
                             </item>
-                            <item row="14" column="1">
+                            <item row="15" column="1">
                                 <widget class="QRadioButton" name="kcfg_tiledKeepBelow">
                                     <property name="text">
                                         <string>Keep tiled windows below</string>
                                     </property>
                                 </widget>
                             </item>
-                            <item row="15" column="1">
+                            <item row="16" column="1">
                                 <widget class="QRadioButton" name="kcfg_floatingKeepAbove">
                                     <property name="text">
                                         <string>Keep floating windows above</string>
