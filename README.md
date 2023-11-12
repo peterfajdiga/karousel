@@ -16,6 +16,12 @@ scrolled through horizontally.
 Similar window managers include [PaperWM](https://github.com/paperwm/PaperWM) and
 [Cardboard](https://gitlab.com/cardboardwm/cardboard).
 
+## Dependencies
+Karousel requires the following QML modules:
+- QtQuick 2.15
+- org.kde.kwin 3.0
+- org.kde.notification 1.0
+
 ## Limitations
 - Doesn't support multiple screens
 - Doesn't support windows on all desktops
