@@ -126,6 +126,12 @@ const keyBindings: KeyBinding[] = [
         "action": "columnWidthDecrease",
     },
     {
+        "name": "columns-width-equalize",
+        "description": "Equalize widths of visible columns",
+        "defaultKeySequence": "Meta+Ctrl+X",
+        "action": "columnsWidthEqualize",
+    },
+    {
         "name": "grid-scroll-focused",
         "description": "Center focused window",
         "comment": "Scrolls so that the focused window is centered in the screen",

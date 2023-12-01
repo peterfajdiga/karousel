@@ -145,6 +145,20 @@ class Desktop {
         this.setScroll(this.scrollX, false);
     }
 
+    public equalizeVisibleColumnsWidths() {
+        const scrollPos = this.getCurrentScrollPos();
+        const visibleColumns = Array.from(this.grid.getVisibleColumns(scrollPos, true));
+
+        let remainingWidth = this.tilingArea.width - (visibleColumns.length-1) * this.grid.config.gapsInnerHorizontal;
+        let remainingColumns = visibleColumns.length;
+        for (const column of visibleColumns) {
+            const columnWidth = Math.round(remainingWidth / remainingColumns);
+            column.setWidth(columnWidth, true);
+            remainingWidth -= columnWidth;
+            remainingColumns--;
+        }
+    }
+
     public arrange() {
         // TODO (optimization): only arrange visible windows
         this.updateArea();

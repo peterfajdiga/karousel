@@ -176,6 +176,12 @@ namespace Actions {
                 });
             },
 
+            columnsWidthEqualize: () => {
+                world.do((clientManager, desktopManager) => {
+                    desktopManager.getCurrentDesktop().equalizeVisibleColumnsWidths();
+                });
+            },
+
             gridScrollLeft: () => {
                 gridScroll(world, -config.manualScrollStep);
             },
