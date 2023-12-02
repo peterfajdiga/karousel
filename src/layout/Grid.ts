@@ -153,7 +153,7 @@ class Grid {
     }
 
     public increaseColumnWidth(column: Column) {
-        const visibleRange = this.desktop.calculateVisibleRangeForColumn(column);
+        const visibleRange = this.desktop.calculateVisibleRange(column);
         if (this.width < visibleRange.getWidth()) {
             column.adjustWidth(visibleRange.getWidth() - this.width, true);
             return;
@@ -182,7 +182,7 @@ class Grid {
     }
 
     public decreaseColumnWidth(column: Column) {
-        const visibleRange = this.desktop.calculateVisibleRangeForColumn(column);
+        const visibleRange = this.desktop.calculateVisibleRange(column);
         if (this.width <= visibleRange.getWidth()) {
             column.setWidth(Math.round(column.getWidth() / 2), true);
             return;
