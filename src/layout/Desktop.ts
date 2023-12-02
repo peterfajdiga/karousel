@@ -118,9 +118,7 @@ class Desktop {
         let minScroll = 0;
         let maxScroll = this.grid.getWidth() - this.tilingArea.width;
         if (maxScroll < 0) {
-            const centerScroll = Math.round(maxScroll / 2);
-            minScroll = centerScroll;
-            maxScroll = centerScroll;
+            return Math.round(maxScroll / 2);
         }
         return clamp(x, minScroll, maxScroll);
     }
