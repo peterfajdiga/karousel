@@ -88,8 +88,8 @@ class Grid {
         this.width = x - this.config.gapsInnerHorizontal;
     }
 
-    public getLeftmostVisibleColumn(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
-        const scrollX = scrollPos.getLeft();
+    public getLeftmostVisibleColumn(visibleRange: Desktop.Range, fullyVisible: boolean) {
+        const scrollX = visibleRange.getLeft();
         for (const column of this.columns.iterator()) {
             const x = fullyVisible ? column.getLeft() : column.getRight() + (this.config.gapsInnerHorizontal - 1);
             if (x >= scrollX) {
@@ -99,8 +99,8 @@ class Grid {
         return null;
     }
 
-    public getRightmostVisibleColumn(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
-        const scrollX = scrollPos.getRight();
+    public getRightmostVisibleColumn(visibleRange: Desktop.Range, fullyVisible: boolean) {
+        const scrollX = visibleRange.getRight();
         let last = null;
         for (const column of this.columns.iterator()) {
             const x = fullyVisible ? column.getRight() : column.getLeft() - (this.config.gapsInnerHorizontal - 1);
@@ -113,18 +113,18 @@ class Grid {
         return last;
     }
 
-    public *getVisibleColumns(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
+    public *getVisibleColumns(visibleRange: Desktop.Range, fullyVisible: boolean) {
         for (const column of this.columns.iterator()) {
-            if (column.isVisible(scrollPos, fullyVisible)) {
+            if (column.isVisible(visibleRange, fullyVisible)) {
                 yield column;
             }
         }
     }
 
-    public getVisibleColumnsWidth(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
+    public getVisibleColumnsWidth(visibleRange: Desktop.Range, fullyVisible: boolean) {
         let width = 0;
         let nVisible = 0;
-        for (const column of this.getVisibleColumns(scrollPos, fullyVisible)) {
+        for (const column of this.getVisibleColumns(visibleRange, fullyVisible)) {
             width += column.getWidth();
             nVisible++;
         }
@@ -136,16 +136,16 @@ class Grid {
         return width;
     }
 
-    private getLeftOffScreenColumn(scrollPos: Desktop.ScrollPos) {
-        const leftVisible = this.getLeftmostVisibleColumn(scrollPos, true);
+    private getLeftOffScreenColumn(visibleRange: Desktop.Range) {
+        const leftVisible = this.getLeftmostVisibleColumn(visibleRange, true);
         if (leftVisible === null) {
             return null;
         }
         return this.getPrevColumn(leftVisible);
     }
 
-    private getRightOffScreenColumn(scrollPos: Desktop.ScrollPos) {
-        const rightVisible = this.getRightmostVisibleColumn(scrollPos, true);
+    private getRightOffScreenColumn(visibleRange: Desktop.Range) {
+        const rightVisible = this.getRightmostVisibleColumn(visibleRange, true);
         if (rightVisible === null) {
             return null;
         }
@@ -153,17 +153,17 @@ class Grid {
     }
 
     public increaseColumnWidth(column: Column) {
-        const scrollPos = this.desktop.getScrollPosForColumn(column);
-        if (this.width < scrollPos.width) {
-            column.adjustWidth(scrollPos.width - this.width, true);
+        const visibleRange = this.desktop.getVisibleRangeForColumn(column);
+        if (this.width < visibleRange.width) {
+            column.adjustWidth(visibleRange.width - this.width, true);
             return;
         }
 
-        let leftColumn = this.getLeftmostVisibleColumn(scrollPos, false);
+        let leftColumn = this.getLeftmostVisibleColumn(visibleRange, false);
         if (leftColumn === column) {
             leftColumn = null;
         }
-        let rightColumn = this.getRightmostVisibleColumn(scrollPos, false);
+        let rightColumn = this.getRightmostVisibleColumn(visibleRange, false);
         if (rightColumn === column) {
             rightColumn = null;
         }
@@ -171,8 +171,8 @@ class Grid {
             return;
         }
 
-        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.getRight() - scrollPos.getLeft();
-        const rightVisibleWidth = rightColumn === null ? Infinity : scrollPos.getRight() - rightColumn.getLeft();
+        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.getRight() - visibleRange.getLeft();
+        const rightVisibleWidth = rightColumn === null ? Infinity : visibleRange.getRight() - rightColumn.getLeft();
         const expandLeft = leftVisibleWidth < rightVisibleWidth;
         const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.config.gapsInnerHorizontal;
         if (expandLeft) {
@@ -182,17 +182,17 @@ class Grid {
     }
 
     public decreaseColumnWidth(column: Column) {
-        const scrollPos = this.desktop.getScrollPosForColumn(column);
-        if (this.width <= scrollPos.width) {
+        const visibleRange = this.desktop.getVisibleRangeForColumn(column);
+        if (this.width <= visibleRange.width) {
             column.setWidth(Math.round(column.getWidth() / 2), true);
             return;
         }
 
-        let leftColumn = this.getLeftOffScreenColumn(scrollPos);
+        let leftColumn = this.getLeftOffScreenColumn(visibleRange);
         if (leftColumn === column) {
             leftColumn = null;
         }
-        let rightColumn = this.getRightOffScreenColumn(scrollPos);
+        let rightColumn = this.getRightOffScreenColumn(visibleRange);
         if (rightColumn === column) {
             rightColumn = null;
         }
@@ -200,8 +200,8 @@ class Grid {
             return;
         }
 
-        const leftInvisibleWidth = leftColumn === null ? Infinity : scrollPos.getLeft() - leftColumn.getLeft();
-        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.getRight() - scrollPos.getRight();
+        const leftInvisibleWidth = leftColumn === null ? Infinity : visibleRange.getLeft() - leftColumn.getLeft();
+        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.getRight() - visibleRange.getRight();
         const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
         const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
         if (shrinkLeft) {

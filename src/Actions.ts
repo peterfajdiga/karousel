@@ -221,7 +221,7 @@ namespace Actions {
             gridScrollLeftColumn: () => {
                 world.do((clientManager, desktopManager) => {
                     const grid = desktopManager.getCurrentDesktop().grid;
-                    const column = grid.getLeftmostVisibleColumn(grid.desktop.getCurrentScrollPos(), true);
+                    const column = grid.getLeftmostVisibleColumn(grid.desktop.getCurrentVisibleRange(), true);
                     if (column === null) {
                         return;
                     }
@@ -238,7 +238,7 @@ namespace Actions {
             gridScrollRightColumn: () => {
                 world.do((clientManager, desktopManager) => {
                     const grid = desktopManager.getCurrentDesktop().grid;
-                    const column = grid.getRightmostVisibleColumn(grid.desktop.getCurrentScrollPos(), true);
+                    const column = grid.getRightmostVisibleColumn(grid.desktop.getCurrentVisibleRange(), true);
                     if (column === null) {
                         return;
                     }

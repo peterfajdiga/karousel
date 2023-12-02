@@ -52,30 +52,30 @@ class Desktop {
         )
     }
 
-    // calculates Desktop.Pos that scrolls the column into view
-    public getScrollPosForColumn(column: Column) {
+    // calculates Desktop.Range that scrolls the column into view
+    public getVisibleRangeForColumn(column: Column) {
         const left = column.getLeft();
         const right = column.getRight();
-        const initialScrollPos = this.getCurrentScrollPos();
+        const initialVisibleRange = this.getCurrentVisibleRange();
 
         let targetScrollX: number;
-        if (left < initialScrollPos.getLeft()) {
+        if (left < initialVisibleRange.getLeft()) {
             targetScrollX = left;
-        } else if (right > initialScrollPos.getRight()) {
+        } else if (right > initialVisibleRange.getRight()) {
             targetScrollX = right - this.tilingArea.width;
         } else {
-            return this.getScrollPos(this.clampScrollX(this.scrollX));
+            return this.getVisibleRange(this.clampScrollX(this.scrollX));
         }
 
-        const overscroll = this.getTargetOverscroll(targetScrollX, left < initialScrollPos.getLeft());
-        return this.getScrollPos(this.clampScrollX(targetScrollX + overscroll));
+        const overscroll = this.getTargetOverscroll(targetScrollX, left < initialVisibleRange.getLeft());
+        return this.getVisibleRange(this.clampScrollX(targetScrollX + overscroll));
     }
 
     private getTargetOverscroll(targetScrollX: number, scrollLeft: boolean) {
         if (this.config.overscroll === 0) {
             return 0;
         }
-        const visibleColumnsWidth = this.grid.getVisibleColumnsWidth(this.getScrollPos(targetScrollX), true);
+        const visibleColumnsWidth = this.grid.getVisibleColumnsWidth(this.getVisibleRange(targetScrollX), true);
         const remainingSpace = this.tilingArea.width - visibleColumnsWidth;
         const overscrollX = Math.min(this.config.overscroll, Math.round(remainingSpace / 2));
         const direction = scrollLeft ? -1 : 1;
@@ -83,7 +83,7 @@ class Desktop {
     }
 
     public scrollToColumn(column: Column) {
-        this.setScroll(this.getScrollPosForColumn(column).x, true);
+        this.setScroll(this.getVisibleRangeForColumn(column).x, true);
     }
 
     public scrollCenterColumn(column: Column) {
@@ -106,12 +106,12 @@ class Desktop {
         this.scrollToColumn(focusedColumn);
     }
 
-    private getScrollPos(scrollX: number) {
-        return new Desktop.ScrollPos(scrollX, this.tilingArea.width);
+    private getVisibleRange(scrollX: number) {
+        return new Desktop.Range(scrollX, this.tilingArea.width);
     }
 
-    public getCurrentScrollPos() {
-        return this.getScrollPos(this.scrollX);
+    public getCurrentVisibleRange() {
+        return this.getVisibleRange(this.scrollX);
     }
 
     private clampScrollX(x: number) {
@@ -133,10 +133,6 @@ class Desktop {
         }
     }
 
-    private applyScrollPos(scrollPos: Desktop.ScrollPos) {
-        this.setScroll(scrollPos.x, true);
-    }
-
     public adjustScroll(dx: number, force: boolean) {
         this.setScroll(this.scrollX + dx, force);
     }
@@ -146,8 +142,8 @@ class Desktop {
     }
 
     public equalizeVisibleColumnsWidths() {
-        const scrollPos = this.getCurrentScrollPos();
-        const visibleColumns = Array.from(this.grid.getVisibleColumns(scrollPos, true));
+        const visibleRange = this.getCurrentVisibleRange();
+        const visibleColumns = Array.from(this.grid.getVisibleColumns(visibleRange, true));
 
         let remainingWidth = this.tilingArea.width - (visibleColumns.length-1) * this.grid.config.gapsInnerHorizontal;
         let remainingColumns = visibleColumns.length;
@@ -192,7 +188,7 @@ namespace Desktop {
         overscroll: number,
     };
 
-    export class ScrollPos {
+    export class Range {
         public readonly x: number;
         public readonly width: number;
 

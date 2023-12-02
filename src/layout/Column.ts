@@ -237,13 +237,13 @@ class Column {
         return true;
     }
 
-    public isVisible(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
+    public isVisible(visibleRange: Desktop.Range, fullyVisible: boolean) {
         if (fullyVisible) {
-            return this.getLeft() >= scrollPos.getLeft() &&
-                this.getRight() <= scrollPos.getRight();
+            return this.getLeft() >= visibleRange.getLeft() &&
+                this.getRight() <= visibleRange.getRight();
         } else {
-            return this.getRight() + this.grid.config.gapsInnerHorizontal > scrollPos.getLeft() &&
-                this.getLeft() - this.grid.config.gapsInnerHorizontal < scrollPos.getRight();
+            return this.getRight() + this.grid.config.gapsInnerHorizontal > visibleRange.getLeft() &&
+                this.getLeft() - this.grid.config.gapsInnerHorizontal < visibleRange.getRight();
         }
     }
 
