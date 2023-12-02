@@ -88,7 +88,7 @@ class Desktop {
     }
 
     public scrollToColumn(column: Column) {
-        this.setScroll(this.calculateVisibleRangeForColumn(column).x, true);
+        this.setScroll(this.calculateVisibleRangeForColumn(column).getLeft(), true);
     }
 
     public scrollCenterColumn(column: Column) {
@@ -194,8 +194,8 @@ namespace Desktop {
     };
 
     export class Range {
-        public readonly x: number;
-        public readonly width: number;
+        private readonly x: number;
+        private readonly width: number;
 
         constructor(x: number, width: number) {
             this.x = x;
@@ -208,6 +208,10 @@ namespace Desktop {
 
         public getRight() {
             return this.x + this.width;
+        }
+
+        public getWidth() {
+            return this.width;
         }
     }
 }
