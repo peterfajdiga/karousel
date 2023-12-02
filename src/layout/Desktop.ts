@@ -123,7 +123,7 @@ class Desktop {
         return clamp(x, minScroll, maxScroll);
     }
 
-    private setScroll(x: number, force: boolean) {
+    public setScroll(x: number, force: boolean) {
         const oldScrollX = this.scrollX;
         this.scrollX = force ? x : this.clampScrollX(x);
         if (this.scrollX !== oldScrollX) {

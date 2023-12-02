@@ -175,10 +175,10 @@ class Grid {
         const rightVisibleWidth = rightColumn === null ? Infinity : visibleRange.getRight() - rightColumn.getLeft();
         const expandLeft = leftVisibleWidth < rightVisibleWidth;
         const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.config.gapsInnerHorizontal;
-        if (expandLeft) {
-            this.desktop.adjustScroll(widthDelta, false);
-        }
         column.adjustWidth(widthDelta, true);
+        if (expandLeft) {
+            this.desktop.setScroll(column.gridX, false);
+        }
     }
 
     public decreaseColumnWidth(column: Column) {
