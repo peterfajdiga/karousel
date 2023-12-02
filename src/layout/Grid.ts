@@ -124,11 +124,9 @@ class Grid {
     public getVisibleColumnsWidth(scrollPos: Desktop.ScrollPos, fullyVisible: boolean) {
         let width = 0;
         let nVisible = 0;
-        for (const column of this.columns.iterator()) {
-            if (column.isVisible(scrollPos, fullyVisible)) {
-                width += column.getWidth();
-                nVisible++;
-            }
+        for (const column of this.getVisibleColumns(scrollPos, fullyVisible)) {
+            width += column.getWidth();
+            nVisible++;
         }
 
         if (nVisible > 0) {
