@@ -52,10 +52,15 @@ class Desktop {
         )
     }
 
-    // calculates Desktop.Range that scrolls the column into view
-    public getVisibleRangeForColumn(column: Column) {
-        const left = column.getLeft();
-        const right = column.getRight();
+    // calculates a Range that scrolls the Column into view
+    public calculateVisibleRangeForColumn(column: Column) {
+        return this.calculateVisibleRange(new Desktop.Range(column.gridX, column.getWidth()));
+    }
+
+    // calculates a Range that scrolls the contained Range into view
+    public calculateVisibleRange(containedRange: Desktop.Range) {
+        const left = containedRange.getLeft();
+        const right = containedRange.getRight();
         const initialVisibleRange = this.getCurrentVisibleRange();
 
         let targetScrollX: number;
@@ -83,7 +88,7 @@ class Desktop {
     }
 
     public scrollToColumn(column: Column) {
-        this.setScroll(this.getVisibleRangeForColumn(column).x, true);
+        this.setScroll(this.calculateVisibleRangeForColumn(column).x, true);
     }
 
     public scrollCenterColumn(column: Column) {
