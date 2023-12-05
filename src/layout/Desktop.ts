@@ -8,7 +8,6 @@ class Desktop {
     private dirtyPins: boolean;
     public clientArea: QRect;
     public tilingArea: QRect;
-    public readonly scroller: Desktop.Scroller = new ScrollerLazy();
 
     constructor(desktopNumber: number, pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig) {
         this.pinManager = pinManager;
@@ -104,7 +103,11 @@ class Desktop {
             return;
         }
 
-        this.scroller.focusColumn(this, focusedColumn);
+        this.focusColumn(focusedColumn);
+    }
+
+    public focusColumn(column: Column) {
+        this.config.scroller.focusColumn(this, column);
     }
 
     private getVisibleRange(scrollX: number) {
@@ -190,6 +193,7 @@ namespace Desktop {
         marginLeft: number,
         marginRight: number,
         overscroll: number,
+        scroller: Desktop.Scroller,
     };
 
     export type Range = {

@@ -277,7 +277,7 @@ class Grid {
             lastFocusedColumn.restoreToTiled();
         }
         this.lastFocusedColumn = column;
-        this.desktop.scroller.focusColumn(this.desktop, column);
+        this.desktop.focusColumn(column);
     }
 
     public onScreenSizeChanged() {

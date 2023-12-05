@@ -29,6 +29,9 @@ class World {
                 marginLeft: config.gapsOuterLeft,
                 marginRight: config.gapsOuterRight,
                 overscroll: config.overscroll,
+                scroller: config.scrollingLazy ? new ScrollerLazy() :
+                    config.scrollingCentered ? new ScrollerCentered() :
+                    console.assert(false),
             },
             {
                 gapsInnerHorizontal: config.gapsInnerHorizontal,

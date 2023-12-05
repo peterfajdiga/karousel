@@ -118,6 +118,16 @@ const configDef = [
         "default": false
     },
     {
+        "name": "scrollingLazy",
+        "type": "Bool",
+        "default": true
+    },
+    {
+        "name": "scrollingCentered",
+        "type": "Bool",
+        "default": false
+    },
+    {
         "name": "tiledKeepBelow",
         "type": "Bool",
         "default": true

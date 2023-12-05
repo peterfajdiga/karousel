@@ -12,6 +12,8 @@ type Config = {
     resizeNeighborColumn: boolean,
     reMaximize: boolean,
     skipSwitcher: boolean,
+    scrollingLazy: boolean,
+    scrollingCentered: boolean,
     tiledKeepBelow: boolean,
     floatingKeepAbove: boolean,
     windowRules: string,
