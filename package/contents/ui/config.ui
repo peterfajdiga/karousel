@@ -256,7 +256,7 @@
                                         <item>
                                             <widget class="QRadioButton" name="kcfg_scrollingLazy">
                                                 <property name="text">
-                                                    <string>Only scroll if necessary</string>
+                                                    <string>Only scroll as necessary</string>
                                                 </property>
                                             </widget>
                                         </item>
