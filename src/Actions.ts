@@ -197,7 +197,7 @@ namespace Actions {
                     if (firstColumn === null) {
                         return;
                     }
-                    grid.desktop.scrollToRange(firstColumn);
+                    grid.desktop.focusColumn(firstColumn);
                 });
             },
 
@@ -208,13 +208,13 @@ namespace Actions {
                     if (lastColumn === null) {
                         return;
                     }
-                    grid.desktop.scrollToRange(lastColumn);
+                    grid.desktop.focusColumn(lastColumn);
                 });
             },
 
             gridScrollFocused: () => {
                 world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
-                    grid.desktop.scrollCenterRange(column);
+                    grid.desktop.focusColumn(column);
                 })
             },
 
@@ -231,7 +231,7 @@ namespace Actions {
                         return;
                     }
 
-                    grid.desktop.scrollToRange(prevColumn);
+                    grid.desktop.focusColumn(prevColumn);
                 });
             },
 
@@ -248,7 +248,7 @@ namespace Actions {
                         return;
                     }
 
-                    grid.desktop.scrollToRange(nextColumn);
+                    grid.desktop.focusColumn(nextColumn);
                 });
             },
         };
