@@ -1,5 +1,5 @@
 class ScrollerCentered {
-    public focusColumn(desktop: Desktop, column: Column) {
+    public scrollToColumn(desktop: Desktop, column: Column) {
         desktop.scrollCenterRange(column);
     }
 }

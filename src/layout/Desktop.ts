@@ -103,11 +103,11 @@ class Desktop {
             return;
         }
 
-        this.focusColumn(focusedColumn);
+        this.scrollToColumn(focusedColumn);
     }
 
-    public focusColumn(column: Column) {
-        this.config.scroller.focusColumn(this, column);
+    public scrollToColumn(column: Column) {
+        this.config.scroller.scrollToColumn(this, column);
     }
 
     private getVisibleRange(scrollX: number) {
@@ -225,6 +225,6 @@ namespace Desktop {
     }
 
     export type Scroller = {
-        focusColumn(desktop: Desktop, column: Column): void;
+        scrollToColumn(desktop: Desktop, column: Column): void;
     }
 }

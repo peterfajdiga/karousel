@@ -5,7 +5,7 @@ class ScrollerGrouped {
         this.layoutConfig = layoutConfig;
     }
 
-    public focusColumn(desktop: Desktop, column: Column) {
+    public scrollToColumn(desktop: Desktop, column: Column) {
         const columnRange = new ScrollerGrouped.ColumnRange(column);
         const visibleRange = desktop.getCurrentVisibleRange();
         columnRange.addNeighbors(visibleRange, this.layoutConfig.gapsInnerHorizontal, true);
