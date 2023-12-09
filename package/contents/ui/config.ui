@@ -263,7 +263,7 @@
                                         <item>
                                             <widget class="QRadioButton" name="kcfg_scrollingCentered">
                                                 <property name="text">
-                                                    <string>Keep focused column at the center of the screen</string>
+                                                    <string>Center focused column</string>
                                                 </property>
                                             </widget>
                                         </item>
