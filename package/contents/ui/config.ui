@@ -267,6 +267,13 @@
                                                 </property>
                                             </widget>
                                         </item>
+                                        <item>
+                                            <widget class="QRadioButton" name="kcfg_scrollingGrouped">
+                                                <property name="text">
+                                                    <string>Prevent needlessly obscuring columns</string>
+                                                </property>
+                                            </widget>
+                                        </item>
                                     </layout>
                                 </widget>
                             </item>

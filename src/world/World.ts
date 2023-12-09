@@ -21,6 +21,17 @@ class World {
 
         this.pinManager = new PinManager();
 
+        const layoutConfig = {
+            gapsInnerHorizontal: config.gapsInnerHorizontal,
+            gapsInnerVertical: config.gapsInnerVertical,
+            stackColumnsByDefault: config.stackColumnsByDefault,
+            resizeNeighborColumn: config.resizeNeighborColumn,
+            reMaximize: config.reMaximize,
+            skipSwitcher: config.skipSwitcher,
+            tiledKeepBelow: config.tiledKeepBelow,
+            maximizedKeepAbove: config.floatingKeepAbove,
+        };
+
         this.desktopManager = new DesktopManager(
             this.pinManager,
             {
@@ -31,18 +42,10 @@ class World {
                 overscroll: config.overscroll,
                 scroller: config.scrollingLazy ? new ScrollerLazy() :
                     config.scrollingCentered ? new ScrollerCentered() :
+                    config.scrollingGrouped ? new ScrollerGrouped(layoutConfig) :
                     console.assert(false),
             },
-            {
-                gapsInnerHorizontal: config.gapsInnerHorizontal,
-                gapsInnerVertical: config.gapsInnerVertical,
-                stackColumnsByDefault: config.stackColumnsByDefault,
-                resizeNeighborColumn: config.resizeNeighborColumn,
-                reMaximize: config.reMaximize,
-                skipSwitcher: config.skipSwitcher,
-                tiledKeepBelow: config.tiledKeepBelow,
-                maximizedKeepAbove: config.floatingKeepAbove,
-            },
+            layoutConfig,
             workspace.currentActivity,
         );
         this.clientManager = new ClientManager(config, this, this.desktopManager, this.pinManager);

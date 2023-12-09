@@ -14,6 +14,7 @@ type Config = {
     skipSwitcher: boolean,
     scrollingLazy: boolean,
     scrollingCentered: boolean,
+    scrollingGrouped: boolean,
     tiledKeepBelow: boolean,
     floatingKeepAbove: boolean,
     windowRules: string,

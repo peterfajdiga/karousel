@@ -128,6 +128,11 @@ const configDef = [
         "default": false
     },
     {
+        "name": "scrollingGrouped",
+        "type": "Bool",
+        "default": false
+    },
+    {
         "name": "tiledKeepBelow",
         "type": "Bool",
         "default": true
