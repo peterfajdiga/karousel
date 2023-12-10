@@ -214,7 +214,7 @@ namespace Actions {
 
             gridScrollFocused: () => {
                 world.doIfTiledFocused(true, (world, desktopManager, window, column, grid) => {
-                    grid.desktop.scrollToColumn(column);
+                    grid.desktop.scrollCenterRange(column);
                 })
             },
 
