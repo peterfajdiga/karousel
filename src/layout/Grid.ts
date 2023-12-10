@@ -89,10 +89,8 @@ class Grid {
     }
 
     public getLeftmostVisibleColumn(visibleRange: Desktop.Range, fullyVisible: boolean) {
-        const scrollX = visibleRange.getLeft();
         for (const column of this.columns.iterator()) {
-            const x = fullyVisible ? column.getLeft() : column.getRight() + (this.config.gapsInnerHorizontal - 1);
-            if (x >= scrollX) {
+            if (column.isVisible(visibleRange, fullyVisible)) {
                 return column;
             }
         }
@@ -100,13 +98,11 @@ class Grid {
     }
 
     public getRightmostVisibleColumn(visibleRange: Desktop.Range, fullyVisible: boolean) {
-        const scrollX = visibleRange.getRight();
         let last = null;
         for (const column of this.columns.iterator()) {
-            const x = fullyVisible ? column.getRight() : column.getLeft() - (this.config.gapsInnerHorizontal - 1);
-            if (x <= scrollX) {
+            if (column.isVisible(visibleRange, fullyVisible)) {
                 last = column;
-            } else {
+            } else if (last !== null) {
                 break;
             }
         }

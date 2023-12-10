@@ -47,8 +47,8 @@ class Desktop {
         return Qt.rect(
             left,
             top,
-            right - left + 1,
-            bottom - top + 1,
+            right - left,
+            bottom - top,
         )
     }
 

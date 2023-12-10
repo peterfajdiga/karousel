@@ -75,8 +75,8 @@ namespace PinManager {
         }
 
         private contains(obstacle: QmlRect) {
-            return obstacle.right >= this.left && obstacle.left <= this.right &&
-                obstacle.bottom >= this.top && obstacle.top <= this.bottom;
+            return obstacle.right > this.left && obstacle.left < this.right &&
+                obstacle.bottom > this.top && obstacle.top < this.bottom;
         }
 
         public area() {
