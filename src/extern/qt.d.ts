@@ -18,9 +18,9 @@ type QmlRect = {
     width: number;
     height: number;
     top: number;
-    bottom: number;
+    bottom: number; // top + height
     left: number;
-    right: number;
+    right: number; // left + width
 };
 
 type QSize = {
