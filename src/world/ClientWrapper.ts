@@ -6,7 +6,7 @@ class ClientWrapper {
     private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;
     private readonly manipulatingGeometry: Doer;
-    private lastPlacement: QRect | null; // workaround for issue #19
+    private lastPlacement: QmlRect | null; // workaround for issue #19
 
     constructor(
         kwinClient: KwinClient,
@@ -92,7 +92,7 @@ class ClientWrapper {
         return this.kwinClient.shade;
     }
 
-    public isManipulatingGeometry(newGeometry: QRect | null) {
+    public isManipulatingGeometry(newGeometry: QmlRect | null) {
         if (newGeometry !== null && newGeometry === this.lastPlacement) {
             return true;
         }
@@ -108,7 +108,7 @@ class ClientWrapper {
         this.transients.splice(i, 1);
     }
 
-    public ensureTransientsVisible(screenSize: QRect) {
+    public ensureTransientsVisible(screenSize: QmlRect) {
         for (const transient of this.transients) {
             if (transient.stateManager.getState() instanceof ClientState.Floating) {
                 transient.ensureVisible(screenSize);
@@ -117,7 +117,7 @@ class ClientWrapper {
         }
     }
 
-    public ensureVisible(screenSize: QRect) {
+    public ensureVisible(screenSize: QmlRect) {
         if (this.kwinClient.desktop !== workspace.currentDesktop) {
             return;
         }

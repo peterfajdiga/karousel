@@ -83,7 +83,7 @@ namespace ClientState {
                 cursorChangedAfterResizeStart = false;
             });
 
-            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QRect) => {
+            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QmlRect) => {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {
                     world.do((clientManager, desktopManager) => {
@@ -158,7 +158,7 @@ namespace ClientState {
             client.setMaximize(false, false);
         }
 
-        private static restoreClientAfterTiling(client: ClientWrapper, config: LayoutConfig, defaultState: Tiled.WindowState, screenSize: QRect) {
+        private static restoreClientAfterTiling(client: ClientWrapper, config: LayoutConfig, defaultState: Tiled.WindowState, screenSize: QmlRect) {
             if (config.skipSwitcher) {
                 client.kwinClient.skipSwitcher = defaultState.skipSwitcher;
             }

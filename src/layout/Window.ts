@@ -106,7 +106,7 @@ class Window {
         this.column.grid.desktop.onLayoutChanged();
     }
 
-    public onUserResize(oldGeometry: QRect, resizeNeighborColumn: boolean) {
+    public onUserResize(oldGeometry: QmlRect, resizeNeighborColumn: boolean) {
         const newGeometry = this.client.kwinClient.frameGeometry;
         const widthDelta = newGeometry.width - oldGeometry.width;
         const heightDelta = newGeometry.height - oldGeometry.height;

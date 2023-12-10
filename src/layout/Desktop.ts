@@ -6,8 +6,8 @@ class Desktop {
     private scrollX: number;
     private dirty: boolean;
     private dirtyPins: boolean;
-    public clientArea: QRect;
-    public tilingArea: QRect;
+    public clientArea: QmlRect;
+    public tilingArea: QmlRect;
 
     constructor(desktopNumber: number, pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig) {
         this.pinManager = pinManager;
@@ -38,7 +38,7 @@ class Desktop {
         return workspace.clientArea(ClientAreaOption.PlacementArea, 0, desktopNumber);
     }
 
-    private static getTilingArea(clientArea: QRect, desktopNumber: number, pinManager: PinManager, config: Desktop.Config) {
+    private static getTilingArea(clientArea: QmlRect, desktopNumber: number, pinManager: PinManager, config: Desktop.Config) {
         const availableSpace = pinManager.getAvailableSpace(desktopNumber, clientArea);
         const top = availableSpace.top + config.marginTop;
         const bottom = availableSpace.bottom - config.marginBottom;

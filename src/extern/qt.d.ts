@@ -4,7 +4,7 @@ declare const console: {
 };
 
 declare const Qt: {
-    rect(x: number, y: number, width: number, height: number): QRect;
+    rect(x: number, y: number, width: number, height: number): QmlRect;
     createQmlObject(qml: string, parent: QmlObject);
 };
 
@@ -12,7 +12,7 @@ type QmlObject = unknown;
 
 type QByteArray = string;
 
-type QRect = {
+type QmlRect = {
     x: number;
     y: number;
     width: number;

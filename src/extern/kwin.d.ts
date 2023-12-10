@@ -56,7 +56,7 @@ interface KwinClient {
     keepBelow: boolean;
     shade: boolean;
     minimized: boolean;
-    frameGeometry: QRect;
+    frameGeometry: QmlRect;
     desktop: number; // -1 means all desktops
     tile: Tile;
 
@@ -69,7 +69,7 @@ interface KwinClient {
     moveResizedChanged: QSignal<[void]>;
     moveResizeCursorChanged: QSignal<[void]>;
     clientStartUserMovedResized: QSignal<[void]>;
-    frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QRect]>;
+    frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QmlRect]>;
 
     // Functions
     setMaximize(vertically: boolean, horizontally: boolean): void;

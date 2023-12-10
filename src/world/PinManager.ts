@@ -13,7 +13,7 @@ class PinManager {
         this.pinnedClients.delete(kwinClient);
     }
 
-    public getAvailableSpace(desktopNumber: number, screen: QRect) {
+    public getAvailableSpace(desktopNumber: number, screen: QmlRect) {
         const baseLot = new PinManager.Lot(screen.top, screen.bottom, screen.left, screen.right);
         let lots = [baseLot];
         for (const client of this.pinnedClients) {
@@ -53,7 +53,7 @@ namespace PinManager {
             public readonly right: number,
         ) {}
 
-        public split(destLots: Lot[], obstacle: QRect) {
+        public split(destLots: Lot[], obstacle: QmlRect) {
             if (!this.contains(obstacle)) {
                 // don't split
                 destLots.push(this);
@@ -74,7 +74,7 @@ namespace PinManager {
             }
         }
 
-        private contains(obstacle: QRect) {
+        private contains(obstacle: QmlRect) {
             return obstacle.right >= this.left && obstacle.left <= this.right &&
                 obstacle.bottom >= this.top && obstacle.top <= this.bottom;
         }

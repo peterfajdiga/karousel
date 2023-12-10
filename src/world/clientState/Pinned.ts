@@ -41,7 +41,7 @@ namespace ClientState {
                 }
             });
 
-            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QRect) => {
+            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QmlRect) => {
                 if (kwinClient.tile === null) {
                     world.do((clientManager, desktopManager) => {
                         clientManager.unpinClient(kwinClient);
