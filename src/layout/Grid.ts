@@ -150,61 +150,85 @@ class Grid {
 
     public increaseColumnWidth(column: Column) {
         const visibleRange = this.desktop.calculateVisibleRange(column);
-        if (this.width < visibleRange.getWidth()) {
-            column.adjustWidth(visibleRange.getWidth() - this.width, true);
+        if(!column.isVisible(visibleRange, true) || column.getWidth() >= column.getMaxWidth()) {
             return;
         }
 
-        let leftColumn = this.getLeftmostVisibleColumn(visibleRange, false);
-        if (leftColumn === column) {
-            leftColumn = null;
-        }
-        let rightColumn = this.getRightmostVisibleColumn(visibleRange, false);
-        if (rightColumn === column) {
-            rightColumn = null;
-        }
-        if (leftColumn === null && rightColumn === null) {
+        let leftVisibleColumn = this.getLeftmostVisibleColumn(visibleRange, true);
+        let rightVisibleColumn = this.getRightmostVisibleColumn(visibleRange, true);
+        if (leftVisibleColumn === null || rightVisibleColumn === null) {
+            console.assert(false);
             return;
         }
 
-        const leftVisibleWidth = leftColumn === null ? Infinity : leftColumn.getRight() - visibleRange.getLeft();
-        const rightVisibleWidth = rightColumn === null ? Infinity : visibleRange.getRight() - rightColumn.getLeft();
-        const expandLeft = leftVisibleWidth < rightVisibleWidth;
-        const widthDelta = (expandLeft ? leftVisibleWidth : rightVisibleWidth) + this.config.gapsInnerHorizontal;
-        column.adjustWidth(widthDelta, true);
-        if (expandLeft) {
-            this.desktop.setScroll(column.gridX, false);
+        const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
+        const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
+        if (leftSpace + rightSpace > 0) {
+            column.adjustWidth(leftSpace + rightSpace, true);
+        } else {
+            // left and right columns are touching the screen's edges
+            const leftSpace = leftVisibleColumn === column ? Infinity : leftVisibleColumn.getWidth() + this.config.gapsInnerHorizontal;
+            const rightSpace = rightVisibleColumn === column ? Infinity : rightVisibleColumn.getWidth() + this.config.gapsInnerHorizontal;
+            if (leftSpace < rightSpace) {
+                column.adjustWidth(leftSpace, true);
+                leftVisibleColumn = this.getNextColumn(leftVisibleColumn)!;
+            } else {
+                column.adjustWidth(rightSpace, true);
+                rightVisibleColumn = this.getPrevColumn(rightVisibleColumn)!;
+            }
         }
+
+        this.desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
     }
 
     public decreaseColumnWidth(column: Column) {
         const visibleRange = this.desktop.calculateVisibleRange(column);
+        if (!column.isVisible(visibleRange, true)) {
+            return;
+        }
+
         if (this.width <= visibleRange.getWidth()) {
             column.setWidth(Math.round(column.getWidth() / 2), true);
             return;
         }
 
-        let leftColumn = this.getLeftOffScreenColumn(visibleRange);
-        if (leftColumn === column) {
-            leftColumn = null;
-        }
-        let rightColumn = this.getRightOffScreenColumn(visibleRange);
-        if (rightColumn === column) {
-            rightColumn = null;
-        }
-        if (leftColumn === null && rightColumn === null) {
+        const leftVisibleColumn = this.getLeftmostVisibleColumn(visibleRange, true);
+        const rightVisibleColumn = this.getRightmostVisibleColumn(visibleRange, true);
+        if (leftVisibleColumn === null || rightVisibleColumn === null) {
+            console.assert(false);
             return;
         }
 
-        const leftInvisibleWidth = leftColumn === null ? Infinity : visibleRange.getLeft() - leftColumn.getLeft();
-        const rightInvisibleWidth = rightColumn === null ? Infinity : rightColumn.getRight() - visibleRange.getRight();
-        const shrinkLeft = leftInvisibleWidth < rightInvisibleWidth;
-        const widthDelta = (shrinkLeft ? leftInvisibleWidth : rightInvisibleWidth);
-        if (shrinkLeft) {
-            const maxDelta = column.getWidth() - column.getMinWidth();
-            this.desktop.adjustScroll(-Math.min(widthDelta, maxDelta), false);
+        let leftOffScreenColumn = this.getPrevColumn(leftVisibleColumn);
+        if (leftOffScreenColumn === column) {
+            leftOffScreenColumn = null;
         }
-        column.adjustWidth(-widthDelta, true);
+        let rightOffScreenColumn = this.getNextColumn(rightVisibleColumn);
+        if (rightOffScreenColumn === column) {
+            rightOffScreenColumn = null;
+        }
+        if (leftOffScreenColumn === null && rightOffScreenColumn === null) {
+            console.assert(false);
+            return;
+        }
+
+        const leftInvisibleWidth = leftOffScreenColumn === null ? Infinity : visibleRange.getLeft() - leftOffScreenColumn.getLeft();
+        const rightInvisibleWidth = rightOffScreenColumn === null ? Infinity : rightOffScreenColumn.getRight() - visibleRange.getRight();
+
+        const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
+        const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
+
+        if (leftInvisibleWidth < rightInvisibleWidth) {
+            const deltaWidth = rightSpace - leftInvisibleWidth;
+            column.adjustWidth(deltaWidth, true);
+            console.assert(leftOffScreenColumn !== null);
+            this.desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftOffScreenColumn!, rightVisibleColumn));
+        } else {
+            const deltaWidth = leftSpace - rightInvisibleWidth;
+            column.adjustWidth(deltaWidth, true);
+            console.assert(rightOffScreenColumn !== null);
+            this.desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightOffScreenColumn!));
+        }
     }
 
     public arrange(x: number) {

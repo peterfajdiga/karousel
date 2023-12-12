@@ -222,6 +222,12 @@ namespace Desktop {
         public getWidth() {
             return this.width;
         }
+
+        public static fromRanges(leftRange: Range, rightRange: Range) {
+            const left = leftRange.getLeft();
+            const right = rightRange.getRight();
+            return new RangeImpl(left, right - left);
+        }
     }
 
     export type Scroller = {
