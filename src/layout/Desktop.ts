@@ -5,6 +5,7 @@ class Desktop {
     private readonly config: Desktop.Config;
     private scrollX: number;
     private dirty: boolean;
+    private dirtyScroll: boolean;
     private dirtyPins: boolean;
     public clientArea: QmlRect;
     public tilingArea: QmlRect;
@@ -14,6 +15,7 @@ class Desktop {
         this.config = config;
         this.scrollX = 0;
         this.dirty = true;
+        this.dirtyScroll = true;
         this.dirtyPins = true;
         this.desktopNumber = desktopNumber;
         this.grid = new Grid(this, layoutConfig);
@@ -29,6 +31,7 @@ class Desktop {
         this.clientArea = newClientArea;
         this.tilingArea = Desktop.getTilingArea(newClientArea, this.desktopNumber, this.pinManager, this.config);
         this.dirty = true;
+        this.dirtyScroll = true;
         this.dirtyPins = false;
         this.grid.onScreenSizeChanged();
         this.autoAdjustScroll();
@@ -94,12 +97,7 @@ class Desktop {
 
     public autoAdjustScroll() {
         const focusedColumn = this.grid.getLastFocusedColumn();
-        if (focusedColumn === null) {
-            this.removeOverscroll();
-            return;
-        }
-
-        if (focusedColumn.grid !== this.grid) {
+        if (focusedColumn === null || focusedColumn.grid !== this.grid) {
             return;
         }
 
@@ -107,7 +105,9 @@ class Desktop {
     }
 
     public scrollToColumn(column: Column) {
-        this.config.scroller.scrollToColumn(this, column);
+        if (this.dirtyScroll || !column.isVisible(this.getCurrentVisibleRange(), true)) {
+            this.config.scroller.scrollToColumn(this, column);
+        }
     }
 
     private getVisibleRange(scrollX: number) {
@@ -128,14 +128,11 @@ class Desktop {
         if (this.scrollX !== oldScrollX) {
             this.onLayoutChanged();
         }
+        this.dirtyScroll = false;
     }
 
     public adjustScroll(dx: number, force: boolean) {
         this.setScroll(this.scrollX + dx, force);
-    }
-
-    private removeOverscroll() {
-        this.setScroll(this.scrollX, false);
     }
 
     public equalizeVisibleColumnsWidths() {
@@ -170,10 +167,12 @@ class Desktop {
 
     public onLayoutChanged() {
         this.dirty = true;
+        this.dirtyScroll = true;
     }
 
     public onPinsChanged() {
         this.dirty = true;
+        this.dirtyScroll = true;
         this.dirtyPins = true;
     }
 
