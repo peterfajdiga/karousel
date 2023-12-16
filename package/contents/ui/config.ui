@@ -11,194 +11,192 @@
         <layout class="QVBoxLayout" name="layout_main">
             <item>
                 <widget class="QTabWidget" name="tabContainer">
-                    <widget class="QWidget" name="tab_general">
+                    <widget class="QWidget" name="tab_parameters">
                         <attribute name="title">
-                            <string>General</string>
+                            <string>Parameters</string>
                         </attribute>
-                        <layout class="QVBoxLayout" name="layout_tab_general">
+                        <layout class="QFormLayout">
+                            <item row="0" column="0">
+                                <widget class="QLabel" name="label_gapsOuterTop">
+                                    <property name="text">
+                                        <string>Top margin:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="0" column="1">
+                                <widget class="QSpinBox" name="kcfg_gapsOuterTop">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="1" column="0">
+                                <widget class="QLabel" name="label_gapsOuterBottom">
+                                    <property name="text">
+                                        <string>Bottom margin:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="1" column="1">
+                                <widget class="QSpinBox" name="kcfg_gapsOuterBottom">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="2" column="0">
+                                <widget class="QLabel" name="label_gapsOuterLeft">
+                                    <property name="text">
+                                        <string>Left margin:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="2" column="1">
+                                <widget class="QSpinBox" name="kcfg_gapsOuterLeft">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="3" column="0">
+                                <widget class="QLabel" name="label_gapsOuterRight">
+                                    <property name="text">
+                                        <string>Right margin:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="3" column="1">
+                                <widget class="QSpinBox" name="kcfg_gapsOuterRight">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="4" column="0">
+                                <widget class="QLabel" name="label_gapsInnerHorizontal">
+                                    <property name="text">
+                                        <string>Horizontal gaps between windows:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="4" column="1">
+                                <widget class="QSpinBox" name="kcfg_gapsInnerHorizontal">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="5" column="0">
+                                <widget class="QLabel" name="label_gapsInnerVertical">
+                                    <property name="text">
+                                        <string>Vertical gaps between windows:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="5" column="1">
+                                <widget class="QSpinBox" name="kcfg_gapsInnerVertical">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="6" column="0">
+                                <widget class="QLabel" name="label_overscroll">
+                                    <property name="text">
+                                        <string>Overscroll amount:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="6" column="1">
+                                <widget class="QSpinBox" name="kcfg_overscroll">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="7" column="0">
+                                <widget class="QLabel" name="label_manualScrollStep">
+                                    <property name="text">
+                                        <string>Manual scroll step size:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="7" column="1">
+                                <widget class="QSpinBox" name="kcfg_manualScrollStep">
+                                    <property name="suffix">
+                                        <string> px</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>999</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
+                        </layout>
+                    </widget>
+
+                    <widget class="QWidget" name="tab_behavior">
+                        <attribute name="title">
+                            <string>Behavior</string>
+                        </attribute>
+                        <layout class="QVBoxLayout">
                             <item>
                                 <widget class="QGroupBox">
                                     <property name="flat">
                                         <bool>true</bool>
                                     </property>
-                                 <layout class="QFormLayout">
-                                        <item row="0" column="0">
-                                            <widget class="QLabel" name="label_gapsOuterTop">
-                                                <property name="text">
-                                                    <string>Top margin:</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item row="0" column="1">
-                                            <widget class="QSpinBox" name="kcfg_gapsOuterTop">
-                                                <property name="suffix">
-                                                    <string> px</string>
-                                                </property>
-                                                <property name="maximum">
-                                                    <number>999</number>
-                                                </property>
-                                                <property name="value">
-                                                    <number>0</number>
-                                                </property>
-                                            </widget>
-                                        </item>
-
-                                        <item row="1" column="0">
-                                            <widget class="QLabel" name="label_gapsOuterBottom">
-                                                <property name="text">
-                                                    <string>Bottom margin:</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item row="1" column="1">
-                                            <widget class="QSpinBox" name="kcfg_gapsOuterBottom">
-                                                <property name="suffix">
-                                                    <string> px</string>
-                                                </property>
-                                                <property name="maximum">
-                                                    <number>999</number>
-                                                </property>
-                                                <property name="value">
-                                                    <number>0</number>
-                                                </property>
-                                            </widget>
-                                        </item>
-
-                                        <item row="2" column="0">
-                                            <widget class="QLabel" name="label_gapsOuterLeft">
-                                                <property name="text">
-                                                    <string>Left margin:</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item row="2" column="1">
-                                            <widget class="QSpinBox" name="kcfg_gapsOuterLeft">
-                                                <property name="suffix">
-                                                    <string> px</string>
-                                                </property>
-                                                <property name="maximum">
-                                                    <number>999</number>
-                                                </property>
-                                                <property name="value">
-                                                    <number>0</number>
-                                                </property>
-                                            </widget>
-                                        </item>
-
-                                        <item row="3" column="0">
-                                            <widget class="QLabel" name="label_gapsOuterRight">
-                                                <property name="text">
-                                                    <string>Right margin:</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item row="3" column="1">
-                                            <widget class="QSpinBox" name="kcfg_gapsOuterRight">
-                                                <property name="suffix">
-                                                    <string> px</string>
-                                                </property>
-                                                <property name="maximum">
-                                                    <number>999</number>
-                                                </property>
-                                                <property name="value">
-                                                    <number>0</number>
-                                                </property>
-                                            </widget>
-                                        </item>
-
-                                        <item row="4" column="0">
-                                            <widget class="QLabel" name="label_gapsInnerHorizontal">
-                                                <property name="text">
-                                                    <string>Horizontal gaps between windows:</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item row="4" column="1">
-                                            <widget class="QSpinBox" name="kcfg_gapsInnerHorizontal">
-                                                <property name="suffix">
-                                                    <string> px</string>
-                                                </property>
-                                                <property name="maximum">
-                                                    <number>999</number>
-                                                </property>
-                                                <property name="value">
-                                                    <number>0</number>
-                                                </property>
-                                            </widget>
-                                        </item>
-
-                                        <item row="5" column="0">
-                                            <widget class="QLabel" name="label_gapsInnerVertical">
-                                                <property name="text">
-                                                    <string>Vertical gaps between windows:</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item row="5" column="1">
-                                            <widget class="QSpinBox" name="kcfg_gapsInnerVertical">
-                                                <property name="suffix">
-                                                    <string> px</string>
-                                                </property>
-                                                <property name="maximum">
-                                                    <number>999</number>
-                                                </property>
-                                                <property name="value">
-                                                    <number>0</number>
-                                                </property>
-                                            </widget>
-                                        </item>
-
-                                        <item row="6" column="0">
-                                            <widget class="QLabel" name="label_overscroll">
-                                                <property name="text">
-                                                    <string>Overscroll amount:</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item row="6" column="1">
-                                            <widget class="QSpinBox" name="kcfg_overscroll">
-                                                <property name="suffix">
-                                                    <string> px</string>
-                                                </property>
-                                                <property name="maximum">
-                                                    <number>999</number>
-                                                </property>
-                                                <property name="value">
-                                                    <number>0</number>
-                                                </property>
-                                            </widget>
-                                        </item>
-
-                                        <item row="7" column="0">
-                                            <widget class="QLabel" name="label_manualScrollStep">
-                                                <property name="text">
-                                                    <string>Manual scroll step size:</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item row="7" column="1">
-                                            <widget class="QSpinBox" name="kcfg_manualScrollStep">
-                                                <property name="suffix">
-                                                    <string> px</string>
-                                                </property>
-                                                <property name="maximum">
-                                                    <number>999</number>
-                                                </property>
-                                                <property name="value">
-                                                    <number>0</number>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                    </layout>
-                                </widget>
-                            </item>
-
-                            <item>
-                                <widget class="QGroupBox">
-                                    <property name="title">
-                                        <string>Behavior</string>
-                                    </property>
-                                 <layout class="QVBoxLayout">
+                                    <layout class="QVBoxLayout">
                                         <item>
                                             <widget class="QCheckBox" name="kcfg_untileOnDrag">
                                                 <property name="text">
@@ -317,11 +315,12 @@
                             </item>
                         </layout>
                     </widget>
+
                     <widget class="QWidget" name="tab_windowRules">
                         <attribute name="title">
                             <string>Window Rules</string>
                         </attribute>
-                        <layout class="QVBoxLayout" name="layout_tab_windowRules">
+                        <layout class="QVBoxLayout">
                             <item>
                                 <widget class="QPlainTextEdit" name="kcfg_windowRules">
                                     <property name="tabChangesFocus">
