@@ -119,12 +119,7 @@ class Desktop {
     }
 
     private clampScrollX(x: number) {
-        let minScroll = 0;
-        let maxScroll = this.grid.getWidth() - this.tilingArea.width;
-        if (maxScroll < 0) {
-            return Math.round(maxScroll / 2);
-        }
-        return clamp(x, minScroll, maxScroll);
+        return this.config.scroller.clampScrollX(this, x);
     }
 
     public setScroll(x: number, force: boolean) {
@@ -233,5 +228,6 @@ namespace Desktop {
 
     export type Scroller = {
         scrollToColumn(desktop: Desktop, column: Column): void;
+        clampScrollX(desktop: Desktop, x: number): number;
     }
 }

@@ -12,6 +12,10 @@ class ScrollerGrouped {
         columnRange.addNeighbors(visibleRange, this.layoutConfig.gapsInnerHorizontal, false);
         desktop.scrollCenterRange(columnRange);
     }
+
+    public clampScrollX(desktop: Desktop, x: number) {
+        return ScrollerCentered.clampScrollX(desktop, x);
+    }
 }
 
 namespace ScrollerGrouped {
