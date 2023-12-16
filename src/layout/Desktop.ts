@@ -156,9 +156,10 @@ class Desktop {
             remainingColumns--;
         }
 
-        const left = visibleColumns[0].getLeft();
-        const right = visibleColumns[visibleColumns.length-1].getRight();
-        const targetVisibleRange = new Desktop.RangeImpl(left, right-left);
+        const targetVisibleRange = Desktop.RangeImpl.fromRanges(
+            visibleColumns[0],
+            visibleColumns[visibleColumns.length - 1],
+        );
         this.setScroll(this.calculateVisibleRange(targetVisibleRange).getLeft(), false);
     }
 
