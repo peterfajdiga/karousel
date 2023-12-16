@@ -47,6 +47,7 @@ interface KwinClient {
     readonly dock: boolean;
     readonly normalWindow: boolean;
     readonly managed: boolean;
+    opacity: number;
 
     // Read-write Properties
     fullScreen: boolean;

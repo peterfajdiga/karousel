@@ -24,6 +24,7 @@ class World {
         const layoutConfig = {
             gapsInnerHorizontal: config.gapsInnerHorizontal,
             gapsInnerVertical: config.gapsInnerVertical,
+            offScreenOpacity: config.offScreenOpacity / 100.0,
             stackColumnsByDefault: config.stackColumnsByDefault,
             resizeNeighborColumn: config.resizeNeighborColumn,
             reMaximize: config.reMaximize,

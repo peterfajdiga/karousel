@@ -183,6 +183,27 @@
                                     </property>
                                 </widget>
                             </item>
+
+                            <item row="8" column="0">
+                                <widget class="QLabel" name="label_offScreenOpacity">
+                                    <property name="text">
+                                        <string>Obscured window opacity:</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="8" column="1">
+                                <widget class="QSpinBox" name="kcfg_offScreenOpacity">
+                                    <property name="suffix">
+                                        <string> %</string>
+                                    </property>
+                                    <property name="maximum">
+                                        <number>100</number>
+                                    </property>
+                                    <property name="value">
+                                        <number>0</number>
+                                    </property>
+                                </widget>
+                            </item>
                         </layout>
                     </widget>
 

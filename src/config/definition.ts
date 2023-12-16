@@ -93,6 +93,11 @@ const configDef = [
         "default": 200
     },
     {
+        "name": "offScreenOpacity",
+        "type": "UInt",
+        "default": 100
+    },
+    {
         "name": "untileOnDrag",
         "type": "Bool",
         "default": true
