@@ -36,7 +36,7 @@ interface KwinClient {
     // Read-only Properties
     readonly shadeable: boolean;
     readonly caption: string;
-    readonly minSize: QSize;
+    readonly minSize: QmlSize;
     readonly transient: boolean;
     readonly transientFor: KwinClient;
     readonly move: boolean;

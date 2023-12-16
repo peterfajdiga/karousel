@@ -23,7 +23,7 @@ type QmlRect = {
     right: number; // left + width
 };
 
-type QSize = {
+type QmlSize = {
     width: number;
     height: number;
 };
