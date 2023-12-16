@@ -33,7 +33,7 @@ type QSignal<T extends unknown[]> = {
     disconnect(handler: (...args: [...T]) => void): void;
 };
 
-type QQmlTimer = {
+type QmlTimer = {
     interval: number;
     triggered: QSignal<[void]>;
     restart(): void;
