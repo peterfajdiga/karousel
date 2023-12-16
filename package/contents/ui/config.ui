@@ -301,6 +301,20 @@
                                     </layout>
                                 </widget>
                             </item>
+
+                            <item>
+                                <spacer name="spacer_footer">
+                                    <property name="orientation">
+                                        <enum>Qt::Vertical</enum>
+                                    </property>
+                                    <property name="sizeHint" stdset="0">
+                                        <size>
+                                            <width>0</width>
+                                            <height>0</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </item>
                         </layout>
                     </widget>
                     <widget class="QWidget" name="tab_windowRules">
