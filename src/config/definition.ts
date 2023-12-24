@@ -21,12 +21,7 @@ const defaultWindowRules = `[
     },
     {
         "class": "zoom",
-        "caption": "Zoom Cloud Meetings",
-        "tile": false
-    },
-    {
-        "class": "zoom",
-        "caption": "zoom",
+        "caption": "Zoom Cloud Meetings|zoom|zoom <2>",
         "tile": false
     },
     {
