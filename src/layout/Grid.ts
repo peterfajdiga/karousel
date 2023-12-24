@@ -4,7 +4,7 @@ class Grid {
     private readonly columns: LinkedList<Column>;
     private lastFocusedColumn: Column|null;
     private width: number;
-    private userResize: boolean; // is any part of the grid being resized by the user
+    public userResize: boolean; // is any part of the grid being resized by the user
     private readonly userResizeFinishedDelayer: Delayer;
 
     constructor(desktop: Desktop, config: LayoutConfig) {
