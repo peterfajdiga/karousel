@@ -255,12 +255,12 @@ class Grid {
         this.columns.remove(column);
         this.columnsSetX(nextColumn);
 
+        this.desktop.onLayoutChanged();
         if (passFocus && columnToFocus !== null) {
             columnToFocus.focus();
         } else {
             this.desktop.autoAdjustScroll();
         }
-        this.desktop.onLayoutChanged();
     }
 
     public onColumnMoved(column: Column, prevColumn: Column|null) {
