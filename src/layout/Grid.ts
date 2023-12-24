@@ -134,22 +134,6 @@ class Grid {
         return width;
     }
 
-    private getLeftOffScreenColumn(visibleRange: Desktop.Range) {
-        const leftVisible = this.getLeftmostVisibleColumn(visibleRange, true);
-        if (leftVisible === null) {
-            return null;
-        }
-        return this.getPrevColumn(leftVisible);
-    }
-
-    private getRightOffScreenColumn(visibleRange: Desktop.Range) {
-        const rightVisible = this.getRightmostVisibleColumn(visibleRange, true);
-        if (rightVisible === null) {
-            return null;
-        }
-        return this.getNextColumn(rightVisible);
-    }
-
     public increaseColumnWidth(column: Column) {
         const visibleRange = this.desktop.calculateVisibleRange(column);
         if(!column.isVisible(visibleRange, true) || column.getWidth() >= column.getMaxWidth()) {
