@@ -180,9 +180,9 @@ class Column {
         window.focus();
     }
 
-    public arrange(x: number) {
-        if (this.grid.config.offScreenOpacity < 1.0 && !this.grid.userResize) {
-            const opacity = this.isVisible(this.grid.desktop.getCurrentVisibleRange(), true) ? 100 : this.grid.config.offScreenOpacity;
+    public arrange(x: number, visibleRange: Range, forceOpaque: boolean) {
+        if (this.grid.config.offScreenOpacity < 1.0 && !forceOpaque) {
+            const opacity = this.isVisible(visibleRange, true) ? 100 : this.grid.config.offScreenOpacity;
             for (const window of this.windows.iterator()) {
                 window.client.kwinClient.opacity = opacity;
             }

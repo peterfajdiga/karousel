@@ -161,7 +161,7 @@ class Desktop {
         if (!this.dirty) {
             return;
         }
-        this.grid.arrange(this.tilingArea.x - this.scrollX);
+        this.grid.arrange(this.tilingArea.x - this.scrollX, this.getCurrentVisibleRange());
         this.dirty = false;
     }
 

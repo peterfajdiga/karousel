@@ -1,10 +1,12 @@
+import Range = Desktop.Range;
+
 class Grid {
     public readonly desktop: Desktop;
     public readonly config: LayoutConfig;
     private readonly columns: LinkedList<Column>;
     private lastFocusedColumn: Column|null;
     private width: number;
-    public userResize: boolean; // is any part of the grid being resized by the user
+    private userResize: boolean; // is any part of the grid being resized by the user
     private readonly userResizeFinishedDelayer: Delayer;
 
     constructor(desktop: Desktop, config: LayoutConfig) {
@@ -231,9 +233,9 @@ class Grid {
         }
     }
 
-    public arrange(x: number) {
+    public arrange(x: number, visibleRange: Range) {
         for (const column of this.columns.iterator()) {
-            column.arrange(x);
+            column.arrange(x, visibleRange, this.userResize);
             x += column.getWidth() + this.config.gapsInnerHorizontal;
         }
 
