@@ -224,12 +224,16 @@ class Grid {
             const deltaWidth = rightSpace - leftInvisibleWidth;
             column.adjustWidth(deltaWidth, true);
             console.assert(leftOffScreenColumn !== null);
-            this.desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftOffScreenColumn!, rightVisibleColumn));
+            const newVisibleWidth = rightVisibleColumn.getRight() - leftOffScreenColumn!.getLeft();
+            const leftVisibleColumn = newVisibleWidth <= visibleRange.getWidth() ? leftOffScreenColumn! : this.getNextColumn(leftOffScreenColumn!)!;
+            this.desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
         } else {
             const deltaWidth = leftSpace - rightInvisibleWidth;
             column.adjustWidth(deltaWidth, true);
             console.assert(rightOffScreenColumn !== null);
-            this.desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightOffScreenColumn!));
+            const newVisibleWidth = rightOffScreenColumn!.getRight() - leftVisibleColumn.getLeft();
+            const rightVisibleColumn = newVisibleWidth <= visibleRange.getWidth() ? rightOffScreenColumn! : this.getPrevColumn(rightOffScreenColumn!)!;
+            this.desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
         }
     }
 
