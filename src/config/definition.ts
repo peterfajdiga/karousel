@@ -8,7 +8,15 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "org.kde.kcalc",
+        "tile": false
+    },
+    {
         "class": "kfind",
+        "tile": true
+    },
+    {
+        "class": "org.kde.kfind",
         "tile": true
     },
     {
@@ -16,11 +24,23 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "org.kde.kruler",
+        "tile": false
+    },
+    {
         "class": "krunner",
         "tile": false
     },
     {
+        "class": "org.kde.krunner",
+        "tile": false
+    },
+    {
         "class": "yakuake",
+        "tile": false
+    },
+    {
+        "class": "org.kde.yakuake",
         "tile": false
     },
     {
