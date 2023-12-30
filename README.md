@@ -52,6 +52,7 @@ Here's the default ones:
 | Meta+Ctrl+Shift+End      | Move column to end                                                                                                             |
 | Meta+Ctrl++              | Increase column width                                                                                                          |
 | Meta+Ctrl+-              | Decrease column width                                                                                                          |
+| Meta+Ctrl+X              | Equalize widths of visible columns                                                                                             |
 | Meta+Alt+Return          | Center focused window (Scrolls so that the focused window is centered in the screen)                                           |
 | Meta+Alt+A               | Scroll one column to the left                                                                                                  |
 | Meta+Alt+D               | Scroll one column to the right                                                                                                 |
