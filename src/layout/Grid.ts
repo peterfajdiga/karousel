@@ -275,10 +275,10 @@ class Grid {
     public onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
+        this.desktop.onLayoutChanged();
         if (!this.userResize) {
             this.desktop.autoAdjustScroll();
         }
-        this.desktop.onLayoutChanged();
     }
 
     public onColumnFocused(column: Column) {
