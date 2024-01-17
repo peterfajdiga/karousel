@@ -95,6 +95,14 @@ class Desktop {
         this.adjustScroll(Math.round(windowCenter - screenCenter), false);
     }
 
+    public scrollCenterVisible(focusedColumn: Column) {
+        const columnRange = new Desktop.ColumnRange(focusedColumn);
+        const visibleRange = this.getCurrentVisibleRange();
+        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, true);
+        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, false);
+        this.scrollCenterRange(columnRange);
+    }
+
     public autoAdjustScroll() {
         const focusedColumn = this.grid.getLastFocusedColumn();
         if (focusedColumn === null || focusedColumn.grid !== this.grid) {
@@ -222,6 +230,70 @@ namespace Desktop {
             const left = leftRange.getLeft();
             const right = rightRange.getRight();
             return new RangeImpl(left, right - left);
+        }
+    }
+
+    export class ColumnRange {
+        private left: Column;
+        private right: Column;
+        private width: number;
+
+        constructor(initialColumn: Column) {
+            this.left = initialColumn;
+            this.right = initialColumn;
+            this.width = initialColumn.getWidth();
+        }
+
+        public addNeighbors(visibleRange: Desktop.Range, gap: number, requireVisible: boolean) {
+            const grid = this.left.grid;
+
+            let leftColumn: Column|null = this.left;
+            while (true) {
+                leftColumn = grid.getPrevColumn(leftColumn);
+                if (
+                    leftColumn === null ||
+                    requireVisible && !leftColumn.isVisible(visibleRange, true) ||
+                    this.width + gap + leftColumn.getWidth() > visibleRange.getWidth()
+                ) {
+                    break;
+                }
+                this.addLeft(leftColumn, gap);
+            }
+
+            let rightColumn: Column|null = this.right;
+            while (true) {
+                rightColumn = grid.getNextColumn(rightColumn);
+                if (
+                    rightColumn === null ||
+                    requireVisible && !rightColumn.isVisible(visibleRange, true) ||
+                    this.width + gap + rightColumn.getWidth() > visibleRange.getWidth()
+                ) {
+                    break;
+                }
+                this.addRight(rightColumn, gap);
+            }
+        }
+
+        public addLeft(column: Column, gap: number) {
+            this.left = column;
+            this.width += column.getWidth() + gap;
+        }
+
+        public addRight(column: Column, gap: number) {
+            this.right = column;
+            this.width += column.getWidth() + gap;
+        }
+
+        public getLeft() {
+            return this.left.getLeft();
+        }
+
+        public getRight() {
+            return this.right.getRight();
+        }
+
+        public getWidth() {
+            return this.width;
         }
     }
 

@@ -43,7 +43,7 @@ class World {
                 overscroll: config.overscroll,
                 scroller: config.scrollingLazy ? new ScrollerLazy() :
                     config.scrollingCentered ? new ScrollerCentered() :
-                    config.scrollingGrouped ? new ScrollerGrouped(layoutConfig) :
+                    config.scrollingGrouped ? new ScrollerGrouped() :
                     console.assert(false),
             },
             layoutConfig,
