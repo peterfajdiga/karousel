@@ -182,18 +182,19 @@ namespace Actions {
                     const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
                     const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
 
-                    const widthSteps = [
-                        visibleRange.getWidth(),
-                        column.getWidth() + config.manualResizeStep,
-                        column.getWidth() + leftSpace + rightSpace,
-                    ].sort((a, b) => a - b);
-
-                    const nextWidthStep = widthSteps.find(width => width > column.getWidth());
-                    if (nextWidthStep === undefined) {
+                    const newWidth = findNextStep(
+                        [
+                            visibleRange.getWidth(),
+                            column.getWidth() + config.manualResizeStep,
+                            column.getWidth() + leftSpace + rightSpace,
+                        ],
+                        width => width - column.getWidth(),
+                    )
+                    if (newWidth === undefined) {
                         return;
                     }
 
-                    column.setWidth(nextWidthStep, true);
+                    column.setWidth(newWidth, true);
                     desktop.scrollCenterVisible(column);
                     desktop.onLayoutChanged();
                     desktop.autoAdjustScroll();
@@ -229,19 +230,20 @@ namespace Actions {
                     const leftOffScreen = leftOffScreenColumn === null ? 0 : leftOffScreenColumn.getWidth() + grid.config.gapsInnerHorizontal - unusedWidth;
                     const rightOffScreen = rightOffScreenColumn === null ? 0 : rightOffScreenColumn.getWidth() + grid.config.gapsInnerHorizontal - unusedWidth;
 
-                    const widthSteps = [
-                        visibleRange.getWidth(),
-                        column.getWidth() - config.manualResizeStep,
-                        column.getWidth() - leftOffScreen,
-                        column.getWidth() - rightOffScreen,
-                    ].sort((a, b) => b - a);
-
-                    const nextWidthStep = widthSteps.find(width => width < column.getWidth());
-                    if (nextWidthStep === undefined) {
+                    const newWidth = findNextStep(
+                        [
+                            visibleRange.getWidth(),
+                            column.getWidth() - config.manualResizeStep,
+                            column.getWidth() - leftOffScreen,
+                            column.getWidth() - rightOffScreen,
+                        ],
+                        width => column.getWidth() - width,
+                    )
+                    if (newWidth === undefined) {
                         return;
                     }
 
-                    column.setWidth(nextWidthStep, true);
+                    column.setWidth(newWidth, true);
                     desktop.scrollCenterVisible(column);
                     desktop.onLayoutChanged();
                     desktop.autoAdjustScroll();
@@ -393,6 +395,19 @@ namespace Actions {
             const grid = desktopManager.getCurrentDesktop().grid;
             grid.desktop.adjustScroll(amount, false);
         });
+    }
+
+    function findNextStep(steps: number[], evaluate: (step: number) => number) {
+        let bestScore = Infinity;
+        let bestStep = undefined;
+        for (const step of steps) {
+            const score = evaluate(step);
+            if (score > 0 && score < bestScore) {
+                bestScore = score;
+                bestStep = step;
+            }
+        }
+        return bestStep;
     }
 
     export type Config = {
