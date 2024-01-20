@@ -166,13 +166,94 @@ namespace Actions {
 
             columnWidthIncrease: () => {
                 world.doIfTiledFocused(false, (world, desktopManager, window, column, grid) => {
-                    grid.increaseColumnWidth(column);
+                    const desktop = grid.desktop;
+                    const visibleRange = desktop.calculateVisibleRange(column);
+                    if(!column.isVisible(visibleRange, true) || column.getWidth() >= column.getMaxWidth()) {
+                        return;
+                    }
+
+                    let leftVisibleColumn = grid.getLeftmostVisibleColumn(visibleRange, true);
+                    let rightVisibleColumn = grid.getRightmostVisibleColumn(visibleRange, true);
+                    if (leftVisibleColumn === null || rightVisibleColumn === null) {
+                        console.assert(false);
+                        return;
+                    }
+
+                    const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
+                    const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
+                    if (leftSpace + rightSpace > 0) {
+                        column.adjustWidth(leftSpace + rightSpace, true);
+                    } else {
+                        // left and right columns are touching the screen's edges
+                        const leftSpace = leftVisibleColumn === column ? Infinity : leftVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal;
+                        const rightSpace = rightVisibleColumn === column ? Infinity : rightVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal;
+                        if (leftSpace < rightSpace) {
+                            column.adjustWidth(leftSpace, true);
+                            leftVisibleColumn = grid.getNextColumn(leftVisibleColumn)!;
+                        } else {
+                            column.adjustWidth(rightSpace, true);
+                            rightVisibleColumn = grid.getPrevColumn(rightVisibleColumn)!;
+                        }
+                    }
+
+                    desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
                 });
             },
 
             columnWidthDecrease: () => {
                 world.doIfTiledFocused(false, (world, desktopManager, window, column, grid) => {
-                    grid.decreaseColumnWidth(column);
+                    const desktop = grid.desktop;
+                    const visibleRange = desktop.calculateVisibleRange(column);
+                    if (!column.isVisible(visibleRange, true)) {
+                        return;
+                    }
+
+                    if (grid.getWidth() <= visibleRange.getWidth()) {
+                        column.setWidth(Math.round(column.getWidth() / 2), true);
+                        return;
+                    }
+
+                    const leftVisibleColumn = grid.getLeftmostVisibleColumn(visibleRange, true);
+                    const rightVisibleColumn = grid.getRightmostVisibleColumn(visibleRange, true);
+                    if (leftVisibleColumn === null || rightVisibleColumn === null) {
+                        console.assert(false);
+                        return;
+                    }
+
+                    let leftOffScreenColumn = grid.getPrevColumn(leftVisibleColumn);
+                    if (leftOffScreenColumn === column) {
+                        leftOffScreenColumn = null;
+                    }
+                    let rightOffScreenColumn = grid.getNextColumn(rightVisibleColumn);
+                    if (rightOffScreenColumn === column) {
+                        rightOffScreenColumn = null;
+                    }
+                    if (leftOffScreenColumn === null && rightOffScreenColumn === null) {
+                        console.assert(false);
+                        return;
+                    }
+
+                    const leftInvisibleWidth = leftOffScreenColumn === null ? Infinity : visibleRange.getLeft() - leftOffScreenColumn.getLeft();
+                    const rightInvisibleWidth = rightOffScreenColumn === null ? Infinity : rightOffScreenColumn.getRight() - visibleRange.getRight();
+
+                    const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
+                    const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
+
+                    if (leftInvisibleWidth < rightInvisibleWidth) {
+                        const deltaWidth = rightSpace - leftInvisibleWidth;
+                        column.adjustWidth(deltaWidth, true);
+                        console.assert(leftOffScreenColumn !== null);
+                        const newVisibleWidth = rightVisibleColumn.getRight() - leftOffScreenColumn!.getLeft();
+                        const leftVisibleColumn = newVisibleWidth <= visibleRange.getWidth() ? leftOffScreenColumn! : grid.getNextColumn(leftOffScreenColumn!)!;
+                        desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
+                    } else {
+                        const deltaWidth = leftSpace - rightInvisibleWidth;
+                        column.adjustWidth(deltaWidth, true);
+                        console.assert(rightOffScreenColumn !== null);
+                        const newVisibleWidth = rightOffScreenColumn!.getRight() - leftVisibleColumn.getLeft();
+                        const rightVisibleColumn = newVisibleWidth <= visibleRange.getWidth() ? rightOffScreenColumn! : grid.getPrevColumn(rightOffScreenColumn!)!;
+                        desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
+                    }
                 });
             },
 
