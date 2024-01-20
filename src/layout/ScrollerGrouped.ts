@@ -1,6 +1,6 @@
 class ScrollerGrouped {
     public scrollToColumn(desktop: Desktop, column: Column) {
-        desktop.scrollCenterVisible(column);
+        desktop.scrollCenterVisible(column, true);
     }
 
     public clampScrollX(desktop: Desktop, x: number) {

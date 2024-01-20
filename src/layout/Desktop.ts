@@ -78,10 +78,12 @@ class Desktop {
         this.adjustScroll(Math.round(windowCenter - screenCenter), false);
     }
 
-    public scrollCenterVisible(focusedColumn: Column) {
+    public scrollCenterVisible(focusedColumn: Column, prioritiseVisible: boolean) {
         const columnRange = new Desktop.ColumnRange(focusedColumn);
         const visibleRange = this.getCurrentVisibleRange();
-        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, column => column.isVisible(visibleRange, true));
+        if (prioritiseVisible) {
+            columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, column => column.isVisible(visibleRange, true));
+        }
         columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, () => true);
         this.scrollCenterRange(columnRange);
     }
