@@ -394,12 +394,29 @@ namespace Actions {
     }
 
     function getWidthSteps(screenWidth: number, ...steps: number[]) {
-        steps.push(
-            screenWidth,
+        const relativeSteps = [
             Math.round(screenWidth * 0.75),
             Math.round(screenWidth * 0.5),
             Math.round(screenWidth * 0.25),
-        );
+        ];
+
+        function shouldAdd(relativeStep: number) {
+            for (const step of steps) {
+                const diff = Math.abs(relativeStep - step);
+                if (diff < 400) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        for (const relativeStep of relativeSteps) {
+            if (shouldAdd(relativeStep)) {
+                steps.push(relativeStep);
+            }
+        }
+
+        steps.push(screenWidth);
         return steps;
     }
 
