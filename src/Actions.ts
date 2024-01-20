@@ -175,28 +175,27 @@ namespace Actions {
                     let leftVisibleColumn = grid.getLeftmostVisibleColumn(visibleRange, true);
                     let rightVisibleColumn = grid.getRightmostVisibleColumn(visibleRange, true);
                     if (leftVisibleColumn === null || rightVisibleColumn === null) {
-                        console.assert(false);
+                        console.assert(false); // should at least see self
                         return;
                     }
 
                     const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
                     const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
-                    if (leftSpace + rightSpace > 0) {
-                        column.adjustWidth(leftSpace + rightSpace, true);
-                    } else {
-                        // left and right columns are touching the screen's edges
-                        const leftSpace = leftVisibleColumn === column ? Infinity : leftVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal;
-                        const rightSpace = rightVisibleColumn === column ? Infinity : rightVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal;
-                        if (leftSpace < rightSpace) {
-                            column.adjustWidth(leftSpace, true);
-                            leftVisibleColumn = grid.getNextColumn(leftVisibleColumn)!;
-                        } else {
-                            column.adjustWidth(rightSpace, true);
-                            rightVisibleColumn = grid.getPrevColumn(rightVisibleColumn)!;
-                        }
+
+                    const widthSteps = getWidthSteps(
+                        visibleRange.getWidth(),
+                        column.getWidth() + leftSpace + rightSpace,
+                    ).sort((a, b) => a - b);
+
+                    const nextWidthStep = widthSteps.find(width => width > column.getWidth());
+                    if (nextWidthStep === undefined) {
+                        return;
                     }
 
-                    desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
+                    column.setWidth(nextWidthStep, true);
+                    desktop.scrollCenterVisible(column);
+                    desktop.onLayoutChanged();
+                    desktop.autoAdjustScroll();
                 });
             },
 
@@ -204,19 +203,14 @@ namespace Actions {
                 world.doIfTiledFocused(false, (clientManager, desktopManager, window, column, grid) => {
                     const desktop = grid.desktop;
                     const visibleRange = desktop.getCurrentVisibleRange();
-                    if (!column.isVisible(visibleRange, true)) {
-                        return;
-                    }
-
-                    if (grid.getWidth() <= visibleRange.getWidth()) {
-                        column.setWidth(Math.round(column.getWidth() / 2), true);
+                    if(!column.isVisible(visibleRange, true) || column.getWidth() <= column.getMinWidth()) {
                         return;
                     }
 
                     const leftVisibleColumn = grid.getLeftmostVisibleColumn(visibleRange, true);
                     const rightVisibleColumn = grid.getRightmostVisibleColumn(visibleRange, true);
                     if (leftVisibleColumn === null || rightVisibleColumn === null) {
-                        console.assert(false);
+                        console.assert(false); // should at least see self
                         return;
                     }
 
@@ -228,32 +222,25 @@ namespace Actions {
                     if (rightOffScreenColumn === column) {
                         rightOffScreenColumn = null;
                     }
-                    if (leftOffScreenColumn === null && rightOffScreenColumn === null) {
-                        console.assert(false);
+
+                    const leftOffScreen = leftOffScreenColumn === null ? 0 : visibleRange.getLeft() - leftOffScreenColumn.getLeft();
+                    const rightOffScreen = rightOffScreenColumn === null ? 0 : rightOffScreenColumn.getRight() - visibleRange.getRight();
+
+                    const widthSteps = getWidthSteps(
+                        visibleRange.getWidth(),
+                        column.getWidth() - leftOffScreen,
+                        column.getWidth() - rightOffScreen,
+                    ).sort((a, b) => b - a);
+
+                    const nextWidthStep = widthSteps.find(width => width < column.getWidth());
+                    if (nextWidthStep === undefined) {
                         return;
                     }
 
-                    const leftInvisibleWidth = leftOffScreenColumn === null ? Infinity : visibleRange.getLeft() - leftOffScreenColumn.getLeft();
-                    const rightInvisibleWidth = rightOffScreenColumn === null ? Infinity : rightOffScreenColumn.getRight() - visibleRange.getRight();
-
-                    const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
-                    const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
-
-                    if (leftInvisibleWidth < rightInvisibleWidth) {
-                        const deltaWidth = rightSpace - leftInvisibleWidth;
-                        column.adjustWidth(deltaWidth, true);
-                        console.assert(leftOffScreenColumn !== null);
-                        const newVisibleWidth = rightVisibleColumn.getRight() - leftOffScreenColumn!.getLeft();
-                        const leftVisibleColumn = newVisibleWidth <= visibleRange.getWidth() ? leftOffScreenColumn! : grid.getNextColumn(leftOffScreenColumn!)!;
-                        desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
-                    } else {
-                        const deltaWidth = leftSpace - rightInvisibleWidth;
-                        column.adjustWidth(deltaWidth, true);
-                        console.assert(rightOffScreenColumn !== null);
-                        const newVisibleWidth = rightOffScreenColumn!.getRight() - leftVisibleColumn.getLeft();
-                        const rightVisibleColumn = newVisibleWidth <= visibleRange.getWidth() ? rightOffScreenColumn! : grid.getPrevColumn(rightOffScreenColumn!)!;
-                        desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(leftVisibleColumn, rightVisibleColumn));
-                    }
+                    column.setWidth(nextWidthStep, true);
+                    desktop.scrollCenterVisible(column);
+                    desktop.onLayoutChanged();
+                    desktop.autoAdjustScroll();
                 });
             },
 
@@ -402,6 +389,16 @@ namespace Actions {
             const grid = desktopManager.getCurrentDesktop().grid;
             grid.desktop.adjustScroll(amount, false);
         });
+    }
+
+    function getWidthSteps(screenWidth: number, ...steps: number[]) {
+        steps.push(
+            screenWidth,
+            Math.round(screenWidth * 0.75),
+            Math.round(screenWidth * 0.5),
+            Math.round(screenWidth * 0.25),
+        );
+        return steps;
     }
 
     export type Config = {
