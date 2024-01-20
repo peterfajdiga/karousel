@@ -223,8 +223,10 @@ namespace Actions {
                         rightOffScreenColumn = null;
                     }
 
-                    const leftOffScreen = leftOffScreenColumn === null ? 0 : visibleRange.getLeft() - leftOffScreenColumn.getLeft();
-                    const rightOffScreen = rightOffScreenColumn === null ? 0 : rightOffScreenColumn.getRight() - visibleRange.getRight();
+                    const visibleColumnsWidth = rightVisibleColumn.getRight() - leftVisibleColumn.getLeft();
+                    const unusedWidth = visibleRange.getWidth() - visibleColumnsWidth;
+                    const leftOffScreen = leftOffScreenColumn === null ? 0 : leftOffScreenColumn.getWidth() + grid.config.gapsInnerHorizontal - unusedWidth;
+                    const rightOffScreen = rightOffScreenColumn === null ? 0 : rightOffScreenColumn.getWidth() + grid.config.gapsInnerHorizontal - unusedWidth;
 
                     const widthSteps = getWidthSteps(
                         visibleRange.getWidth(),
