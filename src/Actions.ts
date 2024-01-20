@@ -187,6 +187,8 @@ namespace Actions {
                             visibleRange.getWidth(),
                             column.getWidth() + config.manualResizeStep,
                             column.getWidth() + leftSpace + rightSpace,
+                            column.getWidth() + leftSpace + rightSpace + leftVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal,
+                            column.getWidth() + leftSpace + rightSpace + rightVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal,
                         ],
                         width => width - column.getWidth(),
                     )
