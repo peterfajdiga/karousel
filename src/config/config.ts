@@ -6,6 +6,7 @@ type Config = {
     gapsInnerHorizontal: number,
     gapsInnerVertical: number,
     manualScrollStep: number,
+    manualResizeStep: number,
     offScreenOpacity: number,
     untileOnDrag: boolean,
     stackColumnsByDefault: boolean,

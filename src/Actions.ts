@@ -182,10 +182,11 @@ namespace Actions {
                     const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
                     const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
 
-                    const widthSteps = getWidthSteps(
+                    const widthSteps = [
                         visibleRange.getWidth(),
+                        column.getWidth() + config.manualResizeStep,
                         column.getWidth() + leftSpace + rightSpace,
-                    ).sort((a, b) => a - b);
+                    ].sort((a, b) => a - b);
 
                     const nextWidthStep = widthSteps.find(width => width > column.getWidth());
                     if (nextWidthStep === undefined) {
@@ -228,11 +229,12 @@ namespace Actions {
                     const leftOffScreen = leftOffScreenColumn === null ? 0 : leftOffScreenColumn.getWidth() + grid.config.gapsInnerHorizontal - unusedWidth;
                     const rightOffScreen = rightOffScreenColumn === null ? 0 : rightOffScreenColumn.getWidth() + grid.config.gapsInnerHorizontal - unusedWidth;
 
-                    const widthSteps = getWidthSteps(
+                    const widthSteps = [
                         visibleRange.getWidth(),
+                        column.getWidth() - config.manualResizeStep,
                         column.getWidth() - leftOffScreen,
                         column.getWidth() - rightOffScreen,
-                    ).sort((a, b) => b - a);
+                    ].sort((a, b) => b - a);
 
                     const nextWidthStep = widthSteps.find(width => width < column.getWidth());
                     if (nextWidthStep === undefined) {
@@ -393,34 +395,8 @@ namespace Actions {
         });
     }
 
-    function getWidthSteps(screenWidth: number, ...steps: number[]) {
-        const relativeSteps = [
-            Math.round(screenWidth * 0.75),
-            Math.round(screenWidth * 0.5),
-            Math.round(screenWidth * 0.25),
-        ];
-
-        function shouldAdd(relativeStep: number) {
-            for (const step of steps) {
-                const diff = Math.abs(relativeStep - step);
-                if (diff < 400) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        for (const relativeStep of relativeSteps) {
-            if (shouldAdd(relativeStep)) {
-                steps.push(relativeStep);
-            }
-        }
-
-        steps.push(screenWidth);
-        return steps;
-    }
-
     export type Config = {
         manualScrollStep: number,
+        manualResizeStep: number,
     };
 }

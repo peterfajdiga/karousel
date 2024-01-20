@@ -107,6 +107,11 @@ const configDef = [
         "default": 200
     },
     {
+        "name": "manualResizeStep",
+        "type": "UInt",
+        "default": 600
+    },
+    {
         "name": "offScreenOpacity",
         "type": "UInt",
         "default": 100
