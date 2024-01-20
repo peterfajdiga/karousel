@@ -98,8 +98,8 @@ class Desktop {
     public scrollCenterVisible(focusedColumn: Column) {
         const columnRange = new Desktop.ColumnRange(focusedColumn);
         const visibleRange = this.getCurrentVisibleRange();
-        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, true);
-        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, false);
+        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, column => column.isVisible(visibleRange, true));
+        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, () => true);
         this.scrollCenterRange(columnRange);
     }
 
@@ -244,7 +244,7 @@ namespace Desktop {
             this.width = initialColumn.getWidth();
         }
 
-        public addNeighbors(visibleRange: Desktop.Range, gap: number, requireVisible: boolean) {
+        public addNeighbors(visibleRange: Desktop.Range, gap: number, condition: (column: Column) => boolean) {
             const grid = this.left.grid;
 
             let leftColumn: Column|null = this.left;
@@ -252,7 +252,7 @@ namespace Desktop {
                 leftColumn = grid.getPrevColumn(leftColumn);
                 if (
                     leftColumn === null ||
-                    requireVisible && !leftColumn.isVisible(visibleRange, true) ||
+                    !condition(leftColumn) ||
                     this.width + gap + leftColumn.getWidth() > visibleRange.getWidth()
                 ) {
                     break;
@@ -265,7 +265,7 @@ namespace Desktop {
                 rightColumn = grid.getNextColumn(rightColumn);
                 if (
                     rightColumn === null ||
-                    requireVisible && !rightColumn.isVisible(visibleRange, true) ||
+                    !condition(rightColumn) ||
                     this.width + gap + rightColumn.getWidth() > visibleRange.getWidth()
                 ) {
                     break;
