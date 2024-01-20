@@ -247,30 +247,39 @@ namespace Desktop {
         public addNeighbors(visibleRange: Desktop.Range, gap: number, condition: (column: Column) => boolean) {
             const grid = this.left.grid;
 
-            let leftColumn: Column|null = this.left;
-            while (true) {
-                leftColumn = grid.getPrevColumn(leftColumn);
-                if (
-                    leftColumn === null ||
-                    !condition(leftColumn) ||
-                    this.width + gap + leftColumn.getWidth() > visibleRange.getWidth()
-                ) {
-                    break;
-                }
-                this.addLeft(leftColumn, gap);
+            const columnRange = this;
+            function canFit(column: Column) {
+                return columnRange.width + gap + column.getWidth() <= visibleRange.getWidth()
+            }
+            function isUsable(column: Column|null) {
+                return column !== null &&
+                    canFit(column) &&
+                    condition(column)
             }
 
-            let rightColumn: Column|null = this.right;
-            while (true) {
-                rightColumn = grid.getNextColumn(rightColumn);
-                if (
-                    rightColumn === null ||
-                    !condition(rightColumn) ||
-                    this.width + gap + rightColumn.getWidth() > visibleRange.getWidth()
-                ) {
-                    break;
+            let leftColumn = grid.getPrevColumn(this.left);
+            let rightColumn = grid.getNextColumn(this.right);
+            function checkColumns() {
+                if (!isUsable(leftColumn)) {
+                    leftColumn = null;
                 }
-                this.addRight(rightColumn, gap);
+                if (!isUsable(rightColumn)) {
+                    rightColumn = null;
+                }
+            }
+            checkColumns();
+
+            while (leftColumn !== null || rightColumn !== null) {
+                const leftWidth = leftColumn === null ? 0 : leftColumn.getWidth();
+                const rightWidth = rightColumn === null ? 0 : rightColumn.getWidth();
+                if (leftWidth > rightWidth) {
+                    this.addLeft(leftColumn!, gap);
+                    leftColumn = grid.getPrevColumn(leftColumn!);
+                } else {
+                    this.addRight(rightColumn!, gap);
+                    rightColumn = grid.getNextColumn(rightColumn!);
+                }
+                checkColumns();
             }
         }
 
