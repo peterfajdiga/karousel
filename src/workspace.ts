@@ -38,7 +38,7 @@ function initWorkspaceSignalHandlers(world: World) {
         if ((horizontally || vertically) && kwinClient.tile !== null) {
             kwinClient.tile = null;
         }
-        world.doIfTiled(kwinClient, false, (world, desktopManager, window, column, grid) => {
+        world.doIfTiled(kwinClient, false, (clientManager, desktopManager, window, column, grid) => {
             window.onMaximizedChanged(horizontally, vertically);
         });
     });
