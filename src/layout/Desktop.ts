@@ -55,25 +55,7 @@ class Desktop {
         )
     }
 
-    // calculates a Range that scrolls the contained Range into view
-    public calculateVisibleRange(containedRange: Desktop.Range) {
-        const left = containedRange.getLeft();
-        const right = containedRange.getRight();
-        const initialVisibleRange = this.getCurrentVisibleRange();
-
-        let targetScrollX: number;
-        if (left < initialVisibleRange.getLeft()) {
-            targetScrollX = left;
-        } else if (right > initialVisibleRange.getRight()) {
-            targetScrollX = right - this.tilingArea.width;
-        } else {
-            return this.getVisibleRange(this.clampScrollX(this.scrollX));
-        }
-
-        return this.getVisibleRange(this.clampScrollX(targetScrollX));
-    }
-
-    public scrollToRange(range: Desktop.Range) {
+    public scrollIntoView(range: Desktop.Range) {
         const left = range.getLeft();
         const right = range.getRight();
         const initialVisibleRange = this.getCurrentVisibleRange();

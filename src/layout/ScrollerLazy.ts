@@ -1,6 +1,6 @@
 class ScrollerLazy {
     public scrollToColumn(desktop: Desktop, column: Column) {
-        desktop.scrollToRange(column);
+        desktop.scrollIntoView(column);
     }
 
     public clampScrollX(desktop: Desktop, x: number) {
