@@ -149,11 +149,26 @@ class Desktop {
 
         let remainingWidth = this.tilingArea.width - (visibleColumns.length-1) * this.grid.config.gapsInnerHorizontal;
         let remainingColumns = visibleColumns.length;
+
+        const minWidths = visibleColumns.map(column => column.getMinWidth()).sort((a, b) => b - a);
+        for (const minWidth of minWidths) {
+            if (minWidth > remainingWidth / remainingColumns) {
+                remainingWidth -= minWidth;
+                remainingColumns--;
+            }
+        }
+
+        const avgWidth = remainingWidth / remainingColumns;
         for (const column of visibleColumns) {
-            const columnWidth = Math.round(remainingWidth / remainingColumns);
-            column.setWidth(columnWidth, true);
-            remainingWidth -= columnWidth;
-            remainingColumns--;
+            const minWidth = column.getMinWidth();
+            if (minWidth > avgWidth) {
+                column.setWidth(minWidth, true);
+            } else {
+                const columnWidth = Math.round(remainingWidth / remainingColumns);
+                column.setWidth(columnWidth, true);
+                remainingWidth -= column.getWidth();
+                remainingColumns--;
+            }
         }
 
         const targetVisibleRange = Desktop.RangeImpl.fromRanges(
