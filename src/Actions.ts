@@ -167,7 +167,7 @@ namespace Actions {
             columnWidthIncrease: () => {
                 world.doIfTiledFocused(false, (clientManager, desktopManager, window, column, grid) => {
                     const desktop = grid.desktop;
-                    const visibleRange = desktop.calculateVisibleRange(column);
+                    const visibleRange = desktop.getCurrentVisibleRange();
                     if(!column.isVisible(visibleRange, true) || column.getWidth() >= column.getMaxWidth()) {
                         return;
                     }
@@ -203,7 +203,7 @@ namespace Actions {
             columnWidthDecrease: () => {
                 world.doIfTiledFocused(false, (clientManager, desktopManager, window, column, grid) => {
                     const desktop = grid.desktop;
-                    const visibleRange = desktop.calculateVisibleRange(column);
+                    const visibleRange = desktop.getCurrentVisibleRange();
                     if (!column.isVisible(visibleRange, true)) {
                         return;
                     }
