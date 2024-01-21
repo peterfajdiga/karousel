@@ -171,11 +171,10 @@ class Desktop {
             }
         }
 
-        const targetVisibleRange = Desktop.RangeImpl.fromRanges(
+        this.scrollCenterRange(Desktop.RangeImpl.fromRanges(
             visibleColumns[0],
             visibleColumns[visibleColumns.length - 1],
-        );
-        this.setScroll(this.calculateVisibleRange(targetVisibleRange).getLeft(), false);
+        ));
     }
 
     public arrange() {
