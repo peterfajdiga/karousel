@@ -5,9 +5,20 @@ console.log(`<?xml version="1.0" encoding="UTF-8"?>
 
 for (const entry of configDef) {
     console.log(`        <entry name="${entry.name}" type="${entry.type}">
-            <default>${entry.default}</default>
+            <default>${escapeXml(entry.default)}</default>
         </entry>`);
 }
 
 console.log(`    </group>
 </kcfg>`);
+
+function escapeXml(input: any) {
+    if (typeof input === "string") {
+        return input
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    } else {
+        return input;
+    }
+}
