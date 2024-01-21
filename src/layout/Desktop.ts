@@ -74,7 +74,20 @@ class Desktop {
     }
 
     public scrollToRange(range: Desktop.Range) {
-        this.setScroll(this.calculateVisibleRange(range).getLeft(), true);
+        const left = range.getLeft();
+        const right = range.getRight();
+        const initialVisibleRange = this.getCurrentVisibleRange();
+
+        let targetScrollX: number;
+        if (left < initialVisibleRange.getLeft()) {
+            targetScrollX = left;
+        } else if (right > initialVisibleRange.getRight()) {
+            targetScrollX = right - this.tilingArea.width;
+        } else {
+            targetScrollX = initialVisibleRange.getLeft();
+        }
+
+        this.setScroll(targetScrollX, false);
     }
 
     public scrollCenterRange(range: Desktop.Range) {
