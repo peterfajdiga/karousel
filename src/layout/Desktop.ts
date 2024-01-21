@@ -70,19 +70,7 @@ class Desktop {
             return this.getVisibleRange(this.clampScrollX(this.scrollX));
         }
 
-        const overscroll = this.getTargetOverscroll(targetScrollX, left < initialVisibleRange.getLeft());
-        return this.getVisibleRange(this.clampScrollX(targetScrollX + overscroll));
-    }
-
-    private getTargetOverscroll(targetScrollX: number, scrollLeft: boolean) {
-        if (this.config.overscroll === 0) {
-            return 0;
-        }
-        const visibleColumnsWidth = this.grid.getVisibleColumnsWidth(this.getVisibleRange(targetScrollX), true);
-        const remainingSpace = this.tilingArea.width - visibleColumnsWidth;
-        const overscrollX = Math.min(this.config.overscroll, Math.round(remainingSpace / 2));
-        const direction = scrollLeft ? -1 : 1;
-        return overscrollX * direction;
+        return this.getVisibleRange(this.clampScrollX(targetScrollX));
     }
 
     public scrollToRange(range: Desktop.Range) {
@@ -209,7 +197,6 @@ namespace Desktop {
         marginBottom: number,
         marginLeft: number,
         marginRight: number,
-        overscroll: number,
         scroller: Desktop.Scroller,
     };
 

@@ -40,7 +40,6 @@ class World {
                 marginBottom: config.gapsOuterBottom,
                 marginLeft: config.gapsOuterLeft,
                 marginRight: config.gapsOuterRight,
-                overscroll: config.overscroll,
                 scroller: config.scrollingLazy ? new ScrollerLazy() :
                     config.scrollingCentered ? new ScrollerCentered() :
                     config.scrollingGrouped ? new ScrollerGrouped() :

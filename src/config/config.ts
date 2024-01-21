@@ -5,7 +5,6 @@ type Config = {
     gapsOuterRight: number,
     gapsInnerHorizontal: number,
     gapsInnerVertical: number,
-    overscroll: number,
     manualScrollStep: number,
     offScreenOpacity: number,
     untileOnDrag: boolean,
