@@ -1,6 +1,7 @@
 .PHONY: *
 
 TSC_SCRIPT_FLAGS = --lib es2020 ./src/extern/qt.d.ts
+VERSION = $(shell grep '"Version":' ./package/metadata.json | grep -o '[0-9\.]*')
 
 config:
 	mkdir -p ./package/contents/config
@@ -16,7 +17,7 @@ uninstall:
 	kpackagetool5 --type=KWin/Script -r ./package
 
 package:
-	tar -czf ./karousel.tar.gz ./package
+	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package
 
 logs:
 	journalctl -t kwin_x11 -g '^qml:|^file://.*karousel' -f
