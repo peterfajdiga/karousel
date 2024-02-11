@@ -11,6 +11,136 @@
         <layout class="QVBoxLayout" name="layout_main">
             <item>
                 <widget class="QTabWidget" name="tabContainer">
+                    <widget class="QWidget" name="tab_behavior">
+                        <attribute name="title">
+                            <string>Behavior</string>
+                        </attribute>
+                        <layout class="QVBoxLayout">
+                            <item>
+                                <widget class="QGroupBox">
+                                    <property name="flat">
+                                        <bool>true</bool>
+                                    </property>
+                                    <layout class="QVBoxLayout">
+                                        <item>
+                                            <widget class="QCheckBox" name="kcfg_untileOnDrag">
+                                                <property name="text">
+                                                    <string>Un-tile windows by dragging them</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QCheckBox" name="kcfg_stackColumnsByDefault">
+                                                <property name="text">
+                                                    <string>Stack columns by default</string>
+                                                </property>
+                                                <property name="toolTip">
+                                                    <string>New columns start in stacked mode (one window in the column visible, others shaded). Not supported on Wayland.</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QCheckBox" name="kcfg_resizeNeighborColumn">
+                                                <property name="text">
+                                                    <string>Resize neighbor column on edge resize</string>
+                                                </property>
+                                                <property name="toolTip">
+                                                    <string>When resizing a column by dragging its edge, also inversely resize the column on the other side of the edge</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QCheckBox" name="kcfg_reMaximize">
+                                                <property name="text">
+                                                    <string>Re-maximize tiled windows</string>
+                                                </property>
+                                                <property name="toolTip">
+                                                    <string>Restore maximized and full-screen states of tiled windows on focus</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QCheckBox" name="kcfg_skipSwitcher">
+                                                <property name="text">
+                                                    <string>Tiled windows skip switcher</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <widget class="QGroupBox">
+                                    <property name="title">
+                                        <string>Scrolling mode</string>
+                                    </property>
+                                    <layout class="QVBoxLayout">
+                                        <item>
+                                            <widget class="QRadioButton" name="kcfg_scrollingLazy">
+                                                <property name="text">
+                                                    <string>Only scroll as necessary</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QRadioButton" name="kcfg_scrollingCentered">
+                                                <property name="text">
+                                                    <string>Center focused column</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QRadioButton" name="kcfg_scrollingGrouped">
+                                                <property name="text">
+                                                    <string>Prevent needlessly obscuring columns</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <widget class="QGroupBox">
+                                    <property name="title">
+                                        <string>Layering mode</string>
+                                    </property>
+                                    <layout class="QVBoxLayout">
+                                        <item>
+                                            <widget class="QRadioButton" name="kcfg_tiledKeepBelow">
+                                                <property name="text">
+                                                    <string>Keep tiled windows below</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QRadioButton" name="kcfg_floatingKeepAbove">
+                                                <property name="text">
+                                                    <string>Keep floating windows above</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <spacer name="spacer_footer">
+                                    <property name="orientation">
+                                        <enum>Qt::Vertical</enum>
+                                    </property>
+                                    <property name="sizeHint" stdset="0">
+                                        <size>
+                                            <width>0</width>
+                                            <height>0</height>
+                                        </size>
+                                    </property>
+                                </spacer>
+                            </item>
+                        </layout>
+                    </widget>
+
                     <widget class="QWidget" name="tab_parameters">
                         <attribute name="title">
                             <string>Parameters</string>
@@ -203,136 +333,6 @@
                                         <number>0</number>
                                     </property>
                                 </widget>
-                            </item>
-                        </layout>
-                    </widget>
-
-                    <widget class="QWidget" name="tab_behavior">
-                        <attribute name="title">
-                            <string>Behavior</string>
-                        </attribute>
-                        <layout class="QVBoxLayout">
-                            <item>
-                                <widget class="QGroupBox">
-                                    <property name="flat">
-                                        <bool>true</bool>
-                                    </property>
-                                    <layout class="QVBoxLayout">
-                                        <item>
-                                            <widget class="QCheckBox" name="kcfg_untileOnDrag">
-                                                <property name="text">
-                                                    <string>Un-tile windows by dragging them</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item>
-                                            <widget class="QCheckBox" name="kcfg_stackColumnsByDefault">
-                                                <property name="text">
-                                                    <string>Stack columns by default</string>
-                                                </property>
-                                                <property name="toolTip">
-                                                    <string>New columns start in stacked mode (one window in the column visible, others shaded). Not supported on Wayland.</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item>
-                                            <widget class="QCheckBox" name="kcfg_resizeNeighborColumn">
-                                                <property name="text">
-                                                    <string>Resize neighbor column on edge resize</string>
-                                                </property>
-                                                <property name="toolTip">
-                                                    <string>When resizing a column by dragging its edge, also inversely resize the column on the other side of the edge</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item>
-                                            <widget class="QCheckBox" name="kcfg_reMaximize">
-                                                <property name="text">
-                                                    <string>Re-maximize tiled windows</string>
-                                                </property>
-                                                <property name="toolTip">
-                                                    <string>Restore maximized and full-screen states of tiled windows on focus</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item>
-                                            <widget class="QCheckBox" name="kcfg_skipSwitcher">
-                                                <property name="text">
-                                                    <string>Tiled windows skip switcher</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                    </layout>
-                                </widget>
-                            </item>
-
-                            <item>
-                                <widget class="QGroupBox">
-                                    <property name="title">
-                                        <string>Scrolling mode</string>
-                                    </property>
-                                    <layout class="QVBoxLayout">
-                                        <item>
-                                            <widget class="QRadioButton" name="kcfg_scrollingLazy">
-                                                <property name="text">
-                                                    <string>Only scroll as necessary</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item>
-                                            <widget class="QRadioButton" name="kcfg_scrollingCentered">
-                                                <property name="text">
-                                                    <string>Center focused column</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item>
-                                            <widget class="QRadioButton" name="kcfg_scrollingGrouped">
-                                                <property name="text">
-                                                    <string>Prevent needlessly obscuring columns</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                    </layout>
-                                </widget>
-                            </item>
-
-                            <item>
-                                <widget class="QGroupBox">
-                                    <property name="title">
-                                        <string>Layering mode</string>
-                                    </property>
-                                    <layout class="QVBoxLayout">
-                                        <item>
-                                            <widget class="QRadioButton" name="kcfg_tiledKeepBelow">
-                                                <property name="text">
-                                                    <string>Keep tiled windows below</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item>
-                                            <widget class="QRadioButton" name="kcfg_floatingKeepAbove">
-                                                <property name="text">
-                                                    <string>Keep floating windows above</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                    </layout>
-                                </widget>
-                            </item>
-
-                            <item>
-                                <spacer name="spacer_footer">
-                                    <property name="orientation">
-                                        <enum>Qt::Vertical</enum>
-                                    </property>
-                                    <property name="sizeHint" stdset="0">
-                                        <size>
-                                            <width>0</width>
-                                            <height>0</height>
-                                        </size>
-                                    </property>
-                                </spacer>
                             </item>
                         </layout>
                     </widget>
