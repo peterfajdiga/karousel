@@ -93,7 +93,7 @@
                                         <item>
                                             <widget class="QRadioButton" name="kcfg_scrollingGrouped">
                                                 <property name="text">
-                                                    <string>Prevent needlessly obscuring columns</string>
+                                                    <string>Center visible columns</string>
                                                 </property>
                                             </widget>
                                         </item>
