@@ -268,8 +268,8 @@ namespace Desktop {
             checkColumns();
 
             while (leftColumn !== null || rightColumn !== null) {
-                const leftWidth = leftColumn === null ? 0 : leftColumn.getWidth();
-                const rightWidth = rightColumn === null ? 0 : rightColumn.getWidth();
+                const leftWidth = leftColumn === null ? -Infinity : leftColumn.getWidth();
+                const rightWidth = rightColumn === null ? -Infinity : rightColumn.getWidth();
                 if (leftWidth > rightWidth) {
                     this.addLeft(leftColumn!, gap);
                     leftColumn = grid.getPrevColumn(leftColumn!);
