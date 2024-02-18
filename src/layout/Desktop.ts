@@ -109,7 +109,7 @@ class Desktop {
     }
 
     private clampScrollX(x: number) {
-        return this.config.scroller.clampScrollX(this, x);
+        return this.config.clamper.clampScrollX(this, x);
     }
 
     public setScroll(x: number, force: boolean) {
@@ -192,6 +192,7 @@ namespace Desktop {
         marginLeft: number,
         marginRight: number,
         scroller: Desktop.Scroller,
+        clamper: Desktop.Clamper,
     };
 
     export type Range = {
@@ -302,6 +303,9 @@ namespace Desktop {
 
     export type Scroller = {
         scrollToColumn(desktop: Desktop, column: Column): void;
+    }
+
+    export type Clamper = {
         clampScrollX(desktop: Desktop, x: number): number;
     }
 }

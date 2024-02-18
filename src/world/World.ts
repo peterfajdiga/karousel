@@ -44,6 +44,7 @@ class World {
                     config.scrollingCentered ? new ScrollerCentered() :
                     config.scrollingGrouped ? new ScrollerGrouped() :
                     console.assert(false),
+                clamper: config.scrollingLazy ? new EdgeClamper() : new CenterClamper(),
             },
             layoutConfig,
             workspace.currentActivity,
