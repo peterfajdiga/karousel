@@ -53,7 +53,12 @@ function registerNumKeyBindings(name: string, description: string, modifiers: st
 }
 
 function registerKeyBindings(world: World, config: Config) {
-    const actions = Actions.init(world, config);
+    const actions = Actions.init(world, {
+        manualScrollStep: config.manualScrollStep,
+        manualResizeStep: config.manualScrollStep,
+        columnResizer: config.scrollingCentered ? new RawResizer() : new ContextualResizer(),
+    });
+
     for (const binding of keyBindings) {
         registerKeyBinding(binding.name, binding.description, binding.defaultKeySequence, actions[binding.action]);
     }
