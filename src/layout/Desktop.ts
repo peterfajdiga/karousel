@@ -78,13 +78,10 @@ class Desktop {
         this.adjustScroll(Math.round(windowCenter - screenCenter), false);
     }
 
-    public scrollCenterVisible(focusedColumn: Column, prioritiseVisible: boolean) {
+    public scrollCenterVisible(focusedColumn: Column) {
         const columnRange = new Desktop.ColumnRange(focusedColumn);
         const visibleRange = this.getCurrentVisibleRange();
-        if (prioritiseVisible) {
-            columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, column => column.isVisible(visibleRange, true));
-        }
-        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal, () => true);
+        columnRange.addNeighbors(visibleRange, this.grid.config.gapsInnerHorizontal);
         this.scrollCenterRange(columnRange);
     }
 
@@ -242,17 +239,15 @@ namespace Desktop {
             this.width = initialColumn.getWidth();
         }
 
-        public addNeighbors(visibleRange: Desktop.Range, gap: number, condition: (column: Column) => boolean) {
+        public addNeighbors(visibleRange: Desktop.Range, gap: number) {
             const grid = this.left.grid;
 
             const columnRange = this;
             function canFit(column: Column) {
-                return columnRange.width + gap + column.getWidth() <= visibleRange.getWidth()
+                return columnRange.width + gap + column.getWidth() <= visibleRange.getWidth();
             }
             function isUsable(column: Column|null) {
-                return column !== null &&
-                    canFit(column) &&
-                    condition(column)
+                return column !== null && canFit(column);
             }
 
             let leftColumn = grid.getPrevColumn(this.left);

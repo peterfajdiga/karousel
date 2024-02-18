@@ -197,7 +197,7 @@ namespace Actions {
                     }
 
                     column.setWidth(newWidth, true);
-                    desktop.scrollCenterVisible(column, false);
+                    desktop.scrollCenterVisible(column);
                     desktop.onLayoutChanged();
                     desktop.autoAdjustScroll();
                 });
@@ -246,7 +246,7 @@ namespace Actions {
                     }
 
                     column.setWidth(newWidth, true);
-                    desktop.scrollCenterVisible(column, true);
+                    desktop.scrollCenterVisible(column);
                     desktop.onLayoutChanged();
                     desktop.autoAdjustScroll();
                 });
