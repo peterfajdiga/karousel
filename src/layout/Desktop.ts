@@ -267,10 +267,11 @@ namespace Desktop {
             }
             checkColumns();
 
+            const visibleCenter = visibleRange.getLeft() + visibleRange.getWidth() / 2;
             while (leftColumn !== null || rightColumn !== null) {
-                const leftWidth = leftColumn === null ? -Infinity : leftColumn.getWidth();
-                const rightWidth = rightColumn === null ? -Infinity : rightColumn.getWidth();
-                if (leftWidth > rightWidth) {
+                const leftToCenter = leftColumn === null ? Infinity : Math.abs(leftColumn.getLeft() - visibleCenter);
+                const rightToCenter = rightColumn === null ? Infinity : Math.abs(rightColumn.getRight() - visibleCenter);
+                if (leftToCenter < rightToCenter) {
                     this.addLeft(leftColumn!, gap);
                     leftColumn = grid.getPrevColumn(leftColumn!);
                 } else {
