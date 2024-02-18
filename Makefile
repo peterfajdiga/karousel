@@ -16,7 +16,7 @@ install: build config
 uninstall:
 	kpackagetool5 --type=KWin/Script -r ./package
 
-package:
+package: build config
 	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package
 
 logs:
