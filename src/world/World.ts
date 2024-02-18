@@ -40,9 +40,9 @@ class World {
                 marginBottom: config.gapsOuterBottom,
                 marginLeft: config.gapsOuterLeft,
                 marginRight: config.gapsOuterRight,
-                scroller: config.scrollingLazy ? new ScrollerLazy() :
-                    config.scrollingCentered ? new ScrollerCentered() :
-                    config.scrollingGrouped ? new ScrollerGrouped() :
+                scroller: config.scrollingLazy ? new LazyScroller() :
+                    config.scrollingCentered ? new CenteredScroller() :
+                    config.scrollingGrouped ? new GroupedScroller() :
                     console.assert(false),
                 clamper: config.scrollingLazy ? new EdgeClamper() : new CenterClamper(),
             },
