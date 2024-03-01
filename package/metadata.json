@@ -1,7 +1,7 @@
 {
     "KPlugin": {
         "Name": "Karousel",
-        "Description": "Manual columnar tiling extension for KWin",
+        "Description": "Scrollable tiling extension for KWin",
         "Icon": "preferences-system-windows",
         "Authors": [{
             "Email": "peter.fajdiga@gmail.com",
