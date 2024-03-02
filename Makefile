@@ -11,10 +11,10 @@ build:
 	tsc --outFile ./package/contents/code/main.js
 
 install: build config
-	kpackagetool5 --type=KWin/Script -i ./package || kpackagetool5 --type=KWin/Script -u ./package
+	kpackagetool6 --type=KWin/Script -i ./package || kpackagetool6 --type=KWin/Script -u ./package
 
 uninstall:
-	kpackagetool5 --type=KWin/Script -r ./package
+	kpackagetool6 --type=KWin/Script -r ./package
 
 package: build config
 	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package
