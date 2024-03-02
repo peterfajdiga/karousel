@@ -69,11 +69,11 @@ class ClientWrapper {
     }
 
     public focus() {
-        Workspace.activeClient = this.kwinClient;
+        Workspace.activeWindow = this.kwinClient;
     }
 
     public isFocused() {
-        return Workspace.activeClient === this.kwinClient;
+        return Workspace.activeWindow === this.kwinClient;
     }
 
     public setMaximize(horizontally: boolean, vertically: boolean) {

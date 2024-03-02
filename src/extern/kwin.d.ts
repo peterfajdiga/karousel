@@ -7,22 +7,22 @@ declare const Workspace: {
     readonly desktops: number;
     readonly currentDesktop: number;
     readonly currentActivity: string;
+    readonly windows: KwinClient[];
 
-    activeClient: KwinClient;
+    activeWindow: KwinClient;
 
     readonly currentDesktopChanged: QSignal<[]>
-    readonly clientAdded: QSignal<[KwinClient]>;
-    readonly clientRemoved: QSignal<[KwinClient]>;
+    readonly windowAdded: QSignal<[KwinClient]>;
+    readonly windowRemoved: QSignal<[KwinClient]>;
     readonly clientMinimized: QSignal<[KwinClient]>;
     readonly clientUnminimized: QSignal<[KwinClient]>;
     readonly clientMaximizeSet: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>;
-    readonly clientActivated: QSignal<[KwinClient]>;
-    readonly numberDesktopsChanged: QSignal<[]>;
+    readonly windowActivated: QSignal<[KwinClient]>;
+    readonly desktopsChanged: QSignal<[]>;
     readonly currentActivityChanged: QSignal<[]>;
     readonly virtualScreenSizeChanged: QSignal<[]>;
 
     clientArea(option: ClientAreaOption, screenNumber: number, desktopNumber: number);
-    clientList(): KwinClient[];
 };
 
 const enum ClientAreaOption {

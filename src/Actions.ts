@@ -128,7 +128,7 @@ namespace Actions {
             },
 
             windowToggleFloating: () => {
-                const kwinClient = Workspace.activeClient;
+                const kwinClient = Workspace.activeWindow;
                 world.do((clientManager, desktopManager) => {
                     clientManager.toggleFloatingClient(kwinClient);
                 });

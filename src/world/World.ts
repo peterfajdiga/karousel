@@ -55,7 +55,7 @@ class World {
     }
 
     private addExistingClients() {
-        const kwinClients = Workspace.clientList();
+        const kwinClients = Workspace.windows;
         for (let i = 0; i < kwinClients.length; i++) {
             const kwinClient = kwinClients[i];
             this.clientManager.addClient(kwinClient);
@@ -94,7 +94,7 @@ class World {
         followTransient: boolean,
         f: (clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) => void,
     ) {
-        this.doIfTiled(Workspace.activeClient, followTransient, f);
+        this.doIfTiled(Workspace.activeWindow, followTransient, f);
     }
 
     public destroy() {
