@@ -14,7 +14,7 @@ install: build config
 	kpackagetool6 --type=KWin/Script -i ./package || kpackagetool6 --type=KWin/Script -u ./package
 
 uninstall:
-	kpackagetool6 --type=KWin/Script -r ./package
+	kpackagetool6 --type=KWin/Script -r karousel
 
 package: build config
 	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package
