@@ -1,4 +1,5 @@
 {
+    "KPackageStructure": "KWin/Script",
     "KPlugin": {
         "Name": "Karousel",
         "Description": "Scrollable tiling extension for KWin",
@@ -8,13 +9,13 @@
             "Name": "Peter Fajdiga"
         }],
         "Id": "karousel",
-        "ServiceTypes": ["KWin/Script"],
         "Version": "0.7.1",
         "License": "GPLv3",
         "Website": "https://github.com/peterfajdiga/karousel",
         "BugReportUrl": "https://github.com/peterfajdiga/karousel/issues"
     },
     "X-Plasma-API": "declarativescript",
-    "X-Plasma-MainScript": "code/main.qml",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml",
     "X-KDE-ConfigModule": "kwin/effects/configs/kcm_kwin4_genericscripted"
 }

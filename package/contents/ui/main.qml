@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import org.kde.kwin 3.0
 import org.kde.notification 1.0
-import "./main.js" as Karousel
+import "../code/main.js" as Karousel
 
 Item {
     id: qmlBase
