@@ -19,13 +19,28 @@ namespace Clients {
         }
     }
 
+    export function getKwinDesktopApprox(kwinClient: KwinClient) {
+        switch (kwinClient.desktops.length) {
+            case 0: // TODO: is empty = all desktops?
+                return Workspace.currentDesktop;
+            case 1:
+                return kwinClient.desktops[0];
+            default:
+                if (kwinClient.desktops.includes(Workspace.currentDesktop)) {
+                    return Workspace.currentDesktop;
+                } else {
+                    return kwinClient.desktops[0];
+                }
+        }
+    }
+
     export function isMaximizedGeometry(kwinClient: KwinClient) {
-        const maximizeArea = Workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.output, 0); // TODO: pass desktop
+        const maximizeArea = Workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.output, getKwinDesktopApprox(kwinClient));
         return kwinClient.frameGeometry === maximizeArea;
     }
 
     export function isFullScreenGeometry(kwinClient: KwinClient) {
-        const fullScreenArea = Workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.output, 0); // TODO: pass desktop
+        const fullScreenArea = Workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.output, getKwinDesktopApprox(kwinClient));
         return kwinClient.frameGeometry === fullScreenArea;
     }
 
