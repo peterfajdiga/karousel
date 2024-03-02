@@ -35,7 +35,7 @@ namespace ClientState {
                 world.do((clientManager, desktopManager) => {
                     const desktop = desktopManager.getDesktopForClient(kwinClient);
                     if (desktop === undefined) {
-                        // windows on all desktops are not supported
+                        // windows on multiple desktops are not supported
                         clientManager.untileClient(kwinClient);
                         return;
                     }

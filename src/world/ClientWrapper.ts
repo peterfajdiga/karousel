@@ -44,9 +44,9 @@ class ClientWrapper {
         });
     }
 
-    private moveTransient(dx: number, dy: number, desktopNumber: number) {
+    private moveTransient(dx: number, dy: number, kwinDesktops: KwinDesktop[]) {
         if (this.stateManager.getState() instanceof ClientState.Floating) {
-            if (this.kwinClient.desktop === desktopNumber) {
+            if (Clients.isOnOneOfVirtualDesktops(this.kwinClient, kwinDesktops)) {
                 const frame = this.kwinClient.frameGeometry;
                 this.kwinClient.frameGeometry = Qt.rect(
                     frame.x + dx,
@@ -57,14 +57,14 @@ class ClientWrapper {
             }
 
             for (const transient of this.transients) {
-                transient.moveTransient(dx, dy, desktopNumber);
+                transient.moveTransient(dx, dy, kwinDesktops);
             }
         }
     }
 
     public moveTransients(dx: number, dy: number) {
         for (const transient of this.transients) {
-            transient.moveTransient(dx, dy, this.kwinClient.desktop);
+            transient.moveTransient(dx, dy, this.kwinClient.desktops);
         }
     }
 
@@ -124,7 +124,7 @@ class ClientWrapper {
     }
 
     public ensureVisible(screenSize: QmlRect) {
-        if (this.kwinClient.desktop !== Workspace.currentDesktop) {
+        if (!Clients.isOnVirtualDesktop(this.kwinClient, Workspace.currentDesktop)) {
             return;
         }
         const frame = this.kwinClient.frameGeometry;

@@ -13,7 +13,7 @@ class World {
         this.screenResizedDelayer = new Delayer(1000, () => {
             // this delay ensures that docks are taken into account by `Workspace.clientArea`
             const desktopManager = this.desktopManager; // workaround for bug in Qt5's JS engine
-            for (const desktop of desktopManager.desktops()) {
+            for (const desktop of desktopManager.getAllDesktops()) {
                 desktop.onLayoutChanged();
             }
             this.update();
@@ -48,6 +48,7 @@ class World {
             },
             layoutConfig,
             Workspace.currentActivity,
+            Workspace.currentDesktop,
         );
         this.clientManager = new ClientManager(config, this, this.desktopManager, this.pinManager);
         this.addExistingClients();
@@ -60,10 +61,6 @@ class World {
             const kwinClient = kwinClients[i];
             this.clientManager.addClient(kwinClient);
         }
-    }
-
-    public updateDesktops() {
-        this.desktopManager.update();
     }
 
     private update() {

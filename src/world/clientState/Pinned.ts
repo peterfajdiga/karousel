@@ -30,8 +30,8 @@ namespace ClientState {
 
         private static initSignalManager(world: World, pinManager: PinManager, kwinClient: KwinClient) {
             const manager = new SignalManager();
-            let oldDesktopNumber = kwinClient.desktop;
             let oldActivities = kwinClient.activities;
+            let oldDesktops = kwinClient.desktops;
 
             manager.connect(kwinClient.tileChanged, () => {
                 if (kwinClient.tile === null) {
@@ -63,24 +63,23 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.desktopsChanged, () => {
-                const changedDesktops = oldDesktopNumber === -1 || kwinClient.desktop === -1 ?
+                const changedDesktops = oldDesktops.length === 0 || kwinClient.desktops.length === 0 ? // TODO: is empty = all desktops?
                     [] :
-                    [oldDesktopNumber, kwinClient.desktop];
+                    union(oldDesktops, kwinClient.desktops);
                 world.do((clientManager, desktopManager) => {
-                    for (const desktop of desktopManager.getDesktops(changedDesktops, kwinClient.activities)) {
+                    for (const desktop of desktopManager.getDesktops(kwinClient.activities, changedDesktops)) {
                         desktop.onPinsChanged();
                     }
                 });
-                oldDesktopNumber = kwinClient.desktop;
+                oldDesktops = kwinClient.desktops;
             });
 
             manager.connect(kwinClient.activitiesChanged, () => {
-                const desktops = kwinClient.desktop === -1 ? [] : [kwinClient.desktop];
                 const changedActivities = oldActivities.length === 0 || kwinClient.activities.length === 0 ?
                     [] :
                     union(oldActivities, kwinClient.activities);
                 world.do((clientManager, desktopManager) => {
-                    for (const desktop of desktopManager.getDesktops(desktops, changedActivities)) {
+                    for (const desktop of desktopManager.getDesktops(changedActivities, kwinClient.desktops)) { // TODO: is empty = all desktops?
                         desktop.onPinsChanged();
                     }
                 });

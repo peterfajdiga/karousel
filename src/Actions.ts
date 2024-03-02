@@ -294,8 +294,11 @@ namespace Actions {
 
             columnMoveToDesktop: (desktopIndex: number) => {
                 world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, oldGrid) => {
-                    const desktopNumber = desktopIndex + 1;
-                    const newGrid = desktopManager.getDesktopInCurrentActivity(desktopNumber).grid;
+                    const kwinDesktop = Workspace.desktops[desktopIndex];
+                    if (kwinDesktop === undefined) {
+                        return;
+                    }
+                    const newGrid = desktopManager.getDesktopInCurrentActivity(kwinDesktop).grid;
                     if (newGrid === null || newGrid === oldGrid) {
                         return;
                     }
@@ -305,8 +308,11 @@ namespace Actions {
 
             tailMoveToDesktop: (desktopIndex: number) => {
                 world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, oldGrid) => {
-                    const desktopNumber = desktopIndex + 1;
-                    const newGrid = desktopManager.getDesktopInCurrentActivity(desktopNumber).grid;
+                    const kwinDesktop = Workspace.desktops[desktopIndex];
+                    if (kwinDesktop === undefined) {
+                        return;
+                    }
+                    const newGrid = desktopManager.getDesktopInCurrentActivity(kwinDesktop).grid;
                     if (newGrid === null || newGrid === oldGrid) {
                         return;
                     }

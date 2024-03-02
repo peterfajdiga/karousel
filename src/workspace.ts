@@ -4,8 +4,9 @@ function initWorkspaceSignalHandlers(world: World) {
     manager.connect(Workspace.windowAdded, (kwinClient: KwinClient) => {
         if (Clients.canTileEver(kwinClient)) {
             // never open new tileable clients on all desktops or activities
-            if (kwinClient.desktop <= 0) {
-                kwinClient.desktop = Workspace.currentDesktop;
+            // TODO: use makeTileable?
+            if (kwinClient.desktops.length !== 1) {
+                kwinClient.desktops = [Workspace.currentDesktop];
             }
             if (kwinClient.activities.length !== 1) {
                 kwinClient.activities = [Workspace.currentActivity];
@@ -40,7 +41,11 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(Workspace.desktopsChanged, () => {
-        world.updateDesktops();
+        // TODO: Remove desktops from DesktopManager
+    });
+
+    manager.connect(Workspace.activitiesChanged, () => {
+        // TODO: Remove desktops from DesktopManager
     });
 
     manager.connect(Workspace.virtualScreenSizeChanged, () => {

@@ -4,7 +4,7 @@ declare const KWin: {
 };
 
 declare const Workspace: {
-    readonly desktops: number;
+    readonly desktops: KwinDesktop[];
     readonly currentDesktop: KwinDesktop;
     readonly currentActivity: string;
     readonly windows: KwinClient[];
@@ -16,6 +16,7 @@ declare const Workspace: {
     readonly windowRemoved: QSignal<[KwinClient]>;
     readonly windowActivated: QSignal<[KwinClient]>;
     readonly desktopsChanged: QSignal<[]>;
+    readonly activitiesChanged: QSignal<[]>;
     readonly currentActivityChanged: QSignal<[]>;
     readonly virtualScreenSizeChanged: QSignal<[]>;
 

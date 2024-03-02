@@ -1,6 +1,6 @@
 class Desktop {
     public readonly grid: Grid;
-    public readonly desktopNumber: number;
+    public readonly kwinDesktop: KwinDesktop;
     private readonly pinManager: PinManager;
     private readonly config: Desktop.Config;
     private scrollX: number;
@@ -10,26 +10,26 @@ class Desktop {
     public clientArea: QmlRect;
     public tilingArea: QmlRect;
 
-    constructor(desktopNumber: number, pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig) {
+    constructor(kwinDesktop: KwinDesktop, pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig) {
         this.pinManager = pinManager;
         this.config = config;
         this.scrollX = 0;
         this.dirty = true;
         this.dirtyScroll = true;
         this.dirtyPins = true;
-        this.desktopNumber = desktopNumber;
+        this.kwinDesktop = kwinDesktop;
         this.grid = new Grid(this, layoutConfig);
-        this.clientArea = Desktop.getClientArea(desktopNumber);
-        this.tilingArea = Desktop.getTilingArea(this.clientArea, desktopNumber, pinManager, config);
+        this.clientArea = Desktop.getClientArea(kwinDesktop);
+        this.tilingArea = Desktop.getTilingArea(this.clientArea, kwinDesktop, pinManager, config);
     }
 
     private updateArea() {
-        const newClientArea = Desktop.getClientArea(this.desktopNumber);
+        const newClientArea = Desktop.getClientArea(this.kwinDesktop);
         if (newClientArea === this.clientArea && !this.dirtyPins) {
             return;
         }
         this.clientArea = newClientArea;
-        this.tilingArea = Desktop.getTilingArea(newClientArea, this.desktopNumber, this.pinManager, this.config);
+        this.tilingArea = Desktop.getTilingArea(newClientArea, this.kwinDesktop, this.pinManager, this.config);
         this.dirty = true;
         this.dirtyScroll = true;
         this.dirtyPins = false;
@@ -37,12 +37,12 @@ class Desktop {
         this.autoAdjustScroll();
     }
 
-    private static getClientArea(desktopNumber: number) {
-        return Workspace.clientArea(ClientAreaOption.PlacementArea, 0, desktopNumber);
+    private static getClientArea(kwinDesktop: KwinDesktop) {
+        return Workspace.clientArea(ClientAreaOption.PlacementArea, 0, 0); // TODO: pass desktop
     }
 
-    private static getTilingArea(clientArea: QmlRect, desktopNumber: number, pinManager: PinManager, config: Desktop.Config) {
-        const availableSpace = pinManager.getAvailableSpace(desktopNumber, clientArea);
+    private static getTilingArea(clientArea: QmlRect, kwinDesktop: KwinDesktop, pinManager: PinManager, config: Desktop.Config) {
+        const availableSpace = pinManager.getAvailableSpace(kwinDesktop, clientArea);
         const top = availableSpace.top + config.marginTop;
         const bottom = availableSpace.bottom - config.marginBottom;
         const left = availableSpace.left + config.marginLeft;
