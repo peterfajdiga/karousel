@@ -5,7 +5,7 @@ declare const KWin: {
 
 declare const Workspace: {
     readonly desktops: number;
-    readonly currentDesktop: number;
+    readonly currentDesktop: KwinDesktop;
     readonly currentActivity: string;
     readonly windows: KwinClient[];
 
@@ -50,7 +50,6 @@ interface KwinClient {
     readonly normalWindow: boolean;
     readonly managed: boolean;
 
-    opacity: number;
     fullScreen: boolean;
     activities: string[]; // empty array means all activities
     skipSwitcher: boolean;
@@ -59,7 +58,7 @@ interface KwinClient {
     shade: boolean;
     minimized: boolean;
     frameGeometry: QmlRect;
-    desktop: number; // -1 means all desktops // TODO: Replace with desktops
+    desktops: KwinDesktop[]; // TODO: is empty = all desktops?
     tile: Tile;
     opacity: number;
 
@@ -76,4 +75,8 @@ interface KwinClient {
     readonly frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QmlRect]>;
 
     setMaximize(vertically: boolean, horizontally: boolean): void;
+}
+
+interface KwinDesktop {
+    readonly id: string;
 }
