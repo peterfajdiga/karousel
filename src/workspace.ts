@@ -22,27 +22,6 @@ function initWorkspaceSignalHandlers(world: World) {
         });
     });
 
-    manager.connect(Workspace.clientMinimized, (kwinClient: KwinClient) => {
-        world.do((clientManager, desktopManager) => {
-            clientManager.minimizeClient(kwinClient);
-        });
-    });
-
-    manager.connect(Workspace.clientUnminimized, (kwinClient: KwinClient) => {
-        world.do((clientManager, desktopManager) => {
-            clientManager.unminimizeClient(kwinClient);
-        });
-    });
-
-    manager.connect(Workspace.clientMaximizeSet, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
-        if ((horizontally || vertically) && kwinClient.tile !== null) {
-            kwinClient.tile = null;
-        }
-        world.doIfTiled(kwinClient, false, (clientManager, desktopManager, window, column, grid) => {
-            window.onMaximizedChanged(horizontally, vertically);
-        });
-    });
-
     manager.connect(Workspace.windowActivated, (kwinClient: KwinClient) => {
         if (kwinClient === null) {
             return;

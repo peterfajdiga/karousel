@@ -41,6 +41,12 @@ namespace ClientState {
                 }
             });
 
+            manager.connect(kwinClient.clientMaximizedStateChanged, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
+                if ((horizontally || vertically) && kwinClient.tile !== null) {
+                    kwinClient.tile = null;
+                }
+            });
+
             manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QmlRect) => {
                 if (kwinClient.tile === null) {
                     world.do((clientManager, desktopManager) => {

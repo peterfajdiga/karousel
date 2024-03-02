@@ -14,9 +14,6 @@ declare const Workspace: {
     readonly currentDesktopChanged: QSignal<[]>
     readonly windowAdded: QSignal<[KwinClient]>;
     readonly windowRemoved: QSignal<[KwinClient]>;
-    readonly clientMinimized: QSignal<[KwinClient]>;
-    readonly clientUnminimized: QSignal<[KwinClient]>;
-    readonly clientMaximizeSet: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>;
     readonly windowActivated: QSignal<[KwinClient]>;
     readonly desktopsChanged: QSignal<[]>;
     readonly currentActivityChanged: QSignal<[]>;
@@ -65,14 +62,16 @@ interface KwinClient {
     desktop: number; // -1 means all desktops
     tile: Tile;
 
-    readonly fullScreenChanged: QSignal<[]>;
-    readonly desktopChanged: QSignal<[]>;
-    readonly activitiesChanged: QSignal<[]>;
-    readonly captionChanged: QSignal<[]>;
-    readonly tileChanged: QSignal<[]>;
-    readonly moveResizedChanged: QSignal<[]>;
-    readonly moveResizeCursorChanged: QSignal<[]>;
-    readonly clientStartUserMovedResized: QSignal<[]>;
+    readonly fullScreenChanged: QSignal<[]>
+    readonly desktopChanged: QSignal<[]>
+    readonly activitiesChanged: QSignal<[]>
+    readonly minimizedChanged: QSignal<[]>
+    readonly clientMaximizedStateChanged: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>
+    readonly captionChanged: QSignal<[]>
+    readonly tileChanged: QSignal<[]>
+    readonly moveResizedChanged: QSignal<[]>
+    readonly moveResizeCursorChanged: QSignal<[]>
+    readonly clientStartUserMovedResized: QSignal<[]>
     readonly frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QmlRect]>;
 
     setMaximize(vertically: boolean, horizontally: boolean): void;

@@ -55,6 +55,25 @@ namespace ClientState {
                 });
             })
 
+            manager.connect(kwinClient.minimizedChanged, () => {
+                world.do((clientManager, desktopManager) => {
+                    if (kwinClient.minimized) {
+                        clientManager.minimizeClient(kwinClient);
+                    } else {
+                        clientManager.unminimizeClient(kwinClient); // TODO: move to TiledMinimized
+                    }
+                });
+            });
+
+            manager.connect(kwinClient.clientMaximizedStateChanged, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
+                if ((horizontally || vertically) && kwinClient.tile !== null) {
+                    kwinClient.tile = null;
+                }
+                world.do(() => {
+                    window.onMaximizedChanged(horizontally, vertically);
+                });
+            });
+
             let lastResize = false;
             manager.connect(kwinClient.moveResizedChanged, () => {
                 world.do((clientManager, desktopManager) => {
