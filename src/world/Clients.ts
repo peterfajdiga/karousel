@@ -12,20 +12,20 @@ namespace Clients {
             kwinClient.minimized = false;
         }
         if (kwinClient.desktop <= 0) {
-            kwinClient.desktop = workspace.currentDesktop;
+            kwinClient.desktop = Workspace.currentDesktop;
         }
         if (kwinClient.activities.length !== 1) {
-            kwinClient.activities = [workspace.currentActivity];
+            kwinClient.activities = [Workspace.currentActivity];
         }
     }
 
     export function isMaximizedGeometry(kwinClient: KwinClient) {
-        const maximizeArea = workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.screen, kwinClient.desktop);
+        const maximizeArea = Workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.screen, kwinClient.desktop);
         return kwinClient.frameGeometry === maximizeArea;
     }
 
     export function isFullScreenGeometry(kwinClient: KwinClient) {
-        const fullScreenArea = workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.screen, kwinClient.desktop);
+        const fullScreenArea = Workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.screen, kwinClient.desktop);
         return kwinClient.frameGeometry === fullScreenArea;
     }
 

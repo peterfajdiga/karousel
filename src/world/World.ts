@@ -11,7 +11,7 @@ class World {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
 
         this.screenResizedDelayer = new Delayer(1000, () => {
-            // this delay ensures that docks are taken into account by `workspace.clientArea`
+            // this delay ensures that docks are taken into account by `Workspace.clientArea`
             const desktopManager = this.desktopManager; // workaround for bug in Qt5's JS engine
             for (const desktop of desktopManager.desktops()) {
                 desktop.onLayoutChanged();
@@ -47,7 +47,7 @@ class World {
                 clamper: config.scrollingLazy ? new EdgeClamper() : new CenterClamper(),
             },
             layoutConfig,
-            workspace.currentActivity,
+            Workspace.currentActivity,
         );
         this.clientManager = new ClientManager(config, this, this.desktopManager, this.pinManager);
         this.addExistingClients();
@@ -55,7 +55,7 @@ class World {
     }
 
     private addExistingClients() {
-        const kwinClients = workspace.clientList();
+        const kwinClients = Workspace.clientList();
         for (let i = 0; i < kwinClients.length; i++) {
             const kwinClient = kwinClients[i];
             this.clientManager.addClient(kwinClient);
@@ -94,7 +94,7 @@ class World {
         followTransient: boolean,
         f: (clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) => void,
     ) {
-        this.doIfTiled(workspace.activeClient, followTransient, f);
+        this.doIfTiled(Workspace.activeClient, followTransient, f);
     }
 
     public destroy() {

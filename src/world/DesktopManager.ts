@@ -16,7 +16,7 @@ class DesktopManager {
     }
 
     public update() {
-        this.setNVirtualDesktops(workspace.desktops);
+        this.setNVirtualDesktops(Workspace.desktops);
     }
 
     public getDesktop(activity: string, desktopNumber: number) {
@@ -31,11 +31,11 @@ class DesktopManager {
     }
 
     public getCurrentDesktop() {
-        return this.getDesktop(workspace.currentActivity, workspace.currentDesktop);
+        return this.getDesktop(Workspace.currentActivity, Workspace.currentDesktop);
     }
 
     public getDesktopInCurrentActivity(desktopNumber: number) {
-        return this.getDesktop(workspace.currentActivity, desktopNumber);
+        return this.getDesktop(Workspace.currentActivity, desktopNumber);
     }
 
     public getDesktopForClient(kwinClient: KwinClient) {

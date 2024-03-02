@@ -69,11 +69,11 @@ class ClientWrapper {
     }
 
     public focus() {
-        workspace.activeClient = this.kwinClient;
+        Workspace.activeClient = this.kwinClient;
     }
 
     public isFocused() {
-        return workspace.activeClient === this.kwinClient;
+        return Workspace.activeClient === this.kwinClient;
     }
 
     public setMaximize(horizontally: boolean, vertically: boolean) {
@@ -124,7 +124,7 @@ class ClientWrapper {
     }
 
     public ensureVisible(screenSize: QmlRect) {
-        if (this.kwinClient.desktop !== workspace.currentDesktop) {
+        if (this.kwinClient.desktop !== Workspace.currentDesktop) {
             return;
         }
         const frame = this.kwinClient.frameGeometry;

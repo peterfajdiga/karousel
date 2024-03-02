@@ -38,7 +38,7 @@ class Desktop {
     }
 
     private static getClientArea(desktopNumber: number) {
-        return workspace.clientArea(ClientAreaOption.PlacementArea, 0, desktopNumber);
+        return Workspace.clientArea(ClientAreaOption.PlacementArea, 0, desktopNumber);
     }
 
     private static getTilingArea(clientArea: QmlRect, desktopNumber: number, pinManager: PinManager, config: Desktop.Config) {

@@ -3,7 +3,7 @@ declare const KWin: {
     registerShortcut(name: string, description: string, keySequence: string, callback: () => void): void;
 };
 
-declare const workspace: {
+declare const Workspace: {
     readonly desktops: number;
     readonly currentDesktop: number;
     readonly currentActivity: string;
