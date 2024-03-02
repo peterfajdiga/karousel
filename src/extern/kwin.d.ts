@@ -44,7 +44,7 @@ interface KwinClient {
     readonly move: boolean;
     readonly resize: boolean;
     readonly resizeable: boolean;
-    readonly screen: number;
+    readonly screen: number; // TODO: Remove
     readonly resourceClass: QByteArray;
     readonly dock: boolean;
     readonly normalWindow: boolean;
@@ -59,19 +59,20 @@ interface KwinClient {
     shade: boolean;
     minimized: boolean;
     frameGeometry: QmlRect;
-    desktop: number; // -1 means all desktops
+    desktop: number; // -1 means all desktops // TODO: Replace with desktops
     tile: Tile;
+    opacity: number;
 
-    readonly fullScreenChanged: QSignal<[]>
-    readonly desktopChanged: QSignal<[]>
-    readonly activitiesChanged: QSignal<[]>
-    readonly minimizedChanged: QSignal<[]>
-    readonly clientMaximizedStateChanged: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>
-    readonly captionChanged: QSignal<[]>
-    readonly tileChanged: QSignal<[]>
-    readonly moveResizedChanged: QSignal<[]>
-    readonly moveResizeCursorChanged: QSignal<[]>
-    readonly clientStartUserMovedResized: QSignal<[]>
+    readonly fullScreenChanged: QSignal<[]>;
+    readonly desktopsChanged: QSignal<[]>;
+    readonly activitiesChanged: QSignal<[]>;
+    readonly minimizedChanged: QSignal<[]>;
+    readonly maximizedChanged: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>
+    readonly captionChanged: QSignal<[]>;
+    readonly tileChanged: QSignal<[]>;
+    readonly moveResizedChanged: QSignal<[]>;
+    readonly moveResizeCursorChanged: QSignal<[]>;
+    readonly interactiveMoveResizeStarted: QSignal<[]>;
     readonly frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QmlRect]>;
 
     setMaximize(vertically: boolean, horizontally: boolean): void;

@@ -31,7 +31,7 @@ namespace ClientState {
             const kwinClient = client.kwinClient;
             const manager = new SignalManager();
 
-            manager.connect(kwinClient.desktopChanged, () => {
+            manager.connect(kwinClient.desktopsChanged, () => {
                 world.do((clientManager, desktopManager) => {
                     const desktop = desktopManager.getDesktopForClient(kwinClient);
                     if (desktop === undefined) {
@@ -65,7 +65,7 @@ namespace ClientState {
                 });
             });
 
-            manager.connect(kwinClient.clientMaximizedStateChanged, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
+            manager.connect(kwinClient.maximizedChanged, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
                 if ((horizontally || vertically) && kwinClient.tile !== null) {
                     kwinClient.tile = null;
                 }
@@ -100,7 +100,7 @@ namespace ClientState {
             manager.connect(kwinClient.moveResizeCursorChanged, () => {
                 cursorChangedAfterResizeStart = true;
             });
-            manager.connect(kwinClient.clientStartUserMovedResized, () => {
+            manager.connect(kwinClient.interactiveMoveResizeStarted, () => {
                 cursorChangedAfterResizeStart = false;
             });
 

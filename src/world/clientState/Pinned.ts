@@ -41,7 +41,7 @@ namespace ClientState {
                 }
             });
 
-            manager.connect(kwinClient.clientMaximizedStateChanged, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
+            manager.connect(kwinClient.maximizedChanged, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
                 if ((horizontally || vertically) && kwinClient.tile !== null) {
                     kwinClient.tile = null;
                 }
@@ -62,7 +62,7 @@ namespace ClientState {
                 })
             });
 
-            manager.connect(kwinClient.desktopChanged, () => {
+            manager.connect(kwinClient.desktopsChanged, () => {
                 const changedDesktops = oldDesktopNumber === -1 || kwinClient.desktop === -1 ?
                     [] :
                     [oldDesktopNumber, kwinClient.desktop];
