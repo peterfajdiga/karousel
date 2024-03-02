@@ -24,7 +24,7 @@ namespace ClientState {
         }
 
         private static limitHeight(client: ClientWrapper) {
-            const placementArea = Workspace.clientArea(ClientAreaOption.PlacementArea, client.kwinClient.screen, 0); // TODO: pass desktop
+            const placementArea = Workspace.clientArea(ClientAreaOption.PlacementArea, client.kwinClient.output, 0); // TODO: pass desktop
             const clientRect = client.kwinClient.frameGeometry;
             const width = client.preferredWidth;
             client.place(

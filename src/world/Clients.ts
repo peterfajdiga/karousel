@@ -20,12 +20,12 @@ namespace Clients {
     }
 
     export function isMaximizedGeometry(kwinClient: KwinClient) {
-        const maximizeArea = Workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.screen, 0); // TODO: pass desktop
+        const maximizeArea = Workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.output, 0); // TODO: pass desktop
         return kwinClient.frameGeometry === maximizeArea;
     }
 
     export function isFullScreenGeometry(kwinClient: KwinClient) {
-        const fullScreenArea = Workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.screen, 0); // TODO: pass desktop
+        const fullScreenArea = Workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.output, 0); // TODO: pass desktop
         return kwinClient.frameGeometry === fullScreenArea;
     }
 

@@ -38,7 +38,7 @@ class Desktop {
     }
 
     private static getClientArea(kwinDesktop: KwinDesktop) {
-        return Workspace.clientArea(ClientAreaOption.PlacementArea, 0, 0); // TODO: pass desktop
+        return Workspace.clientArea(ClientAreaOption.PlacementArea, Workspace.activeScreen, 0); // TODO: pass desktop
     }
 
     private static getTilingArea(clientArea: QmlRect, kwinDesktop: KwinDesktop, pinManager: PinManager, config: Desktop.Config) {

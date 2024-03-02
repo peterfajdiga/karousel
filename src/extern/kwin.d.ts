@@ -7,6 +7,7 @@ declare const Workspace: {
     readonly desktops: KwinDesktop[];
     readonly currentDesktop: KwinDesktop;
     readonly currentActivity: string;
+    readonly activeScreen: Output;
     readonly windows: KwinClient[];
 
     activeWindow: KwinClient;
@@ -20,7 +21,7 @@ declare const Workspace: {
     readonly currentActivityChanged: QSignal<[]>;
     readonly virtualScreenSizeChanged: QSignal<[]>;
 
-    clientArea(option: ClientAreaOption, screenNumber: number, desktopNumber: number);
+    clientArea(option: ClientAreaOption, output: Output, desktopNumber: number);
 };
 
 const enum ClientAreaOption {
@@ -35,6 +36,7 @@ const enum ClientAreaOption {
 }
 
 type Tile = unknown;
+type Output = unknown;
 
 interface KwinClient {
     readonly shadeable: boolean;
@@ -45,7 +47,7 @@ interface KwinClient {
     readonly move: boolean;
     readonly resize: boolean;
     readonly resizeable: boolean;
-    readonly screen: number; // TODO: Remove
+    readonly output: Output;
     readonly resourceClass: QByteArray;
     readonly dock: boolean;
     readonly normalWindow: boolean;
