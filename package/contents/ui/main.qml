@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick 6.0
 import org.kde.kwin 3.0
 import org.kde.notification 1.0
 import "../code/main.js" as Karousel

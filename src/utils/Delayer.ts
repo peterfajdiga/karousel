@@ -18,7 +18,7 @@ class Delayer {
 
 function initQmlTimer() {
     return Qt.createQmlObject(
-        `import QtQuick 2.15
+        `import QtQuick 6.0
         Timer {}`,
         qmlBase
     );
