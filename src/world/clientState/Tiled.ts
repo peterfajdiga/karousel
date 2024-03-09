@@ -62,7 +62,7 @@ namespace ClientState {
                 });
             });
 
-            manager.connect(kwinClient.maximizedChanged, (kwinClient: KwinClient, horizontally: boolean, vertically: boolean) => {
+            manager.connect(kwinClient.maximizedChanged, () => {
                 if ((horizontally || vertically) && kwinClient.tile !== null) {
                     kwinClient.tile = null;
                 }
@@ -101,7 +101,7 @@ namespace ClientState {
                 cursorChangedAfterResizeStart = false;
             });
 
-            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QmlRect) => {
+            manager.connect(kwinClient.frameGeometryChanged, (oldGeometry: QmlRect) => {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {
                     world.do((clientManager, desktopManager) => {

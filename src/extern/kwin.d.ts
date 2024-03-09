@@ -68,13 +68,13 @@ interface KwinClient {
     readonly desktopsChanged: QSignal<[]>;
     readonly activitiesChanged: QSignal<[]>;
     readonly minimizedChanged: QSignal<[]>;
-    readonly maximizedChanged: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>
+    readonly maximizedChanged: QSignal<[]>
     readonly captionChanged: QSignal<[]>;
     readonly tileChanged: QSignal<[]>;
     readonly moveResizedChanged: QSignal<[]>;
     readonly moveResizeCursorChanged: QSignal<[]>;
     readonly interactiveMoveResizeStarted: QSignal<[]>;
-    readonly frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QmlRect]>;
+    readonly frameGeometryChanged: QSignal<[oldGeometry: QmlRect]>;
 
     setMaximize(vertically: boolean, horizontally: boolean): void;
 }
@@ -84,6 +84,6 @@ interface KwinDesktop {
 }
 
 type ShortcutHandler = {
-    readonly activated: QSignal<[void]>;
+    readonly activated: QSignal<[]>;
     destroy(): void;
 };

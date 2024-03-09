@@ -16,7 +16,7 @@ namespace ClientState {
 
         private static initSignalManager(world: World, kwinClient: KwinClient) {
             const manager = new SignalManager();
-            manager.connect(kwinClient.frameGeometryChanged, (kwinClient: KwinClient, oldGeometry: QmlRect) => {
+            manager.connect(kwinClient.frameGeometryChanged, () => {
                 world.onScreenResized();
             });
             return manager;
