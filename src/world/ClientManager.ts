@@ -76,7 +76,10 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.TiledMinimized(), kwinClient === this.lastFocusedClient);
+            client.stateManager.setState(
+                () => new ClientState.TiledMinimized(this.world, client),
+                kwinClient === this.lastFocusedClient,
+            );
         }
     }
 

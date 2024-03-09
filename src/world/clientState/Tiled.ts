@@ -56,12 +56,9 @@ namespace ClientState {
             })
 
             manager.connect(kwinClient.minimizedChanged, () => {
+                console.assert(kwinClient.minimized);
                 world.do((clientManager, desktopManager) => {
-                    if (kwinClient.minimized) {
-                        clientManager.minimizeClient(kwinClient);
-                    } else {
-                        clientManager.unminimizeClient(kwinClient); // TODO: move to TiledMinimized
-                    }
+                    clientManager.minimizeClient(kwinClient);
                 });
             });
 
