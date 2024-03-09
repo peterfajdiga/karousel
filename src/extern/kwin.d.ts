@@ -34,6 +34,13 @@ const enum ClientAreaOption {
     ScreenArea,
 }
 
+const enum MaximizedMode {
+    Unmaximized,
+    Vertically,
+    Horizontally,
+    Maximized,
+}
+
 type Tile = unknown;
 type Output = unknown;
 
@@ -69,6 +76,7 @@ interface KwinClient {
     readonly activitiesChanged: QSignal<[]>;
     readonly minimizedChanged: QSignal<[]>;
     readonly maximizedChanged: QSignal<[]>
+    readonly maximizedAboutToChange: QSignal<[MaximizedMode]>
     readonly captionChanged: QSignal<[]>;
     readonly tileChanged: QSignal<[]>;
     readonly moveResizedChanged: QSignal<[]>;
