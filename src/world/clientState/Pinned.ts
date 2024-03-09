@@ -42,9 +42,7 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.maximizedChanged, () => {
-                if ((horizontally || vertically) && kwinClient.tile !== null) {
-                    kwinClient.tile = null;
-                }
+                kwinClient.tile = null;
             });
 
             manager.connect(kwinClient.frameGeometryChanged, () => {
