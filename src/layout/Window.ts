@@ -10,8 +10,7 @@ class Window {
         this.height = client.kwinClient.frameGeometry.height;
         this.focusedState = {
             fullScreen: false,
-            maximizedHorizontally: false,
-            maximizedVertically: false,
+            maximizedMode: MaximizedMode.Unmaximized,
         };
         this.skipArrange = false;
         this.column = column;
@@ -37,8 +36,11 @@ class Window {
         if (this.column.grid.config.reMaximize && this.isFocused()) {
             // do this here rather than in `onFocused` to ensure it happens after placement
             // (otherwise placement may not happen at all)
-            if (this.focusedState.maximizedVertically || this.focusedState.maximizedHorizontally) {
-                this.client.setMaximize(this.focusedState.maximizedVertically, this.focusedState.maximizedHorizontally);
+            if (this.focusedState.maximizedMode > MaximizedMode.Unmaximized) {
+                this.client.setMaximize(
+                    this.focusedState.maximizedMode === MaximizedMode.Horizontally || this.focusedState.maximizedMode === MaximizedMode.Maximized,
+                    this.focusedState.maximizedMode === MaximizedMode.Vertically || this.focusedState.maximizedMode === MaximizedMode.Maximized,
+                );
                 maximized = true;
             }
             if (this.focusedState.fullScreen) {
@@ -76,8 +78,8 @@ class Window {
         this.column.grid.desktop.onLayoutChanged();
     }
 
-    public onMaximizedChanged(horizontally: boolean, vertically: boolean) {
-        const maximized = horizontally || vertically;
+    public onMaximizedChanged(maximizedMode: MaximizedMode) {
+        const maximized = maximizedMode > MaximizedMode.Unmaximized;
         this.skipArrange = maximized;
         if (this.column.grid.config.tiledKeepBelow) {
             this.client.kwinClient.keepBelow = !maximized;
@@ -86,8 +88,7 @@ class Window {
             this.client.kwinClient.keepAbove = maximized;
         }
         if (this.isFocused()) {
-            this.focusedState.maximizedHorizontally = horizontally;
-            this.focusedState.maximizedVertically = vertically;
+            this.focusedState.maximizedMode = maximizedMode;
         }
         this.column.grid.desktop.onLayoutChanged();
     }
@@ -145,7 +146,6 @@ class Window {
 namespace Window {
     export type State = {
         fullScreen: boolean,
-        maximizedHorizontally: boolean,
-        maximizedVertically: boolean,
+        maximizedMode: MaximizedMode,
     }
 }

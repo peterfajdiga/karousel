@@ -62,12 +62,12 @@ namespace ClientState {
                 });
             });
 
-            manager.connect(kwinClient.maximizedChanged, () => {
-                if ((horizontally || vertically) && kwinClient.tile !== null) {
+            manager.connect(kwinClient.maximizedAboutToChange, (maximizedMode: MaximizedMode) => {
+                if (maximizedMode > MaximizedMode.Unmaximized && kwinClient.tile !== null) {
                     kwinClient.tile = null;
                 }
                 world.do(() => {
-                    window.onMaximizedChanged(horizontally, vertically);
+                    window.onMaximizedChanged(maximizedMode);
                 });
             });
 
