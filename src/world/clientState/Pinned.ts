@@ -41,10 +41,6 @@ namespace ClientState {
                 }
             });
 
-            manager.connect(kwinClient.maximizedChanged, () => {
-                kwinClient.tile = null;
-            });
-
             manager.connect(kwinClient.frameGeometryChanged, () => {
                 if (kwinClient.tile === null) {
                     world.do((clientManager, desktopManager) => {

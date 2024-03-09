@@ -160,6 +160,9 @@ class ClientWrapper {
         const manager = new SignalManager();
 
         manager.connect(client.kwinClient.maximizedAboutToChange, (maximizedMode: MaximizedMode) => {
+            if (maximizedMode > MaximizedMode.Unmaximized && client.kwinClient.tile !== null) {
+                client.kwinClient.tile = null;
+            }
             client.maximizedMode = maximizedMode;
         });
 

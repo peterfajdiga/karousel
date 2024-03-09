@@ -63,9 +63,6 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.maximizedAboutToChange, (maximizedMode: MaximizedMode) => {
-                if (maximizedMode > MaximizedMode.Unmaximized && kwinClient.tile !== null) {
-                    kwinClient.tile = null;
-                }
                 world.do(() => {
                     window.onMaximizedChanged(maximizedMode);
                 });
