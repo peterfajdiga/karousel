@@ -51,6 +51,7 @@ function registerNumKeyBindings(world: World, shortcutActions: ShortcutAction[],
     }
 }
 
+// TODO: refactor
 function registerKeyBindings(world: World, config: Actions.Config) {
     const shortcutActions: ShortcutAction[] = [];
 
