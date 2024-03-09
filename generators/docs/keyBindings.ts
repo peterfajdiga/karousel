@@ -3,7 +3,6 @@ type KeyBinding = {
     description: string;
     comment?: string;
     defaultKeySequence: string;
-    action: string;
 }
 
 type NumKeyBinding = {
@@ -12,7 +11,6 @@ type NumKeyBinding = {
     comment?: string;
     defaultModifiers: string;
     fKeys: boolean;
-    action: string;
 }
 
 function formatComment(comment: string | undefined) {

@@ -3,7 +3,6 @@ type KeyBinding = {
     description: string;
     comment?: string;
     defaultKeySequence: string;
-    action: keyof ReturnType<typeof Actions.init>;
 };
 
 type NumKeyBinding = {
@@ -12,7 +11,6 @@ type NumKeyBinding = {
     comment?: string;
     defaultModifiers: string;
     fKeys: boolean;
-    action: keyof ReturnType<typeof Actions.initNum>;
 };
 
 function catchWrap(f: () => void) {
@@ -26,45 +24,43 @@ function catchWrap(f: () => void) {
     };
 }
 
-function registerKeyBinding(name: string, description: string, keySequence: string, callback: () => void) {
-    KWin.registerShortcut(
-        "karousel-" + name,
-        "Karousel: " + description,
-        keySequence,
-        catchWrap(callback),
-    );
+function registerKeyBinding(world: World, config: Actions.Config, shortcutActions: ShortcutAction[], keyBinding: KeyBinding) {
+    shortcutActions.push(new ShortcutAction(
+        keyBinding,
+        catchWrap(Actions.getAction(world, config, keyBinding.name)),
+    ));
 }
 
-function registerNumKeyBindings(name: string, description: string, modifiers: string, fKeys: boolean, callback: (i: number) => void) {
-    const numPrefix = fKeys ? "F" : "";
-    const n = fKeys ? 12 : 9;
+function registerNumKeyBindings(world: World, shortcutActions: ShortcutAction[], numKeyBinding: NumKeyBinding) {
+    const numPrefix = numKeyBinding.fKeys ? "F" : "";
+    const n = numKeyBinding.fKeys ? 12 : 9;
     for (let i = 0; i < 12; i++) {
         const numKey = String(i + 1);
         const keySequence = i < n ?
-            modifiers + "+" + numPrefix + numKey :
+            numKeyBinding.defaultModifiers + "+" + numPrefix + numKey :
             "";
-        registerKeyBinding(
-            name + numKey,
-            description + numKey,
-            keySequence,
-            () => callback(i),
-        );
+        const action = Actions.getNumAction(world, numKeyBinding.name);
+        shortcutActions.push(new ShortcutAction(
+            {
+                name: numKeyBinding.name + numKey,
+                description: numKeyBinding.description + numKey,
+                defaultKeySequence: keySequence,
+            },
+            catchWrap(() => action(i)),
+        ));
     }
 }
 
-function registerKeyBindings(world: World, config: Config) {
-    const actions = Actions.init(world, {
-        manualScrollStep: config.manualScrollStep,
-        manualResizeStep: config.manualResizeStep,
-        columnResizer: config.scrollingCentered ? new RawResizer() : new ContextualResizer(),
-    });
+function registerKeyBindings(world: World, config: Actions.Config) {
+    const shortcutActions: ShortcutAction[] = [];
 
-    for (const binding of keyBindings) {
-        registerKeyBinding(binding.name, binding.description, binding.defaultKeySequence, actions[binding.action]);
+    for (const keyBinding of keyBindings) {
+        registerKeyBinding(world, config, shortcutActions, keyBinding);
     }
 
-    const numActions = Actions.initNum(world);
-    for (const binding of numKeyBindings) {
-        registerNumKeyBindings(binding.name, binding.description, binding.defaultModifiers, binding.fKeys, numActions[binding.action]);
+    for (const numKeyBinding of numKeyBindings) {
+        registerNumKeyBindings(world, shortcutActions, numKeyBinding);
     }
+
+    return shortcutActions;
 }

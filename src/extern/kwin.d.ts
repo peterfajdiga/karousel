@@ -1,6 +1,5 @@
 declare const KWin: {
     readConfig(key: string, defaultValue: any): any;
-    registerShortcut(name: string, description: string, keySequence: string, callback: () => void): void;
 };
 
 declare const Workspace: {
@@ -83,3 +82,8 @@ interface KwinClient {
 interface KwinDesktop {
     readonly id: string;
 }
+
+type ShortcutHandler = {
+    readonly activated: QSignal<[void]>;
+    destroy(): void;
+};

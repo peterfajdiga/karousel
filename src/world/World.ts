@@ -4,11 +4,17 @@ class World {
     public readonly clientManager: ClientManager;
     private readonly pinManager: PinManager;
     private readonly workspaceSignalManager: SignalManager;
+    private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
 
     constructor(config: Config) {
         this.untileOnDrag = config.untileOnDrag;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
+        this.shortcutActions = registerKeyBindings(this, {
+            manualScrollStep: config.manualScrollStep,
+            manualResizeStep: config.manualResizeStep,
+            columnResizer: config.scrollingCentered ? new RawResizer() : new ContextualResizer(),
+        });
 
         this.screenResizedDelayer = new Delayer(1000, () => {
             // this delay ensures that docks are taken into account by `Workspace.clientArea`
@@ -96,6 +102,9 @@ class World {
 
     public destroy() {
         this.workspaceSignalManager.destroy();
+        for (const shortcutAction of this.shortcutActions) {
+            shortcutAction.destroy();
+        }
         this.clientManager.destroy();
         this.desktopManager.destroy();
     }
