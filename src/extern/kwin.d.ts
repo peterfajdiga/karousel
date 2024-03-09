@@ -10,15 +10,15 @@ declare const workspace: {
 
     activeClient: KwinClient;
 
-    readonly currentDesktopChanged: QSignal<[oldDesktopNumber: number]>
+    readonly currentDesktopChanged: QSignal<[void]>
     readonly clientAdded: QSignal<[KwinClient]>;
     readonly clientRemoved: QSignal<[KwinClient]>;
     readonly clientMinimized: QSignal<[KwinClient]>;
     readonly clientUnminimized: QSignal<[KwinClient]>;
     readonly clientMaximizeSet: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>;
     readonly clientActivated: QSignal<[KwinClient]>;
-    readonly numberDesktopsChanged: QSignal<[oldNumberOfVirtualDesktops: number]>;
-    readonly currentActivityChanged: QSignal<[newActivity: string]>;
+    readonly numberDesktopsChanged: QSignal<[void]>;
+    readonly currentActivityChanged: QSignal<[void]>;
     readonly virtualScreenSizeChanged: QSignal<[void]>;
 
     clientArea(option: ClientAreaOption, screenNumber: number, desktopNumber: number);
@@ -67,9 +67,9 @@ interface KwinClient {
 
     readonly fullScreenChanged: QSignal<[void]>;
     readonly desktopChanged: QSignal<[void]>;
-    readonly activitiesChanged: QSignal<[KwinClient]>;
+    readonly activitiesChanged: QSignal<[void]>;
     readonly captionChanged: QSignal<[void]>;
-    readonly tileChanged: QSignal<[Tile]>;
+    readonly tileChanged: QSignal<[void]>;
     readonly moveResizedChanged: QSignal<[void]>;
     readonly moveResizeCursorChanged: QSignal<[void]>;
     readonly clientStartUserMovedResized: QSignal<[void]>;

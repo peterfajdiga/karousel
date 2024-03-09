@@ -68,7 +68,7 @@ namespace ClientState {
                 oldDesktopNumber = kwinClient.desktop;
             });
 
-            manager.connect(kwinClient.activitiesChanged, (kwinClient: KwinClient) => {
+            manager.connect(kwinClient.activitiesChanged, () => {
                 const desktops = kwinClient.desktop === -1 ? [] : [kwinClient.desktop];
                 const changedActivities = oldActivities.length === 0 || kwinClient.activities.length === 0 ?
                     [] :

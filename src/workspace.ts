@@ -60,7 +60,7 @@ function initWorkspaceSignalHandlers(world: World) {
         world.do(() => {}); // re-arrange desktop
     });
 
-    manager.connect(workspace.numberDesktopsChanged, (oldNumberOfVirtualDesktops: number) => {
+    manager.connect(workspace.numberDesktopsChanged, () => {
         world.updateDesktops();
     });
 
