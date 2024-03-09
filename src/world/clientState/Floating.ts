@@ -54,7 +54,7 @@ namespace ClientState {
                         clientManager.pinClient(kwinClient);
                     });
                 }
-            })
+            });
 
             return manager;
         }
