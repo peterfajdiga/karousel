@@ -25,6 +25,17 @@ declare const workspace: {
     clientList(): KwinClient[];
 };
 
+const enum ClientAreaOption {
+    PlacementArea,
+    MovementArea,
+    MaximizeArea,
+    MaximizeFullArea,
+    FullScreenArea,
+    WorkArea,
+    FullArea,
+    ScreenArea,
+}
+
 type Tile = any;
 
 interface KwinClient {
