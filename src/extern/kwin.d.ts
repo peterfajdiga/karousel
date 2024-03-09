@@ -60,7 +60,7 @@ interface KwinClient {
     shade: boolean;
     minimized: boolean;
     frameGeometry: QmlRect;
-    desktops: KwinDesktop[]; // TODO: is empty = all desktops?
+    desktops: KwinDesktop[]; // empty array means all desktops
     tile: Tile;
     opacity: number;
 

@@ -21,7 +21,7 @@ namespace Clients {
 
     export function getKwinDesktopApprox(kwinClient: KwinClient) {
         switch (kwinClient.desktops.length) {
-            case 0: // TODO: is empty = all desktops?
+            case 0:
                 return Workspace.currentDesktop;
             case 1:
                 return kwinClient.desktops[0];
@@ -45,10 +45,10 @@ namespace Clients {
     }
 
     export function isOnVirtualDesktop(kwinClient: KwinClient, kwinDesktop: KwinDesktop) {
-        return kwinClient.desktops.length === 0 || kwinClient.desktops.includes(kwinDesktop); // TODO: is empty = all desktops?
+        return kwinClient.desktops.length === 0 || kwinClient.desktops.includes(kwinDesktop);
     }
 
     export function isOnOneOfVirtualDesktops(kwinClient: KwinClient, kwinDesktops: KwinDesktop[]) {
-        return kwinClient.desktops.length === 0 || kwinClient.desktops.some(d => kwinDesktops.includes(d)); // TODO: is empty = all desktops?
+        return kwinClient.desktops.length === 0 || kwinClient.desktops.some(d => kwinDesktops.includes(d));
     }
 }

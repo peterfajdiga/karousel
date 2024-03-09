@@ -71,7 +71,7 @@ class DesktopManager {
     public *getDesktopsForClient(kwinClient: KwinClient) {
         // TODO: call `getDesktops` when Qt bug is fixed
         const clientActivities = kwinClient.activities.length > 0 ? kwinClient.activities : this.kwinActivities.keys();
-        const clientDesktops = kwinClient.desktops.length > 0 ? kwinClient.desktops : this.kwinDesktops.keys(); // TODO: is empty = all desktops?
+        const clientDesktops = kwinClient.desktops.length > 0 ? kwinClient.desktops : this.kwinDesktops.keys();
         for (const clientActivity of clientActivities) {
             for (const clientDesktop of clientDesktops) {
                 yield this.getDesktop(clientActivity, clientDesktop);

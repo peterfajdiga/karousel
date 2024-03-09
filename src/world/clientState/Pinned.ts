@@ -63,7 +63,7 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.desktopsChanged, () => {
-                const changedDesktops = oldDesktops.length === 0 || kwinClient.desktops.length === 0 ? // TODO: is empty = all desktops?
+                const changedDesktops = oldDesktops.length === 0 || kwinClient.desktops.length === 0 ?
                     [] :
                     union(oldDesktops, kwinClient.desktops);
                 world.do((clientManager, desktopManager) => {
@@ -79,7 +79,7 @@ namespace ClientState {
                     [] :
                     union(oldActivities, kwinClient.activities);
                 world.do((clientManager, desktopManager) => {
-                    for (const desktop of desktopManager.getDesktops(changedActivities, kwinClient.desktops)) { // TODO: is empty = all desktops?
+                    for (const desktop of desktopManager.getDesktops(changedActivities, kwinClient.desktops)) {
                         desktop.onPinsChanged();
                     }
                 });
