@@ -36,7 +36,7 @@ type QSignal<T extends unknown[]> = {
 
 type QmlTimer = {
     interval: number;
-    triggered: QSignal<[void]>;
+    readonly triggered: QSignal<[void]>;
     restart(): void;
     destroy(): void;
 };

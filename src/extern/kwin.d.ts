@@ -14,16 +14,16 @@ declare const workspace: {
     activeClient: KwinClient;
 
     // Signals
-    currentDesktopChanged: QSignal<[oldDesktopNumber: number]>
-    clientAdded: QSignal<[KwinClient]>;
-    clientRemoved: QSignal<[KwinClient]>;
-    clientMinimized: QSignal<[KwinClient]>;
-    clientUnminimized: QSignal<[KwinClient]>;
-    clientMaximizeSet: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>;
-    clientActivated: QSignal<[KwinClient]>;
-    numberDesktopsChanged: QSignal<[oldNumberOfVirtualDesktops: number]>;
-    currentActivityChanged: QSignal<[newActivity: string]>;
-    virtualScreenSizeChanged: QSignal<[void]>;
+    readonly currentDesktopChanged: QSignal<[oldDesktopNumber: number]>
+    readonly clientAdded: QSignal<[KwinClient]>;
+    readonly clientRemoved: QSignal<[KwinClient]>;
+    readonly clientMinimized: QSignal<[KwinClient]>;
+    readonly clientUnminimized: QSignal<[KwinClient]>;
+    readonly clientMaximizeSet: QSignal<[KwinClient, horizontally: boolean, vertically: boolean]>;
+    readonly clientActivated: QSignal<[KwinClient]>;
+    readonly numberDesktopsChanged: QSignal<[oldNumberOfVirtualDesktops: number]>;
+    readonly currentActivityChanged: QSignal<[newActivity: string]>;
+    readonly virtualScreenSizeChanged: QSignal<[void]>;
 
     // Functions
     clientArea(option: ClientAreaOption, screenNumber: number, desktopNumber: number);
@@ -62,15 +62,15 @@ interface KwinClient {
     tile: Tile;
 
     // Signals
-    fullScreenChanged: QSignal<[void]>;
-    desktopChanged: QSignal<[void]>;
-    activitiesChanged: QSignal<[KwinClient]>;
-    captionChanged: QSignal<[void]>;
-    tileChanged: QSignal<[Tile]>;
-    moveResizedChanged: QSignal<[void]>;
-    moveResizeCursorChanged: QSignal<[void]>;
-    clientStartUserMovedResized: QSignal<[void]>;
-    frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QmlRect]>;
+    readonly fullScreenChanged: QSignal<[void]>;
+    readonly desktopChanged: QSignal<[void]>;
+    readonly activitiesChanged: QSignal<[KwinClient]>;
+    readonly captionChanged: QSignal<[void]>;
+    readonly tileChanged: QSignal<[Tile]>;
+    readonly moveResizedChanged: QSignal<[void]>;
+    readonly moveResizeCursorChanged: QSignal<[void]>;
+    readonly clientStartUserMovedResized: QSignal<[void]>;
+    readonly frameGeometryChanged: QSignal<[KwinClient, oldGeometry: QmlRect]>;
 
     // Functions
     setMaximize(vertically: boolean, horizontally: boolean): void;
