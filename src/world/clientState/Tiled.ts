@@ -126,7 +126,7 @@ namespace ClientState {
                 } else if (
                     !window.column.grid.isUserResizing() &&
                     !client.isManipulatingGeometry(newGeometry) &&
-                    !Clients.isMaximizedGeometry(kwinClient) &&
+                    client.getMaximizedMode() === MaximizedMode.Unmaximized &&
                     !Clients.isFullScreenGeometry(kwinClient) // not using `kwinClient.fullScreen` because it may not be set yet at this point
                 ) {
                     world.do(() => window.onFrameGeometryChanged());

@@ -3,8 +3,10 @@ class ClientWrapper {
     public readonly stateManager: ClientState.Manager;
     public transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
+    private readonly signalManager: SignalManager;
     private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;
+    private maximizedMode: MaximizedMode | undefined;
     private readonly manipulatingGeometry: Doer;
     private lastPlacement: QmlRect | null; // workaround for issue #19
 
@@ -20,6 +22,7 @@ class ClientWrapper {
         if (transientFor !== null) {
             transientFor.addTransient(this);
         }
+        this.signalManager = ClientWrapper.initSignalManager(this);
         this.rulesSignalManager = rulesSignalManager;
         this.preferredWidth = kwinClient.frameGeometry.width;
         this.manipulatingGeometry = new Doer();
@@ -98,6 +101,10 @@ class ClientWrapper {
         return this.kwinClient.shade;
     }
 
+    public getMaximizedMode() {
+        return this.maximizedMode;
+    }
+
     public isManipulatingGeometry(newGeometry: QmlRect | null) {
         if (newGeometry !== null && newGeometry === this.lastPlacement) {
             return true;
@@ -137,6 +144,7 @@ class ClientWrapper {
 
     public destroy(passFocus: boolean) {
         this.stateManager.destroy(passFocus);
+        this.signalManager.destroy();
         if (this.rulesSignalManager !== null) {
             this.rulesSignalManager.destroy();
         }
@@ -146,5 +154,15 @@ class ClientWrapper {
         for (const transient of this.transients) {
             transient.transientFor = null;
         }
+    }
+
+    private static initSignalManager(client: ClientWrapper) {
+        const manager = new SignalManager();
+
+        manager.connect(client.kwinClient.maximizedAboutToChange, (maximizedMode: MaximizedMode) => {
+            client.maximizedMode = maximizedMode;
+        });
+
+        return manager;
     }
 }

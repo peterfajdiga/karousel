@@ -34,11 +34,6 @@ namespace Clients {
         }
     }
 
-    export function isMaximizedGeometry(kwinClient: KwinClient) {
-        const maximizeArea = Workspace.clientArea(ClientAreaOption.MaximizeArea, kwinClient.output, getKwinDesktopApprox(kwinClient));
-        return kwinClient.frameGeometry === maximizeArea;
-    }
-
     export function isFullScreenGeometry(kwinClient: KwinClient) {
         const fullScreenArea = Workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.output, getKwinDesktopApprox(kwinClient));
         return kwinClient.frameGeometry === fullScreenArea;
