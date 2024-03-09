@@ -261,7 +261,7 @@ namespace Actions {
                     const grid = desktopManager.getCurrentDesktop().grid;
                     const targetColumn = grid.getColumnAtIndex(columnIndex);
                     if (targetColumn === null) {
-                        return null;
+                        return;
                     }
                     targetColumn.focus();
                 });
@@ -271,7 +271,7 @@ namespace Actions {
                 world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
                     const targetColumn = grid.getColumnAtIndex(columnIndex);
                     if (targetColumn === null) {
-                        return null;
+                        return;
                     }
                     window.moveToColumn(targetColumn);
                     grid.desktop.autoAdjustScroll();
@@ -282,7 +282,7 @@ namespace Actions {
                 world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
                     const targetColumn = grid.getColumnAtIndex(columnIndex);
                     if (targetColumn === null || targetColumn === column) {
-                        return null;
+                        return;
                     }
                     if (targetColumn.isAfter(column)) {
                         column.moveAfter(targetColumn);
