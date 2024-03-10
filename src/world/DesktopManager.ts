@@ -74,7 +74,11 @@ class DesktopManager {
         const clientDesktops = kwinClient.desktops.length > 0 ? kwinClient.desktops : this.kwinDesktops.keys();
         for (const clientActivity of clientActivities) {
             for (const clientDesktop of clientDesktops) {
-                yield this.getDesktop(clientActivity, clientDesktop);
+                const desktopKey = DesktopManager.getDesktopKey(clientActivity, clientDesktop);
+                const desktop = this.desktops.get(desktopKey);
+                if (desktop !== undefined) {
+                    yield desktop;
+                }
             }
         }
     }
@@ -83,9 +87,13 @@ class DesktopManager {
     public *getDesktops(activities: string[], kwinDesktops: KwinDesktop[]) {
         const matchedActivities = activities.length > 0 ? activities : this.kwinActivities.keys();
         const matchedDesktops = kwinDesktops.length > 0 ? kwinDesktops : this.kwinDesktops.keys();
-        for (const clientActivity of matchedActivities) {
-            for (const clientDesktop of matchedDesktops) {
-                yield this.getDesktop(clientActivity, clientDesktop);
+        for (const matchedActivity of matchedActivities) {
+            for (const matchedDesktop of matchedDesktops) {
+                const desktopKey = DesktopManager.getDesktopKey(matchedActivity, matchedDesktop);
+                const desktop = this.desktops.get(desktopKey);
+                if (desktop !== undefined) {
+                    yield desktop;
+                }
             }
         }
     }
