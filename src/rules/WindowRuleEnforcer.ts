@@ -71,11 +71,11 @@ class WindowRuleEnforcer {
     }
 
     private static joinRegexes(regexes: string[]) {
-        if (regexes.length == 0) {
+        if (regexes.length === 0) {
             return new RegExp("");
         }
 
-        if (regexes.length == 1) {
+        if (regexes.length === 1) {
             return new RegExp("^" + regexes[0] + "$");
         }
 

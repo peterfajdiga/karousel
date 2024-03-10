@@ -21,7 +21,7 @@ function formatComment(comment: string | undefined) {
 
 function printCols(...columns: (string[] | string)[]) {
     const nCols = columns.length;
-    if (nCols == 0) {
+    if (nCols === 0) {
         return;
     }
 
@@ -30,7 +30,7 @@ function printCols(...columns: (string[] | string)[]) {
     ).map(
         (column: string[] | string) => column.length
     ));
-    if (nRows == Infinity) {
+    if (nRows === Infinity) {
         // we only have single string columns
         nRows = 1;
     }
