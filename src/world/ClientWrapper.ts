@@ -80,6 +80,17 @@ class ClientWrapper {
     }
 
     public setMaximize(horizontally: boolean, vertically: boolean) {
+        if (this.maximizedMode === undefined) {
+            if (horizontally && vertically) {
+                this.maximizedMode = MaximizedMode.Maximized;
+            } else if (horizontally) {
+                this.maximizedMode = MaximizedMode.Horizontally;
+            } else if (vertically) {
+                this.maximizedMode = MaximizedMode.Vertically;
+            } else {
+                this.maximizedMode = MaximizedMode.Unmaximized;
+            }
+        }
         this.manipulatingGeometry.do(() => {
             this.kwinClient.setMaximize(vertically, horizontally);
         });
