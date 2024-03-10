@@ -13,6 +13,11 @@ type QmlObject = unknown;
 
 type QByteArray = string;
 
+type QmlPoint = {
+    x: number;
+    y: number;
+}
+
 type QmlRect = {
     x: number;
     y: number;

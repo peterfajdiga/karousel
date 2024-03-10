@@ -8,6 +8,7 @@ declare const Workspace: {
     readonly currentActivity: string;
     readonly activeScreen: Output;
     readonly windows: KwinClient[];
+    readonly cursorPos: QmlPoint;
 
     activeWindow: KwinClient;
 
@@ -80,7 +81,6 @@ interface KwinClient {
     readonly captionChanged: QSignal<[]>;
     readonly tileChanged: QSignal<[]>;
     readonly moveResizedChanged: QSignal<[]>;
-    readonly moveResizeCursorChanged: QSignal<[]>;
     readonly interactiveMoveResizeStarted: QSignal<[]>;
     readonly frameGeometryChanged: QSignal<[oldGeometry: QmlRect]>;
 

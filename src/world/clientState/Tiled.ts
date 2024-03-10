@@ -90,12 +90,10 @@ namespace ClientState {
                 });
             });
 
-            let cursorChangedAfterResizeStart = false;
-            manager.connect(kwinClient.moveResizeCursorChanged, () => {
-                cursorChangedAfterResizeStart = true;
-            });
+            let resizingBorder = false;
             manager.connect(kwinClient.interactiveMoveResizeStarted, () => {
-                cursorChangedAfterResizeStart = false;
+                resizingBorder = Workspace.cursorPos.x > kwinClient.frameGeometry.right ||
+                    Workspace.cursorPos.x < kwinClient.frameGeometry.left;
             });
 
             manager.connect(kwinClient.frameGeometryChanged, (oldGeometry: QmlRect) => {
@@ -119,7 +117,7 @@ namespace ClientState {
                 }
 
                 if (kwinClient.resize) {
-                    world.do(() => window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart));
+                    world.do(() => window.onUserResize(oldGeometry, resizingBorder));
                 } else if (
                     !window.column.grid.isUserResizing() &&
                     !client.isManipulatingGeometry(newGeometry) &&
