@@ -1,6 +1,6 @@
 namespace Clients {
     export function canTileEver(kwinClient: KwinClient) {
-        return kwinClient.resizeable;
+        return kwinClient.resizeable && !kwinClient.popupWindow;
     }
 
     export function canTileNow(kwinClient: KwinClient) {
