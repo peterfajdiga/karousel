@@ -4,13 +4,7 @@ function initWorkspaceSignalHandlers(world: World) {
     manager.connect(Workspace.windowAdded, (kwinClient: KwinClient) => {
         if (Clients.canTileEver(kwinClient)) {
             // never open new tileable clients on all desktops or activities
-            // TODO: use makeTileable?
-            if (kwinClient.desktops.length !== 1) {
-                kwinClient.desktops = [Workspace.currentDesktop];
-            }
-            if (kwinClient.activities.length !== 1) {
-                kwinClient.activities = [Workspace.currentActivity];
-            }
+            Clients.makeTileable(kwinClient);
         }
         world.do((clientManager, desktopManager) => {
             clientManager.addClient(kwinClient)
