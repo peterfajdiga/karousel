@@ -185,7 +185,7 @@ class Grid {
         this.desktop.autoAdjustScroll();
     }
 
-    public onColumnWidthChanged(column: Column, oldWidth: number, width: number) {
+    public onColumnWidthChanged(column: Column) {
         const nextColumn = this.columns.getNext(column);
         this.columnsSetX(nextColumn);
         this.desktop.onLayoutChanged();

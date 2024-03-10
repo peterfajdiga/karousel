@@ -92,16 +92,17 @@ class Column {
 
     public setWidth(width: number, setPreferred: boolean) {
         width = clamp(width, this.getMinWidth(), this.getMaxWidth());
-        const oldWidth = this.width;
+        if (width === this.width) {
+            return;
+        }
+
         this.width = width;
         if (setPreferred) {
             for (const window of this.windows.iterator()) {
                 window.client.preferredWidth = width;
             }
         }
-        if (width !== oldWidth) {
-            this.grid.onColumnWidthChanged(this, oldWidth, width);
-        }
+        this.grid.onColumnWidthChanged(this);
     }
 
     public adjustWidth(widthDelta: number, setPreferred: boolean) {
