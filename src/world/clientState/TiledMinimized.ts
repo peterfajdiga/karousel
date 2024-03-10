@@ -16,7 +16,12 @@ namespace ClientState {
             manager.connect(client.kwinClient.minimizedChanged, () => {
                 console.assert(!client.kwinClient.minimized);
                 world.do((clientManager, desktopManager) => {
-                    clientManager.unminimizeClient(client.kwinClient);
+                    const desktop = desktopManager.getDesktopForClient(client.kwinClient);
+                    if (desktop !== undefined) {
+                        clientManager.tileClient(client, desktop.grid);
+                    } else {
+                        clientManager.floatClient(client);
+                    }
                 });
             });
 

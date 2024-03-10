@@ -36,7 +36,7 @@ namespace ClientState {
                     const desktop = desktopManager.getDesktopForClient(kwinClient);
                     if (desktop === undefined) {
                         // windows on multiple desktops are not supported
-                        clientManager.untileClient(kwinClient);
+                        clientManager.floatKwinClient(kwinClient);
                         return;
                     }
                     Tiled.moveWindowToGrid(window, desktop.grid);
@@ -48,7 +48,7 @@ namespace ClientState {
                     const desktop = desktopManager.getDesktopForClient(kwinClient);
                     if (desktop === undefined) {
                         // windows on multiple activities are not supported
-                        clientManager.untileClient(kwinClient);
+                        clientManager.floatKwinClient(kwinClient);
                         return;
                     }
                     Tiled.moveWindowToGrid(window, desktop.grid);
@@ -74,7 +74,7 @@ namespace ClientState {
                 if (kwinClient.move) {
                     if (world.untileOnDrag) {
                         world.do((clientManager, desktopManager) => {
-                            clientManager.untileClient(kwinClient);
+                            clientManager.floatKwinClient(kwinClient);
                         });
                     }
                     return;

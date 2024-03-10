@@ -83,40 +83,34 @@ class ClientManager {
         }
     }
 
-    public unminimizeClient(kwinClient: KwinClient) {
-        const client = this.clientMap.get(kwinClient);
-        if (client === undefined) {
-            return;
-        }
-        if (client.stateManager.getState() instanceof ClientState.TiledMinimized) {
-            const desktop = this.desktopManager.getDesktopForClient(kwinClient);
-            if (desktop !== undefined) {
-                client.stateManager.setState(() => new ClientState.Tiled(this.world, client, desktop.grid), false);
-            } else {
-                client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, false), false);
-            }
-        }
-    }
-
-    public tileClient(kwinClient: KwinClient, grid: Grid) {
-        const client = this.clientMap.get(kwinClient);
-        if (client === undefined) {
-            return;
-        }
+    public tileClient(client: ClientWrapper, grid: Grid) {
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
             return;
         }
         client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
     }
 
-    public untileClient(kwinClient: KwinClient) {
+    public floatClient(client: ClientWrapper) {
+        if (client.stateManager.getState() instanceof ClientState.Floating) {
+            return;
+        }
+        client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), false);
+    }
+
+    public tileKwinClient(kwinClient: KwinClient, grid: Grid) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
         }
-        if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), false);
+        this.tileClient(client, grid);
+    }
+
+    public floatKwinClient(kwinClient: KwinClient) {
+        const client = this.clientMap.get(kwinClient);
+        if (client === undefined) {
+            return;
         }
+        this.floatClient(client);
     }
 
     public pinClient(kwinClient: KwinClient) {

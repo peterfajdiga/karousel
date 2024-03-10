@@ -33,9 +33,9 @@ class WindowRuleEnforcer {
             world.do((clientManager, desktopManager) => {
                 const desktop = desktopManager.getDesktopForClient(kwinClient);
                 if (shouldTile && desktop !== undefined) {
-                    clientManager.tileClient(kwinClient, desktop.grid);
+                    clientManager.tileKwinClient(kwinClient, desktop.grid);
                 } else {
-                    clientManager.untileClient(kwinClient);
+                    clientManager.floatKwinClient(kwinClient);
                 }
             });
         });
