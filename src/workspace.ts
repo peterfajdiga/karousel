@@ -35,11 +35,15 @@ function initWorkspaceSignalHandlers(world: World) {
     });
 
     manager.connect(Workspace.desktopsChanged, () => {
-        // TODO: Remove desktops from DesktopManager
+        world.do((clientManager, desktopManager) => {
+            desktopManager.updateDesktops();
+        })
     });
 
     manager.connect(Workspace.activitiesChanged, () => {
-        // TODO: Remove desktops from DesktopManager
+        world.do((clientManager, desktopManager) => {
+            desktopManager.updateActivities();
+        })
     });
 
     manager.connect(Workspace.virtualScreenSizeChanged, () => {

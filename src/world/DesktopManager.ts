@@ -3,17 +3,16 @@ class DesktopManager {
     private readonly config: Desktop.Config;
     public readonly layoutConfig: LayoutConfig;
     private readonly desktops: Map<string, Desktop>; // key is activityId|desktopId
-    private readonly kwinActivities: Set<string>;
-    private readonly kwinDesktops: Set<KwinDesktop>;
-    // TODO: remove removed desktops
+    private kwinActivities: Set<string>;
+    private kwinDesktops: Set<KwinDesktop>;
 
     constructor(pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig, currentActivity: string, currentDesktop: KwinDesktop) {
         this.pinManager = pinManager;
         this.config = config;
         this.layoutConfig = layoutConfig;
         this.desktops = new Map();
-        this.kwinActivities = new Set();
-        this.kwinDesktops = new Set();
+        this.kwinActivities = new Set(Workspace.activities);
+        this.kwinDesktops = new Set(Workspace.desktops);
         this.addDesktop(currentActivity, currentDesktop);
     }
 
@@ -47,13 +46,52 @@ class DesktopManager {
         const desktopKey = DesktopManager.getDesktopKey(activity, kwinDesktop);
         const desktop = new Desktop(kwinDesktop, this.pinManager, this.config, this.layoutConfig);
         this.desktops.set(desktopKey, desktop);
-        this.kwinActivities.add(activity);
-        this.kwinDesktops.add(kwinDesktop);
         return desktop;
     }
 
     private static getDesktopKey(activity: string, kwinDesktop: KwinDesktop) {
         return activity + "|" + kwinDesktop.id;
+    }
+
+    public updateActivities() {
+        const newActivities = new Set(Workspace.activities);
+        for (const activity of this.kwinActivities) {
+            if (!newActivities.has(activity)) {
+                this.removeActivity(activity);
+            }
+        }
+        this.kwinActivities = newActivities;
+    }
+
+    public updateDesktops() {
+        const newDesktops = new Set(Workspace.desktops);
+        for (const desktop of this.kwinDesktops) {
+            if (!newDesktops.has(desktop)) {
+                this.removeKwinDesktop(desktop);
+            }
+        }
+        this.kwinDesktops = newDesktops;
+    }
+
+    private removeActivity(activity: string) {
+        for (const kwinDesktop of this.kwinDesktops) {
+            this.destroyDesktop(activity, kwinDesktop);
+        }
+    }
+
+    private removeKwinDesktop(kwinDesktop: KwinDesktop) {
+        for (const activity of this.kwinActivities) {
+            this.destroyDesktop(activity, kwinDesktop);
+        }
+    }
+
+    private destroyDesktop(activity: string, kwinDesktop: KwinDesktop) {
+        const desktopKey = DesktopManager.getDesktopKey(activity, kwinDesktop);
+        const desktop = this.desktops.get(desktopKey);
+        if (desktop !== undefined) {
+            desktop.destroy();
+            this.desktops.delete(desktopKey);
+        }
     }
 
     public destroy() {

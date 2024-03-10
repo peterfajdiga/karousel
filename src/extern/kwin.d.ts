@@ -3,6 +3,7 @@ declare const KWin: {
 };
 
 declare const Workspace: {
+    readonly activities: string[];
     readonly desktops: KwinDesktop[];
     readonly currentDesktop: KwinDesktop;
     readonly currentActivity: string;
