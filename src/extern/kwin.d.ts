@@ -36,7 +36,7 @@ const enum ClientAreaOption {
     ScreenArea,
 }
 
-type Tile = any;
+type Tile = unknown;
 
 interface KwinClient {
     readonly shadeable: boolean;
