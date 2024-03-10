@@ -80,8 +80,8 @@ interface KwinClient {
     readonly maximizedAboutToChange: QSignal<[MaximizedMode]>
     readonly captionChanged: QSignal<[]>;
     readonly tileChanged: QSignal<[]>;
-    readonly moveResizedChanged: QSignal<[]>;
     readonly interactiveMoveResizeStarted: QSignal<[]>;
+    readonly interactiveMoveResizeFinished: QSignal<[]>;
     readonly frameGeometryChanged: QSignal<[oldGeometry: QmlRect]>;
 
     setMaximize(vertically: boolean, horizontally: boolean): void;

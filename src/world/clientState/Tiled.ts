@@ -68,32 +68,31 @@ namespace ClientState {
                 });
             });
 
-            let lastResize = false;
-            manager.connect(kwinClient.moveResizedChanged, () => {
-                world.do((clientManager, desktopManager) => {
-                    if (kwinClient.move) {
-                        if (world.untileOnDrag) {
-                            clientManager.untileClient(kwinClient);
-                        }
-                        return;
-                    }
-
-                    const grid = window.column.grid;
-                    const resize = kwinClient.resize;
-                    if (!lastResize && resize) {
-                        grid.onUserResizeStarted();
-                    }
-                    if (lastResize && !resize) {
-                        grid.onUserResizeFinished();
-                    }
-                    lastResize = resize;
-                });
-            });
-
+            let resizing = false;
             let resizingBorder = false;
             manager.connect(kwinClient.interactiveMoveResizeStarted, () => {
-                resizingBorder = Workspace.cursorPos.x > kwinClient.frameGeometry.right ||
-                    Workspace.cursorPos.x < kwinClient.frameGeometry.left;
+                if (kwinClient.move) {
+                    if (world.untileOnDrag) {
+                        world.do((clientManager, desktopManager) => {
+                            clientManager.untileClient(kwinClient);
+                        });
+                    }
+                    return;
+                }
+
+                if (kwinClient.resize) {
+                    resizing = true;
+                    resizingBorder = Workspace.cursorPos.x > kwinClient.frameGeometry.right ||
+                        Workspace.cursorPos.x < kwinClient.frameGeometry.left;
+                    window.column.grid.onUserResizeStarted();
+                }
+            });
+
+            manager.connect(kwinClient.interactiveMoveResizeFinished, () => {
+                if (resizing) {
+                    resizing = false;
+                    window.column.grid.onUserResizeFinished();
+                }
             });
 
             manager.connect(kwinClient.frameGeometryChanged, (oldGeometry: QmlRect) => {
