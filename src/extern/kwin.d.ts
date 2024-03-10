@@ -55,6 +55,8 @@ interface KwinClient {
     readonly move: boolean;
     readonly resize: boolean;
     readonly resizeable: boolean;
+    readonly fullScreenable: boolean;
+    readonly maximizable: boolean;
     readonly output: Output;
     readonly resourceClass: QByteArray;
     readonly dock: boolean;

@@ -80,6 +80,10 @@ class ClientWrapper {
     }
 
     public setMaximize(horizontally: boolean, vertically: boolean) {
+        if (!this.kwinClient.maximizable) {
+            return;
+        }
+
         if (this.maximizedMode === undefined) {
             if (horizontally && vertically) {
                 this.maximizedMode = MaximizedMode.Maximized;
@@ -91,12 +95,17 @@ class ClientWrapper {
                 this.maximizedMode = MaximizedMode.Unmaximized;
             }
         }
+
         this.manipulatingGeometry.do(() => {
             this.kwinClient.setMaximize(vertically, horizontally);
         });
     }
 
     public setFullScreen(fullScreen: boolean) {
+        if (!this.kwinClient.fullScreenable) {
+            return;
+        }
+
         this.manipulatingGeometry.do(() => {
             this.kwinClient.fullScreen = fullScreen;
         });
