@@ -68,19 +68,9 @@ class DesktopManager {
         }
     }
 
-    public *getDesktopsForClient(kwinClient: KwinClient) {
-        // TODO: call `getDesktops` when Qt bug is fixed
-        const clientActivities = kwinClient.activities.length > 0 ? kwinClient.activities : this.kwinActivities.keys();
-        const clientDesktops = kwinClient.desktops.length > 0 ? kwinClient.desktops : this.kwinDesktops.keys();
-        for (const clientActivity of clientActivities) {
-            for (const clientDesktop of clientDesktops) {
-                const desktopKey = DesktopManager.getDesktopKey(clientActivity, clientDesktop);
-                const desktop = this.desktops.get(desktopKey);
-                if (desktop !== undefined) {
-                    yield desktop;
-                }
-            }
-        }
+    public getDesktopsForClient(kwinClient: KwinClient) {
+        const desktops = this.getDesktops(kwinClient.activities, kwinClient.desktops); // workaround for QTBUG-109880
+        return desktops;
     }
 
     // empty array means all
