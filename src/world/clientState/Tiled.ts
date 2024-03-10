@@ -33,23 +33,25 @@ namespace ClientState {
 
             manager.connect(kwinClient.desktopChanged, () => {
                 world.do((clientManager, desktopManager) => {
-                    if (kwinClient.desktop === -1) {
+                    const desktop = desktopManager.getDesktopForClient(kwinClient);
+                    if (desktop === undefined) {
                         // windows on all desktops are not supported
                         clientManager.untileClient(kwinClient);
                         return;
                     }
-                    Tiled.moveWindowToCorrectGrid(desktopManager, window);
+                    Tiled.moveWindowToGrid(window, desktop.grid);
                 });
             });
 
             manager.connect(kwinClient.activitiesChanged, () => {
                 world.do((clientManager, desktopManager) => {
-                    if (kwinClient.activities.length !== 1) {
+                    const desktop = desktopManager.getDesktopForClient(kwinClient);
+                    if (desktop === undefined) {
                         // windows on multiple activities are not supported
                         clientManager.untileClient(kwinClient);
                         return;
                     }
-                    Tiled.moveWindowToCorrectGrid(desktopManager, window);
+                    Tiled.moveWindowToGrid(window, desktop.grid);
                 });
             })
 
@@ -130,17 +132,13 @@ namespace ClientState {
             return manager;
         }
 
-        private static moveWindowToCorrectGrid(desktopManager: DesktopManager, window: Window) {
-            const kwinClient = window.client.kwinClient;
-
-            const oldGrid = window.column.grid;
-            const newGrid = desktopManager.getDesktopForClient(kwinClient).grid;
-            if (oldGrid === newGrid) {
-                // window already on the correct grid
+        private static moveWindowToGrid(window: Window, grid: Grid) {
+            if (grid === window.column.grid) {
+                // window already on the given grid
                 return;
             }
 
-            const newColumn = new Column(newGrid, newGrid.getLastFocusedColumn() ?? newGrid.getLastColumn());
+            const newColumn = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
             window.moveToColumn(newColumn);
         }
 

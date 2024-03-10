@@ -31,8 +31,9 @@ class WindowRuleEnforcer {
         manager.connect(kwinClient.captionChanged, () => {
             const shouldTile = enforcer.shouldTile(kwinClient);
             world.do((clientManager, desktopManager) => {
-                if (shouldTile) {
-                    clientManager.tileClient(kwinClient);
+                const desktop = desktopManager.getDesktopForClient(kwinClient);
+                if (shouldTile && desktop !== undefined) {
+                    clientManager.tileClient(kwinClient, desktop.grid);
                 } else {
                     clientManager.untileClient(kwinClient);
                 }
