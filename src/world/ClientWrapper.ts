@@ -35,6 +35,12 @@ class ClientWrapper {
             }
             this.lastPlacement = Qt.rect(x, y, width, height);
             this.kwinClient.frameGeometry = this.lastPlacement;
+            if (this.kwinClient.frameGeometry !== this.lastPlacement) {
+                // frameGeometry assignment failed. This sometimes happens on Wayland
+                // when a window is off-screen, effectively making it stuck there.
+                this.kwinClient.frameGeometry.x = x; // This makes it unstuck.
+                this.kwinClient.frameGeometry = this.lastPlacement;
+            }
         });
     }
 
