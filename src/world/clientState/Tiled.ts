@@ -108,6 +108,7 @@ namespace ClientState {
                 if (kwinClient.resize) {
                     world.do(() => window.onUserResize(oldGeometry, !cursorChangedAfterResizeStart));
                 } else if (
+                    !window.column.grid.isUserResizing() &&
                     !client.isManipulatingGeometry(newGeometry) &&
                     !Clients.isMaximizedGeometry(kwinClient) &&
                     !Clients.isFullScreenGeometry(kwinClient) // not using `kwinClient.fullScreen` because it may not be set yet at this point

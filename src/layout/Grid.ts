@@ -43,6 +43,10 @@ class Grid {
         return this.width;
     }
 
+    public isUserResizing() {
+        return this.userResize;
+    }
+
     public getPrevColumn(column: Column) {
         return this.columns.getPrev(column);
     }
