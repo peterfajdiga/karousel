@@ -54,6 +54,7 @@ interface KwinClient {
     readonly transientFor: KwinClient;
     readonly move: boolean;
     readonly resize: boolean;
+    readonly moveable: boolean;
     readonly resizeable: boolean;
     readonly fullScreenable: boolean;
     readonly maximizable: boolean;
