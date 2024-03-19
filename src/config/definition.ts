@@ -4,6 +4,14 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "plasmashell",
+        "tile": false
+    },
+    {
+        "class": "org.kde.plasmashell",
+        "tile": false
+    },
+    {
         "class": "kcalc",
         "tile": false
     },
