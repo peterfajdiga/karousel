@@ -19,7 +19,7 @@ Similar window managers include [PaperWM](https://github.com/paperwm/PaperWM),
 
 ## Dependencies
 Karousel requires the following QML modules:
-- QtQuick 2.15
+- QtQuick 6.0
 - org.kde.kwin 3.0
 - org.kde.notification 1.0
 
