@@ -1,13 +1,16 @@
 class WindowRuleEnforcer {
     private readonly preferFloating: ClientMatcher;
     private readonly preferTiling: ClientMatcher;
-    private readonly followCaption: Set<string>;
+    private readonly followCaption: RegExp;
 
     constructor(windowRules: WindowRule[]) {
-        const [mapFloat, mapTile] = WindowRuleEnforcer.createWindowRuleMaps(windowRules);
-        this.preferFloating = new ClientMatcher(mapFloat);
-        this.preferTiling = new ClientMatcher(mapTile);
-        this.followCaption = new Set([...mapFloat.keys(), ...mapTile.keys()]);
+        const [floatRegex, tileRegex, followCaptionRegex] = WindowRuleEnforcer.createWindowRuleRegexes(windowRules);
+        log("floatRegex", floatRegex);
+        log("tileRegex", tileRegex);
+        log("followCaptionRegex", followCaptionRegex);
+        this.preferFloating = new ClientMatcher(floatRegex);
+        this.preferTiling = new ClientMatcher(tileRegex);
+        this.followCaption = followCaptionRegex;
     }
 
     public shouldTile(kwinClient: KwinClient) {
@@ -22,7 +25,7 @@ class WindowRuleEnforcer {
     }
 
     public initClientSignalManager(world: World, kwinClient: KwinClient) {
-        if (!this.followCaption.has(kwinClient.resourceClass)) {
+        if (!this.followCaption.test(kwinClient.resourceClass)) {
             return null;
         }
 
@@ -42,38 +45,39 @@ class WindowRuleEnforcer {
         return manager;
     }
 
-    private static createWindowRuleMaps(windowRules: WindowRule[]) {
-        const mapFloat = new Map<string, string[]>();
-        const mapTile = new Map<string, string[]>();
+    private static createWindowRuleRegexes(windowRules: WindowRule[]) {
+        const floatRegexes: string[] = [];
+        const tileRegexes: string[] = [];
+        const followCaptionRegexes: string[] = [];
         for (const windowRule of windowRules) {
-            const map = windowRule.tile ? mapTile : mapFloat;
-            let captions = map.get(windowRule.class);
-            if (captions === undefined) {
-                captions = [];
-                map.set(windowRule.class, captions);
-            }
-            if (windowRule.caption !== undefined) {
-                captions.push(windowRule.caption);
+            const ruleClass = WindowRuleEnforcer.parseRegex(windowRule.class);
+            const ruleCaption = WindowRuleEnforcer.parseRegex(windowRule.caption);
+            const ruleString = ClientMatcher.getRuleString(ruleClass, ruleCaption);
+
+            (windowRule.tile ? tileRegexes : floatRegexes).push(ruleString);
+            if (ruleCaption !== ".*") {
+                followCaptionRegexes.push(ruleClass);
             }
         }
 
         return [
-            WindowRuleEnforcer.createWindowRuleRegexMap(mapFloat),
-            WindowRuleEnforcer.createWindowRuleRegexMap(mapTile),
+            WindowRuleEnforcer.joinRegexes(floatRegexes),
+            WindowRuleEnforcer.joinRegexes(tileRegexes),
+            WindowRuleEnforcer.joinRegexes(followCaptionRegexes),
         ];
     }
 
-    private static createWindowRuleRegexMap(windowRuleMap: Map<string, string[]>) {
-        const regexMap = new Map<string, RegExp>;
-        for (const [k, v] of windowRuleMap) {
-            regexMap.set(k, WindowRuleEnforcer.joinRegexes(v));
+    private static parseRegex(rawRule: string | undefined) {
+        if (rawRule === undefined || rawRule === "" || rawRule === ".*") {
+            return ".*";
+        } else {
+            return rawRule;
         }
-        return regexMap;
     }
 
     private static joinRegexes(regexes: string[]) {
         if (regexes.length === 0) {
-            return new RegExp("");
+            return new RegExp("a^"); // match nothing
         }
 
         if (regexes.length === 1) {
