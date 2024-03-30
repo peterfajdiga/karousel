@@ -81,7 +81,6 @@ interface KwinClient {
     readonly desktopsChanged: QSignal<[]>;
     readonly activitiesChanged: QSignal<[]>;
     readonly minimizedChanged: QSignal<[]>;
-    readonly maximizedChanged: QSignal<[]>
     readonly maximizedAboutToChange: QSignal<[MaximizedMode]>
     readonly captionChanged: QSignal<[]>;
     readonly tileChanged: QSignal<[]>;
