@@ -175,6 +175,11 @@ const configDef = [
         default: false,
     },
     {
+        name: "noLayering",
+        type: "Bool",
+        default: false,
+    },
+    {
         name: "windowRules",
         type: "String",
         default: defaultWindowRules,

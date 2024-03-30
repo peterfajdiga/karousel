@@ -121,6 +121,13 @@
                                                 </property>
                                             </widget>
                                         </item>
+                                        <item>
+                                            <widget class="QRadioButton" name="kcfg_noLayering">
+                                                <property name="text">
+                                                    <string>No layering</string>
+                                                </property>
+                                            </widget>
+                                        </item>
                                     </layout>
                                 </widget>
                             </item>
