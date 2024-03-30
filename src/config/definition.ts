@@ -8,6 +8,10 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "(org\\\\.kde\\\\.)?kded6",
+        "tile": false
+    },
+    {
         "class": "(org\\\\.kde\\\\.)?kcalc",
         "tile": false
     },
