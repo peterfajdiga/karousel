@@ -1,15 +1,19 @@
 class ClientMatcher {
-    private readonly rules: Map<string, RegExp>;
+    private readonly regex: RegExp;
 
-    constructor(rules: Map<string, RegExp>) {
-        this.rules = rules;
+    constructor(regex: RegExp) {
+        this.regex = regex;
     }
 
     public matches(kwinClient: KwinClient) {
-        const rule = this.rules.get(kwinClient.resourceClass);
-        if (rule === undefined) {
-            return false;
-        }
-        return rule.test(kwinClient.caption);
+        return this.regex.test(ClientMatcher.getClientString(kwinClient));
+    }
+
+    public static getClientString(kwinClient: KwinClient) {
+        return ClientMatcher.getRuleString(kwinClient.resourceClass, kwinClient.caption);
+    }
+
+    public static getRuleString(ruleClass: string, ruleCaption: string) {
+        return ruleClass + "\0" + ruleCaption;
     }
 }
