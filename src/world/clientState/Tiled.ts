@@ -174,6 +174,9 @@ namespace ClientState {
             if (config.tiledKeepBelow) {
                 client.kwinClient.keepBelow = false;
             }
+            if (config.offScreenOpacity < 1.0) {
+                client.kwinClient.opacity = 1.0;
+            }
             client.setShade(false);
             client.setFullScreen(false);
             if (client.kwinClient.tile === null) {
