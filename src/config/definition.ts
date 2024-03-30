@@ -4,51 +4,27 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
-        "class": "plasmashell",
+        "class": "(org\\\\.kde\\\\.)?plasmashell",
         "tile": false
     },
     {
-        "class": "org\\\\.kde\\\\.plasmashell",
+        "class": "(org\\\\.kde\\\\.)?kcalc",
         "tile": false
     },
     {
-        "class": "kcalc",
-        "tile": false
-    },
-    {
-        "class": "org\\\\.kde\\\\.kcalc",
-        "tile": false
-    },
-    {
-        "class": "kfind",
+        "class": "(org\\\\.kde\\\\.)?kfind",
         "tile": true
     },
     {
-        "class": "org\\\\.kde\\\\.kfind",
-        "tile": true
-    },
-    {
-        "class": "kruler",
+        "class": "(org\\\\.kde\\\\.)?kruler",
         "tile": false
     },
     {
-        "class": "org\\\\.kde\\\\.kruler",
+        "class": "(org\\\\.kde\\\\.)?krunner",
         "tile": false
     },
     {
-        "class": "krunner",
-        "tile": false
-    },
-    {
-        "class": "org\\\\.kde\\\\.krunner",
-        "tile": false
-    },
-    {
-        "class": "yakuake",
-        "tile": false
-    },
-    {
-        "class": "org\\\\.kde\\\\.yakuake",
+        "class": "(org\\\\.kde\\\\.)?yakuake",
         "tile": false
     },
     {
