@@ -5,9 +5,6 @@ class WindowRuleEnforcer {
 
     constructor(windowRules: WindowRule[]) {
         const [floatRegex, tileRegex, followCaptionRegex] = WindowRuleEnforcer.createWindowRuleRegexes(windowRules);
-        log("floatRegex", floatRegex);
-        log("tileRegex", tileRegex);
-        log("followCaptionRegex", followCaptionRegex);
         this.preferFloating = new ClientMatcher(floatRegex);
         this.preferTiling = new ClientMatcher(tileRegex);
         this.followCaption = followCaptionRegex;
