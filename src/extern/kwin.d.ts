@@ -9,7 +9,7 @@ declare const Workspace: {
     readonly currentActivity: string;
     readonly activeScreen: Output;
     readonly windows: KwinClient[];
-    readonly cursorPos: QmlPoint;
+    readonly cursorPos: Readonly<QmlPoint>;
 
     activeWindow: KwinClient;
 
@@ -49,7 +49,7 @@ type Output = unknown;
 interface KwinClient {
     readonly shadeable: boolean;
     readonly caption: string;
-    readonly minSize: QmlSize;
+    readonly minSize: Readonly<QmlSize>;
     readonly transient: boolean;
     readonly transientFor: KwinClient;
     readonly clientGeometry: Readonly<QmlRect>;
