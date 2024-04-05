@@ -78,11 +78,11 @@ class WindowRuleEnforcer {
         }
 
         if (regexes.length === 1) {
-            return new RegExp("^" + regexes[0] + "$");
+            return new RegExp("^(" + regexes[0] + ")$");
         }
 
         const joinedRegexes = regexes.map(WindowRuleEnforcer.wrapParens).join("|");
-        return new RegExp("^" + joinedRegexes + "$");
+        return new RegExp("^(" + joinedRegexes + ")$");
     }
 
     private static wrapParens(str: string) {
