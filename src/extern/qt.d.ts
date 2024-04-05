@@ -11,8 +11,6 @@ declare const Qt: {
 
 type QmlObject = unknown;
 
-type QByteArray = string;
-
 type QmlPoint = {
     x: number;
     y: number;

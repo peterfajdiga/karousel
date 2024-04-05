@@ -60,7 +60,7 @@ interface KwinClient {
     readonly fullScreenable: boolean;
     readonly maximizable: boolean;
     readonly output: Output;
-    readonly resourceClass: QByteArray;
+    readonly resourceClass: string;
     readonly dock: boolean;
     readonly normalWindow: boolean;
     readonly managed: boolean;
