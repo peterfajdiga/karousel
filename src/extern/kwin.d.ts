@@ -52,6 +52,7 @@ interface KwinClient {
     readonly minSize: QmlSize;
     readonly transient: boolean;
     readonly transientFor: KwinClient;
+    readonly clientGeometry: Readonly<QmlRect>;
     readonly move: boolean;
     readonly resize: boolean;
     readonly moveable: boolean;

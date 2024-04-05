@@ -82,8 +82,8 @@ namespace ClientState {
 
                 if (kwinClient.resize) {
                     resizing = true;
-                    resizingBorder = Workspace.cursorPos.x > kwinClient.frameGeometry.right ||
-                        Workspace.cursorPos.x < kwinClient.frameGeometry.left;
+                    resizingBorder = Workspace.cursorPos.x > kwinClient.clientGeometry.right ||
+                        Workspace.cursorPos.x < kwinClient.clientGeometry.left;
                     window.column.grid.onUserResizeStarted();
                 }
             });
