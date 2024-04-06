@@ -9,7 +9,7 @@
             "Name": "Peter Fajdiga"
         }],
         "Id": "karousel",
-        "Version": "0.9",
+        "Version": "0.9.1",
         "License": "GPLv3",
         "Website": "https://github.com/peterfajdiga/karousel",
         "BugReportUrl": "https://github.com/peterfajdiga/karousel/issues"
