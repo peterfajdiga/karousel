@@ -8,7 +8,7 @@ config:
 	tsc ${TSC_SCRIPT_FLAGS} ./src/config/definition.ts ./generators/config/kcfg.ts --outFile /dev/stdout | node - > ./package/contents/config/main.xml
 
 build:
-	tsc --outFile ./package/contents/code/main.js
+	tsc -p ./src/main --outFile ./package/contents/code/main.js
 
 install: build config
 	kpackagetool6 --type=KWin/Script -i ./package || kpackagetool6 --type=KWin/Script -u ./package
