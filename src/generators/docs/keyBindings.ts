@@ -1,18 +1,3 @@
-type KeyBinding = {
-    name: string;
-    description: string;
-    comment?: string;
-    defaultKeySequence: string;
-}
-
-type NumKeyBinding = {
-    name: string;
-    description: string;
-    comment?: string;
-    defaultModifiers: string;
-    fKeys: boolean;
-}
-
 function formatComment(comment: string | undefined) {
     return comment === undefined ? "" : ` (${comment})`;
 }
