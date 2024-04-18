@@ -9,6 +9,9 @@ config:
 build:
 	tsc -p ./src/main --outFile ./package/contents/code/main.js
 
+tests:
+	./run-ts.sh ./src/tests
+
 install: build config
 	kpackagetool6 --type=KWin/Script -i ./package || kpackagetool6 --type=KWin/Script -u ./package
 
