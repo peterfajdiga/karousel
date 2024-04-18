@@ -1,7 +1,7 @@
 declare const console: {
     log(...args: any[]);
     trace();
-    assert(boolean);
+    assert(boolean, string?);
 };
 
 declare const Qt: {
