@@ -1,6 +1,3 @@
-declare const console: Console;
-declare const Qt: Qt;
-
 type Console = {
     log(...args: any[]): void;
     trace(): void;

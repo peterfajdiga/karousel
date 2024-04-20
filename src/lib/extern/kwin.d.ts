@@ -1,6 +1,3 @@
-declare const KWin: KWin;
-declare const Workspace: Workspace;
-
 type KWin = {
     readConfig(key: string, defaultValue: any): any;
 };
