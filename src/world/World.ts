@@ -45,10 +45,7 @@ class World {
                 marginBottom: config.gapsOuterBottom,
                 marginLeft: config.gapsOuterLeft,
                 marginRight: config.gapsOuterRight,
-                scroller: config.scrollingLazy ? new LazyScroller() :
-                    config.scrollingCentered ? new CenteredScroller() :
-                    config.scrollingGrouped ? new GroupedScroller() :
-                    console.assert(false),
+                scroller: World.createScroller(config),
                 clamper: config.scrollingLazy ? new EdgeClamper() : new CenterClamper(),
             },
             layoutConfig,
@@ -58,6 +55,19 @@ class World {
         this.clientManager = new ClientManager(config, this, this.desktopManager, this.pinManager);
         this.addExistingClients();
         this.update();
+    }
+
+    private static createScroller(config: Config) {
+        if (config.scrollingLazy) {
+            return new LazyScroller();
+        } else if (config.scrollingCentered) {
+            return new CenteredScroller();
+        } else if (config.scrollingGrouped) {
+            return new GroupedScroller();
+        } else {
+            log("No scrolling mode selected, using default");
+            return new LazyScroller();
+        }
     }
 
     private addExistingClients() {
