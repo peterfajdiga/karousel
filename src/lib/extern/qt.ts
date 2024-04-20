@@ -1,7 +1,7 @@
 type Console = {
     log(...args: any[]): void;
     trace(): void;
-    assert(boolean, string?): void;
+    assert(assertion: boolean, message?: string): void;
 }
 
 type Qt = {
