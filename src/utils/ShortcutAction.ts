@@ -11,7 +11,7 @@ class ShortcutAction {
     }
 
     private static initShortcutHandler(keyBinding: KeyBinding) {
-        return Qt.createQmlObject(
+        return <ShortcutHandler>Qt.createQmlObject(
             `import QtQuick 6.0
 import org.kde.kwin 3.0
 ShortcutHandler {

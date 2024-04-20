@@ -22,7 +22,7 @@ declare const Workspace: {
     readonly currentActivityChanged: QSignal<[]>;
     readonly virtualScreenSizeChanged: QSignal<[]>;
 
-    clientArea(option: ClientAreaOption, output: Output, kwinDesktop: KwinDesktop);
+    clientArea(option: ClientAreaOption, output: Output, kwinDesktop: KwinDesktop): QmlRect;
 };
 
 const enum ClientAreaOption {

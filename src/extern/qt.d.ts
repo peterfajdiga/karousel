@@ -1,12 +1,12 @@
 declare const console: {
-    log(...args: any[]);
-    trace();
-    assert(boolean, string?);
+    log(...args: any[]): void;
+    trace(): void;
+    assert(boolean, string?): void;
 };
 
 declare const Qt: {
     rect(x: number, y: number, width: number, height: number): QmlRect;
-    createQmlObject(qml: string, parent: QmlObject);
+    createQmlObject(qml: string, parent: QmlObject): QmlObject;
 };
 
 type QmlObject = unknown;
