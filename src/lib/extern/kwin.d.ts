@@ -1,8 +1,11 @@
-declare const KWin: {
+declare const KWin: KWin;
+declare const Workspace: Workspace;
+
+type KWin = {
     readConfig(key: string, defaultValue: any): any;
 };
 
-declare const Workspace: {
+type Workspace = {
     readonly activities: string[];
     readonly desktops: KwinDesktop[];
     readonly currentDesktop: KwinDesktop;

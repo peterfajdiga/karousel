@@ -1,13 +1,16 @@
-declare const console: {
+declare const console: Console;
+declare const Qt: Qt;
+
+type Console = {
     log(...args: any[]): void;
     trace(): void;
     assert(boolean, string?): void;
-};
+}
 
-declare const Qt: {
+type Qt = {
     rect(x: number, y: number, width: number, height: number): QmlRect;
     createQmlObject(qml: string, parent: QmlObject): QmlObject;
-};
+}
 
 type QmlObject = unknown;
 
