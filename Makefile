@@ -6,7 +6,7 @@ config:
 	mkdir -p ./package/contents/config
 	./run-ts.sh ./src/generators/config > ./package/contents/config/main.xml
 
-build:
+build: tests
 	tsc -p ./src/main --outFile ./package/contents/code/main.js
 
 tests:
