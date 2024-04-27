@@ -19,9 +19,6 @@ uninstall:
 package: build
 	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package
 
-logs:
-	journalctl -t kwin_x11 -g '^qml:|^file://.*karousel' -f
-
 docs-key-bindings-bbcode:
 	@./run-ts.sh ./src/generators/docs/keyBindingsBbcode
 
