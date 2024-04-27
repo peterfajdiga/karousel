@@ -49,7 +49,10 @@ class WindowRuleEnforcer {
         for (const windowRule of windowRules) {
             const ruleClass = WindowRuleEnforcer.parseRegex(windowRule.class);
             const ruleCaption = WindowRuleEnforcer.parseRegex(windowRule.caption);
-            const ruleString = ClientMatcher.getRuleString(ruleClass, ruleCaption);
+            const ruleString = ClientMatcher.getRuleString(
+                WindowRuleEnforcer.wrapParens(ruleClass),
+                WindowRuleEnforcer.wrapParens(ruleCaption)
+            );
 
             (windowRule.tile ? tileRegexes : floatRegexes).push(ruleString);
             if (ruleCaption !== ".*") {
