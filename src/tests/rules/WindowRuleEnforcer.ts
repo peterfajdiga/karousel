@@ -22,6 +22,7 @@
             normalWindow: normalWindow,
             transient: false,
             managed: true,
+            pid: 100,
             moveable: true,
             resizeable: true,
             popupWindow: false,

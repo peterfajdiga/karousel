@@ -65,6 +65,7 @@ interface KwinClient {
     readonly normalWindow: boolean;
     readonly managed: boolean;
     readonly popupWindow: boolean;
+    readonly pid: number;
 
     fullScreen: boolean;
     activities: string[]; // empty array means all activities

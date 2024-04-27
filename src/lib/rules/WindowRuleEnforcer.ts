@@ -16,6 +16,7 @@ class WindowRuleEnforcer {
                 kwinClient.normalWindow &&
                 !kwinClient.transient &&
                 kwinClient.managed &&
+                kwinClient.pid > -1 &&
                 !this.preferFloating.matches(kwinClient)
             )
         );
