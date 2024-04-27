@@ -8,6 +8,5 @@
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true
-    },
-    "exclude": ["./**/*.test.ts"]
+    }
 }
