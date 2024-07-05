@@ -36,7 +36,7 @@ class Window {
         if (this.column.grid.config.reMaximize && this.isFocused()) {
             // do this here rather than in `onFocused` to ensure it happens after placement
             // (otherwise placement may not happen at all)
-            if (this.focusedState.maximizedMode > MaximizedMode.Unmaximized) {
+            if (this.focusedState.maximizedMode !== MaximizedMode.Unmaximized) {
                 this.client.setMaximize(
                     this.focusedState.maximizedMode === MaximizedMode.Horizontally || this.focusedState.maximizedMode === MaximizedMode.Maximized,
                     this.focusedState.maximizedMode === MaximizedMode.Vertically || this.focusedState.maximizedMode === MaximizedMode.Maximized,
@@ -79,7 +79,7 @@ class Window {
     }
 
     public onMaximizedChanged(maximizedMode: MaximizedMode) {
-        const maximized = maximizedMode > MaximizedMode.Unmaximized;
+        const maximized = maximizedMode !== MaximizedMode.Unmaximized;
         this.skipArrange = maximized;
         if (this.column.grid.config.tiledKeepBelow) {
             this.client.kwinClient.keepBelow = !maximized;
