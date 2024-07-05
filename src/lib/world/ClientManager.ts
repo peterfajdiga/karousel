@@ -118,6 +118,11 @@ class ClientManager {
         if (client === undefined) {
             return;
         }
+        if (client.getMaximizedMode() !== MaximizedMode.Unmaximized) {
+            // the client is not really kwin-tiled, just maximized
+            kwinClient.tile = null;
+            return;
+        }
         client.stateManager.setState(() => new ClientState.Pinned(this.world, this.pinManager, this.desktopManager, kwinClient, this.config), false);
         this.pinManager.addClient(kwinClient);
         for (const desktop of this.desktopManager.getDesktopsForClient(kwinClient)) {
