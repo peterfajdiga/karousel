@@ -66,32 +66,32 @@ const configDef = [
     {
         name: "gapsOuterTop",
         type: "UInt",
-        default: 18,
+        default: 16,
     },
     {
         name: "gapsOuterBottom",
         type: "UInt",
-        default: 18,
+        default: 16,
     },
     {
         name: "gapsOuterLeft",
         type: "UInt",
-        default: 18,
+        default: 16,
     },
     {
         name: "gapsOuterRight",
         type: "UInt",
-        default: 18,
+        default: 16,
     },
     {
         name: "gapsInnerHorizontal",
         type: "UInt",
-        default: 18,
+        default: 8,
     },
     {
         name: "gapsInnerVertical",
         type: "UInt",
-        default: 18,
+        default: 8,
     },
     {
         name: "manualScrollStep",
