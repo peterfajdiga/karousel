@@ -4,6 +4,10 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "xwaylandvideobridge",
+        "tile": false
+    },
+    {
         "class": "(org\\\\.kde\\\\.)?plasmashell",
         "tile": false
     },
