@@ -28,7 +28,7 @@ class Grid {
         if (column === prevColumn) {
             return;
         }
-        const movedLeft = prevColumn === null ? true : column.isAfter(prevColumn);
+        const movedLeft = prevColumn === null ? true : column.isToTheRightOf(prevColumn);
         const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
         this.columns.move(column, prevColumn);
         this.columnsSetX(firstMovedColumn);

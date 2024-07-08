@@ -286,7 +286,7 @@ namespace Actions {
                     if (targetColumn === null || targetColumn === column) {
                         return;
                     }
-                    if (targetColumn.isAfter(column)) {
+                    if (targetColumn.isToTheRightOf(column)) {
                         grid.moveColumn(column, targetColumn);
                     } else {
                         grid.moveColumn(column, grid.getPrevColumn(targetColumn));

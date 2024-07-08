@@ -30,12 +30,12 @@ class Column {
         }
     }
 
-    public isAfter(other: Column) {
-        return this.gridX > other.gridX;
+    public isToTheLeftOf(other: Column) {
+        return this.gridX < other.gridX;
     }
 
-    public isBefore(other: Column) {
-        return this.gridX < other.gridX;
+    public isToTheRightOf(other: Column) {
+        return this.gridX > other.gridX;
     }
 
     public moveWindowUp(window: Window) {
