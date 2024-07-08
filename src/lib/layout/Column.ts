@@ -30,13 +30,6 @@ class Column {
         }
     }
 
-    public moveAfter(prevColumn: Column|null) {
-        if (prevColumn === this) {
-            return;
-        }
-        this.grid.moveColumn(this, prevColumn);
-    }
-
     public isAfter(other: Column) {
         return this.gridX > other.gridX;
     }

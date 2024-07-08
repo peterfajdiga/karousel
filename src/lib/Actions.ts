@@ -148,13 +148,13 @@ namespace Actions {
 
             case "column-move-start": return () => {
                 world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
-                    column.moveAfter(null);
+                    grid.moveColumn(column, null);
                 });
             };
 
             case "column-move-end": return () => {
                 world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
-                    column.moveAfter(grid.getLastColumn());
+                    grid.moveColumn(column, grid.getLastColumn());
                 });
             };
 
@@ -287,9 +287,9 @@ namespace Actions {
                         return;
                     }
                     if (targetColumn.isAfter(column)) {
-                        column.moveAfter(targetColumn);
+                        grid.moveColumn(column, targetColumn);
                     } else {
-                        column.moveAfter(grid.getPrevColumn(targetColumn));
+                        grid.moveColumn(column, grid.getPrevColumn(targetColumn));
                     }
                 });
             };
