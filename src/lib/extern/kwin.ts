@@ -18,8 +18,9 @@ type Workspace = {
     readonly windowAdded: QSignal<[KwinClient]>;
     readonly windowRemoved: QSignal<[KwinClient]>;
     readonly windowActivated: QSignal<[KwinClient]>;
-    readonly desktopsChanged: QSignal<[]>;
+    readonly screensChanged: QSignal<[]>;
     readonly activitiesChanged: QSignal<[]>;
+    readonly desktopsChanged: QSignal<[]>;
     readonly currentActivityChanged: QSignal<[]>;
     readonly virtualScreenSizeChanged: QSignal<[]>;
 

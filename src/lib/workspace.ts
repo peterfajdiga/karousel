@@ -34,19 +34,25 @@ function initWorkspaceSignalHandlers(world: World) {
         world.do(() => {}); // re-arrange desktop
     });
 
+   manager.connect(Workspace.screensChanged, () => {
+        world.do((clientManager, desktopManager) => {
+            desktopManager.updateScreens();
+        })
+    });
+
+   manager.connect(Workspace.activitiesChanged, () => {
+        world.do((clientManager, desktopManager) => {
+            desktopManager.updateActivities();
+        })
+    });
+
     manager.connect(Workspace.desktopsChanged, () => {
         world.do((clientManager, desktopManager) => {
             desktopManager.updateDesktops();
         })
     });
 
-    manager.connect(Workspace.activitiesChanged, () => {
-        world.do((clientManager, desktopManager) => {
-            desktopManager.updateActivities();
-        })
-    });
-
-    manager.connect(Workspace.virtualScreenSizeChanged, () => {
+     manager.connect(Workspace.virtualScreenSizeChanged, () => {
         world.onScreenResized();
     });
 

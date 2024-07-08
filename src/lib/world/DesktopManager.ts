@@ -61,6 +61,16 @@ class DesktopManager {
         return screen.name + "|" + activity + "|" + kwinDesktop.id;
     }
 
+    public updateScreens() {
+        const newScreens = new Set(Workspace.screens);
+        for (const screen of this.kwinScreens) {
+            if (!newScreens.has(screen)) {
+                this.removeScreen(screen);
+            }
+        }
+        this.kwinScreens = newScreens;
+    }
+
     public updateActivities() {
         const newActivities = new Set(Workspace.activities);
         for (const activity of this.kwinActivities) {
@@ -79,6 +89,14 @@ class DesktopManager {
             }
         }
         this.kwinDesktops = newDesktops;
+    }
+
+    private removeScreen(kwinScreen: Output) {
+        for (const activity of this.kwinActivities) {
+            for (const kwinDesktop of this.kwinDesktops) {
+                this.destroyDesktop(kwinScreen, activity, kwinDesktop);
+            }
+        }
     }
 
     private removeActivity(activity: string) {
