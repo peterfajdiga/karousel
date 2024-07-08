@@ -1,4 +1,6 @@
 class PinManager {
+    // TODO: per-screen
+
     private readonly pinnedClients: Set<KwinClient>;
 
     constructor() {

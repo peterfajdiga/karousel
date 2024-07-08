@@ -1,4 +1,6 @@
 class DesktopManager {
+    // TODO: fix issue with removed and re-added screens
+
     private readonly pinManager: PinManager;
     private readonly config: Desktop.Config;
     public readonly layoutConfig: LayoutConfig;
