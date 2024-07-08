@@ -8,6 +8,7 @@ type Workspace = {
     readonly currentDesktop: KwinDesktop;
     readonly currentActivity: string;
     readonly activeScreen: Output;
+    readonly screens: Output[];
     readonly windows: KwinClient[];
     readonly cursorPos: Readonly<QmlPoint>;
 
@@ -44,7 +45,10 @@ const enum MaximizedMode {
 }
 
 type Tile = unknown;
-type Output = unknown;
+
+type Output = {
+    name: string;
+};
 
 interface KwinClient {
     readonly shadeable: boolean;
@@ -81,6 +85,7 @@ interface KwinClient {
 
     readonly fullScreenChanged: QSignal<[]>;
     readonly desktopsChanged: QSignal<[]>;
+    readonly outputChanged: QSignal<[]>;
     readonly activitiesChanged: QSignal<[]>;
     readonly minimizedChanged: QSignal<[]>;
     readonly maximizedAboutToChange: QSignal<[MaximizedMode]>

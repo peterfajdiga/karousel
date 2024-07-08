@@ -49,6 +49,7 @@ class World {
                 clamper: config.scrollingLazy ? new EdgeClamper() : new CenterClamper(),
             },
             layoutConfig,
+            Workspace.activeScreen,
             Workspace.currentActivity,
             Workspace.currentDesktop,
         );

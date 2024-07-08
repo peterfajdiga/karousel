@@ -61,7 +61,7 @@ namespace ClientState {
                     [] :
                     union(oldDesktops, kwinClient.desktops);
                 world.do((clientManager, desktopManager) => {
-                    for (const desktop of desktopManager.getDesktops(kwinClient.activities, changedDesktops)) {
+                    for (const desktop of desktopManager.getDesktops([kwinClient.output], kwinClient.activities, changedDesktops)) {
                         desktop.onPinsChanged();
                     }
                 });
@@ -73,11 +73,19 @@ namespace ClientState {
                     [] :
                     union(oldActivities, kwinClient.activities);
                 world.do((clientManager, desktopManager) => {
-                    for (const desktop of desktopManager.getDesktops(changedActivities, kwinClient.desktops)) {
+                    for (const desktop of desktopManager.getDesktops([kwinClient.output], changedActivities, kwinClient.desktops)) {
                         desktop.onPinsChanged();
                     }
                 });
                 oldActivities = kwinClient.activities;
+            });
+
+            manager.connect(kwinClient.outputChanged, () => {
+                world.do((clientManager, desktopManager) => {
+                    for (const desktop of desktopManager.getDesktops([kwinClient.output], kwinClient.activities, kwinClient.desktops)) {
+                        desktop.onPinsChanged();
+                    }
+                });
             });
 
             return manager;
