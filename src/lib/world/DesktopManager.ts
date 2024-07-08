@@ -52,7 +52,7 @@ class DesktopManager {
 
     private addDesktop(screen: Output, activity: string, kwinDesktop: KwinDesktop) {
         const desktopKey = DesktopManager.getDesktopKey(screen, activity, kwinDesktop);
-        const desktop = new Desktop(kwinDesktop, this.pinManager, this.config, this.layoutConfig);
+        const desktop = new Desktop(screen, kwinDesktop, this.pinManager, this.config, this.layoutConfig);
         this.desktops.set(desktopKey, desktop);
         return desktop;
     }
