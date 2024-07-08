@@ -19,7 +19,7 @@ class Column {
 
     public moveToGrid(targetGrid: Grid, prevColumn: Column|null) {
         if (targetGrid === this.grid) {
-            this.grid.onColumnMoved(this, prevColumn);
+            this.grid.moveColumn(this, prevColumn);
         } else {
             this.grid.onColumnRemoved(this, false);
             this.grid = targetGrid;
@@ -34,7 +34,7 @@ class Column {
         if (prevColumn === this) {
             return;
         }
-        this.grid.onColumnMoved(this, prevColumn);
+        this.grid.moveColumn(this, prevColumn);
     }
 
     public isAfter(other: Column) {

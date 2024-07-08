@@ -24,6 +24,15 @@ class Grid {
         });
     }
 
+    public moveColumn(column: Column, prevColumn: Column|null) {
+        const movedLeft = prevColumn === null ? true : column.isAfter(prevColumn);
+        const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
+        this.columns.move(column, prevColumn);
+        this.columnsSetX(firstMovedColumn);
+        this.desktop.onLayoutChanged();
+        this.desktop.autoAdjustScroll();
+    }
+
     public moveColumnLeft(column: Column) {
         this.columns.moveBack(column);
         this.columnsSetX(column);
@@ -178,15 +187,6 @@ class Grid {
         } else {
             this.desktop.autoAdjustScroll();
         }
-    }
-
-    public onColumnMoved(column: Column, prevColumn: Column|null) {
-        const movedLeft = prevColumn === null ? true : column.isAfter(prevColumn);
-        const firstMovedColumn = movedLeft ? column : this.getNextColumn(column);
-        this.columns.move(column, prevColumn);
-        this.columnsSetX(firstMovedColumn);
-        this.desktop.onLayoutChanged();
-        this.desktop.autoAdjustScroll();
     }
 
     public onColumnWidthChanged(column: Column) {
