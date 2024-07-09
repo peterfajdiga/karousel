@@ -3,6 +3,7 @@ class DesktopManager {
     private readonly config: Desktop.Config;
     public readonly layoutConfig: LayoutConfig;
     private readonly desktops: Map<string, Desktop>; // key is activityId|desktopId
+    private selectedScreen: Output;
     private kwinActivities: Set<string>;
     private kwinDesktops: Set<KwinDesktop>;
 
@@ -11,6 +12,7 @@ class DesktopManager {
         this.config = config;
         this.layoutConfig = layoutConfig;
         this.desktops = new Map();
+        this.selectedScreen = Workspace.activeScreen;
         this.kwinActivities = new Set(Workspace.activities);
         this.kwinDesktops = new Set(Workspace.desktops);
         this.addDesktop(currentActivity, currentDesktop);
@@ -43,7 +45,13 @@ class DesktopManager {
 
     private addDesktop(activity: string, kwinDesktop: KwinDesktop) {
         const desktopKey = DesktopManager.getDesktopKey(activity, kwinDesktop);
-        const desktop = new Desktop(kwinDesktop, this.pinManager, this.config, this.layoutConfig);
+        const desktop = new Desktop(
+            kwinDesktop,
+            this.pinManager,
+            this.config,
+            () => this.selectedScreen,
+            this.layoutConfig,
+        );
         this.desktops.set(desktopKey, desktop);
         return desktop;
     }
@@ -70,6 +78,10 @@ class DesktopManager {
             }
         }
         this.kwinDesktops = newDesktops;
+    }
+
+    public selectScreen(screen: Output) {
+        this.selectedScreen = screen;
     }
 
     private removeActivity(activity: string) {

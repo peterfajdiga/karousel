@@ -146,6 +146,11 @@ const keyBindings: KeyBinding[] = [
         description: "Scroll to end",
         defaultKeySequence: "Meta+Alt+End",
     },
+    {
+        name: "screen-switch",
+        description: "Move Karousel grid to the current screen",
+        defaultKeySequence: "Meta+Ctrl+Return",
+    }
 ];
 
 const numKeyBindings: NumKeyBinding[] = [

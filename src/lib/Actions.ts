@@ -252,6 +252,12 @@ namespace Actions {
                 });
             };
 
+            case "screen-switch": return () => {
+                world.do((clientManager, desktopManager) => {
+                    desktopManager.selectScreen(Workspace.activeScreen);
+                });
+            };
+
             default: throw new Error("unknown action: " + name);
         }
     }
