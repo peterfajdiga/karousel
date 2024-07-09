@@ -1,8 +1,5 @@
 class Desktop {
     public readonly grid: Grid;
-    public readonly kwinDesktop: KwinDesktop;
-    private readonly pinManager: PinManager;
-    private readonly config: Desktop.Config;
     private scrollX: number;
     private dirty: boolean;
     private dirtyScroll: boolean;
@@ -10,14 +7,16 @@ class Desktop {
     public clientArea: QmlRect;
     public tilingArea: QmlRect;
 
-    constructor(kwinDesktop: KwinDesktop, pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig) {
-        this.pinManager = pinManager;
-        this.config = config;
+    constructor(
+        public readonly kwinDesktop: KwinDesktop,
+        private readonly pinManager: PinManager,
+        private readonly config: Desktop.Config,
+        layoutConfig: LayoutConfig,
+    ) {
         this.scrollX = 0;
         this.dirty = true;
         this.dirtyScroll = true;
         this.dirtyPins = true;
-        this.kwinDesktop = kwinDesktop;
         this.grid = new Grid(this, layoutConfig);
         this.clientArea = Desktop.getClientArea(kwinDesktop);
         this.tilingArea = Desktop.getTilingArea(this.clientArea, kwinDesktop, pinManager, config);
