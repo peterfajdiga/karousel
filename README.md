@@ -55,6 +55,7 @@ Here's the default ones:
 | Meta+Alt+PgDown          | Scroll right                                                                                                                   |
 | Meta+Alt+Home            | Scroll to start                                                                                                                |
 | Meta+Alt+End             | Scroll to end                                                                                                                  |
+| Meta+Ctrl+Return         | Move Karousel grid to the current screen                                                                                       |
 | Meta+[N]                 | Move focus to column N (Clashes with default KDE shortcuts, may require manual remapping)                                      |
 | Meta+Shift+[N]           | Move window to column N (Requires manual remapping according to your keyboard layout, e.g. Meta+Shift+1 -> Meta+!)             |
 | Meta+Ctrl+Shift+[N]      | Move column to position N (Requires manual remapping according to your keyboard layout, e.g. Meta+Ctrl+Shift+1 -> Meta+Ctrl+!) |
