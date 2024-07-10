@@ -22,8 +22,8 @@ package: build
 docs-key-bindings-bbcode:
 	@./run-ts.sh ./src/generators/docs/keyBindingsBbcode
 
-docs-key-bindings-table:
-	@./run-ts.sh ./src/generators/docs/keyBindingsTable
+docs-key-bindings-markdown:
+	@./run-ts.sh ./src/generators/docs/keyBindingsMarkdown
 
 docs-key-bindings-fmt:
 	@./run-ts.sh ./src/generators/docs/keyBindingsFmt
