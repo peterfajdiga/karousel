@@ -32,7 +32,7 @@ class ClientManager {
         let constructState: (client: ClientWrapper) => ClientState.State;
         if (kwinClient.dock) {
             constructState = () => new ClientState.Docked(this.world, kwinClient);
-        } else if (this.windowRuleEnforcer.shouldTile(kwinClient) && desktop !== undefined) {
+        } else if (Clients.canTileNow(kwinClient) && this.windowRuleEnforcer.shouldTile(kwinClient) && desktop !== undefined) {
             constructState = (client: ClientWrapper) => new ClientState.Tiled(this.world, client, desktop.grid);
         } else {
             constructState = (client: ClientWrapper) => new ClientState.Floating(this.world, client, this.config, false);

@@ -11,14 +11,12 @@ class WindowRuleEnforcer {
     }
 
     public shouldTile(kwinClient: KwinClient) {
-        return Clients.canTileNow(kwinClient) && (
-            this.preferTiling.matches(kwinClient) || (
-                kwinClient.normalWindow &&
-                !kwinClient.transient &&
-                kwinClient.managed &&
-                kwinClient.pid > -1 &&
-                !this.preferFloating.matches(kwinClient)
-            )
+        return this.preferTiling.matches(kwinClient) || (
+            kwinClient.normalWindow &&
+            !kwinClient.transient &&
+            kwinClient.managed &&
+            kwinClient.pid > -1 &&
+            !this.preferFloating.matches(kwinClient)
         );
     }
 
@@ -30,7 +28,7 @@ class WindowRuleEnforcer {
         const enforcer = this;
         const manager = new SignalManager();
         manager.connect(kwinClient.captionChanged, () => {
-            const shouldTile = enforcer.shouldTile(kwinClient);
+            const shouldTile = Clients.canTileNow(kwinClient) && enforcer.shouldTile(kwinClient);
             world.do((clientManager, desktopManager) => {
                 const desktop = desktopManager.getDesktopForClient(kwinClient);
                 if (shouldTile && desktop !== undefined) {
