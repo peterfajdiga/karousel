@@ -31,7 +31,12 @@ class ClientManager {
         let constructState: (client: ClientWrapper) => ClientState.State;
         if (kwinClient.dock) {
             constructState = () => new ClientState.Docked(this.world, kwinClient);
-        } else if (Clients.canTileEver(kwinClient) && !kwinClient.fullScreen && this.windowRuleEnforcer.shouldTile(kwinClient)) {
+        } else if (
+            Clients.canTileEver(kwinClient) &&
+            !kwinClient.fullScreen &&
+            !Clients.isFullScreenGeometry(kwinClient) &&
+            this.windowRuleEnforcer.shouldTile(kwinClient)
+        ) {
             Clients.makeTileable(kwinClient);
             console.assert(Clients.canTileNow(kwinClient));
             const desktop = this.desktopManager.getDesktopForClient(kwinClient);
