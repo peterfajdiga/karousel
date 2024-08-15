@@ -3,6 +3,7 @@ namespace ClientState {
         public readonly window: Window;
         private readonly defaultState: Tiled.WindowState;
         private readonly signalManager: SignalManager;
+        private static readonly maxExternalFrameGeometryChangedIntervalMs = 1000;
 
         constructor(world: World, client: ClientWrapper, grid: Grid) {
             this.defaultState = { skipSwitcher: client.kwinClient.skipSwitcher };
@@ -95,6 +96,7 @@ namespace ClientState {
                 }
             });
 
+            let lastExternalFrameGeometryChanged = 0;
             manager.connect(kwinClient.frameGeometryChanged, (oldGeometry: QmlRect) => {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {
@@ -120,10 +122,12 @@ namespace ClientState {
                 } else if (
                     !window.column.grid.isUserResizing() &&
                     !client.isManipulatingGeometry(newGeometry) &&
+                    Date.now() - lastExternalFrameGeometryChanged > Tiled.maxExternalFrameGeometryChangedIntervalMs &&
                     client.getMaximizedMode() === MaximizedMode.Unmaximized &&
                     !Clients.isFullScreenGeometry(kwinClient) // not using `kwinClient.fullScreen` because it may not be set yet at this point
                 ) {
                     world.do(() => window.onFrameGeometryChanged());
+                    lastExternalFrameGeometryChanged = Date.now();
                 }
             });
 
