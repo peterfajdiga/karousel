@@ -24,14 +24,14 @@ function catchWrap(f: () => void) {
     };
 }
 
-function registerKeyBinding(world: World, config: Actions.Config, shortcutActions: ShortcutAction[], keyBinding: KeyBinding) {
+function registerKeyBinding(actions: Actions, shortcutActions: ShortcutAction[], keyBinding: KeyBinding) {
     shortcutActions.push(new ShortcutAction(
         keyBinding,
-        catchWrap(Actions.getAction(world, config, keyBinding.name)),
+        catchWrap(actions.getAction(keyBinding.name)),
     ));
 }
 
-function registerNumKeyBindings(world: World, shortcutActions: ShortcutAction[], numKeyBinding: NumKeyBinding) {
+function registerNumKeyBindings(actions: Actions, shortcutActions: ShortcutAction[], numKeyBinding: NumKeyBinding) {
     const numPrefix = numKeyBinding.fKeys ? "F" : "";
     const n = numKeyBinding.fKeys ? 12 : 9;
     for (let i = 0; i < 12; i++) {
@@ -39,7 +39,7 @@ function registerNumKeyBindings(world: World, shortcutActions: ShortcutAction[],
         const keySequence = i < n ?
             numKeyBinding.defaultModifiers + "+" + numPrefix + numKey :
             "";
-        const action = Actions.getNumAction(world, numKeyBinding.name);
+        const action = actions.getNumAction(numKeyBinding.name);
         shortcutActions.push(new ShortcutAction(
             {
                 name: numKeyBinding.name + numKey,
@@ -53,14 +53,15 @@ function registerNumKeyBindings(world: World, shortcutActions: ShortcutAction[],
 
 // TODO: refactor
 function registerKeyBindings(world: World, config: Actions.Config) {
+    const actions = new Actions(world, config);
     const shortcutActions: ShortcutAction[] = [];
 
     for (const keyBinding of keyBindings) {
-        registerKeyBinding(world, config, shortcutActions, keyBinding);
+        registerKeyBinding(actions, shortcutActions, keyBinding);
     }
 
     for (const numKeyBinding of numKeyBindings) {
-        registerNumKeyBindings(world, shortcutActions, numKeyBinding);
+        registerNumKeyBindings(actions, shortcutActions, numKeyBinding);
     }
 
     return shortcutActions;
