@@ -24,14 +24,14 @@ function catchWrap(f: () => void) {
     };
 }
 
-function registerKeyBinding(actions: Actions, shortcutActions: ShortcutAction[], keyBinding: KeyBinding) {
+function registerKeyBinding(actionGetter: Actions.Getter, shortcutActions: ShortcutAction[], keyBinding: KeyBinding) {
     shortcutActions.push(new ShortcutAction(
         keyBinding,
-        catchWrap(actions.getAction(keyBinding.name)),
+        catchWrap(actionGetter.getAction(keyBinding.name)),
     ));
 }
 
-function registerNumKeyBindings(actions: Actions, shortcutActions: ShortcutAction[], numKeyBinding: NumKeyBinding) {
+function registerNumKeyBindings(actionGetter: Actions.Getter, shortcutActions: ShortcutAction[], numKeyBinding: NumKeyBinding) {
     const numPrefix = numKeyBinding.fKeys ? "F" : "";
     const n = numKeyBinding.fKeys ? 12 : 9;
     for (let i = 0; i < 12; i++) {
@@ -39,7 +39,7 @@ function registerNumKeyBindings(actions: Actions, shortcutActions: ShortcutActio
         const keySequence = i < n ?
             numKeyBinding.defaultModifiers + "+" + numPrefix + numKey :
             "";
-        const action = actions.getNumAction(numKeyBinding.name);
+        const action = actionGetter.getNumAction(numKeyBinding.name);
         shortcutActions.push(new ShortcutAction(
             {
                 name: numKeyBinding.name + numKey,
@@ -53,15 +53,15 @@ function registerNumKeyBindings(actions: Actions, shortcutActions: ShortcutActio
 
 // TODO: refactor
 function registerKeyBindings(world: World, config: Actions.Config) {
-    const actions = new Actions(world, config);
+    const actionGetter = new Actions.Getter(world, config);
     const shortcutActions: ShortcutAction[] = [];
 
     for (const keyBinding of keyBindings) {
-        registerKeyBinding(actions, shortcutActions, keyBinding);
+        registerKeyBinding(actionGetter, shortcutActions, keyBinding);
     }
 
     for (const numKeyBinding of numKeyBindings) {
-        registerNumKeyBindings(actions, shortcutActions, numKeyBinding);
+        registerNumKeyBindings(actionGetter, shortcutActions, numKeyBinding);
     }
 
     return shortcutActions;
