@@ -9,7 +9,7 @@ class ClientManager {
 
     constructor(config: Config, world: World, desktopManager: DesktopManager, pinManager: PinManager) {
         this.world = world;
-        this.config = { keepAbove: config.floatingKeepAbove };
+        this.config = config;
         this.desktopManager = desktopManager;
         this.pinManager = pinManager;
         this.clientMap = new Map();
@@ -215,6 +215,6 @@ class ClientManager {
 
 namespace ClientManager {
     export type Config = {
-        keepAbove: boolean,
+        floatingKeepAbove: boolean,
     }
 }

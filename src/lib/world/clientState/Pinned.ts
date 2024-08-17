@@ -11,7 +11,7 @@ namespace ClientState {
             this.pinManager = pinManager;
             this.desktopManager = desktopManager;
             this.config = config;
-            if (config.keepAbove) {
+            if (config.floatingKeepAbove) {
                 kwinClient.keepAbove = true;
             }
             this.signalManager = Pinned.initSignalManager(world, pinManager, kwinClient);
@@ -19,7 +19,7 @@ namespace ClientState {
 
         public destroy(passFocus: boolean) {
             this.signalManager.destroy();
-            if (this.config.keepAbove) {
+            if (this.config.floatingKeepAbove) {
                 this.kwinClient.keepAbove = true;
             }
             this.pinManager.removeClient(this.kwinClient);

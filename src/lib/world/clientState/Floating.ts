@@ -7,7 +7,7 @@ namespace ClientState {
         constructor(world: World, client: ClientWrapper, config: ClientManager.Config, limitHeight: boolean) {
             this.client = client;
             this.config = config;
-            if (config.keepAbove) {
+            if (config.floatingKeepAbove) {
                 client.kwinClient.keepAbove = true;
             }
             if (limitHeight && client.kwinClient.tile === null) {
@@ -18,7 +18,7 @@ namespace ClientState {
 
         public destroy(passFocus: boolean) {
             this.signalManager.destroy();
-            if (this.config.keepAbove) {
+            if (this.config.floatingKeepAbove) {
                 this.client.kwinClient.keepAbove = false;
             }
         }
@@ -50,7 +50,7 @@ namespace ClientState {
                     });
                 }
             });
-            
+
             manager.connect(kwinClient.frameGeometryChanged, () => {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {
