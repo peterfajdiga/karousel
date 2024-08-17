@@ -1,7 +1,7 @@
 class World {
     public readonly untileOnDrag: boolean;
     private readonly desktopManager: DesktopManager;
-    public readonly clientManager: ClientManager;
+    private readonly clientManager: ClientManager;
     private readonly pinManager: PinManager;
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
