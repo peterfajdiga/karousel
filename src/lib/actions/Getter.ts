@@ -8,12 +8,12 @@ namespace Actions {
             this.numActions = new NumActions(world);
         }
 
-        public getAction(action: string) {
-            return this.actions.getAction(action);
+        public getAction(action: keyof Actions) {
+            return this.actions[action].bind(this.actions);
         }
 
-        public getNumAction(action: string) {
-            return this.numActions.getNumAction(action);
+        public getNumAction(action: keyof NumActions) {
+            return this.numActions[action].bind(this.numActions);
         }
     }
 

@@ -1,12 +1,12 @@
 type KeyBinding = {
-    name: string;
+    name: keyof Actions.Actions;
     description: string;
     comment?: string;
     defaultKeySequence: string;
 };
 
 type NumKeyBinding = {
-    name: string;
+    name: keyof Actions.NumActions;
     description: string;
     comment?: string;
     defaultModifiers: string;
@@ -51,7 +51,6 @@ function registerNumKeyBindings(actionGetter: Actions.Getter, shortcutActions: S
     }
 }
 
-// TODO: refactor
 function registerKeyBindings(world: World, config: Actions.Config) {
     const actionGetter = new Actions.Getter(world, config);
     const shortcutActions: ShortcutAction[] = [];

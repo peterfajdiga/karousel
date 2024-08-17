@@ -1,7 +1,7 @@
 class ShortcutAction {
     private readonly shortcutHandler: ShortcutHandler;
 
-    constructor(keyBinding: KeyBinding, f: () => void) {
+    constructor(keyBinding: ShortcutAction.KeyBinding, f: () => void) {
         this.shortcutHandler = ShortcutAction.initShortcutHandler(keyBinding);
         this.shortcutHandler.activated.connect(f);
     }
@@ -10,7 +10,7 @@ class ShortcutAction {
         this.shortcutHandler.destroy();
     }
 
-    private static initShortcutHandler(keyBinding: KeyBinding) {
+    private static initShortcutHandler(keyBinding: ShortcutAction.KeyBinding) {
         return <ShortcutHandler>Qt.createQmlObject(
             `import QtQuick 6.0
 import org.kde.kwin 3.0
@@ -22,4 +22,12 @@ ShortcutHandler {
             qmlBase,
         );
     }
+}
+
+namespace ShortcutAction {
+    export type KeyBinding = {
+        name: string;
+        description: string;
+        defaultKeySequence: string;
+    };
 }
