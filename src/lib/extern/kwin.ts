@@ -13,7 +13,7 @@ type Workspace = {
 
     activeWindow: KwinClient;
 
-    readonly currentDesktopChanged: QSignal<[]>
+    readonly currentDesktopChanged: QSignal<[]>;
     readonly windowAdded: QSignal<[KwinClient]>;
     readonly windowRemoved: QSignal<[KwinClient]>;
     readonly windowActivated: QSignal<[KwinClient]>;
@@ -47,7 +47,7 @@ const enum MaximizedMode {
 type Tile = unknown;
 type Output = unknown;
 
-interface KwinClient {
+type KwinClient = {
     readonly shadeable: boolean;
     readonly caption: string;
     readonly minSize: Readonly<QmlSize>;
@@ -92,11 +92,11 @@ interface KwinClient {
     readonly frameGeometryChanged: QSignal<[oldGeometry: QmlRect]>;
 
     setMaximize(vertically: boolean, horizontally: boolean): void;
-}
+};
 
-interface KwinDesktop {
+type KwinDesktop = {
     readonly id: string;
-}
+};
 
 type ShortcutHandler = {
     readonly activated: QSignal<[]>;

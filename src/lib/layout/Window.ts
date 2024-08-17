@@ -145,7 +145,7 @@ class Window {
 
 namespace Window {
     export type State = {
-        fullScreen: boolean,
-        maximizedMode: MaximizedMode,
-    }
+        fullScreen: boolean;
+        maximizedMode: MaximizedMode;
+    };
 }

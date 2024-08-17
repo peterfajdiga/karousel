@@ -2,19 +2,19 @@ type Console = {
     log(...args: any[]): void;
     trace(): void;
     assert(assertion: boolean, message?: string): void;
-}
+};
 
 type Qt = {
     rect(x: number, y: number, width: number, height: number): QmlRect;
     createQmlObject(qml: string, parent: QmlObject): QmlObject;
-}
+};
 
 type QmlObject = unknown;
 
 type QmlPoint = {
     x: number;
     y: number;
-}
+};
 
 type QmlRect = {
     x: number;

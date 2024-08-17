@@ -187,19 +187,19 @@ class Desktop {
 
 namespace Desktop {
     export type Config = {
-        marginTop: number,
-        marginBottom: number,
-        marginLeft: number,
-        marginRight: number,
-        scroller: Desktop.Scroller,
-        clamper: Desktop.Clamper,
+        marginTop: number;
+        marginBottom: number;
+        marginLeft: number;
+        marginRight: number;
+        scroller: Desktop.Scroller;
+        clamper: Desktop.Clamper;
     };
 
     export type Range = {
         getLeft(): number;
         getRight(): number;
         getWidth(): number;
-    }
+    };
 
     export class RangeImpl {
         private readonly x: number;
@@ -303,9 +303,9 @@ namespace Desktop {
 
     export type Scroller = {
         scrollToColumn(desktop: Desktop, column: Column): void;
-    }
+    };
 
     export type Clamper = {
         clampScrollX(desktop: Desktop, x: number): number;
-    }
+    };
 }
