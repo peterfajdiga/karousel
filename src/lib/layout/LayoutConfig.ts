@@ -8,4 +8,5 @@ type LayoutConfig = {
     skipSwitcher: boolean;
     tiledKeepBelow: boolean;
     maximizedKeepAbove: boolean;
+    untileOnDrag: boolean;
 };

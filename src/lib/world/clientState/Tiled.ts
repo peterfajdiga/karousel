@@ -13,7 +13,7 @@ namespace ClientState {
             const window = new Window(client, column);
 
             this.window = window;
-            this.signalManager = Tiled.initSignalManager(world, window);
+            this.signalManager = Tiled.initSignalManager(world, window, grid.config);
         }
 
         public destroy(passFocus: boolean) {
@@ -27,7 +27,7 @@ namespace ClientState {
             Tiled.restoreClientAfterTiling(client, grid.config, this.defaultState, grid.desktop.clientArea);
         }
 
-        private static initSignalManager(world: World, window: Window) {
+        private static initSignalManager(world: World, window: Window, config: LayoutConfig) {
             const client = window.client;
             const kwinClient = client.kwinClient;
             const manager = new SignalManager();
@@ -73,7 +73,7 @@ namespace ClientState {
             let resizingBorder = false;
             manager.connect(kwinClient.interactiveMoveResizeStarted, () => {
                 if (kwinClient.move) {
-                    if (world.untileOnDrag) {
+                    if (config.untileOnDrag) {
                         world.do((clientManager, desktopManager) => {
                             clientManager.floatKwinClient(kwinClient);
                         });

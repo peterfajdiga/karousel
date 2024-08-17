@@ -1,5 +1,4 @@
 class World {
-    public readonly untileOnDrag: boolean;
     private readonly desktopManager: DesktopManager;
     private readonly clientManager: ClientManager;
     private readonly pinManager: PinManager;
@@ -8,7 +7,6 @@ class World {
     private readonly screenResizedDelayer: Delayer;
 
     constructor(config: Config) {
-        this.untileOnDrag = config.untileOnDrag;
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
         this.shortcutActions = registerKeyBindings(this, {
             manualScrollStep: config.manualScrollStep,
@@ -36,6 +34,7 @@ class World {
             skipSwitcher: config.skipSwitcher,
             tiledKeepBelow: config.tiledKeepBelow,
             maximizedKeepAbove: config.floatingKeepAbove,
+            untileOnDrag: config.untileOnDrag,
         };
 
         this.desktopManager = new DesktopManager(
