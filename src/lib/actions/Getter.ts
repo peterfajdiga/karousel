@@ -1,9 +1,11 @@
 namespace Actions {
     export class Getter {
         private readonly actions: Actions;
+        private readonly numActions: NumActions;
 
         constructor(world: World, config: Config) {
             this.actions = new Actions(world, config);
+            this.numActions = new NumActions(world);
         }
 
         public getAction(action: string) {
@@ -11,7 +13,7 @@ namespace Actions {
         }
 
         public getNumAction(action: string) {
-            return this.actions.getNumAction(action);
+            return this.numActions.getNumAction(action);
         }
     }
 
