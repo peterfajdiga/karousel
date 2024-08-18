@@ -163,19 +163,19 @@ namespace Actions {
         }
 
         public "column-toggle-stacked"() {
-            this.world.doIfTiledFocused(false, (clientManager, desktopManager, window, column, grid) => {
+            this.world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
                 column.toggleStacked();
             });
         }
 
         public "column-width-increase"() {
-            this.world.doIfTiledFocused(false, (clientManager, desktopManager, window, column, grid) => {
+            this.world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
                 this.config.columnResizer.increaseWidth(column, this.config.manualResizeStep);
             });
         }
 
         public "column-width-decrease"() {
-            this.world.doIfTiledFocused(false, (clientManager, desktopManager, window, column, grid) => {
+            this.world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
                 this.config.columnResizer.decreaseWidth(column, this.config.manualResizeStep);
             });
         }
