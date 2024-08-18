@@ -14,7 +14,7 @@ namespace Actions {
         };
 
         public "window-move-to-column-"(columnIndex: number) {
-            this.world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
+            this.world.doIfTiledFocused((clientManager, desktopManager, window, column, grid) => {
                 const targetColumn = grid.getColumnAtIndex(columnIndex);
                 if (targetColumn === null) {
                     return;
@@ -25,7 +25,7 @@ namespace Actions {
         };
 
         public "column-move-to-column-"(columnIndex: number) {
-            this.world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, grid) => {
+            this.world.doIfTiledFocused((clientManager, desktopManager, window, column, grid) => {
                 const targetColumn = grid.getColumnAtIndex(columnIndex);
                 if (targetColumn === null || targetColumn === column) {
                     return;
@@ -39,7 +39,7 @@ namespace Actions {
         };
 
         public "column-move-to-desktop-"(desktopIndex: number) {
-            this.world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, oldGrid) => {
+            this.world.doIfTiledFocused((clientManager, desktopManager, window, column, oldGrid) => {
                 const kwinDesktop = Workspace.desktops[desktopIndex];
                 if (kwinDesktop === undefined) {
                     return;
@@ -53,7 +53,7 @@ namespace Actions {
         };
 
         public "tail-move-to-desktop-"(desktopIndex: number) {
-            this.world.doIfTiledFocused(true, (clientManager, desktopManager, window, column, oldGrid) => {
+            this.world.doIfTiledFocused((clientManager, desktopManager, window, column, oldGrid) => {
                 const kwinDesktop = Workspace.desktops[desktopIndex];
                 if (kwinDesktop === undefined) {
                     return;

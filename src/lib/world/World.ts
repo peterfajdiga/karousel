@@ -88,10 +88,9 @@ class World {
 
     public doIfTiled(
         kwinClient: KwinClient,
-        followTransient: boolean,
         f: (clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) => void,
     ) {
-        const window = this.clientManager.findTiledWindow(kwinClient, followTransient);
+        const window = this.clientManager.findTiledWindow(kwinClient);
         if (window === null) {
             return;
         }
@@ -102,10 +101,9 @@ class World {
     }
 
     public doIfTiledFocused(
-        followTransient: boolean,
         f: (clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) => void,
     ) {
-        this.doIfTiled(Workspace.activeWindow, followTransient, f);
+        this.doIfTiled(Workspace.activeWindow, f);
     }
 
     public destroy() {

@@ -176,27 +176,27 @@ class ClientManager {
 
     public onClientFocused(kwinClient: KwinClient) {
         this.lastFocusedClient = kwinClient;
-        const window = this.findTiledWindow(kwinClient, true);
+        const window = this.findTiledWindow(kwinClient);
         if (window !== null) {
             window.onFocused();
         }
     }
 
-    public findTiledWindow(kwinClient: KwinClient, followTransient: boolean) {
+    public findTiledWindow(kwinClient: KwinClient) {
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return null;
         }
 
-        return this.findTiledWindowOfClient(client, followTransient);
+        return this.findTiledWindowOfClient(client);
     }
 
-    private findTiledWindowOfClient(client: ClientWrapper, followTransient: boolean): Window|null {
+    private findTiledWindowOfClient(client: ClientWrapper): Window|null {
         const clientState = client.stateManager.getState();
         if (clientState instanceof ClientState.Tiled) {
             return clientState.window;
-        } else if (followTransient && client.transientFor !== null) {
-            return this.findTiledWindowOfClient(client.transientFor, true);
+        } else if (client.transientFor !== null) {
+            return this.findTiledWindowOfClient(client.transientFor);
         } else {
             return null;
         }
