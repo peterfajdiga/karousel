@@ -114,6 +114,8 @@ namespace ClientState {
                 const dx = Math.round(newCenterX - oldCenterX);
                 const dy = Math.round(newCenterY - oldCenterY);
                 if (dx !== 0 || dy !== 0) {
+                    // TODO: instead of passing dx and dy, remember relative (to the parent) x and y for each
+                    // transient window and use them for `moveTransients` and `ensureTransientsVisible`
                     client.moveTransients(dx, dy);
                 }
 

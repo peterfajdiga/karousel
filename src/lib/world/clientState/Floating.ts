@@ -23,6 +23,7 @@ namespace ClientState {
             }
         }
 
+        // TODO: move to `Tiled.restoreClientAfterTiling`
         private static limitHeight(client: ClientWrapper) {
             const placementArea = Workspace.clientArea(
                 ClientAreaOption.PlacementArea,
