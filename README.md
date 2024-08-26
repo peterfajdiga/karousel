@@ -1,4 +1,5 @@
 # Karousel
+
 Scrollable tiling Kwin script. Works especially well with ultrawide screens.
 Use with [this](https://github.com/peterfajdiga/kwin4_effect_geometry_change) for animations.
 
@@ -12,17 +13,28 @@ Similar window managers include [PaperWM](https://github.com/paperwm/PaperWM),
 [Cardboard](https://gitlab.com/cardboardwm/cardboard).
 
 ## Dependencies
+
 Karousel requires the following QML modules:
 - QtQuick 6.0
 - org.kde.kwin 3.0
 - org.kde.notification 1.0
 
 ## Limitations
+
 - Doesn't support multiple screens
 - Doesn't support windows on all desktops
 - Doesn't support windows on multiple activities
 
+## Install
+
+1. Open KDE System Settings > Window Management > KWin Scripts
+1. On this page you could:
+    1. Click on 'Get New' and search the store for `karousel` and Install it. (Recommended)
+    1. Click on 'Install from File and select the downloaded `.tar.gz` file from [Releases](https://github.com/peterfajdiga/karousel/releases) page.
+1. Enable it by clicking on the checkbox and apply.
+
 ## Key bindings
+
 The key bindings can be configured in KDE System Settings among KWin's own keyboard shortcuts.
 Here's the default ones:
 | Shortcut                 | Action                                                                                                                         |
