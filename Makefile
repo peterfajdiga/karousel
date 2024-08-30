@@ -11,10 +11,10 @@ tests:
 	./run-ts.sh ./src/tests
 
 install: build
-	kpackagetool6 --type=KWin/Script -i ./package || kpackagetool6 --type=KWin/Script -u ./package
+	kpackagetool6 --type=KWin/Script --install=./package || kpackagetool6 --type=KWin/Script --upgrade=./package
 
 uninstall:
-	kpackagetool6 --type=KWin/Script -r karousel
+	kpackagetool6 --type=KWin/Script --remove=karousel
 
 package: build
 	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package
