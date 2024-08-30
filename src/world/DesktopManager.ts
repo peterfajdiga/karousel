@@ -39,7 +39,7 @@ class DesktopManager {
     }
 
     public getDesktopForClient(kwinClient: KwinClient) {
-        if (kwinClient.activities.length !== 1 && kwinClient.desktop === 0) {
+        if (kwinClient.activities.length !== 1 || kwinClient.desktop <= 0) {
             return undefined;
         }
         return this.getDesktop(kwinClient.activities[0], kwinClient.desktop);
