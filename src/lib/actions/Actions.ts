@@ -7,41 +7,41 @@ namespace Actions {
 
         public "focus-left"() {
             this.world.doIfTiledFocused((clientManager, desktopManager, window, column, grid) => {
-                const prevColumn = grid.getPrevColumn(column);
-                if (prevColumn === null) {
+                const leftColumn = grid.getLeftColumn(column);
+                if (leftColumn === null) {
                     return;
                 }
-                prevColumn.focus();
+                leftColumn.focus();
             });
         }
 
         public "focus-right"() {
             this.world.doIfTiledFocused((clientManager, desktopManager, window, column, grid) => {
-                const nextColumn = grid.getNextColumn(column);
-                if (nextColumn === null) {
+                const rightColumn = grid.getRightColumn(column);
+                if (rightColumn === null) {
                     return;
                 }
-                nextColumn.focus();
+                rightColumn.focus();
             });
         }
 
         public "focus-up"() {
             this.world.doIfTiledFocused((clientManager, desktopManager, window, column, grid) => {
-                const prevWindow = column.getPrevWindow(window);
-                if (prevWindow === null) {
+                const aboveWindow = column.getAboveWindow(window);
+                if (aboveWindow === null) {
                     return;
                 }
-                prevWindow.focus();
+                aboveWindow.focus();
             });
         }
 
         public "focus-down"() {
             this.world.doIfTiledFocused((clientManager, desktopManager, window, column, grid) => {
-                const nextWindow = column.getNextWindow(window);
-                if (nextWindow === null) {
+                const belowWindow = column.getBelowWindow(window);
+                if (belowWindow === null) {
                     return;
                 }
-                nextWindow.focus();
+                belowWindow.focus();
             });
         }
 
@@ -71,15 +71,15 @@ namespace Actions {
             this.world.doIfTiledFocused((clientManager, desktopManager, window, column, grid) => {
                 if (column.getWindowCount() === 1) {
                     // move from own column into existing column
-                    const prevColumn = grid.getPrevColumn(column);
-                    if (prevColumn === null) {
+                    const leftColumn = grid.getLeftColumn(column);
+                    if (leftColumn === null) {
                         return;
                     }
-                    window.moveToColumn(prevColumn);
+                    window.moveToColumn(leftColumn);
                     grid.desktop.autoAdjustScroll();
                 } else {
                     // move from shared column into own column
-                    const newColumn = new Column(grid, grid.getPrevColumn(column));
+                    const newColumn = new Column(grid, grid.getLeftColumn(column));
                     window.moveToColumn(newColumn);
                 }
             });
@@ -89,11 +89,11 @@ namespace Actions {
             this.world.doIfTiledFocused((clientManager, desktopManager, window, column, grid) => {
                 if (column.getWindowCount() === 1) {
                     // move from own column into existing column
-                    const nextColumn = grid.getNextColumn(column);
-                    if (nextColumn === null) {
+                    const rightColumn = grid.getRightColumn(column);
+                    if (rightColumn === null) {
                         return;
                     }
-                    window.moveToColumn(nextColumn);
+                    window.moveToColumn(rightColumn);
                     grid.desktop.autoAdjustScroll();
                 } else {
                     // move from shared column into own column
@@ -230,12 +230,12 @@ namespace Actions {
                     return;
                 }
 
-                const prevColumn = grid.getPrevColumn(column);
-                if (prevColumn === null) {
+                const leftColumn = grid.getLeftColumn(column);
+                if (leftColumn === null) {
                     return;
                 }
 
-                grid.desktop.scrollToColumn(prevColumn);
+                grid.desktop.scrollToColumn(leftColumn);
             });
         }
 
@@ -247,12 +247,12 @@ namespace Actions {
                     return;
                 }
 
-                const nextColumn = grid.getNextColumn(column);
-                if (nextColumn === null) {
+                const rightColumn = grid.getRightColumn(column);
+                if (rightColumn === null) {
                     return;
                 }
 
-                grid.desktop.scrollToColumn(nextColumn);
+                grid.desktop.scrollToColumn(rightColumn);
             });
         }
 

@@ -50,11 +50,11 @@ class ContextualResizer {
             return;
         }
 
-        let leftOffScreenColumn = grid.getPrevColumn(leftVisibleColumn);
+        let leftOffScreenColumn = grid.getLeftColumn(leftVisibleColumn);
         if (leftOffScreenColumn === column) {
             leftOffScreenColumn = null;
         }
-        let rightOffScreenColumn = grid.getNextColumn(rightVisibleColumn);
+        let rightOffScreenColumn = grid.getRightColumn(rightVisibleColumn);
         if (rightOffScreenColumn === column) {
             rightOffScreenColumn = null;
         }

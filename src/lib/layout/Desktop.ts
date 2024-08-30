@@ -251,8 +251,8 @@ namespace Desktop {
                 return column !== null && canFit(column);
             }
 
-            let leftColumn = grid.getPrevColumn(this.left);
-            let rightColumn = grid.getNextColumn(this.right);
+            let leftColumn = grid.getLeftColumn(this.left);
+            let rightColumn = grid.getRightColumn(this.right);
             function checkColumns() {
                 if (!isUsable(leftColumn)) {
                     leftColumn = null;
@@ -269,10 +269,10 @@ namespace Desktop {
                 const rightToCenter = rightColumn === null ? Infinity : Math.abs(rightColumn.getRight() - visibleCenter);
                 if (leftToCenter < rightToCenter) {
                     this.addLeft(leftColumn!, gap);
-                    leftColumn = grid.getPrevColumn(leftColumn!);
+                    leftColumn = grid.getLeftColumn(leftColumn!);
                 } else {
                     this.addRight(rightColumn!, gap);
-                    rightColumn = grid.getNextColumn(rightColumn!);
+                    rightColumn = grid.getRightColumn(rightColumn!);
                 }
                 checkColumns();
             }

@@ -33,7 +33,7 @@ namespace Actions {
                 if (targetColumn.isToTheRightOf(column)) {
                     grid.moveColumn(column, targetColumn);
                 } else {
-                    grid.moveColumn(column, grid.getPrevColumn(targetColumn));
+                    grid.moveColumn(column, grid.getLeftColumn(targetColumn));
                 }
             });
         };

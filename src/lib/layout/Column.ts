@@ -7,23 +7,23 @@ class Column {
     private focusTaker: Window|null;
     private static readonly minWidth = 10;
 
-    constructor(grid: Grid, prevColumn: Column|null) {
+    constructor(grid: Grid, leftColumn: Column|null) {
         this.gridX = 0;
         this.width = 0;
         this.windows = new LinkedList();
         this.stacked = grid.config.stackColumnsByDefault;
         this.focusTaker = null;
         this.grid = grid;
-        this.grid.onColumnAdded(this, prevColumn);
+        this.grid.onColumnAdded(this, leftColumn);
     }
 
-    public moveToGrid(targetGrid: Grid, prevColumn: Column|null) {
+    public moveToGrid(targetGrid: Grid, leftColumn: Column|null) {
         if (targetGrid === this.grid) {
-            this.grid.moveColumn(this, prevColumn);
+            this.grid.moveColumn(this, leftColumn);
         } else {
             this.grid.onColumnRemoved(this, false);
             this.grid = targetGrid;
-            targetGrid.onColumnAdded(this, prevColumn);
+            targetGrid.onColumnAdded(this, leftColumn);
             for (const window of this.windows.iterator()) {
                 window.client.kwinClient.desktops = [targetGrid.desktop.kwinDesktop];
             }
@@ -56,11 +56,11 @@ class Column {
         return this.getWindowCount() === 0;
     }
 
-    public getPrevWindow(window: Window) {
+    public getAboveWindow(window: Window) {
         return this.windows.getPrev(window);
     }
 
-    public getNextWindow(window: Window) {
+    public getBelowWindow(window: Window) {
         return this.windows.getNext(window);
     }
 
@@ -266,7 +266,7 @@ class Column {
 
     public onWindowRemoved(window: Window, passFocus: boolean) {
         const lastWindow = this.windows.length() === 1;
-        const windowToFocus = this.getPrevWindow(window) ?? this.getNextWindow(window);
+        const windowToFocus = this.getAboveWindow(window) ?? this.getBelowWindow(window);
 
         this.windows.remove(window);
 

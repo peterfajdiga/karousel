@@ -116,7 +116,7 @@ class Window {
             let leftEdgeDelta = newGeometry.left - oldGeometry.left;
             const resizingLeftSide = leftEdgeDelta !== 0;
             if (resizeNeighborColumn && this.column.grid.config.resizeNeighborColumn) {
-                const neighborColumn = resizingLeftSide ? this.column.grid.getPrevColumn(this.column) : this.column.grid.getNextColumn(this.column);
+                const neighborColumn = resizingLeftSide ? this.column.grid.getLeftColumn(this.column) : this.column.grid.getRightColumn(this.column);
                 if (neighborColumn !== null) {
                     const oldNeighborWidth = neighborColumn.getWidth();
                     neighborColumn.adjustWidth(-widthDelta, true);
