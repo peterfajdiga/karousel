@@ -1,6 +1,6 @@
-.PHONY: *
-
 VERSION = $(shell grep '"Version":' ./package/metadata.json | grep -o '[0-9\.]*')
+
+.PHONY: *
 
 build: tests
 	tsc -p ./src/main --outFile ./package/contents/code/main.js
