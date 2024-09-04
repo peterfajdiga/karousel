@@ -54,14 +54,14 @@ function registerNumKeyBindings(shortcutActions: ShortcutAction[], numKeyBinding
 
 function registerKeyBindings(world: World, config: Actions.Config) {
     const actions = new Actions.Actions(config);
-    const numActions = new Actions.NumActions(world);
+    const numActions = new Actions.NumActions();
     const shortcutActions: ShortcutAction[] = [];
 
     for (const keyBinding of getKeyBindings(world, actions)) {
         registerKeyBinding(shortcutActions, keyBinding);
     }
 
-    for (const numKeyBinding of getNumKeyBindings(numActions)) {
+    for (const numKeyBinding of getNumKeyBindings(world, numActions)) {
         registerNumKeyBindings(shortcutActions, numKeyBinding);
     }
 
