@@ -1,16 +1,18 @@
 type KeyBinding = {
-    name: keyof Actions.Actions;
+    name: string;
     description: string;
     comment?: string;
     defaultKeySequence: string;
+    action: () => void;
 };
 
 type NumKeyBinding = {
-    name: keyof Actions.NumActions;
+    name: string;
     description: string;
     comment?: string;
     defaultModifiers: string;
     fKeys: boolean;
+    action: (i: number) => void;
 };
 
 function catchWrap(f: () => void) {
@@ -24,14 +26,14 @@ function catchWrap(f: () => void) {
     };
 }
 
-function registerKeyBinding(actionGetter: Actions.Getter, shortcutActions: ShortcutAction[], keyBinding: KeyBinding) {
+function registerKeyBinding(shortcutActions: ShortcutAction[], keyBinding: KeyBinding) {
     shortcutActions.push(new ShortcutAction(
         keyBinding,
-        catchWrap(actionGetter.getAction(keyBinding.name)),
+        catchWrap(keyBinding.action),
     ));
 }
 
-function registerNumKeyBindings(actionGetter: Actions.Getter, shortcutActions: ShortcutAction[], numKeyBinding: NumKeyBinding) {
+function registerNumKeyBindings(shortcutActions: ShortcutAction[], numKeyBinding: NumKeyBinding) {
     const numPrefix = numKeyBinding.fKeys ? "F" : "";
     const n = numKeyBinding.fKeys ? 12 : 9;
     for (let i = 0; i < 12; i++) {
@@ -39,28 +41,28 @@ function registerNumKeyBindings(actionGetter: Actions.Getter, shortcutActions: S
         const keySequence = i < n ?
             numKeyBinding.defaultModifiers + "+" + numPrefix + numKey :
             "";
-        const action = actionGetter.getNumAction(numKeyBinding.name);
         shortcutActions.push(new ShortcutAction(
             {
                 name: numKeyBinding.name + numKey,
                 description: numKeyBinding.description + numKey,
                 defaultKeySequence: keySequence,
             },
-            catchWrap(() => action(i)),
+            catchWrap(() => numKeyBinding.action(i)),
         ));
     }
 }
 
 function registerKeyBindings(world: World, config: Actions.Config) {
-    const actionGetter = new Actions.Getter(world, config);
+    const actions = new Actions.Actions(world, config);
+    const numActions = new Actions.NumActions(world);
     const shortcutActions: ShortcutAction[] = [];
 
-    for (const keyBinding of keyBindings) {
-        registerKeyBinding(actionGetter, shortcutActions, keyBinding);
+    for (const keyBinding of getKeyBindings(actions)) {
+        registerKeyBinding(shortcutActions, keyBinding);
     }
 
-    for (const numKeyBinding of numKeyBindings) {
-        registerNumKeyBindings(actionGetter, shortcutActions, numKeyBinding);
+    for (const numKeyBinding of getNumKeyBindings(numActions)) {
+        registerNumKeyBindings(shortcutActions, numKeyBinding);
     }
 
     return shortcutActions;
