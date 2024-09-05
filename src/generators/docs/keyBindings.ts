@@ -48,3 +48,7 @@ function printCols(...columns: (string[] | string)[]) {
         console.log(line);
     }
 }
+
+const empty: any = {};
+const keyBindings = getKeyBindings(empty, empty);
+const numKeyBindings = getNumKeyBindings(empty, empty);
