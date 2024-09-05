@@ -184,7 +184,7 @@ function getKeyBindings(world: World, actions: Actions.Actions): KeyBinding[] {
     ];
 }
 
-function getNumKeyBindings(world: World, numActions: Actions.NumActions): NumKeyBinding[] {
+function getNumKeyBindings(world: World, actions: Actions.Actions): NumKeyBinding[] {
     return [
         {
             name: "focus-",
@@ -192,7 +192,7 @@ function getNumKeyBindings(world: World, numActions: Actions.NumActions): NumKey
             comment: "Clashes with default KDE shortcuts, may require manual remapping",
             defaultModifiers: "Meta",
             fKeys: false,
-            action: composeNum(world.do, numActions.focus),
+            action: composeNum(world.do, actions.focus),
         },
         {
             name: "window-move-to-column-",
@@ -200,7 +200,7 @@ function getNumKeyBindings(world: World, numActions: Actions.NumActions): NumKey
             comment: "Requires manual remapping according to your keyboard layout, e.g. Meta+Shift+1 -> Meta+!",
             defaultModifiers: "Meta+Shift",
             fKeys: false,
-            action: composeNum(world.doIfTiledFocused, numActions.windowMoveToColumn),
+            action: composeNum(world.doIfTiledFocused, actions.windowMoveToColumn),
         },
         {
             name: "column-move-to-column-",
@@ -208,21 +208,21 @@ function getNumKeyBindings(world: World, numActions: Actions.NumActions): NumKey
             comment: "Requires manual remapping according to your keyboard layout, e.g. Meta+Ctrl+Shift+1 -> Meta+Ctrl+!",
             defaultModifiers: "Meta+Ctrl+Shift",
             fKeys: false,
-            action: composeNum(world.doIfTiledFocused, numActions.columnMoveToColumn),
+            action: composeNum(world.doIfTiledFocused, actions.columnMoveToColumn),
         },
         {
             name: "column-move-to-desktop-",
             description: "Move column to desktop ",
             defaultModifiers: "Meta+Ctrl+Shift",
             fKeys: true,
-            action: composeNum(world.doIfTiledFocused, numActions.columnMoveToDesktop),
+            action: composeNum(world.doIfTiledFocused, actions.columnMoveToDesktop),
         },
         {
             name: "tail-move-to-desktop-",
             description: "Move this and all following columns to desktop ",
             defaultModifiers: "Meta+Ctrl+Shift+Alt",
             fKeys: true,
-            action: composeNum(world.doIfTiledFocused, numActions.tailMoveToDesktop),
+            action: composeNum(world.doIfTiledFocused, actions.tailMoveToDesktop),
         },
     ];
 }
