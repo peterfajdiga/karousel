@@ -1,4 +1,4 @@
-function getKeyBindings(world: World, actions: Actions.Actions): KeyBinding[] {
+function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
     return [
         {
             name: "window-toggle-floating",
@@ -184,7 +184,7 @@ function getKeyBindings(world: World, actions: Actions.Actions): KeyBinding[] {
     ];
 }
 
-function getNumKeyBindings(world: World, actions: Actions.Actions): NumKeyBinding[] {
+function getNumKeyBindings(world: World, actions: Actions): NumKeyBinding[] {
     return [
         {
             name: "focus-",
