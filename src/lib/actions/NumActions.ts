@@ -2,7 +2,7 @@ namespace Actions {
     export class NumActions {
         constructor() {}
 
-        public "focus-"(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager) {
+        public focus(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager) {
             const grid = desktopManager.getCurrentDesktop().grid;
             const targetColumn = grid.getColumnAtIndex(columnIndex);
             if (targetColumn === null) {
@@ -11,7 +11,7 @@ namespace Actions {
             targetColumn.focus();
         };
 
-        public "window-move-to-column-"(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+        public windowMoveToColumn(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
             const targetColumn = grid.getColumnAtIndex(columnIndex);
             if (targetColumn === null) {
                 return;
@@ -20,7 +20,7 @@ namespace Actions {
             grid.desktop.autoAdjustScroll();
         };
 
-        public "column-move-to-column-"(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+        public columnMoveToColumn(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
             const targetColumn = grid.getColumnAtIndex(columnIndex);
             if (targetColumn === null || targetColumn === column) {
                 return;
@@ -32,7 +32,7 @@ namespace Actions {
             }
         };
 
-        public "column-move-to-desktop-"(desktopIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, oldGrid: Grid) {
+        public columnMoveToDesktop(desktopIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, oldGrid: Grid) {
             const kwinDesktop = Workspace.desktops[desktopIndex];
             if (kwinDesktop === undefined) {
                 return;
@@ -44,7 +44,7 @@ namespace Actions {
             column.moveToGrid(newGrid, newGrid.getLastColumn());
         };
 
-        public "tail-move-to-desktop-"(desktopIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, oldGrid: Grid) {
+        public tailMoveToDesktop(desktopIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, oldGrid: Grid) {
             const kwinDesktop = Workspace.desktops[desktopIndex];
             if (kwinDesktop === undefined) {
                 return;
