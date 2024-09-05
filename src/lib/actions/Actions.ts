@@ -151,6 +151,11 @@ namespace Actions {
             this.gridScroll(desktopManager, this.config.manualScrollStep);
         }
 
+        private gridScroll(desktopManager: DesktopManager, amount: number) {
+            const grid = desktopManager.getCurrentDesktop().grid;
+            grid.desktop.adjustScroll(amount, false);
+        }
+
         public gridScrollStart(clientManager: ClientManager, desktopManager: DesktopManager) {
             const grid = desktopManager.getCurrentDesktop().grid;
             const firstColumn = grid.getFirstColumn();
@@ -260,10 +265,5 @@ namespace Actions {
             }
             oldGrid.evacuateTail(newGrid, column);
         };
-
-        private gridScroll(desktopManager: DesktopManager, amount: number) {
-            const grid = desktopManager.getCurrentDesktop().grid;
-            grid.desktop.adjustScroll(amount, false);
-        }
     }
 }
