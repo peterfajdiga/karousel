@@ -17,7 +17,7 @@ uninstall:
 	kpackagetool6 --type=KWin/Script --remove=karousel
 
 package: build
-	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package
+	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package --transform s/package/karousel/
 
 docs-key-bindings-bbcode:
 	@./run-ts.sh ./src/generators/docs/keyBindingsBbcode
