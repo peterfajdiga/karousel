@@ -185,6 +185,15 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
 }
 
 function getNumKeyBindings(world: World, actions: Actions): NumKeyBinding[] {
+    function composeNum<T extends any[]>(
+        f1: (f: (...args: T) => void) => void,
+        f2: (i: number, ...args: T) => void
+    ) {
+        return (i: number) => {
+            f1((...args: T) => f2(i, ...args));
+        };
+    }
+
     return [
         {
             name: "focus-",
@@ -225,13 +234,4 @@ function getNumKeyBindings(world: World, actions: Actions): NumKeyBinding[] {
             action: composeNum(world.doIfTiledFocused, actions.tailMoveToDesktop),
         },
     ];
-}
-
-function composeNum<T extends any[]>(
-    f1: (f: (...args: T) => void) => void,
-    f2: (i: number, ...args: T) => void
-) {
-    return (i: number) => {
-        f1((...args: T) => f2(i, ...args));
-    };
 }
