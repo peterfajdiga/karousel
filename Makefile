@@ -17,7 +17,7 @@ uninstall:
 	kpackagetool5 --type=KWin/Script -r ./package
 
 package: build config
-	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package
+	tar -czf ./karousel_${subst .,_,${VERSION}}.tar.gz ./package --transform s/package/karousel/
 
 logs:
 	journalctl -t kwin_x11 -g '^qml:|^file://.*karousel' -f
