@@ -11,8 +11,8 @@ const colLeft = [
 const colRight = [
     "Action",
     "---",
-    ...keyBindings.map((binding: KeyBinding) => `${binding.description}${formatComment(binding.comment)}`),
-    ...numKeyBindings.map((binding: NumKeyBinding) => `${binding.description}N${formatComment(binding.comment)}`),
+    ...keyBindings.map((binding: KeyBinding) => `${formatDescription(binding)}`),
+    ...numKeyBindings.map((binding: NumKeyBinding) => `${formatDescription(binding)}`),
 ];
 
 printCols("| ", colLeft, " | ", colRight, " |");

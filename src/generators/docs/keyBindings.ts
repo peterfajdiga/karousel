@@ -1,5 +1,6 @@
-function formatComment(comment: string | undefined) {
-    return comment === undefined ? "" : ` (${comment})`;
+function formatDescription(item: {description: string, comment?: string}) {
+    const suffix = item.comment === undefined ? "" : ` (${item.comment})`;
+    return `${applyMacro(item.description, "N")}${suffix}`;
 }
 
 function printCols(...columns: (string[] | string)[]) {

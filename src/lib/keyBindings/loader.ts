@@ -43,8 +43,8 @@ function registerNumKeyBindings(shortcutActions: ShortcutAction[], numKeyBinding
             "";
         shortcutActions.push(new ShortcutAction(
             {
-                name: numKeyBinding.name + numKey,
-                description: numKeyBinding.description + numKey,
+                name: applyMacro(numKeyBinding.name, numKey),
+                description: applyMacro(numKeyBinding.description, numKey),
                 defaultKeySequence: keySequence,
             },
             catchWrap(() => numKeyBinding.action(i)),
