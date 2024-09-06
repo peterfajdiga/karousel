@@ -3,7 +3,7 @@ class Actions {
         private readonly config: Actions.Config,
     ) {}
 
-    public focusLeft(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public focusLeft(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         const leftColumn = grid.getLeftColumn(column);
         if (leftColumn === null) {
             return;
@@ -11,7 +11,7 @@ class Actions {
         leftColumn.focus();
     }
 
-    public focusRight(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public focusRight(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         const rightColumn = grid.getRightColumn(column);
         if (rightColumn === null) {
             return;
@@ -19,7 +19,7 @@ class Actions {
         rightColumn.focus();
     }
 
-    public focusUp(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public focusUp(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         const aboveWindow = column.getAboveWindow(window);
         if (aboveWindow === null) {
             return;
@@ -27,7 +27,7 @@ class Actions {
         aboveWindow.focus();
     }
 
-    public focusDown(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public focusDown(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         const belowWindow = column.getBelowWindow(window);
         if (belowWindow === null) {
             return;
@@ -35,8 +35,8 @@ class Actions {
         belowWindow.focus();
     }
 
-    public focusStart(clientManager: ClientManager, desktopManager: DesktopManager) {
-        const grid = desktopManager.getCurrentDesktop().grid;
+    public focusStart(cm: ClientManager, dm: DesktopManager) {
+        const grid = dm.getCurrentDesktop().grid;
         const firstColumn = grid.getFirstColumn();
         if (firstColumn === null) {
             return;
@@ -44,8 +44,8 @@ class Actions {
         firstColumn.focus();
     }
 
-    public focusEnd(clientManager: ClientManager, desktopManager: DesktopManager) {
-        const grid = desktopManager.getCurrentDesktop().grid;
+    public focusEnd(cm: ClientManager, dm: DesktopManager) {
+        const grid = dm.getCurrentDesktop().grid;
         const lastColumn = grid.getLastColumn();
         if (lastColumn === null) {
             return;
@@ -53,7 +53,7 @@ class Actions {
         lastColumn.focus();
     }
 
-    public windowMoveLeft(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public windowMoveLeft(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
             const leftColumn = grid.getLeftColumn(column);
@@ -69,7 +69,7 @@ class Actions {
         }
     }
 
-    public windowMoveRight(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public windowMoveRight(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
             const rightColumn = grid.getRightColumn(column);
@@ -86,68 +86,68 @@ class Actions {
     }
 
     // TODO (optimization): only arrange moved windows
-    public windowMoveUp(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public windowMoveUp(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         column.moveWindowUp(window);
     }
 
     // TODO (optimization): only arrange moved windows
-    public windowMoveDown(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public windowMoveDown(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         column.moveWindowDown(window);
     }
 
-    public windowMoveStart(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public windowMoveStart(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         const newColumn = new Column(grid, null);
         window.moveToColumn(newColumn);
     }
 
-    public windowMoveEnd(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public windowMoveEnd(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         const newColumn = new Column(grid, grid.getLastColumn());
         window.moveToColumn(newColumn);
     }
 
-    public windowToggleFloating(clientManager: ClientManager, desktopManager: DesktopManager) {
+    public windowToggleFloating(cm: ClientManager, dm: DesktopManager) {
         const kwinClient = Workspace.activeWindow;
-        clientManager.toggleFloatingClient(kwinClient);
+        cm.toggleFloatingClient(kwinClient);
     }
 
-    public columnMoveLeft(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public columnMoveLeft(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         grid.moveColumnLeft(column);
     }
 
-    public columnMoveRight(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public columnMoveRight(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         grid.moveColumnRight(column);
     }
 
-    public columnMoveStart(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public columnMoveStart(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         grid.moveColumn(column, null);
     }
 
-    public columnMoveEnd(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public columnMoveEnd(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         grid.moveColumn(column, grid.getLastColumn());
     }
 
-    public columnToggleStacked(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public columnToggleStacked(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         column.toggleStacked();
     }
 
-    public columnWidthIncrease(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public columnWidthIncrease(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         this.config.columnResizer.increaseWidth(column, this.config.manualResizeStep);
     }
 
-    public columnWidthDecrease(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public columnWidthDecrease(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         this.config.columnResizer.decreaseWidth(column, this.config.manualResizeStep);
     }
 
-    public columnsWidthEqualize(clientManager: ClientManager, desktopManager: DesktopManager) {
-        desktopManager.getCurrentDesktop().equalizeVisibleColumnsWidths();
+    public columnsWidthEqualize(cm: ClientManager, dm: DesktopManager) {
+        dm.getCurrentDesktop().equalizeVisibleColumnsWidths();
     }
 
-    public gridScrollLeft(clientManager: ClientManager, desktopManager: DesktopManager) {
-        this.gridScroll(desktopManager, -this.config.manualScrollStep);
+    public gridScrollLeft(cm: ClientManager, dm: DesktopManager) {
+        this.gridScroll(dm, -this.config.manualScrollStep);
     }
 
-    public gridScrollRight(clientManager: ClientManager, desktopManager: DesktopManager) {
-        this.gridScroll(desktopManager, this.config.manualScrollStep);
+    public gridScrollRight(cm: ClientManager, dm: DesktopManager) {
+        this.gridScroll(dm, this.config.manualScrollStep);
     }
 
     private gridScroll(desktopManager: DesktopManager, amount: number) {
@@ -155,8 +155,8 @@ class Actions {
         grid.desktop.adjustScroll(amount, false);
     }
 
-    public gridScrollStart(clientManager: ClientManager, desktopManager: DesktopManager) {
-        const grid = desktopManager.getCurrentDesktop().grid;
+    public gridScrollStart(cm: ClientManager, dm: DesktopManager) {
+        const grid = dm.getCurrentDesktop().grid;
         const firstColumn = grid.getFirstColumn();
         if (firstColumn === null) {
             return;
@@ -164,8 +164,8 @@ class Actions {
         grid.desktop.scrollToColumn(firstColumn);
     }
 
-    public gridScrollEnd(clientManager: ClientManager, desktopManager: DesktopManager) {
-        const grid = desktopManager.getCurrentDesktop().grid;
+    public gridScrollEnd(cm: ClientManager, dm: DesktopManager) {
+        const grid = dm.getCurrentDesktop().grid;
         const lastColumn = grid.getLastColumn();
         if (lastColumn === null) {
             return;
@@ -173,12 +173,12 @@ class Actions {
         grid.desktop.scrollToColumn(lastColumn);
     }
 
-    public gridScrollFocused(clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public gridScrollFocused(cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         grid.desktop.scrollCenterRange(column);
     }
 
-    public gridScrollLeftColumn(clientManager: ClientManager, desktopManager: DesktopManager) {
-        const grid = desktopManager.getCurrentDesktop().grid;
+    public gridScrollLeftColumn(cm: ClientManager, dm: DesktopManager) {
+        const grid = dm.getCurrentDesktop().grid;
         const column = grid.getLeftmostVisibleColumn(grid.desktop.getCurrentVisibleRange(), true);
         if (column === null) {
             return;
@@ -192,8 +192,8 @@ class Actions {
         grid.desktop.scrollToColumn(leftColumn);
     }
 
-    public gridScrollRightColumn(clientManager: ClientManager, desktopManager: DesktopManager) {
-        const grid = desktopManager.getCurrentDesktop().grid;
+    public gridScrollRightColumn(cm: ClientManager, dm: DesktopManager) {
+        const grid = dm.getCurrentDesktop().grid;
         const column = grid.getRightmostVisibleColumn(grid.desktop.getCurrentVisibleRange(), true);
         if (column === null) {
             return;
@@ -207,12 +207,12 @@ class Actions {
         grid.desktop.scrollToColumn(rightColumn);
     }
 
-    public screenSwitch(clientManager: ClientManager, desktopManager: DesktopManager) {
-        desktopManager.selectScreen(Workspace.activeScreen);
+    public screenSwitch(cm: ClientManager, dm: DesktopManager) {
+        dm.selectScreen(Workspace.activeScreen);
     }
 
-    public focus(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager) {
-        const grid = desktopManager.getCurrentDesktop().grid;
+    public focus(columnIndex: number, cm: ClientManager, dm: DesktopManager) {
+        const grid = dm.getCurrentDesktop().grid;
         const targetColumn = grid.getColumnAtIndex(columnIndex);
         if (targetColumn === null) {
             return;
@@ -220,7 +220,7 @@ class Actions {
         targetColumn.focus();
     };
 
-    public windowMoveToColumn(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public windowMoveToColumn(columnIndex: number, cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         const targetColumn = grid.getColumnAtIndex(columnIndex);
         if (targetColumn === null) {
             return;
@@ -229,7 +229,7 @@ class Actions {
         grid.desktop.autoAdjustScroll();
     };
 
-    public columnMoveToColumn(columnIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) {
+    public columnMoveToColumn(columnIndex: number, cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) {
         const targetColumn = grid.getColumnAtIndex(columnIndex);
         if (targetColumn === null || targetColumn === column) {
             return;
@@ -241,24 +241,24 @@ class Actions {
         }
     };
 
-    public columnMoveToDesktop(desktopIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, oldGrid: Grid) {
+    public columnMoveToDesktop(desktopIndex: number, cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) {
         const kwinDesktop = Workspace.desktops[desktopIndex];
         if (kwinDesktop === undefined) {
             return;
         }
-        const newGrid = desktopManager.getDesktopInCurrentActivity(kwinDesktop).grid;
+        const newGrid = dm.getDesktopInCurrentActivity(kwinDesktop).grid;
         if (newGrid === null || newGrid === oldGrid) {
             return;
         }
         column.moveToGrid(newGrid, newGrid.getLastColumn());
     };
 
-    public tailMoveToDesktop(desktopIndex: number, clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, oldGrid: Grid) {
+    public tailMoveToDesktop(desktopIndex: number, cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) {
         const kwinDesktop = Workspace.desktops[desktopIndex];
         if (kwinDesktop === undefined) {
             return;
         }
-        const newGrid = desktopManager.getDesktopInCurrentActivity(kwinDesktop).grid;
+        const newGrid = dm.getDesktopInCurrentActivity(kwinDesktop).grid;
         if (newGrid === null || newGrid === oldGrid) {
             return;
         }
