@@ -1,6 +1,6 @@
 ---
-name: General bug report
-about: Any bug that's not related to a specific application or window
+name: Generic bug report
+about: Report a bug
 title: "[Bug]"
 labels: ''
 assignees: ''
