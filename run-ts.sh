@@ -1,2 +1,9 @@
 #!/bin/bash
-tsc -p "$1" --outFile ./run-ts-tmp.js && node ./run-ts-tmp.js && rm ./run-ts-tmp.js
+set -e
+set -o pipefail
+
+JS_FILE='./run-ts-tmp.js'
+
+tsc -p "$1" --outFile "$JS_FILE"
+node "$JS_FILE"
+rm "$JS_FILE"
