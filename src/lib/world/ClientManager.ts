@@ -1,13 +1,15 @@
 class ClientManager {
-    private readonly world: World;
     private readonly config: ClientManager.Config;
-    private readonly desktopManager: DesktopManager;
-    private readonly pinManager: PinManager;
     private readonly clientMap: Map<KwinClient, ClientWrapper>;
     private lastFocusedClient: KwinClient|null;
     private readonly windowRuleEnforcer: WindowRuleEnforcer;
 
-    constructor(config: Config, world: World, desktopManager: DesktopManager, pinManager: PinManager) {
+    constructor(
+        config: Config,
+        private readonly world: World,
+        private readonly desktopManager: DesktopManager,
+        private readonly pinManager: PinManager,
+    ) {
         this.world = world;
         this.config = config;
         this.desktopManager = desktopManager;

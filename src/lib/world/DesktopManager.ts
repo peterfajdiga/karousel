@@ -1,13 +1,16 @@
 class DesktopManager {
-    private readonly pinManager: PinManager;
-    private readonly config: Desktop.Config;
-    public readonly layoutConfig: LayoutConfig;
     private readonly desktops: Map<string, Desktop>; // key is activityId|desktopId
     private selectedScreen: Output;
     private kwinActivities: Set<string>;
     private kwinDesktops: Set<KwinDesktop>;
 
-    constructor(pinManager: PinManager, config: Desktop.Config, layoutConfig: LayoutConfig, currentActivity: string, currentDesktop: KwinDesktop) {
+    constructor(
+        private readonly pinManager: PinManager,
+        private readonly config: Desktop.Config,
+        public readonly layoutConfig: LayoutConfig,
+        currentActivity: string,
+        currentDesktop: KwinDesktop,
+    ) {
         this.pinManager = pinManager;
         this.config = config;
         this.layoutConfig = layoutConfig;
