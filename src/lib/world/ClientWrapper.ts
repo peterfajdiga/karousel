@@ -1,20 +1,17 @@
 class ClientWrapper {
-    public readonly kwinClient: KwinClient;
     public readonly stateManager: ClientState.Manager;
-    public transientFor: ClientWrapper | null;
     private readonly transients: ClientWrapper[];
     private readonly signalManager: SignalManager;
-    private readonly rulesSignalManager: SignalManager | null;
     public preferredWidth: number;
     private maximizedMode: MaximizedMode | undefined;
     private readonly manipulatingGeometry: Doer;
     private lastPlacement: QmlRect | null; // workaround for issue #19
 
     constructor(
-        kwinClient: KwinClient,
+        public readonly kwinClient: KwinClient,
         constructInitialState: (client: ClientWrapper) => ClientState.State,
-        transientFor: ClientWrapper | null,
-        rulesSignalManager: SignalManager | null,
+        public transientFor: ClientWrapper | null,
+        private readonly rulesSignalManager: SignalManager | null,
     ) {
         this.kwinClient = kwinClient;
         this.transientFor = transientFor;
