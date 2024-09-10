@@ -33,13 +33,14 @@ class ClientWrapper {
                 // window is being manually resized, prevent fighting with the user
                 return;
             }
-            this.lastPlacement = Qt.rect(x, y, width, height);
-            this.kwinClient.frameGeometry = this.lastPlacement;
-            if (this.kwinClient.frameGeometry !== this.lastPlacement) {
+            const clientWrapper = this; // workaround for bug in Qt5's JS engine
+            clientWrapper.lastPlacement = Qt.rect(x, y, width, height);
+            clientWrapper.kwinClient.frameGeometry = clientWrapper.lastPlacement;
+            if (clientWrapper.kwinClient.frameGeometry !== clientWrapper.lastPlacement) {
                 // frameGeometry assignment failed. This sometimes happens on Wayland
                 // when a window is off-screen, effectively making it stuck there.
-                this.kwinClient.frameGeometry.x = x; // This makes it unstuck.
-                this.kwinClient.frameGeometry = this.lastPlacement;
+                clientWrapper.kwinClient.frameGeometry.x = x; // This makes it unstuck.
+                clientWrapper.kwinClient.frameGeometry = clientWrapper.lastPlacement;
             }
         });
     }
