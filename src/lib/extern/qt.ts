@@ -21,10 +21,10 @@ type QmlRect = {
     y: number;
     width: number;
     height: number;
-    top: number;
-    bottom: number; // top + height
-    left: number;
-    right: number; // left + width
+    readonly top: number;
+    readonly bottom: number; // top + height
+    readonly left: number;
+    readonly right: number; // left + width
 };
 
 type QmlSize = {
