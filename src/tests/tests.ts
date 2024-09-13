@@ -1,7 +1,3 @@
-declare const process: {
-    exit(code?: number): void,
-};
-
 function assert(assertion: boolean, message?: string) {
     if (assertion) {
         return;
