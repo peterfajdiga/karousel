@@ -68,7 +68,7 @@ class ClientManager {
     }
 
     private findTransientFor(kwinClient: KwinClient) {
-        if (!kwinClient.transient) {
+        if (!kwinClient.transient || kwinClient.transientFor === null) {
             return null;
         }
 

@@ -52,7 +52,7 @@ type KwinClient = {
     readonly caption: string;
     readonly minSize: Readonly<QmlSize>;
     readonly transient: boolean;
-    readonly transientFor: KwinClient;
+    readonly transientFor: KwinClient | null;
     readonly clientGeometry: Readonly<QmlRect>;
     readonly move: boolean;
     readonly resize: boolean;
