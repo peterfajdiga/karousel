@@ -7,19 +7,19 @@ namespace Mocks {
             public height: number,
         ) {}
 
-        get top() {
+        public get top() {
             return this.y;
         }
 
-        get bottom() {
+        public get bottom() {
             return this.y + this.height;
         }
 
-        get left() {
+        public get left() {
             return this.x;
         }
 
-        get right() {
+        public get right() {
             return this.x + this.width;
         }
     }

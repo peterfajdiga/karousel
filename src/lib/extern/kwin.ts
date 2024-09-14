@@ -84,7 +84,7 @@ type KwinClient = {
     readonly desktopsChanged: QSignal<[]>;
     readonly activitiesChanged: QSignal<[]>;
     readonly minimizedChanged: QSignal<[]>;
-    readonly maximizedAboutToChange: QSignal<[MaximizedMode]>
+    readonly maximizedAboutToChange: QSignal<[MaximizedMode]>;
     readonly captionChanged: QSignal<[]>;
     readonly tileChanged: QSignal<[]>;
     readonly interactiveMoveResizeStarted: QSignal<[]>;

@@ -23,5 +23,9 @@ namespace Mocks {
         public clientArea(option: ClientAreaOption, output: Output, kwinDesktop: KwinDesktop) {
             return new QmlRect(0, 0, 800, 600);
         }
+
+        public createWindow(kwinClient: KwinClient) {
+            this.windowActivated.fire(kwinClient);
+        }
     }
 }
