@@ -18,7 +18,7 @@ namespace Mocks {
         public readonly managed: boolean = false;
         public readonly popupWindow: boolean = false;
 
-        public fullScreen: boolean = false;
+        private _fullScreen: boolean = false;
         public activities: string[] = [];
         public skipSwitcher: boolean = false;
         public keepAbove: boolean = false;
@@ -40,12 +40,17 @@ namespace Mocks {
         public readonly interactiveMoveResizeFinished: QSignal<[]> = new QSignal();
         public readonly frameGeometryChanged: QSignal<[oldGeometry: QmlRect]> = new QSignal();
 
+        private windowedFrameGeometry: QmlRect;
+        private windowed: boolean = false;
+
         constructor(
             public readonly pid: number,
             public readonly resourceClass: string,
             public readonly caption: string,
-            public frameGeometry: QmlRect,
-        ) {}
+            private _frameGeometry: QmlRect,
+        ) {
+            this.windowedFrameGeometry = _frameGeometry.clone();
+        }
 
         setMaximize(vertically: boolean, horizontally: boolean) {
             this.maximizedAboutToChange.fire(
@@ -58,12 +63,51 @@ namespace Mocks {
         }
 
         public get clientGeometry() {
+            if (this._fullScreen) {
+                return this.frameGeometry;
+            }
+
             return new QmlRect(
                 this.frameGeometry.x + KwinClient.borderThickness,
                 this.frameGeometry.y + KwinClient.borderThickness,
                 this.frameGeometry.width - 2 * KwinClient.borderThickness,
                 this.frameGeometry.height - 2 * KwinClient.borderThickness,
             );
+        }
+
+        public get fullScreen() {
+            return this._fullScreen;
+        }
+
+        public set fullScreen(fullScreen: boolean) {
+            this.windowed = !fullScreen;
+            this._fullScreen = fullScreen;
+            this.fullScreenChanged.fire();
+
+            if (fullScreen) {
+                this.frameGeometry = new QmlRect(0, 0, screenWidth, screenHeight);
+            } else {
+                this.frameGeometry = this.windowedFrameGeometry;
+            }
+        }
+
+        public get frameGeometry() {
+            return this._frameGeometry;
+        }
+
+        public set frameGeometry(frameGeometry: QmlRect) {
+            const oldFrameGeometry = this._frameGeometry;
+            this._frameGeometry = new QmlRect(
+                frameGeometry.x,
+                frameGeometry.y,
+                frameGeometry.width,
+                frameGeometry.height,
+                this.frameGeometryChanged.fire,
+            );
+            if (this.windowed) {
+                this.windowedFrameGeometry = this._frameGeometry.clone();
+            }
+            this.frameGeometryChanged.fire(oldFrameGeometry);
         }
     }
 }
