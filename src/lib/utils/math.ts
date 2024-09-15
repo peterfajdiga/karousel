@@ -12,3 +12,10 @@ function union<T>(array0: T[], array1: T[]) {
     const set = new Set([...array0, ...array1]);
     return [...set];
 }
+
+function rectEquals(a: QmlRect, b: QmlRect) {
+    return a.x === b.x &&
+        a.y === b.y &&
+        a.width === b.width &&
+        a.height === b.height;
+}
