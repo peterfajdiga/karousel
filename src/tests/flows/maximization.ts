@@ -1,7 +1,5 @@
 {
-    Qt = new MockQt();
-    const workspaceMock = new MockWorkspace();
-    Workspace = workspaceMock;
+    const workspaceMock = initMocks();
     const world = new World(getDefaultConfig());
 
     const kwinClient = new MockKwinClient(
