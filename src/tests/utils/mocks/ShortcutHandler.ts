@@ -1,7 +1,5 @@
-namespace Mocks {
-    export class ShortcutHandler {
-        public readonly activated: QSignal<[]> = new QSignal();
+class MockShortcutHandler {
+    public readonly activated: MockQSignal<[]> = new MockQSignal();
 
-        public destroy() {}
-    }
+    public destroy() {}
 }

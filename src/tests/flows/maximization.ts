@@ -1,21 +1,21 @@
 {
-    Qt = new Mocks.Qt();
-    const workspaceMock = new Mocks.Workspace();
+    Qt = new MockQt();
+    const workspaceMock = new MockWorkspace();
     Workspace = workspaceMock;
     const world = new World(getDefaultConfig());
 
-    const kwinClient = new Mocks.KwinClient(
+    const kwinClient = new MockKwinClient(
         1,
         "app1",
         "Application 1",
-        new Mocks.QmlRect(0, 0, 200, 200),
+        new MockQmlRect(0, 0, 200, 200),
     );
 
     workspaceMock.createWindow(kwinClient);
     kwinClient.fullScreen = true;
     {
         const frame = kwinClient.frameGeometry;
-        assert(frame.width === Mocks.screenWidth && frame.height === Mocks.screenHeight);
+        assert(frame.width === screenWidth && frame.height === screenHeight);
     }
 
     kwinClient.fullScreen = false;
