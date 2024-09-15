@@ -6,7 +6,7 @@
         1,
         "app1",
         "Application 1",
-        new MockQmlRect(0, 0, 300, 200),
+        new MockQmlRect(10, 20, 300, 200),
     );
 
     workspaceMock.createWindow(kwinClient);
@@ -15,32 +15,17 @@
     })
 
     kwinClient.fullScreen = true;
-    {
-        const frame = kwinClient.frameGeometry;
-        assert(frame.width === screenWidth && frame.height === screenHeight);
-    }
+    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(0, 0, screenWidth, screenHeight)));
 
     kwinClient.fullScreen = false;
-    {
-        const frame = kwinClient.frameGeometry;
-        assert(frame.width === 300 && frame.height === 200);
-    }
+    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(10, 20, 300, 200)));
 
     kwinClient.setMaximize(true, true);
-    {
-        const frame = kwinClient.frameGeometry;
-        assert(frame.width === screenWidth && frame.height === screenHeight);
-    }
+    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(0, 0, screenWidth, screenHeight)));
 
     kwinClient.setMaximize(true, false);
-    {
-        const frame = kwinClient.frameGeometry;
-        assert(frame.width === 300 && frame.height === screenHeight);
-    }
+    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(10, 0, 300, screenHeight)));
 
     kwinClient.setMaximize(false, false);
-    {
-        const frame = kwinClient.frameGeometry;
-        assert(frame.width === 300 && frame.height === 200);
-    }
+    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(10, 20, 300, 200)));
 }
