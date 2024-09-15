@@ -24,6 +24,6 @@ class MockWorkspace {
     }
 
     public createWindow(kwinClient: MockKwinClient) {
-        this.windowActivated.fire(kwinClient);
+        this.windowAdded.fire(kwinClient);
     }
 }

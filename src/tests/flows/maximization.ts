@@ -10,6 +10,10 @@
     );
 
     workspaceMock.createWindow(kwinClient);
+    world.do((clientManager, desktopManager) => {
+        assert(clientManager.hasClient(kwinClient));
+    })
+
     kwinClient.fullScreen = true;
     {
         const frame = kwinClient.frameGeometry;
