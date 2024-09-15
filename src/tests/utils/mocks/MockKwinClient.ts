@@ -52,12 +52,21 @@ class MockKwinClient {
     }
 
     setMaximize(vertically: boolean, horizontally: boolean) {
+        this.windowed = !(vertically || horizontally);
+
         this.maximizedAboutToChange.fire(
             vertically ? (
                 horizontally ? MaximizedMode.Maximized : MaximizedMode.Vertically
             ) : (
                 horizontally ? MaximizedMode.Horizontally : MaximizedMode.Unmaximized
             )
+        );
+
+        this.frameGeometry = new MockQmlRect(
+            horizontally ? 0            : this.windowedFrameGeometry.x,
+            vertically   ? 0            : this.windowedFrameGeometry.y,
+            horizontally ? screenWidth  : this.windowedFrameGeometry.width,
+            vertically   ? screenHeight : this.windowedFrameGeometry.height,
         );
     }
 
