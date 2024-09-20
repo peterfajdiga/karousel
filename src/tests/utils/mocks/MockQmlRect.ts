@@ -71,4 +71,8 @@ class MockQmlRect {
             this._height,
         );
     }
+
+    public toString() {
+        return `(${this.x} ${this.y} ${this.width} ${this.height})`;
+    }
 }

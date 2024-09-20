@@ -15,17 +15,17 @@
     })
 
     kwinClient.fullScreen = true;
-    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(0, 0, screenWidth, screenHeight)));
+    assertRect(kwinClient.frameGeometry, 0, 0, screenWidth, screenHeight);
 
     kwinClient.fullScreen = false;
-    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(10, 20, 300, 200)));
+    assertRect(kwinClient.frameGeometry, 10, 20, 300, 200);
 
     kwinClient.setMaximize(true, true);
-    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(0, 0, screenWidth, screenHeight)));
+    assertRect(kwinClient.frameGeometry, 0, 0, screenWidth, screenHeight);
 
     kwinClient.setMaximize(true, false);
-    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(10, 0, 300, screenHeight)));
+    assertRect(kwinClient.frameGeometry, 10, 0, 300, screenHeight);
 
     kwinClient.setMaximize(false, false);
-    assert(rectEquals(kwinClient.frameGeometry, new MockQmlRect(10, 20, 300, 200)));
+    assertRect(kwinClient.frameGeometry, 10, 20, 300, 200);
 }
