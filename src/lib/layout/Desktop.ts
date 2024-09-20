@@ -25,7 +25,7 @@ class Desktop {
 
     private updateArea() {
         const newClientArea = Desktop.getClientArea(this.getScreen(), this.kwinDesktop);
-        if (newClientArea === this.clientArea && !this.dirtyPins) {
+        if (rectEquals(newClientArea, this.clientArea) && !this.dirtyPins) {
             return;
         }
         this.clientArea = newClientArea;
