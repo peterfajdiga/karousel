@@ -1,4 +1,4 @@
-{
+tests.register("WindowRuleEnforcer", 1, () => {
     const testCases = [
         {tiledByDefault: true, resourceClass: "unknown", caption: "anything", shouldTile: true},
         {tiledByDefault: false, resourceClass: "unknown", caption: "anything", shouldTile: false},
@@ -33,4 +33,4 @@
             caption: caption,
         }
     }
-}
+});

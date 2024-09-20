@@ -1,5 +1,4 @@
-{
-    runLog.length = 0;
+tests.register("Maximization", 100, () => {
     const workspaceMock = initMocks();
     const config = getDefaultConfig();
     const world = new World(config);
@@ -34,4 +33,4 @@
 
     kwinClient.setMaximize(false, false);
     assertRect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
-}
+});

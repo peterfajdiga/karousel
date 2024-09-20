@@ -1,5 +1,3 @@
-const runLog: string[] = [];
-
 function assert(assertion: boolean, message?: string, skip: number = 0) {
     if (assertion) {
         return;
