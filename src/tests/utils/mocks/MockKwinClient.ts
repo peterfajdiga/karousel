@@ -41,6 +41,7 @@ class MockKwinClient {
 
     private windowedFrameGeometry: QmlRect;
     private windowed: boolean = false;
+    private hasBorder: boolean = true;
 
     constructor(
         public readonly pid: number,
@@ -71,16 +72,16 @@ class MockKwinClient {
     }
 
     public get clientGeometry() {
-        if (this._fullScreen) {
+        if (this.hasBorder) {
+            return new MockQmlRect(
+                this.frameGeometry.x + MockKwinClient.borderThickness,
+                this.frameGeometry.y + MockKwinClient.borderThickness,
+                this.frameGeometry.width - 2 * MockKwinClient.borderThickness,
+                this.frameGeometry.height - 2 * MockKwinClient.borderThickness,
+            );
+        } else {
             return this.frameGeometry;
         }
-
-        return new MockQmlRect(
-            this.frameGeometry.x + MockKwinClient.borderThickness,
-            this.frameGeometry.y + MockKwinClient.borderThickness,
-            this.frameGeometry.width - 2 * MockKwinClient.borderThickness,
-            this.frameGeometry.height - 2 * MockKwinClient.borderThickness,
-        );
     }
 
     public get fullScreen() {
@@ -89,6 +90,9 @@ class MockKwinClient {
 
     public set fullScreen(fullScreen: boolean) {
         const oldFullScreen = this._fullScreen;
+
+        this.hasBorder = !fullScreen;
+
         this._fullScreen = fullScreen;
         this.fullScreenChanged.fire();
 
