@@ -7,14 +7,14 @@ class MockKwinClient {
     public readonly transientFor: MockKwinClient | null = null;
     public readonly move: boolean = false;
     public readonly resize: boolean = false;
-    public readonly moveable: boolean = false;
-    public readonly resizeable: boolean = false;
-    public readonly fullScreenable: boolean = false;
-    public readonly maximizable: boolean = false;
+    public readonly moveable: boolean = true;
+    public readonly resizeable: boolean = true;
+    public readonly fullScreenable: boolean = true;
+    public readonly maximizable: boolean = true;
     public readonly output: Output = false;
     public readonly dock: boolean = false;
-    public readonly normalWindow: boolean = false;
-    public readonly managed: boolean = false;
+    public readonly normalWindow: boolean = true;
+    public readonly managed: boolean = true;
     public readonly popupWindow: boolean = false;
 
     private _fullScreen: boolean = false;
@@ -110,7 +110,7 @@ class MockKwinClient {
             frameGeometry.y,
             frameGeometry.width,
             frameGeometry.height,
-            this.frameGeometryChanged.fire,
+            this.frameGeometryChanged.fire.bind(this.frameGeometryChanged),
         );
         if (this.windowed) {
             this.windowedFrameGeometry = this._frameGeometry.clone();
