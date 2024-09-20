@@ -203,7 +203,7 @@ class Grid {
 
     public onColumnFocused(column: Column) {
         const lastFocusedColumn = this.getLastFocusedColumn();
-        if (lastFocusedColumn !== null) {
+        if (lastFocusedColumn !== null && lastFocusedColumn !== column) {
             lastFocusedColumn.restoreToTiled();
         }
         this.lastFocusedColumn = column;

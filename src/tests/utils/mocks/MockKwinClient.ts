@@ -3,8 +3,7 @@ class MockKwinClient {
 
     public readonly shadeable: boolean = false;
     public readonly minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
-    public readonly transient: boolean = false;
-    public readonly transientFor: MockKwinClient | null = null;
+    public readonly transient: boolean;
     public readonly move: boolean = false;
     public readonly resize: boolean = false;
     public readonly moveable: boolean = true;
@@ -48,8 +47,10 @@ class MockKwinClient {
         public readonly resourceClass: string,
         public readonly caption: string,
         private _frameGeometry: MockQmlRect,
+        public readonly transientFor: MockKwinClient|null = null,
     ) {
         this.windowedFrameGeometry = _frameGeometry.clone();
+        this.transient = transientFor !== null;
     }
 
     setMaximize(vertically: boolean, horizontally: boolean) {
@@ -106,16 +107,16 @@ class MockKwinClient {
                     }
                     runOneOf(
                         () => this.frameGeometry = new MockQmlRect(
-                                0,
-                                0,
-                                screenWidth + 2 * MockKwinClient.borderThickness,
-                                screenHeight + 2 * MockKwinClient.borderThickness,
+                            0,
+                            0,
+                            screenWidth + 2 * MockKwinClient.borderThickness,
+                            screenHeight + 2 * MockKwinClient.borderThickness,
                         ),
                         () => this.frameGeometry = new MockQmlRect(
-                                -MockKwinClient.borderThickness,
-                                -MockKwinClient.borderThickness,
-                                screenWidth + 2 * MockKwinClient.borderThickness,
-                                screenHeight + 2 * MockKwinClient.borderThickness,
+                            -MockKwinClient.borderThickness,
+                            -MockKwinClient.borderThickness,
+                            screenWidth + 2 * MockKwinClient.borderThickness,
+                            screenHeight + 2 * MockKwinClient.borderThickness,
                         ),
                         () => {},
                     );
