@@ -36,7 +36,8 @@ namespace Clients {
 
     export function isFullScreenGeometry(kwinClient: KwinClient) {
         const fullScreenArea = Workspace.clientArea(ClientAreaOption.FullScreenArea, kwinClient.output, getKwinDesktopApprox(kwinClient));
-        return rectEquals(kwinClient.frameGeometry, fullScreenArea);
+        return kwinClient.clientGeometry.width === fullScreenArea.width &&
+            kwinClient.clientGeometry.height === fullScreenArea.height;
     }
 
     export function isOnVirtualDesktop(kwinClient: KwinClient, kwinDesktop: KwinDesktop) {

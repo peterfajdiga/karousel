@@ -88,10 +88,21 @@ class MockKwinClient {
     }
 
     public set fullScreen(fullScreen: boolean) {
-        this.windowed = !fullScreen;
+        const oldFullScreen = this._fullScreen;
         this._fullScreen = fullScreen;
         this.fullScreenChanged.fire();
 
+        if (oldFullScreen && !fullScreen) {
+            // when switching from full-screen to windowed, Kwin sometimes first adds the frame before changing the frameGeometry to the final value
+            this.frameGeometry = new MockQmlRect(
+                -MockKwinClient.borderThickness,
+                -MockKwinClient.borderThickness,
+                screenWidth + 2 * MockKwinClient.borderThickness,
+                screenHeight + 2 * MockKwinClient.borderThickness,
+            );
+        }
+
+        this.windowed = !fullScreen;
         if (fullScreen) {
             this.frameGeometry = new MockQmlRect(0, 0, screenWidth, screenHeight);
         } else {
