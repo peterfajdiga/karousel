@@ -7,12 +7,12 @@ class MockWorkspace {
     public windows = [];
     public cursorPos = new MockQmlPoint(0, 0);
 
-    public activeWindow: any;
+    private _activeWindow: KwinClient|null = null;
 
     public readonly currentDesktopChanged = new MockQSignal<[]>();
-    public readonly windowAdded = new MockQSignal<[MockKwinClient]>();
-    public readonly windowRemoved = new MockQSignal<[MockKwinClient]>();
-    public readonly windowActivated = new MockQSignal<[MockKwinClient|null]>();
+    public readonly windowAdded = new MockQSignal<[KwinClient]>();
+    public readonly windowRemoved = new MockQSignal<[KwinClient]>();
+    public readonly windowActivated = new MockQSignal<[KwinClient|null]>();
     public readonly screensChanged = new MockQSignal<[]>();
     public readonly activitiesChanged = new MockQSignal<[]>();
     public readonly desktopsChanged = new MockQSignal<[]>();
@@ -25,5 +25,15 @@ class MockWorkspace {
 
     public createWindow(kwinClient: MockKwinClient) {
         this.windowAdded.fire(kwinClient);
+        this.activeWindow = kwinClient;
+    }
+
+    public get activeWindow() {
+        return this._activeWindow;
+    }
+
+    public set activeWindow(activeWindow: KwinClient|null) {
+        this._activeWindow = activeWindow;
+        this.windowActivated.fire(activeWindow);
     }
 }
