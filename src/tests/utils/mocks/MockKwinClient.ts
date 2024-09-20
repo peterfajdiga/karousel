@@ -100,6 +100,10 @@ class MockKwinClient {
             () => {
                 if (oldFullScreen && !fullScreen) {
                     // when switching from full-screen to windowed, Kwin sometimes first adds the frame before changing the frameGeometry to the final value
+                    if (rectEquals(this.frameGeometry, this.windowedFrameGeometry)) {
+                        // already has windowed frame geometry, don't undo that
+                        return;
+                    }
                     runOneOf(
                         () => {
                             this.frameGeometry = new MockQmlRect(
