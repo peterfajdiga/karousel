@@ -103,6 +103,9 @@ class World {
     public doIfTiledFocused(
         f: (clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) => void,
     ) {
+        if (Workspace.activeWindow === null) {
+            return;
+        }
         this.doIfTiled(Workspace.activeWindow, f);
     }
 

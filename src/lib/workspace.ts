@@ -13,7 +13,7 @@ function initWorkspaceSignalHandlers(world: World) {
         });
     });
 
-    manager.connect(Workspace.windowActivated, (kwinClient: KwinClient) => {
+    manager.connect(Workspace.windowActivated, (kwinClient: KwinClient|null) => {
         if (kwinClient === null) {
             return;
         }

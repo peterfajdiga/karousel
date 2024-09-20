@@ -11,12 +11,12 @@ type Workspace = {
     readonly windows: KwinClient[];
     readonly cursorPos: Readonly<QmlPoint>;
 
-    activeWindow: KwinClient;
+    activeWindow: KwinClient|null;
 
     readonly currentDesktopChanged: QSignal<[]>;
     readonly windowAdded: QSignal<[KwinClient]>;
     readonly windowRemoved: QSignal<[KwinClient]>;
-    readonly windowActivated: QSignal<[KwinClient]>;
+    readonly windowActivated: QSignal<[KwinClient|null]>;
     readonly screensChanged: QSignal<[]>;
     readonly activitiesChanged: QSignal<[]>;
     readonly desktopsChanged: QSignal<[]>;

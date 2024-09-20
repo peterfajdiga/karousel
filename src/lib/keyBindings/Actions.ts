@@ -106,8 +106,10 @@ class Actions {
     }
 
     public readonly windowToggleFloating = (cm: ClientManager, dm: DesktopManager) => {
-        const kwinClient = Workspace.activeWindow;
-        cm.toggleFloatingClient(kwinClient);
+        if (Workspace.activeWindow === null) {
+            return;
+        }
+        cm.toggleFloatingClient(Workspace.activeWindow);
     }
 
     public readonly columnMoveLeft = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {

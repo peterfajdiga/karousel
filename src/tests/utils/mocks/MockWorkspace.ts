@@ -12,7 +12,7 @@ class MockWorkspace {
     public readonly currentDesktopChanged = new MockQSignal<[]>();
     public readonly windowAdded = new MockQSignal<[MockKwinClient]>();
     public readonly windowRemoved = new MockQSignal<[MockKwinClient]>();
-    public readonly windowActivated = new MockQSignal<[MockKwinClient]>();
+    public readonly windowActivated = new MockQSignal<[MockKwinClient|null]>();
     public readonly screensChanged = new MockQSignal<[]>();
     public readonly activitiesChanged = new MockQSignal<[]>();
     public readonly desktopsChanged = new MockQSignal<[]>();
