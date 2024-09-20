@@ -1,3 +1,5 @@
+const runLog: string[] = [];
+
 function assert(assertion: boolean, message?: string, skip: number = 0) {
     if (assertion) {
         return;
@@ -8,7 +10,14 @@ function assert(assertion: boolean, message?: string, skip: number = 0) {
     } else {
         console.assert(assertion);
     }
+
     console.log(getStackTrace(skip+1));
+
+    console.log("Random branches:")
+    for (const message of runLog) {
+        console.log("    " + message);
+    }
+
     process.exit(1);
 }
 

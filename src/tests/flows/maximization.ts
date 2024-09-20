@@ -1,4 +1,5 @@
 {
+    runLog.length = 0;
     const workspaceMock = initMocks();
     const config = getDefaultConfig();
     const world = new World(config);
