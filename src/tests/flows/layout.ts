@@ -86,6 +86,26 @@ tests.register("Focus and move windows", 1, () => {
     assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
     assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
 
+    qtMock.fireShortcut("karousel-column-move-left");
+    assertRectEqual(client1.frameGeometry, getRectInGrid(0, 0, 2, 2));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 1, 2, 2));
+    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 2, 1));
+
+    qtMock.fireShortcut("karousel-column-move-end");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+
+    qtMock.fireShortcut("karousel-column-move-to-column-1");
+    assertRectEqual(client1.frameGeometry, getRectInGrid(0, 0, 2, 2));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 1, 2, 2));
+    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 2, 1));
+
+    qtMock.fireShortcut("karousel-column-move-right");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+
     const col1Win1 = client3;
     const col2Win1 = client1;
     const col2Win2 = client2;
