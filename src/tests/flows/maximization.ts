@@ -91,7 +91,7 @@ tests.register("Re-maximize disabled", 100, () => {
     const client2 = new MockKwinClient(
         2,
         "app2",
-        "Application 2 - Dialog",
+        "Application 2",
         new MockQmlRect(14, 24, 400, 400),
     );
 
@@ -152,7 +152,7 @@ tests.register("Re-maximize enabled", 100, () => {
     const client2 = new MockKwinClient(
         2,
         "app2",
-        "Application 2 - Dialog",
+        "Application 2",
         new MockQmlRect(14, 24, 400, 400),
     );
 
