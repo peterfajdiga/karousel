@@ -1,6 +1,9 @@
 function initMocks() {
-    Qt = new MockQt();
+    const qtMock = new MockQt();
     const workspaceMock = new MockWorkspace();
+
+    Qt = qtMock;
     Workspace = workspaceMock;
-    return workspaceMock;
+
+    return {qtMock, workspaceMock};
 }

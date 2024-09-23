@@ -1,4 +1,6 @@
 class MockQt {
+    private shortcuts = new Map<string, MockShortcutHandler>();
+
     public point(x: number, y: number) {
         return new MockQmlPoint(x, y);
     }
@@ -11,9 +13,33 @@ class MockQt {
         if (qml.includes("Timer")) {
             return new MockQmlTimer();
         } else if (qml.includes("ShortcutHandler")) {
-            return new MockShortcutHandler();
+            const shortcutName = MockQt.extractShortcutName(qml);
+            const shortcutHandler = new MockShortcutHandler();
+            this.shortcuts.set(shortcutName, shortcutHandler);
+            return shortcutHandler;
         } else {
             assert(false, "Unexpected qml string: " + qml);
         }
+    }
+
+    public fireShortcut(shortcutName: string) {
+        const shortcutHandler = this.shortcuts.get(shortcutName);
+        if (shortcutHandler === undefined) {
+            assert(false);
+            return;
+        }
+        shortcutHandler.activated.fire();
+    }
+
+    private static extractShortcutName(qml: string) {
+        const nameLine = qml.split("\n").find((line) => line.trimStart().startsWith("name:"));
+        if (nameLine === undefined) {
+            assert(false);
+            return "";
+        }
+        return nameLine.substring(
+            nameLine.indexOf('"') + 1,
+            nameLine.lastIndexOf('"'),
+        );
     }
 }
