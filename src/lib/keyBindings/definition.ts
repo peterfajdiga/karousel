@@ -34,6 +34,16 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.focusDown),
         },
         {
+            name: "focus-next",
+            description: "Move focus to the next window in grid",
+            action: () => world.doIfTiledFocused(actions.focusNext),
+        },
+        {
+            name: "focus-previous",
+            description: "Move focus to the previous window in grid",
+            action: () => world.doIfTiledFocused(actions.focusPrevious),
+        },
+        {
             name: "focus-start",
             description: "Move focus to start",
             defaultKeySequence: "Meta+Home",

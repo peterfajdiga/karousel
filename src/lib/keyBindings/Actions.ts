@@ -35,6 +35,32 @@ class Actions {
         belowWindow.focus();
     }
 
+    public readonly focusNext = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        const belowWindow = column.getBelowWindow(window);
+        if (belowWindow !== null) {
+            belowWindow.focus();
+        } else {
+            const rightColumn = grid.getRightColumn(column);
+            if (rightColumn === null) {
+                return;
+            }
+            rightColumn.getFirstWindow().focus();
+        }
+    }
+
+    public readonly focusPrevious = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        const aboveWindow = column.getAboveWindow(window);
+        if (aboveWindow !== null) {
+            aboveWindow.focus();
+        } else {
+            const leftColumn = grid.getLeftColumn(column);
+            if (leftColumn === null) {
+                return;
+            }
+            leftColumn.getLastWindow().focus();
+        }
+    }
+
     public readonly focusStart = (cm: ClientManager, dm: DesktopManager) => {
         const grid = dm.getCurrentDesktop().grid;
         const firstColumn = grid.getFirstColumn();

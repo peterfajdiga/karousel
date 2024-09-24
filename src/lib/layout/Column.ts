@@ -56,6 +56,14 @@ class Column {
         return this.getWindowCount() === 0;
     }
 
+    public getFirstWindow(): Window {
+        return this.windows.getFirst()!;
+    }
+
+    public getLastWindow(): Window {
+        return this.windows.getLast()!;
+    }
+
     public getAboveWindow(window: Window) {
         return this.windows.getPrev(window);
     }

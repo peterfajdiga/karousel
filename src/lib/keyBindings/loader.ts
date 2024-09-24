@@ -2,7 +2,7 @@ type KeyBinding = {
     name: string;
     description: string;
     comment?: string;
-    defaultKeySequence: string;
+    defaultKeySequence?: string;
     action: () => void;
 };
 

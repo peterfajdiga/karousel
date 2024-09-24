@@ -51,5 +51,5 @@ function printCols(...columns: (string[] | string)[]) {
 }
 
 const empty: any = {};
-const keyBindings = getKeyBindings(empty, empty);
+const keyBindings = getKeyBindings(empty, empty).filter(keyBinding => keyBinding.defaultKeySequence !== undefined);
 const numKeyBindings = getNumKeyBindings(empty, empty);

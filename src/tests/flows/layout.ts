@@ -132,4 +132,13 @@ tests.register("Focus and move windows", 1, () => {
     assertFocus("karousel-focus-2", col2Win1);
     assertFocus("karousel-focus-start", col1Win1);
     assertFocus("karousel-focus-end", col2Win1);
+
+    assertFocus("karousel-focus-down", col2Win2);
+    assertFocus("karousel-focus-start", col1Win1);
+    assertFocus("karousel-focus-next", col2Win1);
+    assertFocus("karousel-focus-next", col2Win2);
+    assertFocus("karousel-focus-next", col2Win2);
+    assertFocus("karousel-focus-previous", col2Win1);
+    assertFocus("karousel-focus-previous", col1Win1);
+    assertFocus("karousel-focus-previous", col1Win1);
 });

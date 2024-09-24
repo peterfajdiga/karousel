@@ -1,5 +1,5 @@
 const colLeft = [
-    ...keyBindings.map((binding: KeyBinding) => binding.defaultKeySequence),
+    ...keyBindings.map((binding: KeyBinding) => binding.defaultKeySequence!),
     ...numKeyBindings.map((binding: NumKeyBinding) => {
         const numPrefix = binding.fKeys ? "F" : "";
         return `${binding.defaultModifiers}+${numPrefix}[N]`;
