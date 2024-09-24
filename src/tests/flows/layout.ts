@@ -70,7 +70,14 @@ tests.register("Focus and move windows", 1, () => {
     assertGrid("karousel-window-move-left",        [ [client1],    [client2,client3] ]);
     assertGrid("karousel-window-move-left",        [ [client1], [client3], [client2] ]);
     assertGrid("karousel-window-move-left",        [ [client1,client3],    [client2] ]);
-    assertGrid("karousel-window-move-left",        [ [client3], [client1], [client2] ]);
+    assertFocus("karousel-focus-right", client2);
+    assertGrid("karousel-window-move-left",        [    [client1,client3,client2]    ]);
+    assertGrid("karousel-window-move-left",        [ [client2],    [client1,client3] ]);
+    assertGrid("karousel-window-move-left",        [ [client2],    [client1,client3] ]);
+    assertFocus("karousel-focus-2", client3);
+    assertFocus("karousel-focus-up", client1);
+    assertGrid("karousel-column-move-left",        [ [client1,client3],    [client2] ]);
+    assertGrid("karousel-window-move-right",       [ [client3], [client1], [client2] ]);
 
     assertFocus("karousel-focus-3", client2);
     assertGrid("karousel-window-move-start",       [ [client2], [client3], [client1] ]);
