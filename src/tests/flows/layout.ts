@@ -46,7 +46,9 @@ tests.register("Focus and move windows", 1, () => {
         );
     }
 
-    function assertGrid(grid: KwinClient[][]) {
+    function assertGrid(shortcutName: string, grid: KwinClient[][]) {
+        qtMock.fireShortcut(shortcutName);
+
         const nColumns = grid.length;
         for (let iColumn = 0; iColumn < nColumns; iColumn++) {
             const column = grid[iColumn];
@@ -63,80 +65,35 @@ tests.register("Focus and move windows", 1, () => {
         assert(workspaceMock.activeWindow === expectedFocus, `wrong activeWindow: ${workspaceMock.activeWindow?.pid}`, 1);
     };
 
-    assertGrid([[client1], [client2], [client3]]);
+    assertGrid("karousel-column-move-right",       [ [client1], [client2], [client3] ]);
 
-    qtMock.fireShortcut("karousel-window-move-left");
-    assertGrid([[client1], [client2, client3]]);
-
-    qtMock.fireShortcut("karousel-window-move-left");
-    assertGrid([[client1], [client3], [client2]]);
-
-    qtMock.fireShortcut("karousel-window-move-left");
-    assertGrid([[client1, client3], [client2]]);
-
-    qtMock.fireShortcut("karousel-window-move-left");
-    assertGrid([[client3], [client1], [client2]]);
+    assertGrid("karousel-window-move-left",        [ [client1],    [client2,client3] ]);
+    assertGrid("karousel-window-move-left",        [ [client1], [client3], [client2] ]);
+    assertGrid("karousel-window-move-left",        [ [client1,client3],    [client2] ]);
+    assertGrid("karousel-window-move-left",        [ [client3], [client1], [client2] ]);
 
     assertFocus("karousel-focus-3", client2);
-    qtMock.fireShortcut("karousel-window-move-start");
-    assertGrid([[client2], [client3], [client1]]);
+    assertGrid("karousel-window-move-start",       [ [client2], [client3], [client1] ]);
+    assertGrid("karousel-window-move-to-column-3", [ [client3],    [client1,client2] ]);
+    assertGrid("karousel-column-move-left",        [ [client1,client2],    [client3] ]);
+    assertGrid("karousel-column-move-end",         [ [client3],    [client1,client2] ]);
+    assertGrid("karousel-column-move-to-column-1", [ [client1,client2],    [client3] ]);
+    assertGrid("karousel-column-move-right",       [ [client3],    [client1,client2] ]);
 
-    qtMock.fireShortcut("karousel-window-move-to-column-3");
-    assertGrid([[client3], [client1, client2]]);
-
-    qtMock.fireShortcut("karousel-column-move-left");
-    assertGrid([[client1, client2], [client3]]);
-
-    qtMock.fireShortcut("karousel-column-move-end");
-    assertGrid([[client3], [client1, client2]]);
-
-    qtMock.fireShortcut("karousel-column-move-to-column-1");
-    assertGrid([[client1, client2], [client3]]);
-
-    qtMock.fireShortcut("karousel-column-move-right");
-    assertGrid([[client3], [client1, client2]]);
-
-    qtMock.fireShortcut("karousel-window-move-previous");
-    assertGrid([[client3], [client2, client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-previous");
-    assertGrid([[client3], [client2], [client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-previous");
-    assertGrid([[client3, client2], [client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-previous");
-    assertGrid([[client2, client3], [client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-previous");
-    assertGrid([[client2], [client3], [client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-previous");
-    assertGrid([[client2], [client3], [client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-next");
-    assertGrid([[client2, client3], [client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-next");
-    assertGrid([[client3, client2], [client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-next");
-    assertGrid([[client3], [client2], [client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-next");
-    assertGrid([[client3], [client2, client1]]);
-
-    qtMock.fireShortcut("karousel-window-move-next");
-    assertGrid([[client3], [client1, client2]]);
-
-    qtMock.fireShortcut("karousel-window-move-next");
-    assertGrid([[client3], [client1], [client2]]);
-
-    qtMock.fireShortcut("karousel-window-move-next");
-    assertGrid([[client3], [client1], [client2]]);
-
-    qtMock.fireShortcut("karousel-window-move-left");
-    assertGrid([[client3], [client1, client2]]);
+    assertGrid("karousel-window-move-previous",    [ [client3],    [client2,client1] ]);
+    assertGrid("karousel-window-move-previous",    [ [client3], [client2], [client1] ]);
+    assertGrid("karousel-window-move-previous",    [ [client3,client2],    [client1] ]);
+    assertGrid("karousel-window-move-previous",    [ [client2,client3],    [client1] ]);
+    assertGrid("karousel-window-move-previous",    [ [client2], [client3], [client1] ]);
+    assertGrid("karousel-window-move-previous",    [ [client2], [client3], [client1] ]);
+    assertGrid("karousel-window-move-next",        [ [client2,client3],    [client1] ]);
+    assertGrid("karousel-window-move-next",        [ [client3,client2],    [client1] ]);
+    assertGrid("karousel-window-move-next",        [ [client3], [client2], [client1] ]);
+    assertGrid("karousel-window-move-next",        [ [client3],    [client2,client1] ]);
+    assertGrid("karousel-window-move-next",        [ [client3],    [client1,client2] ]);
+    assertGrid("karousel-window-move-next",        [ [client3], [client1], [client2] ]);
+    assertGrid("karousel-window-move-next",        [ [client3], [client1], [client2] ]);
+    assertGrid("karousel-window-move-left",        [ [client3],    [client1,client2] ]);
 
     const col1Win1 = client3;
     const col2Win1 = client1;
