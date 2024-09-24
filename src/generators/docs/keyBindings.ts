@@ -57,9 +57,9 @@ function printCols(...columns: (string[] | string)[]) {
 
 const empty: any = {};
 const keyBindings: DocsKeyBinding[] = Array.prototype.concat(
-    getKeyBindings(empty, empty).filter(binding => binding.defaultKeySequence !== undefined).map(binding => ({
+    getKeyBindings(empty, empty).map(binding => ({
         description: formatDescription(binding),
-        keySequence: binding.defaultKeySequence!,
+        keySequence: binding.defaultKeySequence || "(unassigned)",
     })),
     getNumKeyBindings(empty, empty).map(binding => ({
         description: formatDescription(binding),
