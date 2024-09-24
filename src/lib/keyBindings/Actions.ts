@@ -86,28 +86,28 @@ class Actions {
             if (leftColumn === null) {
                 return;
             }
-            window.moveToColumn(leftColumn);
+            window.moveToColumn(leftColumn, true);
             grid.desktop.autoAdjustScroll();
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid, grid.getLeftColumn(column));
-            window.moveToColumn(newColumn);
+            window.moveToColumn(newColumn, true);
         }
     }
 
-    public readonly windowMoveRight = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+    public readonly windowMoveRight = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid, bottom: boolean = true) => {
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
             const rightColumn = grid.getRightColumn(column);
             if (rightColumn === null) {
                 return;
             }
-            window.moveToColumn(rightColumn);
+            window.moveToColumn(rightColumn, bottom);
             grid.desktop.autoAdjustScroll();
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid, column);
-            window.moveToColumn(newColumn);
+            window.moveToColumn(newColumn, true);
         }
     }
 
@@ -121,14 +121,32 @@ class Actions {
         column.moveWindowDown(window);
     }
 
+    public readonly windowMoveNext = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        const canMoveDown = window !== column.getLastWindow();
+        if (canMoveDown) {
+            column.moveWindowDown(window);
+        } else {
+            this.windowMoveRight(cm, dm, window, column, grid, false);
+        }
+    }
+
+    public readonly windowMovePrevious = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        const canMoveUp = window !== column.getFirstWindow();
+        if (canMoveUp) {
+            column.moveWindowUp(window);
+        } else {
+            this.windowMoveLeft(cm, dm, window, column, grid);
+        }
+    }
+
     public readonly windowMoveStart = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const newColumn = new Column(grid, null);
-        window.moveToColumn(newColumn);
+        window.moveToColumn(newColumn, true);
     }
 
     public readonly windowMoveEnd = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const newColumn = new Column(grid, grid.getLastColumn());
-        window.moveToColumn(newColumn);
+        window.moveToColumn(newColumn, true);
     }
 
     public readonly windowToggleFloating = (cm: ClientManager, dm: DesktopManager) => {
@@ -253,7 +271,7 @@ class Actions {
         if (targetColumn === null) {
             return;
         }
-        window.moveToColumn(targetColumn);
+        window.moveToColumn(targetColumn, true);
         grid.desktop.autoAdjustScroll();
     };
 

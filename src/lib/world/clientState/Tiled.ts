@@ -156,7 +156,7 @@ namespace ClientState {
             }
 
             const newColumn = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
-            window.moveToColumn(newColumn);
+            window.moveToColumn(newColumn, true);
         }
 
         private static prepareClientForTiling(client: ClientWrapper, config: LayoutConfig) {

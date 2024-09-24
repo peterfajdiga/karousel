@@ -14,16 +14,16 @@ class Window {
         };
         this.skipArrange = false;
         this.column = column;
-        column.onWindowAdded(this);
+        column.onWindowAdded(this, true);
     }
 
-    public moveToColumn(targetColumn: Column) {
+    public moveToColumn(targetColumn: Column, bottom: boolean) {
         if (targetColumn === this.column) {
             return;
         }
         this.column.onWindowRemoved(this, false);
         this.column = targetColumn;
-        targetColumn.onWindowAdded(this);
+        targetColumn.onWindowAdded(this, bottom);
     }
 
     public arrange(x: number, y: number, width: number, height: number) {

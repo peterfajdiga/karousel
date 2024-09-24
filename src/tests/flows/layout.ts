@@ -106,6 +106,76 @@ tests.register("Focus and move windows", 1, () => {
     assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
     assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
 
+    qtMock.fireShortcut("karousel-window-move-previous");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 2, 2));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 1, 2, 2));
+
+    qtMock.fireShortcut("karousel-window-move-previous");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 3, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+
+    qtMock.fireShortcut("karousel-window-move-previous");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 2));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 1, 2, 2));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 1));
+
+    qtMock.fireShortcut("karousel-window-move-previous");
+    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 2, 2));
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 1, 2, 2));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 1));
+
+    qtMock.fireShortcut("karousel-window-move-previous");
+    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 3, 1));
+    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 3, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+
+    qtMock.fireShortcut("karousel-window-move-previous");
+    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 3, 1));
+    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 3, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+
+    qtMock.fireShortcut("karousel-window-move-next");
+    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 2, 2));
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 1, 2, 2));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 1));
+
+    qtMock.fireShortcut("karousel-window-move-next");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 2));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 1, 2, 2));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 1));
+
+    qtMock.fireShortcut("karousel-window-move-next");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 3, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+
+    qtMock.fireShortcut("karousel-window-move-next");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 2, 2));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 1, 2, 2));
+
+    qtMock.fireShortcut("karousel-window-move-next");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+
+    qtMock.fireShortcut("karousel-window-move-next");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 3, 1));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(2, 0, 3, 1));
+
+    qtMock.fireShortcut("karousel-window-move-next");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 3, 1));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(2, 0, 3, 1));
+
+    qtMock.fireShortcut("karousel-window-move-left");
+    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
+    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
+    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+
     const col1Win1 = client3;
     const col2Win1 = client1;
     const col2Win2 = client2;

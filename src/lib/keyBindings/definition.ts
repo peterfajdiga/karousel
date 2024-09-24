@@ -82,6 +82,16 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.windowMoveDown),
         },
         {
+            name: "window-move-next",
+            description: "Move window to the next position in grid",
+            action: () => world.doIfTiledFocused(actions.windowMoveNext),
+        },
+        {
+            name: "window-move-previous",
+            description: "Move window to the previous position in grid",
+            action: () => world.doIfTiledFocused(actions.windowMovePrevious),
+        },
+        {
             name: "window-move-start",
             description: "Move window to start",
             defaultKeySequence: "Meta+Shift+Home",

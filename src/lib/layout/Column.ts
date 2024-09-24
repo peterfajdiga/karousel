@@ -256,8 +256,13 @@ class Column {
         }
     }
 
-    public onWindowAdded(window: Window) {
-        this.windows.insertEnd(window);
+    public onWindowAdded(window: Window, bottom: boolean) {
+        if (bottom) {
+            this.windows.insertEnd(window);
+        } else {
+            this.windows.insertStart(window);
+        }
+
         if (this.width === 0) {
             this.setWidth(window.client.preferredWidth, false);
         }
