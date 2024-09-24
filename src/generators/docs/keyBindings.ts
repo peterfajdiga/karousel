@@ -1,3 +1,8 @@
+type DocsKeyBinding = {
+    description: string;
+    keySequence: string;
+};
+
 function formatDescription(item: {description: string, comment?: string}) {
     const suffix = item.comment === undefined ? "" : ` (${item.comment})`;
     return `${applyMacro(item.description, "N")}${suffix}`;
@@ -51,5 +56,13 @@ function printCols(...columns: (string[] | string)[]) {
 }
 
 const empty: any = {};
-const keyBindings = getKeyBindings(empty, empty).filter(keyBinding => keyBinding.defaultKeySequence !== undefined);
-const numKeyBindings = getNumKeyBindings(empty, empty);
+const keyBindings: DocsKeyBinding[] = Array.prototype.concat(
+    getKeyBindings(empty, empty).filter(binding => binding.defaultKeySequence !== undefined).map(binding => ({
+        description: formatDescription(binding),
+        keySequence: binding.defaultKeySequence!,
+    })),
+    getNumKeyBindings(empty, empty).map(binding => ({
+        description: formatDescription(binding),
+        keySequence: `${binding.defaultModifiers}+${binding.fKeys ? "F" : ""}[N]`,
+    })),
+);

@@ -1,14 +1,9 @@
 const colLeft = [
-    ...keyBindings.map((binding: KeyBinding) => binding.defaultKeySequence!),
-    ...numKeyBindings.map((binding: NumKeyBinding) => {
-        const numPrefix = binding.fKeys ? "F" : "";
-        return `${binding.defaultModifiers}+${numPrefix}[N]`;
-    }),
+    ...keyBindings.map(binding => binding.keySequence),
 ];
 
 const colRight = [
-    ...keyBindings.map(formatDescription),
-    ...numKeyBindings.map(formatDescription),
+    ...keyBindings.map(binding => binding.description),
 ];
 
 printCols(colLeft, " ", colRight);
