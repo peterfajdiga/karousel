@@ -34,8 +34,8 @@ tests.register("Focus and move windows", 1, () => {
     });
     assert(workspaceMock.activeWindow === client3);
 
-    const columnHeight = screenHeight - config.gapsOuterTop - config.gapsOuterBottom;
     function getRectInGrid(column: number, window: number, nColumns: number, nWindows: number) {
+        const columnHeight = screenHeight - config.gapsOuterTop - config.gapsOuterBottom;
         const columnsWidth = nColumns * 100 + (nColumns-1) * config.gapsInnerHorizontal;
         const windowHeight = (columnHeight - config.gapsInnerVertical * (nWindows-1)) / nWindows;
         return new MockQmlRect(
@@ -46,135 +46,97 @@ tests.register("Focus and move windows", 1, () => {
         );
     }
 
+    function assertGrid(grid: KwinClient[][]) {
+        const nColumns = grid.length;
+        for (let iColumn = 0; iColumn < nColumns; iColumn++) {
+            const column = grid[iColumn];
+            const nWindows = column.length;
+            for (let iWindow = 0; iWindow < nWindows; iWindow++) {
+                const window = column[iWindow];
+                assertRectEqual(window.frameGeometry, getRectInGrid(iColumn, iWindow, nColumns, nWindows), 1);
+            }
+        }
+    }
+
     function assertFocus(shortcutName: string, expectedFocus: KwinClient) {
         qtMock.fireShortcut(shortcutName);
         assert(workspaceMock.activeWindow === expectedFocus, `wrong activeWindow: ${workspaceMock.activeWindow?.pid}`, 1);
     };
 
-    assertRectEqual(client1.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client1], [client2], [client3]]);
 
     qtMock.fireShortcut("karousel-window-move-left");
-    assertRectEqual(client1.frameGeometry, getRectInGrid(0, 0, 2, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 2, 2));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 1, 2, 2));
+    assertGrid([[client1], [client2, client3]]);
 
     qtMock.fireShortcut("karousel-window-move-left");
-    assertRectEqual(client1.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client1], [client3], [client2]]);
 
     qtMock.fireShortcut("karousel-window-move-left");
-    assertRectEqual(client1.frameGeometry, getRectInGrid(0, 0, 2, 2));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 1, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 2, 1));
+    assertGrid([[client1, client3], [client2]]);
 
     qtMock.fireShortcut("karousel-window-move-left");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client3], [client1], [client2]]);
 
     assertFocus("karousel-focus-3", client2);
     qtMock.fireShortcut("karousel-window-move-start");
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client2], [client3], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-to-column-3");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+    assertGrid([[client3], [client1, client2]]);
 
     qtMock.fireShortcut("karousel-column-move-left");
-    assertRectEqual(client1.frameGeometry, getRectInGrid(0, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 1, 2, 2));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 2, 1));
+    assertGrid([[client1, client2], [client3]]);
 
     qtMock.fireShortcut("karousel-column-move-end");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+    assertGrid([[client3], [client1, client2]]);
 
     qtMock.fireShortcut("karousel-column-move-to-column-1");
-    assertRectEqual(client1.frameGeometry, getRectInGrid(0, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 1, 2, 2));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 2, 1));
+    assertGrid([[client1, client2], [client3]]);
 
     qtMock.fireShortcut("karousel-column-move-right");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+    assertGrid([[client3], [client1, client2]]);
 
     qtMock.fireShortcut("karousel-window-move-previous");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 2, 2));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 1, 2, 2));
+    assertGrid([[client3], [client2, client1]]);
 
     qtMock.fireShortcut("karousel-window-move-previous");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client3], [client2], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-previous");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 1, 2, 2));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 1));
+    assertGrid([[client3, client2], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-previous");
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 2, 2));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 1, 2, 2));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 1));
+    assertGrid([[client2, client3], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-previous");
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client2], [client3], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-previous");
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client2], [client3], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-next");
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 0, 2, 2));
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 1, 2, 2));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 1));
+    assertGrid([[client2, client3], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-next");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(0, 1, 2, 2));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 1));
+    assertGrid([[client3, client2], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-next");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client3], [client2], [client1]]);
 
     qtMock.fireShortcut("karousel-window-move-next");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 0, 2, 2));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 1, 2, 2));
+    assertGrid([[client3], [client2, client1]]);
 
     qtMock.fireShortcut("karousel-window-move-next");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+    assertGrid([[client3], [client1, client2]]);
 
     qtMock.fireShortcut("karousel-window-move-next");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client3], [client1], [client2]]);
 
     qtMock.fireShortcut("karousel-window-move-next");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 3, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 3, 1));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(2, 0, 3, 1));
+    assertGrid([[client3], [client1], [client2]]);
 
     qtMock.fireShortcut("karousel-window-move-left");
-    assertRectEqual(client3.frameGeometry, getRectInGrid(0, 0, 2, 1));
-    assertRectEqual(client1.frameGeometry, getRectInGrid(1, 0, 2, 2));
-    assertRectEqual(client2.frameGeometry, getRectInGrid(1, 1, 2, 2));
+    assertGrid([[client3], [client1, client2]]);
 
     const col1Win1 = client3;
     const col2Win1 = client1;
