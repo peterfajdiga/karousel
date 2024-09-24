@@ -11,7 +11,7 @@ function assert(assertion: boolean, message?: string, skip: number = 0) {
 
     console.log(getStackTrace(skip+1));
 
-    console.log("Random branches:")
+    console.log("Random branches:");
     for (const message of runLog) {
         console.log("    " + message);
     }
