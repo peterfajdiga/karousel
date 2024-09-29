@@ -2,8 +2,6 @@ tests.register("WindowRuleEnforcer", 1, () => {
     const testCases = [
         { tiledByDefault: true, resourceClass: "unknown", caption: "anything", shouldTile: true },
         { tiledByDefault: false, resourceClass: "unknown", caption: "anything", shouldTile: false },
-        { tiledByDefault: true, resourceClass: "ksmserver-logout-greeter", caption: "anything", shouldTile: false },
-        { tiledByDefault: true, resourceClass: "xwaylandvideobridge", caption: "anything", shouldTile: false },
         { tiledByDefault: true, resourceClass: "org.kde.plasmashell", caption: "something", shouldTile: false },
         { tiledByDefault: true, resourceClass: "plasmashell", caption: "something", shouldTile: false },
         { tiledByDefault: false, resourceClass: "org.kde.kfind", caption: "something", shouldTile: true },

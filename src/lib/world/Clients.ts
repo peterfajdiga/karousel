@@ -1,10 +1,21 @@
 namespace Clients {
+    const prohibitedClasses = [
+        "ksmserver-logout-greeter",
+        "xwaylandvideobridge",
+    ];
+
     export function canTileEver(kwinClient: KwinClient) {
-        return kwinClient.moveable && kwinClient.resizeable && !kwinClient.popupWindow;
+        return kwinClient.moveable &&
+            kwinClient.resizeable &&
+            !kwinClient.popupWindow &&
+            !prohibitedClasses.includes(kwinClient.resourceClass);
     }
 
     export function canTileNow(kwinClient: KwinClient) {
-        return canTileEver(kwinClient) && !kwinClient.minimized && kwinClient.desktops.length === 1 && kwinClient.activities.length === 1;
+        return canTileEver(kwinClient) &&
+            !kwinClient.minimized &&
+            kwinClient.desktops.length === 1 &&
+            kwinClient.activities.length === 1;
     }
 
     export function makeTileable(kwinClient: KwinClient) {

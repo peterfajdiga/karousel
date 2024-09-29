@@ -1,13 +1,5 @@
 const defaultWindowRules = `[
     {
-        "class": "ksmserver-logout-greeter",
-        "tile": false
-    },
-    {
-        "class": "xwaylandvideobridge",
-        "tile": false
-    },
-    {
         "class": "(org\\\\.kde\\\\.)?plasmashell",
         "tile": false
     },
