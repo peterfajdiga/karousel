@@ -41,22 +41,12 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
-        "class": "jetbrains-idea",
+        "class": "jetbrains-.*",
         "caption": "splash",
         "tile": false
     },
     {
-        "class": "jetbrains-studio",
-        "caption": "splash",
-        "tile": false
-    },
-    {
-        "class": "jetbrains-idea",
-        "caption": "Unstash Changes|Paths Affected by stash@.*",
-        "tile": true
-    },
-    {
-        "class": "jetbrains-studio",
+        "class": "jetbrains-.*",
         "caption": "Unstash Changes|Paths Affected by stash@.*",
         "tile": true
     }
