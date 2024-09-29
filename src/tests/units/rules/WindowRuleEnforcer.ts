@@ -1,17 +1,17 @@
 tests.register("WindowRuleEnforcer", 1, () => {
     const testCases = [
-        {tiledByDefault: true, resourceClass: "unknown", caption: "anything", shouldTile: true},
-        {tiledByDefault: false, resourceClass: "unknown", caption: "anything", shouldTile: false},
-        {tiledByDefault: true, resourceClass: "ksmserver-logout-greeter", caption: "anything", shouldTile: false},
-        {tiledByDefault: true, resourceClass: "xwaylandvideobridge", caption: "anything", shouldTile: false},
-        {tiledByDefault: true, resourceClass: "org.kde.plasmashell", caption: "something", shouldTile: false},
-        {tiledByDefault: true, resourceClass: "plasmashell", caption: "something", shouldTile: false},
-        {tiledByDefault: false, resourceClass: "org.kde.kfind", caption: "something", shouldTile: true},
-        {tiledByDefault: false, resourceClass: "kfind", caption: "something", shouldTile: true},
-        {tiledByDefault: true, resourceClass: "org.kde.kruler", caption: "anything", shouldTile: false},
-        {tiledByDefault: true, resourceClass: "kruler", caption: "anything", shouldTile: false},
-        {tiledByDefault: true, resourceClass: "zoom", caption: "something", shouldTile: true},
-        {tiledByDefault: true, resourceClass: "zoom", caption: "zoom", shouldTile: false},
+        { tiledByDefault: true, resourceClass: "unknown", caption: "anything", shouldTile: true },
+        { tiledByDefault: false, resourceClass: "unknown", caption: "anything", shouldTile: false },
+        { tiledByDefault: true, resourceClass: "ksmserver-logout-greeter", caption: "anything", shouldTile: false },
+        { tiledByDefault: true, resourceClass: "xwaylandvideobridge", caption: "anything", shouldTile: false },
+        { tiledByDefault: true, resourceClass: "org.kde.plasmashell", caption: "something", shouldTile: false },
+        { tiledByDefault: true, resourceClass: "plasmashell", caption: "something", shouldTile: false },
+        { tiledByDefault: false, resourceClass: "org.kde.kfind", caption: "something", shouldTile: true },
+        { tiledByDefault: false, resourceClass: "kfind", caption: "something", shouldTile: true },
+        { tiledByDefault: true, resourceClass: "org.kde.kruler", caption: "anything", shouldTile: false },
+        { tiledByDefault: true, resourceClass: "kruler", caption: "anything", shouldTile: false },
+        { tiledByDefault: true, resourceClass: "zoom", caption: "something", shouldTile: true },
+        { tiledByDefault: true, resourceClass: "zoom", caption: "zoom", shouldTile: false },
     ];
 
     const enforcer = new WindowRuleEnforcer(JSON.parse(defaultWindowRules));
@@ -20,7 +20,7 @@ tests.register("WindowRuleEnforcer", 1, () => {
         assert(enforcer.shouldTile(kwinClient) === testCase.shouldTile, "failed case: " + JSON.stringify(testCase));
     }
 
-    function createKwinClient(normalWindow: boolean, resoureClass: string, caption: string) {
+    function createKwinClient(normalWindow: boolean, resourceClass: string, caption: string) {
         return {
             normalWindow: normalWindow,
             transient: false,
@@ -32,8 +32,8 @@ tests.register("WindowRuleEnforcer", 1, () => {
             minimized: false,
             desktops: [1],
             activities: [1],
-            resourceClass: resoureClass,
+            resourceClass: resourceClass,
             caption: caption,
-        }
+        };
     }
 });
