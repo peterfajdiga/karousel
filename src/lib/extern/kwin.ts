@@ -1,8 +1,12 @@
 type KWin = {
+    __brand: "KWin";
+
     readConfig(key: string, defaultValue: any): any;
 };
 
 type Workspace = {
+    __brand: "Workspace";
+
     readonly activities: string[];
     readonly desktops: KwinDesktop[];
     readonly currentDesktop: KwinDesktop;
@@ -44,10 +48,12 @@ const enum MaximizedMode {
     Maximized,
 }
 
-type Tile = unknown;
-type Output = unknown;
+type Tile = { __brand: "Tile" };
+type Output = { __brand: "Output" };
 
 type KwinClient = {
+    __brand: "KwinClient";
+
     readonly shadeable: boolean;
     readonly caption: string;
     readonly minSize: Readonly<QmlSize>;
@@ -77,7 +83,7 @@ type KwinClient = {
     minimized: boolean;
     frameGeometry: QmlRect;
     desktops: KwinDesktop[]; // empty array means all desktops
-    tile: Tile;
+    tile: Tile|null;
     opacity: number;
 
     readonly fullScreenChanged: QSignal<[]>;
@@ -95,10 +101,12 @@ type KwinClient = {
 };
 
 type KwinDesktop = {
+    __brand: "KwinDesktop";
+
     readonly id: string;
 };
 
-type ShortcutHandler = {
+type ShortcutHandler = QmlObject & {
     readonly activated: QSignal<[]>;
     destroy(): void;
 };

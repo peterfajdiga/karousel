@@ -1,9 +1,14 @@
 class MockWorkspace {
+    public readonly __brand = "Workspace";
+
     public activities = ["test-activity"];
-    public desktops = [{id: "desktop1"}, {id: "desktop2"}];
+    public desktops: KwinDesktop[] = [
+        { __brand: "KwinDesktop", id: "desktop1" },
+        { __brand: "KwinDesktop", id: "desktop2" }
+    ];
     public currentDesktop = this.desktops[0];
     public currentActivity = this.activities[0];
-    public activeScreen = {};
+    public activeScreen: Output = { __brand: "Output" };
     public windows = [];
     public cursorPos = new MockQmlPoint(0, 0);
 

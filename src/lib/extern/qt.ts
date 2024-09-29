@@ -1,21 +1,29 @@
 type Console = {
+    __brand: "Console";
+
     log(...args: any[]): void;
     assert(assertion: boolean, message?: string): void;
 };
 
 type Qt = {
+    __brand: "Qt";
+
     rect(x: number, y: number, width: number, height: number): QmlRect;
     createQmlObject(qml: string, parent: QmlObject): QmlObject;
 };
 
-type QmlObject = unknown;
+type QmlObject = { __brand: "QmlObject" };
 
 type QmlPoint = {
+    __brand: "QmlPoint";
+
     x: number;
     y: number;
 };
 
 type QmlRect = {
+    __brand: "QmlRect";
+
     x: number;
     y: number;
     width: number;
@@ -27,16 +35,20 @@ type QmlRect = {
 };
 
 type QmlSize = {
+    __brand: "QmlSize";
+
     width: number;
     height: number;
 };
 
 type QSignal<T extends unknown[]> = {
+    __brand: "QSignal";
+
     connect(handler: (...args: [...T]) => void): void;
     disconnect(handler: (...args: [...T]) => void): void;
 };
 
-type QmlTimer = {
+type QmlTimer = QmlObject & {
     interval: number;
     readonly triggered: QSignal<[]>;
     restart(): void;

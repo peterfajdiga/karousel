@@ -1,3 +1,3 @@
-type Notification = {
+type Notification = QmlObject & {
     sendEvent(): void;
 };

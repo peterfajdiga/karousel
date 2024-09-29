@@ -1,4 +1,6 @@
 class MockQmlRect {
+    public readonly __brand = "QmlRect";
+
     constructor(
         private _x: number,
         private _y: number,

@@ -1,4 +1,6 @@
 class MockQt {
+    public readonly __brand = "Qt";
+
     private shortcuts = new Map<string, MockShortcutHandler>();
 
     public point(x: number, y: number) {
@@ -9,7 +11,7 @@ class MockQt {
         return new MockQmlRect(x, y, width, height);
     }
 
-    public createQmlObject(qml: string, parent: QmlObject) {
+    public createQmlObject(qml: string, parent: QmlObject): QmlObject {
         if (qml.includes("Timer")) {
             return new MockQmlTimer();
         } else if (qml.includes("ShortcutHandler")) {
@@ -18,7 +20,7 @@ class MockQt {
             this.shortcuts.set(shortcutName, shortcutHandler);
             return shortcutHandler;
         } else {
-            assert(false, "Unexpected qml string: " + qml);
+            throw new Error("Unexpected qml string: " + qml);
         }
     }
 

@@ -1,4 +1,6 @@
 class MockKwinClient {
+    public readonly __brand = "KwinClient";
+
     private static readonly borderThickness = 10;
 
     public readonly shadeable: boolean = false;
@@ -10,7 +12,7 @@ class MockKwinClient {
     public readonly resizeable: boolean = true;
     public readonly fullScreenable: boolean = true;
     public readonly maximizable: boolean = true;
-    public readonly output: Output = false;
+    public readonly output: Output = { __brand: "Output" };
     public readonly dock: boolean = false;
     public readonly normalWindow: boolean = true;
     public readonly managed: boolean = true;
@@ -24,7 +26,7 @@ class MockKwinClient {
     public shade: boolean = false;
     public minimized: boolean = false;
     public desktops: KwinDesktop[] = [];
-    public tile: Tile = false;
+    public tile: Tile|null = null;
     public opacity: number = 1.0;
 
     public readonly fullScreenChanged = new MockQSignal();
