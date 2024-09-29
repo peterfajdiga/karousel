@@ -53,7 +53,15 @@ namespace ClientState {
                     for (const desktop of desktopManager.getDesktopsForClient(kwinClient)) {
                         desktop.onPinsChanged();
                     }
-                })
+                });
+            });
+
+            manager.connect(kwinClient.minimizedChanged, () => {
+                world.do((clientManager, desktopManager) => {
+                    for (const desktop of desktopManager.getDesktopsForClient(kwinClient)) {
+                        desktop.onPinsChanged();
+                    }
+                });
             });
 
             manager.connect(kwinClient.desktopsChanged, () => {

@@ -17,7 +17,7 @@ class PinManager {
         const baseLot = new PinManager.Lot(screen.top, screen.bottom, screen.left, screen.right);
         let lots = [baseLot];
         for (const client of this.pinnedClients) {
-            if (!Clients.isOnVirtualDesktop(client, kwinDesktop)) {
+            if (!Clients.isOnVirtualDesktop(client, kwinDesktop) || client.minimized) {
                 continue;
             }
 

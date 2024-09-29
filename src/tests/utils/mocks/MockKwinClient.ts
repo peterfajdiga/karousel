@@ -24,9 +24,9 @@ class MockKwinClient {
     public keepAbove: boolean = false;
     public keepBelow: boolean = false;
     public shade: boolean = false;
-    public minimized: boolean = false;
+    public _minimized: boolean = false;
     public desktops: KwinDesktop[] = [];
-    public tile: Tile|null = null;
+    public _tile: Tile|null = null;
     public opacity: number = 1.0;
 
     public readonly fullScreenChanged = new MockQSignal();
@@ -152,5 +152,33 @@ class MockKwinClient {
             this.windowedFrameGeometry = this._frameGeometry.clone();
         }
         this.frameGeometryChanged.fire(oldFrameGeometry);
+    }
+
+    public get minimized() {
+        return this._minimized;
+    }
+
+    public set minimized(minimized: boolean) {
+        this._minimized = minimized;
+        this.minimizedChanged.fire();
+    }
+
+    public get tile() {
+        return this._tile;
+    }
+
+    public set tile(tile: Tile|null) {
+        this._tile = tile;
+        this.tileChanged.fire();
+    }
+
+    public pin(geometry: QmlRect) {
+        runMaybe(() => this.frameGeometry = geometry);
+        this.tile = { __brand: "Tile" };
+        this.frameGeometry = geometry;
+    }
+
+    public unpin() {
+        this.tile = null;
     }
 }

@@ -1,3 +1,9 @@
+function runMaybe(f: () => void) {
+    if (Math.random() < 0.5) {
+        f();
+    }
+}
+
 function runOneOf(...fs: (() => void)[]) {
     const index = randomInt(fs.length);
     runLog.push(`${getStackFrame(1)} - Chose ${index}`);
