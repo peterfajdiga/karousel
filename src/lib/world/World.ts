@@ -11,7 +11,7 @@ class World {
 
         let presetWidths: PresetWidth[] = [];
         try {
-            presetWidths = parsePresetWidths(config.presetWidths);
+            presetWidths = parsePresetWidths(config.presetWidths, config.gapsInnerHorizontal);
         } catch (error: any) {
             notificationInvalidPresetWidths.sendEvent();
             log("failed to parse presetWidths:", error);

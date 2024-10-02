@@ -1,6 +1,6 @@
-type PresetWidth = ((screenWidth: number, spacing: number) => number);
+type PresetWidth = (maxWidth: number) => number;
 
-function parsePresetWidths(presetWidths: string): PresetWidth[] {
+function parsePresetWidths(presetWidths: string, spacing: number): PresetWidth[] {
     function parseNumberSafe(str: string) {
         const num = Number(str);
         if (isNaN(num) || num <= 0) {
@@ -17,7 +17,7 @@ function parsePresetWidths(presetWidths: string): PresetWidth[] {
     }
 
     function getRatioFunction(ratio: number) {
-        return (screenWidth: number, spacing: number) => Math.floor((screenWidth + spacing) * ratio - spacing);
+        return (maxWidth: number) => Math.floor((maxWidth + spacing) * ratio - spacing);
     }
 
     return presetWidths.split(",").map((widthStr: string) => {
