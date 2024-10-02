@@ -1,4 +1,4 @@
-tests.register("parsePresetWidths", 1, () => {
+tests.register("PresetWidths", 1, () => {
     const screenWidth = 800;
     const spacing = 10;
 
@@ -19,15 +19,13 @@ tests.register("parsePresetWidths", 1, () => {
         { str: " ", error: true },
     ];
 
-    function applyPresetWidths(presetWidths: PresetWidth[]) {
-        return presetWidths.map(f => f(screenWidth));
-    }
-
     for (const testCase of testCases) {
         try {
-            const result = parsePresetWidths(testCase.str, spacing);
+            const presetWidths = new PresetWidths(testCase.str, spacing);
             assert(!testCase.error);
-            assertArrayEqual(applyPresetWidths(result), testCase.result!);
+
+            const result = presetWidths.get(screenWidth);
+            assertArrayEqual(result, testCase.result!);
         } catch (error) {
             assert(testCase.error === true);
         }

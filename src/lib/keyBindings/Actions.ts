@@ -316,7 +316,7 @@ namespace Actions {
     export type Config = {
         manualScrollStep: number;
         manualResizeStep: number;
-        presetWidths: PresetWidth[];
+        presetWidths: PresetWidths|null;
         columnResizer: ColumnResizer;
     };
 

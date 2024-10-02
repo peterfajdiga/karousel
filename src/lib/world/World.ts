@@ -9,9 +9,9 @@ class World {
     constructor(config: Config) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
 
-        let presetWidths: PresetWidth[] = [];
+        let presetWidths: PresetWidths|null = null;
         try {
-            presetWidths = parsePresetWidths(config.presetWidths, config.gapsInnerHorizontal);
+            presetWidths = new PresetWidths(config.presetWidths, config.gapsInnerHorizontal);
         } catch (error: any) {
             notificationInvalidPresetWidths.sendEvent();
             log("failed to parse presetWidths:", error);
