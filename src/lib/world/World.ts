@@ -8,9 +8,19 @@ class World {
 
     constructor(config: Config) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
+
+        let presetWidths: PresetWidth[] = [];
+        try {
+            presetWidths = parsePresetWidths(config.presetWidths);
+        } catch (error: any) {
+            notificationInvalidPresetWidths.sendEvent();
+            log("failed to parse presetWidths:", error);
+        }
+
         this.shortcutActions = registerKeyBindings(this, {
             manualScrollStep: config.manualScrollStep,
             manualResizeStep: config.manualResizeStep,
+            presetWidths: presetWidths,
             columnResizer: config.scrollingCentered ? new RawResizer() : new ContextualResizer(),
         });
 

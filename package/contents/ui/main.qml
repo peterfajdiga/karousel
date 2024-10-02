@@ -25,4 +25,14 @@ Item {
         flags: Notification.Persistent
         urgency: Notification.HighUrgency
     }
+
+    Notification {
+        id: notificationInvalidPresetWidths
+        componentName: "plasma_workspace"
+        eventId: "notification"
+        title: "Karousel"
+        text: "Your preset widths are malformed, please review your Karousel configuration"
+        flags: Notification.Persistent
+        urgency: Notification.HighUrgency
+    }
 }

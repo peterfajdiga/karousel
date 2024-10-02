@@ -29,6 +29,13 @@ Expected: ${expected}
 Actual: ${actual}`, skip+1);
 }
 
+function assertArrayEqual(actual: any[], expected: any[], skip: number = 0) {
+    const equal = actual.length === expected.length && actual.every((item, index) => item === expected[index]);
+    assert(equal, `Arrays not equal
+Expected: ${expected}
+Actual: ${actual}`, skip+1);
+}
+
 function assertRectEqual(actual: QmlRect, expected: QmlRect, skip: number = 0) {
     assert(rectEquals(expected, actual), `QmlRect not equal
 Expected: ${expected}

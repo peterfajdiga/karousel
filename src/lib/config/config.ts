@@ -7,6 +7,7 @@ type Config = {
     gapsInnerVertical: number;
     manualScrollStep: number;
     manualResizeStep: number;
+    presetWidths: string;
     offScreenOpacity: number;
     untileOnDrag: boolean;
     stackColumnsByDefault: boolean;
