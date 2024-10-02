@@ -1,11 +1,15 @@
 tests.register("PresetWidths", 1, () => {
-    const screenWidth = 800;
+    const minWidth = 50;
+    const maxWidth = 800;
     const spacing = 10;
 
     const testCases = [
         { str: "100%, 50%", result: [800, 395] },
+        { str: "105%, 50%", result: [800, 395] },
         { str: "100px,50 px", result: [100, 50] },
-        { str: " 100px, 25 % , 0.1 ", result: [100, 192, 71] },
+        { str: "900px,25 px", result: [800, 50] },
+        { str: " 100px, 25 % , 0.1 ", result: [192, 100, 71] },
+        { str: "100px, 25%, 0.1, 100px", result: [192, 100, 71] },
         { str: "100px, -25 % , 0.1 ", error: true },
         { str: "100px, 25 % , -0.1 ", error: true },
         { str: "100px, 25 % , 0.1p", error: true },
@@ -24,7 +28,7 @@ tests.register("PresetWidths", 1, () => {
             const presetWidths = new PresetWidths(testCase.str, spacing);
             assert(!testCase.error);
 
-            const result = presetWidths.get(screenWidth);
+            const result = presetWidths.get(minWidth, maxWidth);
             assertArrayEqual(result, testCase.result!);
         } catch (error) {
             assert(testCase.error === true);

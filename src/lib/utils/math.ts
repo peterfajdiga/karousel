@@ -13,6 +13,18 @@ function union<T>(array0: T[], array1: T[]) {
     return [...set];
 }
 
+function uniq<T>(sortedArray: T[]) {
+    const filtered = [];
+    let lastItem;
+    for (const item of sortedArray) {
+        if (item !== lastItem) {
+            filtered.push(item);
+            lastItem = item;
+        }
+    }
+    return filtered;
+}
+
 function rectEquals(a: QmlRect, b: QmlRect) {
     return a.x === b.x &&
         a.y === b.y &&

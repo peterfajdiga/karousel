@@ -5,8 +5,10 @@ class PresetWidths {
         this.presets = PresetWidths.parsePresetWidths(presetWidths, spacing);
     }
 
-    public get(maxWidth: number) {
-        return this.presets.map(f => f(maxWidth));
+    public get(minWidth: number, maxWidth: number) {
+        const widths = this.presets.map(f => clamp(f(maxWidth), minWidth, maxWidth));
+        widths.sort((a, b) => b - a);
+        return uniq(widths);
     }
 
     private static parsePresetWidths(presetWidths: string, spacing: number): ((maxWidth: number) => number)[] {
