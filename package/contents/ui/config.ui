@@ -322,13 +322,31 @@
                             </item>
 
                             <item row="8" column="0">
+                                <widget class="QLabel" name="label_presetWidths">
+                                    <property name="text">
+                                        <string>Preset widths:</string>
+                                    </property>
+                                    <property name="toolTip">
+                                        <string>Widths used for cycling through widths</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item row="8" column="1">
+                                <widget class="QLineEdit" name="kcfg_presetWidths">
+                                    <property name="toolTip">
+                                        <string>Comma-separated list of widths. Supported units: "px" and "%".</string>
+                                    </property>
+                                </widget>
+                            </item>
+
+                            <item row="9" column="0">
                                 <widget class="QLabel" name="label_offScreenOpacity">
                                     <property name="text">
                                         <string>Obscured window opacity:</string>
                                     </property>
                                 </widget>
                             </item>
-                            <item row="8" column="1">
+                            <item row="9" column="1">
                                 <widget class="QSpinBox" name="kcfg_offScreenOpacity">
                                     <property name="suffix">
                                         <string> %</string>

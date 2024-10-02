@@ -86,6 +86,11 @@ const configDef = [
         default: 600,
     },
     {
+        name: "presetWidths",
+        type: "String",
+        default: "100%, 50%",
+    },
+    {
         name: "offScreenOpacity",
         type: "UInt",
         default: 100,
