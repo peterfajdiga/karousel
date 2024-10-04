@@ -1,9 +1,8 @@
 tests.register("Preset Widths default", 1, () => {
-    const { qtMock, workspaceMock } = initMocks();
     const config = getDefaultConfig();
-    const world = new World(config);
+    const { qtMock, workspaceMock, world } = init(config);
 
-    const maxWidth = screenWidth - config.gapsOuterLeft - config.gapsOuterRight;
+    const maxWidth = tilingArea.width;
     const halfWidth = maxWidth/2 - config.gapsInnerHorizontal/2;
 
     const kwinClient = new MockKwinClient(
@@ -15,10 +14,10 @@ tests.register("Preset Widths default", 1, () => {
 
     function getRect(columnWidth: number) {
         return new MockQmlRect(
-            (screenWidth - columnWidth) / 2,
-            config.gapsOuterTop,
+            (screen.width - columnWidth) / 2,
+            tilingArea.top,
             columnWidth,
-            screenHeight - config.gapsOuterTop - config.gapsOuterBottom,
+            tilingArea.height,
         );
     }
 
@@ -36,12 +35,11 @@ tests.register("Preset Widths default", 1, () => {
 });
 
 tests.register("Preset Widths custom", 1, () => {
-    const { qtMock, workspaceMock } = initMocks();
     const config = getDefaultConfig();
     config.presetWidths = "500px, 250px, 100px, 50%";
-    const world = new World(config);
+    const { qtMock, workspaceMock, world } = init(config);
 
-    const maxWidth = screenWidth - config.gapsOuterLeft - config.gapsOuterRight;
+    const maxWidth = tilingArea.width;
     const halfWidth = maxWidth/2 - config.gapsInnerHorizontal/2;
 
     const kwinClient = new MockKwinClient(
@@ -53,10 +51,10 @@ tests.register("Preset Widths custom", 1, () => {
 
     function getRect(columnWidth: number) {
         return new MockQmlRect(
-            (screenWidth - columnWidth) / 2,
-            config.gapsOuterTop,
+            (screen.width - columnWidth) / 2,
+            tilingArea.top,
             columnWidth,
-            screenHeight - config.gapsOuterTop - config.gapsOuterBottom,
+            tilingArea.height,
         );
     }
 
@@ -81,10 +79,9 @@ tests.register("Preset Widths custom", 1, () => {
 
 tests.register("Preset Widths fill screen uniform", 1, () => {
     for (let nColumns = 1; nColumns < 10; nColumns++) {
-        const { qtMock, workspaceMock } = initMocks();
         const config = getDefaultConfig();
         config.presetWidths = String(1 / nColumns);
-        const world = new World(config);
+        const { qtMock, workspaceMock, world } = init(config);
 
         let firstClient, lastClient;
         for (let i = 0; i < nColumns; i++) {
@@ -104,8 +101,8 @@ tests.register("Preset Widths fill screen uniform", 1, () => {
             qtMock.fireShortcut("karousel-cycle-preset-widths");
         }
 
-        const left = config.gapsOuterLeft;
-        const right = screenWidth - config.gapsOuterRight;
+        const left = tilingArea.left;
+        const right = tilingArea.right;
         const maxLeftoverPx = nColumns - 1;
         const eps = Math.ceil(maxLeftoverPx / 2);
         Assert.between(firstClient!.frameGeometry.left, left, left+eps, { message: `nColumns: ${nColumns}` });
@@ -114,10 +111,9 @@ tests.register("Preset Widths fill screen uniform", 1, () => {
 });
 
 tests.register("Preset Widths fill screen non-uniform", 1, () => {
-    const { qtMock, workspaceMock } = initMocks();
     const config = getDefaultConfig();
     config.presetWidths = String("50%, 25%");
-    const world = new World(config);
+    const { qtMock, workspaceMock, world } = init(config);
 
     const clientThin1 = new MockKwinClient(
         1,
@@ -146,16 +142,16 @@ tests.register("Preset Widths fill screen non-uniform", 1, () => {
     workspaceMock.createWindow(clientWide);
     qtMock.fireShortcut("karousel-cycle-preset-widths");
 
-    const maxWidth = screenWidth - config.gapsOuterLeft - config.gapsOuterRight;
+    const maxWidth = tilingArea.width;
     const halfWidth = maxWidth/2 - config.gapsInnerHorizontal/2;
     const quarterWidth = halfWidth/2 - config.gapsInnerHorizontal/2;
-    const height = screenHeight - config.gapsOuterTop - config.gapsOuterBottom;
-    const left1 = config.gapsOuterLeft;
+    const height = tilingArea.height;
+    const left1 = tilingArea.left;
     const left2 = left1 + config.gapsInnerHorizontal + quarterWidth;
     const left3 = left2 + config.gapsInnerHorizontal + quarterWidth;
 
-    Assert.rect(clientThin1.frameGeometry, left1, config.gapsOuterTop, quarterWidth, height);
-    Assert.rect(clientThin2.frameGeometry, left2, config.gapsOuterTop, quarterWidth, height);
-    Assert.rect(clientWide.frameGeometry, left3, config.gapsOuterTop, halfWidth, height);
-    Assert.equal(clientWide.frameGeometry.right, screenWidth - config.gapsOuterRight);
+    Assert.rect(clientThin1.frameGeometry, left1, tilingArea.top, quarterWidth, height);
+    Assert.rect(clientThin2.frameGeometry, left2, tilingArea.top, quarterWidth, height);
+    Assert.rect(clientWide.frameGeometry, left3, tilingArea.top, halfWidth, height);
+    Assert.equal(clientWide.frameGeometry.right, tilingArea.right);
 });

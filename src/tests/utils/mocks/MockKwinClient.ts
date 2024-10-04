@@ -67,10 +67,10 @@ class MockKwinClient {
         );
 
         this.frameGeometry = new MockQmlRect(
-            horizontally ? 0            : this.windowedFrameGeometry.x,
-            vertically   ? 0            : this.windowedFrameGeometry.y,
-            horizontally ? screenWidth  : this.windowedFrameGeometry.width,
-            vertically   ? screenHeight : this.windowedFrameGeometry.height,
+            horizontally ? 0             : this.windowedFrameGeometry.x,
+            vertically   ? 0             : this.windowedFrameGeometry.y,
+            horizontally ? screen.width  : this.windowedFrameGeometry.width,
+            vertically   ? screen.height : this.windowedFrameGeometry.height,
         );
     }
 
@@ -111,14 +111,14 @@ class MockKwinClient {
                         () => this.frameGeometry = new MockQmlRect(
                             0,
                             0,
-                            screenWidth + 2 * MockKwinClient.borderThickness,
-                            screenHeight + 2 * MockKwinClient.borderThickness,
+                            screen.width + 2 * MockKwinClient.borderThickness,
+                            screen.height + 2 * MockKwinClient.borderThickness,
                         ),
                         () => this.frameGeometry = new MockQmlRect(
                             -MockKwinClient.borderThickness,
                             -MockKwinClient.borderThickness,
-                            screenWidth + 2 * MockKwinClient.borderThickness,
-                            screenHeight + 2 * MockKwinClient.borderThickness,
+                            screen.width + 2 * MockKwinClient.borderThickness,
+                            screen.height + 2 * MockKwinClient.borderThickness,
                         ),
                         () => {},
                     );
@@ -127,7 +127,7 @@ class MockKwinClient {
             () => {
                 this.windowed = !fullScreen;
                 if (fullScreen) {
-                    this.frameGeometry = new MockQmlRect(0, 0, screenWidth, screenHeight);
+                    this.frameGeometry = screen;
                 } else {
                     this.frameGeometry = this.windowedFrameGeometry;
                 }

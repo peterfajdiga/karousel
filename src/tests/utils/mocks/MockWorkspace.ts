@@ -25,7 +25,7 @@ class MockWorkspace {
     public readonly virtualScreenSizeChanged = new MockQSignal<[]>();
 
     public clientArea(option: ClientAreaOption, output: Output, kwinDesktop: KwinDesktop) {
-        return new MockQmlRect(0, 0, screenWidth, screenHeight);
+        return screen;
     }
 
     public createWindow(kwinClient: MockKwinClient) {

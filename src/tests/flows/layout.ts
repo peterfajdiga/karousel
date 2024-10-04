@@ -1,7 +1,6 @@
 tests.register("Focus and move windows", 1, () => {
-    const { qtMock, workspaceMock } = initMocks();
     const config = getDefaultConfig();
-    const world = new World(config);
+    const { qtMock, workspaceMock, world } = init(config);
 
     const client1 = new MockKwinClient(
         1,
@@ -36,7 +35,6 @@ tests.register("Focus and move windows", 1, () => {
 
     function testLayout(shortcutName: string, grid: KwinClient[][]) {
         qtMock.fireShortcut(shortcutName);
-        const screen = new MockQmlRect(0, 0, screenWidth, screenHeight);
         Assert.grid(config, screen, grid, { skip: 1 });
     }
 
