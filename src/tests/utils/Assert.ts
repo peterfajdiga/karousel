@@ -53,6 +53,21 @@ namespace Assert {
         );
     }
 
+    export function between(
+        actual: any,
+        min: any,
+        max: any,
+        { message, skip=0 }: Options = {},
+    ) {
+        truth(
+            actual >= min && actual <= max,
+            {
+                message: buildMessage(actual, `[${min}, ${max}]`, "Value not in range", message),
+                skip: skip + 1,
+            },
+        );
+    }
+
     export function equalArrays(
         actual: any[],
         expected: any[],
