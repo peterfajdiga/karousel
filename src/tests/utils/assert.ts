@@ -47,7 +47,7 @@ function assertRect(actual: QmlRect, x: number, y: number, width: number, height
 }
 
 function assertGrid(config: Config, screen: QmlRect, grid: KwinClient[][], skip: number = 0) {
-    // assumes uniformly sized columns and windows within columns
+    // assumes uniformly sized windows within columns of width 100
     function getRectInGrid(column: number, window: number, nColumns: number, nWindows: number) {
         const columnHeight = screen.height - config.gapsOuterTop - config.gapsOuterBottom;
         const columnsWidth = nColumns * 100 + (nColumns-1) * config.gapsInnerHorizontal;
