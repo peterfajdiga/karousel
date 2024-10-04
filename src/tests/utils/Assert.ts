@@ -4,7 +4,7 @@ namespace Assert {
         skip?: number,
     }
 
-    export function assert(
+    export function truth(
         assertion: boolean,
         { message, skip=0 }: Options = {},
     ) {
@@ -44,7 +44,7 @@ namespace Assert {
         expected: any,
         { message, skip=0 }: Options = {},
     ) {
-        assert(
+        truth(
             expected == actual,
             {
                 message: buildMessage(actual, expected, "Values not equal", message),
@@ -58,7 +58,7 @@ namespace Assert {
         expected: any[],
         { message, skip=0 }: Options = {},
     ) {
-        assert(
+        truth(
             actual.length === expected.length && actual.every((item, index) => item === expected[index]),
             {
                 message: buildMessage(actual, expected, "Arrays not equal", message),
@@ -72,7 +72,7 @@ namespace Assert {
         expected: QmlRect,
         { message, skip=0 }: Options = {},
     ) {
-        assert(
+        truth(
             rectEquals(expected, actual),
             {
                 message: buildMessage(actual, expected, "QmlRect not equal", message),

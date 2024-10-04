@@ -28,11 +28,11 @@ tests.register("Focus and move windows", 1, () => {
     workspaceMock.createWindow(client2);
     workspaceMock.createWindow(client3);
     world.do((clientManager, desktopManager) => {
-        Assert.assert(clientManager.hasClient(client1));
-        Assert.assert(clientManager.hasClient(client2));
-        Assert.assert(clientManager.hasClient(client3));
+        Assert.truth(clientManager.hasClient(client1));
+        Assert.truth(clientManager.hasClient(client2));
+        Assert.truth(clientManager.hasClient(client3));
     });
-    Assert.assert(workspaceMock.activeWindow === client3);
+    Assert.truth(workspaceMock.activeWindow === client3);
 
     function testLayout(shortcutName: string, grid: KwinClient[][]) {
         qtMock.fireShortcut(shortcutName);
@@ -42,7 +42,7 @@ tests.register("Focus and move windows", 1, () => {
 
     function testFocus(shortcutName: string, expectedFocus: KwinClient) {
         qtMock.fireShortcut(shortcutName);
-        Assert.assert(workspaceMock.activeWindow === expectedFocus, {
+        Assert.truth(workspaceMock.activeWindow === expectedFocus, {
             message: `wrong activeWindow: ${workspaceMock.activeWindow?.pid}`,
             skip: 1,
         });
