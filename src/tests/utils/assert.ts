@@ -23,23 +23,35 @@ function getStackTrace(skip: number) {
     return new Error().stack!.split("\n").slice(skip+2).join("\n");
 }
 
-function assertEqual(actual: any, expected: any, skip: number = 0) {
-    assert(expected == actual, `Values not equal
+function buildMessage(actual: any, expected: any, header: string, message?: string) {
+    return `${header}
 Expected: ${expected}
-Actual: ${actual}`, skip+1);
+Actual: ${actual}` + (message === undefined ? "" : `
+Message: ${message}`);
+}
+
+function assertEqual(actual: any, expected: any, skip: number = 0) {
+    assert(
+        expected == actual,
+        buildMessage(actual, expected, "Values not equal"),
+        skip+1
+    );
 }
 
 function assertArrayEqual(actual: any[], expected: any[], skip: number = 0) {
-    const equal = actual.length === expected.length && actual.every((item, index) => item === expected[index]);
-    assert(equal, `Arrays not equal
-Expected: ${expected}
-Actual: ${actual}`, skip+1);
+    assert(
+        actual.length === expected.length && actual.every((item, index) => item === expected[index]),
+        buildMessage(actual, expected, "Arrays not equal"),
+        skip+1
+    );
 }
 
 function assertRectEqual(actual: QmlRect, expected: QmlRect, skip: number = 0) {
-    assert(rectEquals(expected, actual), `QmlRect not equal
-Expected: ${expected}
-Actual: ${actual}`, skip+1);
+    assert(
+        rectEquals(expected, actual),
+        buildMessage(actual, expected, "QmlRect not equal"),
+        skip+1
+    );
 }
 
 function assertRect(actual: QmlRect, x: number, y: number, width: number, height: number, skip: number = 0) {
