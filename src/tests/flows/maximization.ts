@@ -12,28 +12,28 @@ tests.register("Maximization", 100, () => {
 
     workspaceMock.createWindow(kwinClient);
     world.do((clientManager, desktopManager) => {
-        assert(clientManager.hasClient(kwinClient));
+        Assert.assert(clientManager.hasClient(kwinClient));
     });
 
     const columnLeftX = screenWidth/2 - 300/2;
     const columnTopY = config.gapsOuterTop;
     const columnHeight = screenHeight - config.gapsOuterTop - config.gapsOuterBottom;
-    assertRect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
+    Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
 
     kwinClient.fullScreen = true;
-    assertRect(kwinClient.frameGeometry, 0, 0, screenWidth, screenHeight);
+    Assert.rect(kwinClient.frameGeometry, 0, 0, screenWidth, screenHeight);
 
     kwinClient.fullScreen = false;
-    assertRect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
+    Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
 
     kwinClient.setMaximize(true, true);
-    assertRect(kwinClient.frameGeometry, 0, 0, screenWidth, screenHeight);
+    Assert.rect(kwinClient.frameGeometry, 0, 0, screenWidth, screenHeight);
 
     kwinClient.setMaximize(true, false);
-    assertRect(kwinClient.frameGeometry, columnLeftX, 0, 300, screenHeight);
+    Assert.rect(kwinClient.frameGeometry, columnLeftX, 0, 300, screenHeight);
 
     kwinClient.setMaximize(false, false);
-    assertRect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
+    Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
 });
 
 tests.register("Maximize with transient", 100, () => {
@@ -58,21 +58,21 @@ tests.register("Maximize with transient", 100, () => {
 
     workspaceMock.createWindow(parent);
     world.do((clientManager, desktopManager) => {
-        assert(clientManager.hasClient(parent));
+        Assert.assert(clientManager.hasClient(parent));
     });
 
     runOneOf(
         () => parent.fullScreen = true,
         () => parent.setMaximize(true, true),
     );
-    assertRect(parent.frameGeometry, 0, 0, screenWidth, screenHeight);
+    Assert.rect(parent.frameGeometry, 0, 0, screenWidth, screenHeight);
 
     workspaceMock.createWindow(child);
     world.do((clientManager, desktopManager) => {
-        assert(clientManager.hasClient(child));
+        Assert.assert(clientManager.hasClient(child));
     });
-    assertRect(child.frameGeometry, 14, 24, 50, 50);
-    assertRect(parent.frameGeometry, 0, 0, screenWidth, screenHeight);
+    Assert.rect(child.frameGeometry, 14, 24, 50, 50);
+    Assert.rect(parent.frameGeometry, 0, 0, screenWidth, screenHeight);
 });
 
 tests.register("Re-maximize disabled", 100, () => {
@@ -98,8 +98,8 @@ tests.register("Re-maximize disabled", 100, () => {
     workspaceMock.createWindow(client1);
     workspaceMock.createWindow(client2);
     world.do((clientManager, desktopManager) => {
-        assert(clientManager.hasClient(client1));
-        assert(clientManager.hasClient(client2));
+        Assert.assert(clientManager.hasClient(client1));
+        Assert.assert(clientManager.hasClient(client2));
     });
 
     const columnsWidth = 300 + 400 + config.gapsInnerHorizontal;
@@ -107,15 +107,15 @@ tests.register("Re-maximize disabled", 100, () => {
     const column2LeftX = column1LeftX + 300 + config.gapsInnerHorizontal;
     const columnTopY = config.gapsOuterTop;
     const columnHeight = screenHeight - config.gapsOuterTop - config.gapsOuterBottom;
-    assertRect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
-    assertRect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
 
     runOneOf(
         () => client2.fullScreen = true,
         () => client2.setMaximize(true, true),
     );
-    assertRect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
-    assertRect(client2.frameGeometry, 0, 0, screenWidth, screenHeight);
+    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.rect(client2.frameGeometry, 0, 0, screenWidth, screenHeight);
 
     runOneOf(
         () => workspaceMock.activeWindow = client1,
@@ -123,8 +123,8 @@ tests.register("Re-maximize disabled", 100, () => {
         () => qtMock.fireShortcut("karousel-focus-left"),
         () => qtMock.fireShortcut("karousel-focus-start"),
     );
-    assertRect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
-    assertRect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
 
     runOneOf(
         () => workspaceMock.activeWindow = client2,
@@ -132,8 +132,8 @@ tests.register("Re-maximize disabled", 100, () => {
         () => qtMock.fireShortcut("karousel-focus-right"),
         () => qtMock.fireShortcut("karousel-focus-end"),
     );
-    assertRect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
-    assertRect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
 });
 
 tests.register("Re-maximize enabled", 100, () => {
@@ -159,8 +159,8 @@ tests.register("Re-maximize enabled", 100, () => {
     workspaceMock.createWindow(client1);
     workspaceMock.createWindow(client2);
     world.do((clientManager, desktopManager) => {
-        assert(clientManager.hasClient(client1));
-        assert(clientManager.hasClient(client2));
+        Assert.assert(clientManager.hasClient(client1));
+        Assert.assert(clientManager.hasClient(client2));
     });
 
     const columnsWidth = 300 + 400 + config.gapsInnerHorizontal;
@@ -168,15 +168,15 @@ tests.register("Re-maximize enabled", 100, () => {
     const column2LeftX = column1LeftX + 300 + config.gapsInnerHorizontal;
     const columnTopY = config.gapsOuterTop;
     const columnHeight = screenHeight - config.gapsOuterTop - config.gapsOuterBottom;
-    assertRect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
-    assertRect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
 
     runOneOf(
         () => client2.fullScreen = true,
         () => client2.setMaximize(true, true),
     );
-    assertRect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
-    assertRect(client2.frameGeometry, 0, 0, screenWidth, screenHeight);
+    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.rect(client2.frameGeometry, 0, 0, screenWidth, screenHeight);
 
     runOneOf(
         () => workspaceMock.activeWindow = client1,
@@ -184,8 +184,8 @@ tests.register("Re-maximize enabled", 100, () => {
         () => qtMock.fireShortcut("karousel-focus-left"),
         () => qtMock.fireShortcut("karousel-focus-start"),
     );
-    assertRect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
-    assertRect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
 
     runOneOf(
         () => workspaceMock.activeWindow = client2,
@@ -193,6 +193,6 @@ tests.register("Re-maximize enabled", 100, () => {
         () => qtMock.fireShortcut("karousel-focus-right"),
         () => qtMock.fireShortcut("karousel-focus-end"),
     );
-    assertRect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
-    assertRect(client2.frameGeometry, 0, 0, screenWidth, screenHeight);
+    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.rect(client2.frameGeometry, 0, 0, screenWidth, screenHeight);
 });

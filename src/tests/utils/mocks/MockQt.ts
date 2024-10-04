@@ -27,7 +27,7 @@ class MockQt {
     public fireShortcut(shortcutName: string) {
         const shortcutHandler = this.shortcuts.get(shortcutName);
         if (shortcutHandler === undefined) {
-            assert(false);
+            Assert.assert(false);
             return;
         }
         shortcutHandler.activated.fire();
@@ -36,7 +36,7 @@ class MockQt {
     private static extractShortcutName(qml: string) {
         const nameLine = qml.split("\n").find((line) => line.trimStart().startsWith("name:"));
         if (nameLine === undefined) {
-            assert(false);
+            Assert.assert(false);
             return "";
         }
         return nameLine.substring(

@@ -31,34 +31,34 @@ tests.register("Pin", 20, () => {
     workspaceMock.createWindow(pinned);
     workspaceMock.createWindow(tiled1);
     workspaceMock.createWindow(tiled2);
-    assertGrid(config, screenFull, [ [pinned], [tiled1], [tiled2] ]);
+    Assert.grid(config, screenFull, [ [pinned], [tiled1], [tiled2] ]);
 
     pinned.pin(screenHalfLeft);
-    assertRectEqual(pinned.frameGeometry, screenHalfLeft);
-    assertGrid(config, screenHalfRight, [ [tiled1], [tiled2] ]);
+    Assert.equalRects(pinned.frameGeometry, screenHalfLeft);
+    Assert.grid(config, screenHalfRight, [ [tiled1], [tiled2] ]);
 
     pinned.pin(screenHalfRight);
-    assertRectEqual(pinned.frameGeometry, screenHalfRight);
-    assertGrid(config, screenHalfLeft, [ [tiled1], [tiled2] ]);
+    Assert.equalRects(pinned.frameGeometry, screenHalfRight);
+    Assert.grid(config, screenHalfLeft, [ [tiled1], [tiled2] ]);
 
     pinned.unpin();
-    assertRectEqual(pinned.frameGeometry, screenHalfRight);
-    assertGrid(config, screenFull, [ [tiled1], [tiled2] ]);
+    Assert.equalRects(pinned.frameGeometry, screenHalfRight);
+    Assert.grid(config, screenFull, [ [tiled1], [tiled2] ]);
 
     pinned.pin(screenHalfRight);
-    assertRectEqual(pinned.frameGeometry, screenHalfRight);
-    assertGrid(config, screenHalfLeft, [ [tiled1], [tiled2] ]);
+    Assert.equalRects(pinned.frameGeometry, screenHalfRight);
+    Assert.grid(config, screenHalfLeft, [ [tiled1], [tiled2] ]);
 
     pinned.minimized = true;
-    assertGrid(config, screenFull, [ [tiled1], [tiled2] ]);
+    Assert.grid(config, screenFull, [ [tiled1], [tiled2] ]);
 
     pinned.minimized = false;
-    assertRectEqual(pinned.frameGeometry, screenHalfRight);
-    assertGrid(config, screenHalfLeft, [ [tiled1], [tiled2] ]);
+    Assert.equalRects(pinned.frameGeometry, screenHalfRight);
+    Assert.grid(config, screenHalfLeft, [ [tiled1], [tiled2] ]);
 
     workspaceMock.activeWindow = pinned;
     qtMock.fireShortcut("karousel-window-toggle-floating");
-    assert(pinned.tile === null);
+    Assert.assert(pinned.tile === null);
     pinned.frameGeometry = new MockQmlRect(10, 20, 100, 200); // This is needed because the window's preferredWidth can change when pinning, because frameGeometryChanged can fire before tileChanged. TODO: Ensure pinned window keeps its preferredWidth.
-    assertGrid(config, screenFull, [ [tiled1], [tiled2], [pinned] ]);
+    Assert.grid(config, screenFull, [ [tiled1], [tiled2], [pinned] ]);
 });

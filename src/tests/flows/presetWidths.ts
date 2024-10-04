@@ -23,16 +23,16 @@ tests.register("Preset Widths default", 1, () => {
     }
 
     workspaceMock.createWindow(kwinClient);
-    assertRectEqual(kwinClient.frameGeometry, getRect(300));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(300));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    assertRectEqual(kwinClient.frameGeometry, getRect(maxWidth));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    assertRectEqual(kwinClient.frameGeometry, getRect(halfWidth));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    assertRectEqual(kwinClient.frameGeometry, getRect(maxWidth));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
 });
 
 tests.register("Preset Widths custom", 1, () => {
@@ -61,20 +61,20 @@ tests.register("Preset Widths custom", 1, () => {
     }
 
     workspaceMock.createWindow(kwinClient);
-    assertRectEqual(kwinClient.frameGeometry, getRect(300));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(300));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    assertRectEqual(kwinClient.frameGeometry, getRect(250));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(250));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    assertRectEqual(kwinClient.frameGeometry, getRect(100));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(100));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    assertRectEqual(kwinClient.frameGeometry, getRect(500));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(500));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    assertRectEqual(kwinClient.frameGeometry, getRect(halfWidth));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    assertRectEqual(kwinClient.frameGeometry, getRect(250));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(250));
 });

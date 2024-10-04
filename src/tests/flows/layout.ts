@@ -28,21 +28,21 @@ tests.register("Focus and move windows", 1, () => {
     workspaceMock.createWindow(client2);
     workspaceMock.createWindow(client3);
     world.do((clientManager, desktopManager) => {
-        assert(clientManager.hasClient(client1));
-        assert(clientManager.hasClient(client2));
-        assert(clientManager.hasClient(client3));
+        Assert.assert(clientManager.hasClient(client1));
+        Assert.assert(clientManager.hasClient(client2));
+        Assert.assert(clientManager.hasClient(client3));
     });
-    assert(workspaceMock.activeWindow === client3);
+    Assert.assert(workspaceMock.activeWindow === client3);
 
     function testLayout(shortcutName: string, grid: KwinClient[][]) {
         qtMock.fireShortcut(shortcutName);
         const screen = new MockQmlRect(0, 0, screenWidth, screenHeight);
-        assertGrid(config, screen, grid, 1);
+        Assert.grid(config, screen, grid, 1);
     }
 
     function testFocus(shortcutName: string, expectedFocus: KwinClient) {
         qtMock.fireShortcut(shortcutName);
-        assert(workspaceMock.activeWindow === expectedFocus, `wrong activeWindow: ${workspaceMock.activeWindow?.pid}`, 1);
+        Assert.assert(workspaceMock.activeWindow === expectedFocus, `wrong activeWindow: ${workspaceMock.activeWindow?.pid}`, 1);
     };
 
     testLayout("karousel-column-move-right",       [ [client1], [client2], [client3] ]);
