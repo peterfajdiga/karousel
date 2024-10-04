@@ -26,13 +26,13 @@ tests.register("Preset Widths default", 1, () => {
     Assert.equalRects(kwinClient.frameGeometry, getRect(300));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
-
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
     Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
     Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 });
 
 tests.register("Preset Widths custom", 1, () => {
@@ -48,7 +48,7 @@ tests.register("Preset Widths custom", 1, () => {
         1,
         "app1",
         "Application 1",
-        new MockQmlRect(10, 20, 300, 200),
+        new MockQmlRect(10, 20, 200, 200),
     );
 
     function getRect(columnWidth: number) {
@@ -61,19 +61,19 @@ tests.register("Preset Widths custom", 1, () => {
     }
 
     workspaceMock.createWindow(kwinClient);
-    Assert.equalRects(kwinClient.frameGeometry, getRect(300));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(200));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
     Assert.equalRects(kwinClient.frameGeometry, getRect(250));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    Assert.equalRects(kwinClient.frameGeometry, getRect(100));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
     Assert.equalRects(kwinClient.frameGeometry, getRect(500));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
+    Assert.equalRects(kwinClient.frameGeometry, getRect(100));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
     Assert.equalRects(kwinClient.frameGeometry, getRect(250));
@@ -123,7 +123,7 @@ tests.register("Preset Widths fill screen non-uniform", 1, () => {
         1,
         "app1",
         "Application 1",
-        new MockQmlRect(10, 20, 300, 200),
+        new MockQmlRect(10, 20, 100, 200),
     );
     workspaceMock.createWindow(clientThin1);
     qtMock.fireShortcut("karousel-cycle-preset-widths");
@@ -132,7 +132,7 @@ tests.register("Preset Widths fill screen non-uniform", 1, () => {
         2,
         "app2",
         "Application 2",
-        new MockQmlRect(10, 20, 300, 200),
+        new MockQmlRect(10, 20, 100, 200),
     );
     workspaceMock.createWindow(clientThin2);
     qtMock.fireShortcut("karousel-cycle-preset-widths");
@@ -141,7 +141,7 @@ tests.register("Preset Widths fill screen non-uniform", 1, () => {
         10,
         "app10",
         "Application 10",
-        new MockQmlRect(10, 20, 410, 200),
+        new MockQmlRect(10, 20, 300, 200),
     );
     workspaceMock.createWindow(clientWide);
     qtMock.fireShortcut("karousel-cycle-preset-widths");

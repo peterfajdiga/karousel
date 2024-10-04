@@ -4,12 +4,12 @@ tests.register("PresetWidths", 1, () => {
     const spacing = 10;
 
     const testCases = [
-        { str: "100%, 50%", result: [800, 395] },
-        { str: "105%, 50%", result: [800, 395] },
-        { str: "100px,50 px", result: [100, 50] },
-        { str: "900px,25 px", result: [800, 50] },
-        { str: " 100px, 25 % , 0.1 ", result: [192, 100, 71] },
-        { str: "100px, 25%, 0.1, 100px", result: [192, 100, 71] },
+        { str: "100%, 50%", result: [395, 800] },
+        { str: "105%, 50%", result: [395, 800] },
+        { str: "100px,50 px", result: [50, 100] },
+        { str: "900px,25 px", result: [50, 800] },
+        { str: " 100px, 25 % , 0.1 ", result: [71, 100, 192] },
+        { str: "100px, 25%, 0.1, 100px", result: [71, 100, 192] },
         { str: "100px, -25 % , 0.1 ", error: true },
         { str: "100px, 25 % , -0.1 ", error: true },
         { str: "100px, 25 % , 0.1p", error: true },

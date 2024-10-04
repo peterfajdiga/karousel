@@ -7,7 +7,7 @@ class PresetWidths {
 
     public get(minWidth: number, maxWidth: number) {
         const widths = this.presets.map(f => clamp(f(maxWidth), minWidth, maxWidth));
-        widths.sort((a, b) => b - a);
+        widths.sort((a, b) => a - b);
         return uniq(widths);
     }
 
