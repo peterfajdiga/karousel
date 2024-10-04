@@ -15,7 +15,10 @@ tests.register("WindowRuleEnforcer", 1, () => {
     const enforcer = new WindowRuleEnforcer(JSON.parse(defaultWindowRules));
     for (const testCase of testCases) {
         const kwinClient: any = createKwinClient(testCase.tiledByDefault, testCase.resourceClass, testCase.caption);
-        Assert.assert(enforcer.shouldTile(kwinClient) === testCase.shouldTile, "failed case: " + JSON.stringify(testCase));
+        Assert.assert(
+            enforcer.shouldTile(kwinClient) === testCase.shouldTile,
+            { message: "failed case: " + JSON.stringify(testCase) },
+        );
     }
 
     function createKwinClient(normalWindow: boolean, resourceClass: string, caption: string) {

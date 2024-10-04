@@ -37,12 +37,15 @@ tests.register("Focus and move windows", 1, () => {
     function testLayout(shortcutName: string, grid: KwinClient[][]) {
         qtMock.fireShortcut(shortcutName);
         const screen = new MockQmlRect(0, 0, screenWidth, screenHeight);
-        Assert.grid(config, screen, grid, 1);
+        Assert.grid(config, screen, grid, { skip: 1 });
     }
 
     function testFocus(shortcutName: string, expectedFocus: KwinClient) {
         qtMock.fireShortcut(shortcutName);
-        Assert.assert(workspaceMock.activeWindow === expectedFocus, `wrong activeWindow: ${workspaceMock.activeWindow?.pid}`, 1);
+        Assert.assert(workspaceMock.activeWindow === expectedFocus, {
+            message: `wrong activeWindow: ${workspaceMock.activeWindow?.pid}`,
+            skip: 1,
+        });
     };
 
     testLayout("karousel-column-move-right",       [ [client1], [client2], [client3] ]);

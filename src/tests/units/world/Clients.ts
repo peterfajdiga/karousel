@@ -10,7 +10,10 @@ tests.register("Clients.canTileEver", 1, () => {
 
     for (const testCase of testCases) {
         const kwinClient: any = createKwinClient(testCase.clientProperties);
-        Assert.assert(Clients.canTileEver(kwinClient) === testCase.tileable, "failed case: " + JSON.stringify(testCase));
+        Assert.assert(
+            Clients.canTileEver(kwinClient) === testCase.tileable,
+            { message: "failed case: " + JSON.stringify(testCase) },
+        );
     }
 
     function createKwinClient(properties: { resourceClass: string, caption: string }) {

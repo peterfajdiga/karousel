@@ -1,5 +1,13 @@
 namespace Assert {
-    export function assert(assertion: boolean, message?: string, skip: number = 0) {
+    type Options = {
+        message?: string,
+        skip?: number,
+    }
+
+    export function assert(
+        assertion: boolean,
+        { message, skip=0 }: Options = {},
+    ) {
         if (assertion) {
             return;
         }
@@ -31,35 +39,69 @@ namespace Assert {
     Message: ${message}`);
     }
 
-    export function equal(actual: any, expected: any, skip: number = 0) {
+    export function equal(
+        actual: any,
+        expected: any,
+        { message, skip=0 }: Options = {},
+    ) {
         assert(
             expected == actual,
-            buildMessage(actual, expected, "Values not equal"),
-            skip+1
+            {
+                message: buildMessage(actual, expected, "Values not equal", message),
+                skip: skip + 1,
+            },
         );
     }
 
-    export function equalArrays(actual: any[], expected: any[], skip: number = 0) {
+    export function equalArrays(
+        actual: any[],
+        expected: any[],
+        { message, skip=0 }: Options = {},
+    ) {
         assert(
             actual.length === expected.length && actual.every((item, index) => item === expected[index]),
-            buildMessage(actual, expected, "Arrays not equal"),
-            skip+1
+            {
+                message: buildMessage(actual, expected, "Arrays not equal", message),
+                skip: skip + 1,
+            },
         );
     }
 
-    export function equalRects(actual: QmlRect, expected: QmlRect, skip: number = 0) {
+    export function equalRects(
+        actual: QmlRect,
+        expected: QmlRect,
+        { message, skip=0 }: Options = {},
+    ) {
         assert(
             rectEquals(expected, actual),
-            buildMessage(actual, expected, "QmlRect not equal"),
-            skip+1
+            {
+                message: buildMessage(actual, expected, "QmlRect not equal", message),
+                skip: skip + 1,
+            },
         );
     }
 
-    export function rect(actual: QmlRect, x: number, y: number, width: number, height: number, skip: number = 0) {
-        equalRects(actual, new MockQmlRect(x, y, width, height), skip+1);
+    export function rect(
+        actual: QmlRect,
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        { message, skip=0 }: Options = {},
+    ) {
+        equalRects(
+            actual,
+            new MockQmlRect(x, y, width, height),
+            { message: message, skip: skip+1 },
+        );
     }
 
-    export function grid(config: Config, screen: QmlRect, grid: KwinClient[][], skip: number = 0) {
+    export function grid(
+        config: Config,
+        screen: QmlRect,
+        grid: KwinClient[][],
+        { message, skip=0 }: Options = {},
+    ) {
         // assumes uniformly sized windows within columns of width 100
         function getRectInGrid(column: number, window: number, nColumns: number, nWindows: number) {
             const columnHeight = screen.height - config.gapsOuterTop - config.gapsOuterBottom;
@@ -79,7 +121,11 @@ namespace Assert {
             const nWindows = column.length;
             for (let iWindow = 0; iWindow < nWindows; iWindow++) {
                 const window = column[iWindow];
-                equalRects(window.frameGeometry, getRectInGrid(iColumn, iWindow, nColumns, nWindows), skip+1);
+                equalRects(
+                    window.frameGeometry,
+                    getRectInGrid(iColumn, iWindow, nColumns, nWindows),
+                    { message: message, skip: skip+1 },
+                );
             }
         }
     }
