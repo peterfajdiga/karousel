@@ -68,20 +68,6 @@ namespace Assert {
         );
     }
 
-    export function equalArrays(
-        actual: any[],
-        expected: any[],
-        { message, skip=0 }: Options = {},
-    ) {
-        truth(
-            actual.length === expected.length && actual.every((item, index) => item === expected[index]),
-            {
-                message: buildMessage(actual, expected, "Arrays not equal", message),
-                skip: skip + 1,
-            },
-        );
-    }
-
     export function equalRects(
         actual: QmlRect,
         expected: QmlRect,

@@ -188,10 +188,7 @@ class Actions {
         if (this.config.presetWidths === null) {
             return;
         }
-        const widths = this.config.presetWidths.get(column.getMinWidth(), column.getMaxWidth());
-        const currentWidth = column.getWidth();
-        const nextIndex = widths.findIndex(width => width > currentWidth);
-        const nextWidth = nextIndex >= 0 ? widths[nextIndex] : widths[0];
+        const nextWidth = this.config.presetWidths.next(column.getWidth(), column.getMinWidth(), column.getMaxWidth());
         column.setWidth(nextWidth, true);
     }
 

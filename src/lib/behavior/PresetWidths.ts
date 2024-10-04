@@ -5,7 +5,13 @@ class PresetWidths {
         this.presets = PresetWidths.parsePresetWidths(presetWidths, spacing);
     }
 
-    public get(minWidth: number, maxWidth: number) {
+    public next(currentWidth: number, minWidth: number, maxWidth: number) {
+        const widths = this.getWidths(minWidth, maxWidth);
+        const nextIndex = widths.findIndex(width => width > currentWidth);
+        return nextIndex >= 0 ? widths[nextIndex] : widths[0];
+    }
+
+    private getWidths(minWidth: number, maxWidth: number) {
         const widths = this.presets.map(f => clamp(f(maxWidth), minWidth, maxWidth));
         widths.sort((a, b) => a - b);
         return uniq(widths);

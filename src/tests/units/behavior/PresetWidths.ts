@@ -23,13 +23,21 @@ tests.register("PresetWidths", 1, () => {
         { str: " ", error: true },
     ];
 
+    function assertWidths(presetWidths: PresetWidths, expectedWidths: number[]) {
+        let currentWidth = 0;
+        for (const expectedWidth of expectedWidths) {
+            currentWidth = presetWidths.next(currentWidth, minWidth, maxWidth);
+            Assert.equal(currentWidth, expectedWidth);
+        }
+        const repeatedWidth = presetWidths.next(currentWidth, minWidth, maxWidth);
+        Assert.equal(repeatedWidth, expectedWidths[0]);
+    }
+
     for (const testCase of testCases) {
         try {
             const presetWidths = new PresetWidths(testCase.str, spacing);
             Assert.truth(!testCase.error);
-
-            const result = presetWidths.get(minWidth, maxWidth);
-            Assert.equalArrays(result, testCase.result!);
+            assertWidths(presetWidths, testCase.result!);
         } catch (error) {
             Assert.truth(testCase.error === true);
         }
