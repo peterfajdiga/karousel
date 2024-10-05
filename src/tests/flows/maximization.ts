@@ -11,7 +11,7 @@ tests.register("Maximization", 100, () => {
 
     workspaceMock.createWindow(kwinClient);
     world.do((clientManager, desktopManager) => {
-        Assert.truth(clientManager.hasClient(kwinClient));
+        Assert.assert(clientManager.hasClient(kwinClient));
     });
 
     const columnLeftX = screen.width/2 - 300/2;
@@ -56,7 +56,7 @@ tests.register("Maximize with transient", 100, () => {
 
     workspaceMock.createWindow(parent);
     world.do((clientManager, desktopManager) => {
-        Assert.truth(clientManager.hasClient(parent));
+        Assert.assert(clientManager.hasClient(parent));
     });
 
     runOneOf(
@@ -67,7 +67,7 @@ tests.register("Maximize with transient", 100, () => {
 
     workspaceMock.createWindow(child);
     world.do((clientManager, desktopManager) => {
-        Assert.truth(clientManager.hasClient(child));
+        Assert.assert(clientManager.hasClient(child));
     });
     Assert.rect(child.frameGeometry, 14, 24, 50, 50);
     Assert.equalRects(parent.frameGeometry, screen);
@@ -95,8 +95,8 @@ tests.register("Re-maximize disabled", 100, () => {
     workspaceMock.createWindow(client1);
     workspaceMock.createWindow(client2);
     world.do((clientManager, desktopManager) => {
-        Assert.truth(clientManager.hasClient(client1));
-        Assert.truth(clientManager.hasClient(client2));
+        Assert.assert(clientManager.hasClient(client1));
+        Assert.assert(clientManager.hasClient(client2));
     });
 
     const columnsWidth = 300 + 400 + config.gapsInnerHorizontal;
@@ -155,8 +155,8 @@ tests.register("Re-maximize enabled", 100, () => {
     workspaceMock.createWindow(client1);
     workspaceMock.createWindow(client2);
     world.do((clientManager, desktopManager) => {
-        Assert.truth(clientManager.hasClient(client1));
-        Assert.truth(clientManager.hasClient(client2));
+        Assert.assert(clientManager.hasClient(client1));
+        Assert.assert(clientManager.hasClient(client2));
     });
 
     const columnsWidth = 300 + 400 + config.gapsInnerHorizontal;

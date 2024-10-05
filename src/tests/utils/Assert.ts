@@ -4,7 +4,7 @@ namespace Assert {
         skip?: number,
     }
 
-    export function truth(
+    export function assert(
         assertion: boolean,
         { message, skip=0 }: Options = {},
     ) {
@@ -44,7 +44,7 @@ namespace Assert {
         expected: any,
         { message, skip=0 }: Options = {},
     ) {
-        truth(
+        assert(
             expected == actual,
             {
                 message: buildMessage(actual, expected, "Values not equal", message),
@@ -59,7 +59,7 @@ namespace Assert {
         max: any,
         { message, skip=0 }: Options = {},
     ) {
-        truth(
+        assert(
             actual >= min && actual <= max,
             {
                 message: buildMessage(actual, `[${min}, ${max}]`, "Value not in range", message),
@@ -73,7 +73,7 @@ namespace Assert {
         expected: QmlRect,
         { message, skip=0 }: Options = {},
     ) {
-        truth(
+        assert(
             rectEquals(expected, actual),
             {
                 message: buildMessage(actual, expected, "QmlRect not equal", message),

@@ -36,10 +36,10 @@ tests.register("PresetWidths", 1, () => {
     for (const testCase of testCases) {
         try {
             const presetWidths = new PresetWidths(testCase.str, spacing);
-            Assert.truth(!testCase.error);
+            Assert.assert(!testCase.error);
             assertWidths(presetWidths, testCase.result!);
         } catch (error) {
-            Assert.truth(testCase.error === true);
+            Assert.assert(testCase.error === true);
         }
     }
 });
