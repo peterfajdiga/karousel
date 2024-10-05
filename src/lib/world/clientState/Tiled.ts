@@ -96,7 +96,7 @@ namespace ClientState {
                 }
             });
 
-            let lastExternalFrameGeometryChanged = 0;
+            let externalFrameGeometryChangedRateLimiter = new RateLimiter(2, Tiled.maxExternalFrameGeometryChangedIntervalMs);
             manager.connect(kwinClient.frameGeometryChanged, (oldGeometry: QmlRect) => {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {
@@ -124,12 +124,12 @@ namespace ClientState {
                 } else if (
                     !window.column.grid.isUserResizing() &&
                     !client.isManipulatingGeometry(newGeometry) &&
-                    Date.now() - lastExternalFrameGeometryChanged > Tiled.maxExternalFrameGeometryChangedIntervalMs &&
                     client.getMaximizedMode() === MaximizedMode.Unmaximized &&
                     !Clients.isFullScreenGeometry(kwinClient) // not using `kwinClient.fullScreen` because it may not be set yet at this point
                 ) {
-                    world.do(() => window.onFrameGeometryChanged());
-                    lastExternalFrameGeometryChanged = Date.now();
+                    if (externalFrameGeometryChangedRateLimiter.acquire()) {
+                        world.do(() => window.onFrameGeometryChanged());
+                    }
                 }
             });
 
