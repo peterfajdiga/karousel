@@ -4,6 +4,7 @@ class MockKwinClient {
     private static readonly borderThickness = 10;
 
     public readonly shadeable: boolean = false;
+    public readonly caption = "App";
     public readonly minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
     public readonly transient: boolean;
     public readonly move: boolean = false;
@@ -13,10 +14,12 @@ class MockKwinClient {
     public readonly fullScreenable: boolean = true;
     public readonly maximizable: boolean = true;
     public readonly output: Output = { __brand: "Output" };
+    public readonly resourceClass = "app";
     public readonly dock: boolean = false;
     public readonly normalWindow: boolean = true;
     public readonly managed: boolean = true;
     public readonly popupWindow: boolean = false;
+    public readonly pid = 1;
 
     private _fullScreen: boolean = false;
     public activities: string[] = [];
@@ -45,10 +48,7 @@ class MockKwinClient {
     private hasBorder: boolean = true;
 
     constructor(
-        public readonly pid: number,
-        public readonly resourceClass: string,
-        public readonly caption: string,
-        private _frameGeometry: MockQmlRect,
+        private _frameGeometry: MockQmlRect = new MockQmlRect(10, 10, 100, 200),
         public readonly transientFor: MockKwinClient|null = null,
     ) {
         this.windowedFrameGeometry = _frameGeometry.clone();

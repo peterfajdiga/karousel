@@ -5,30 +5,7 @@ tests.register("Pin", 20, () => {
     const screenHalfLeft = new MockQmlRect(0, 0, screen.width/2, screen.height);
     const screenHalfRight = new MockQmlRect(screen.width/2, 0, screen.width/2, screen.height);
 
-    const tiled1 = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 20, 100, 200),
-    );
-
-    const tiled2 = new MockKwinClient(
-        2,
-        "app2",
-        "Application 2",
-        new MockQmlRect(10, 20, 100, 200),
-    );
-
-    const pinned = new MockKwinClient(
-        3,
-        "browser",
-        "Documentation - Browser",
-        new MockQmlRect(10, 20, 100, 200),
-    );
-
-    workspaceMock.createWindow(pinned);
-    workspaceMock.createWindow(tiled1);
-    workspaceMock.createWindow(tiled2);
+    const [pinned, tiled1, tiled2] = workspaceMock.createClients(3);
     Assert.grid(config, screen, [ [pinned], [tiled1], [tiled2] ]);
 
     pinned.pin(screenHalfLeft);

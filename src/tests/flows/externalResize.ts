@@ -15,14 +15,7 @@ tests.register("External resize", 1, () => {
         );
     }
 
-    const client = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        getClientDesiredFrame(100),
-    );
-
-    workspaceMock.createWindow(client);
+    const [client] = workspaceMock.createClientsWithFrames(getClientDesiredFrame(100));
     Assert.equalRects(client.frameGeometry, getTiledFrame(100), { message: "We should tile the window, respecting its desired width" });
 
     function testExternalResizing() {

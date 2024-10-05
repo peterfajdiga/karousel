@@ -5,13 +5,6 @@ tests.register("Preset Widths default", 1, () => {
     const maxWidth = tilingArea.width;
     const halfWidth = maxWidth/2 - config.gapsInnerHorizontal/2;
 
-    const kwinClient = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 20, 300, 200),
-    );
-
     function getRect(columnWidth: number) {
         return new MockQmlRect(
             (screen.width - columnWidth) / 2,
@@ -21,7 +14,7 @@ tests.register("Preset Widths default", 1, () => {
         );
     }
 
-    workspaceMock.createWindow(kwinClient);
+    const [kwinClient] = workspaceMock.createClientsWithWidths(300);
     Assert.equalRects(kwinClient.frameGeometry, getRect(300));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
@@ -42,13 +35,6 @@ tests.register("Preset Widths custom", 1, () => {
     const maxWidth = tilingArea.width;
     const halfWidth = maxWidth/2 - config.gapsInnerHorizontal/2;
 
-    const kwinClient = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 20, 200, 200),
-    );
-
     function getRect(columnWidth: number) {
         return new MockQmlRect(
             (screen.width - columnWidth) / 2,
@@ -58,7 +44,7 @@ tests.register("Preset Widths custom", 1, () => {
         );
     }
 
-    workspaceMock.createWindow(kwinClient);
+    const [kwinClient] = workspaceMock.createClientsWithWidths(200);
     Assert.equalRects(kwinClient.frameGeometry, getRect(200));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
@@ -85,19 +71,13 @@ tests.register("Preset Widths fill screen uniform", 1, () => {
 
         let firstClient, lastClient;
         for (let i = 0; i < nColumns; i++) {
-            const kwinClient = new MockKwinClient(
-                i,
-                "app" + i,
-                "Application " + 1,
-                new MockQmlRect(10, 20, 300, 200),
-            );
+            const [kwinClient] = workspaceMock.createClientsWithWidths(300);
             if (i === 0) {
                 firstClient = kwinClient;
             }
             if (i === nColumns-1) {
                 lastClient = kwinClient;
             }
-            workspaceMock.createWindow(kwinClient);
             qtMock.fireShortcut("karousel-cycle-preset-widths");
         }
 
@@ -115,31 +95,13 @@ tests.register("Preset Widths fill screen non-uniform", 1, () => {
     config.presetWidths = String("50%, 25%");
     const { qtMock, workspaceMock, world } = init(config);
 
-    const clientThin1 = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 20, 100, 200),
-    );
-    workspaceMock.createWindow(clientThin1);
+    const [clientThin1] = workspaceMock.createClientsWithWidths(100);
     qtMock.fireShortcut("karousel-cycle-preset-widths");
 
-    const clientThin2 = new MockKwinClient(
-        2,
-        "app2",
-        "Application 2",
-        new MockQmlRect(10, 20, 100, 200),
-    );
-    workspaceMock.createWindow(clientThin2);
+    const [clientThin2] = workspaceMock.createClientsWithWidths(100);
     qtMock.fireShortcut("karousel-cycle-preset-widths");
 
-    const clientWide = new MockKwinClient(
-        10,
-        "app10",
-        "Application 10",
-        new MockQmlRect(10, 20, 300, 200),
-    );
-    workspaceMock.createWindow(clientWide);
+    const [clientWide] = workspaceMock.createClientsWithWidths(300);
     qtMock.fireShortcut("karousel-cycle-preset-widths");
 
     const maxWidth = tilingArea.width;

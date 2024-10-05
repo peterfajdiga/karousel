@@ -2,14 +2,7 @@ tests.register("Maximization", 100, () => {
     const config = getDefaultConfig();
     const { qtMock, workspaceMock, world } = init(config);
 
-    const kwinClient = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 20, 300, 200),
-    );
-
-    workspaceMock.createWindow(kwinClient);
+    const [kwinClient] = workspaceMock.createClientsWithWidths(300);
     world.do((clientManager, desktopManager) => {
         Assert.assert(clientManager.hasClient(kwinClient));
     });
@@ -39,22 +32,10 @@ tests.register("Maximize with transient", 100, () => {
     const config = getDefaultConfig();
     const { qtMock, workspaceMock, world } = init(config);
 
-    const parent = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 20, 300, 200),
-    );
+    const parent = new MockKwinClient(new MockQmlRect(10, 20, 300, 200));
+    const child = new MockKwinClient(new MockQmlRect(14, 24, 50, 50), parent);
 
-    const child = new MockKwinClient(
-        2,
-        "app1",
-        "Application 1 - Dialog",
-        new MockQmlRect(14, 24, 50, 50),
-        parent,
-    );
-
-    workspaceMock.createWindow(parent);
+    workspaceMock.createWindows(parent);
     world.do((clientManager, desktopManager) => {
         Assert.assert(clientManager.hasClient(parent));
     });
@@ -65,7 +46,7 @@ tests.register("Maximize with transient", 100, () => {
     );
     Assert.equalRects(parent.frameGeometry, screen);
 
-    workspaceMock.createWindow(child);
+    workspaceMock.createWindows(child);
     world.do((clientManager, desktopManager) => {
         Assert.assert(clientManager.hasClient(child));
     });
@@ -78,22 +59,7 @@ tests.register("Re-maximize disabled", 100, () => {
     config.reMaximize = false;
     const { qtMock, workspaceMock, world } = init(config);
 
-    const client1 = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 20, 300, 200),
-    );
-
-    const client2 = new MockKwinClient(
-        2,
-        "app2",
-        "Application 2",
-        new MockQmlRect(14, 24, 400, 400),
-    );
-
-    workspaceMock.createWindow(client1);
-    workspaceMock.createWindow(client2);
+    const [client1, client2] = workspaceMock.createClientsWithWidths(300, 400);
     world.do((clientManager, desktopManager) => {
         Assert.assert(clientManager.hasClient(client1));
         Assert.assert(clientManager.hasClient(client2));
@@ -138,22 +104,7 @@ tests.register("Re-maximize enabled", 100, () => {
     config.reMaximize = true;
     const { qtMock, workspaceMock, world } = init(config);
 
-    const client1 = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 20, 300, 200),
-    );
-
-    const client2 = new MockKwinClient(
-        2,
-        "app2",
-        "Application 2",
-        new MockQmlRect(14, 24, 400, 400),
-    );
-
-    workspaceMock.createWindow(client1);
-    workspaceMock.createWindow(client2);
+    const [client1, client2] = workspaceMock.createClientsWithWidths(300, 400);
     world.do((clientManager, desktopManager) => {
         Assert.assert(clientManager.hasClient(client1));
         Assert.assert(clientManager.hasClient(client2));

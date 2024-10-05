@@ -2,30 +2,7 @@ tests.register("Focus and move windows", 1, () => {
     const config = getDefaultConfig();
     const { qtMock, workspaceMock, world } = init(config);
 
-    const client1 = new MockKwinClient(
-        1,
-        "app1",
-        "Application 1",
-        new MockQmlRect(10, 10, 100, 200),
-    );
-
-    const client2 = new MockKwinClient(
-        2,
-        "app2",
-        "Application 2",
-        new MockQmlRect(20, 20, 100, 200),
-    );
-
-    const client3 = new MockKwinClient(
-        3,
-        "app3",
-        "Application 3",
-        new MockQmlRect(40, 40, 100, 200),
-    );
-
-    workspaceMock.createWindow(client1);
-    workspaceMock.createWindow(client2);
-    workspaceMock.createWindow(client3);
+    const [client1, client2, client3] = workspaceMock.createClients(3);
     world.do((clientManager, desktopManager) => {
         Assert.assert(clientManager.hasClient(client1));
         Assert.assert(clientManager.hasClient(client2));

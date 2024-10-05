@@ -28,9 +28,25 @@ class MockWorkspace {
         return screen;
     }
 
-    public createWindow(kwinClient: MockKwinClient) {
-        this.windowAdded.fire(kwinClient);
-        this.activeWindow = kwinClient;
+    public createWindows(...kwinClients: MockKwinClient[]) {
+        for (const kwinClient of kwinClients) {
+            this.windowAdded.fire(kwinClient);
+            this.activeWindow = kwinClient;
+        }
+    }
+
+    public createClients(n: number) {
+        return this.createClientsWithWidths(...Array(n).fill(100));
+    }
+
+    public createClientsWithFrames(...frames: MockQmlRect[]) {
+        const clients = frames.map(rect => new MockKwinClient(rect));
+        this.createWindows(...clients);
+        return clients;
+    }
+
+    public createClientsWithWidths(...widths: number[]) {
+        return this.createClientsWithFrames(...widths.map(width => new MockQmlRect(randomInt(100), randomInt(100), width, 100+randomInt(400))));
     }
 
     public get activeWindow() {
