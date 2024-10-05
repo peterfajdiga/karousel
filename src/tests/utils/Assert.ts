@@ -32,11 +32,21 @@ namespace Assert {
         return new Error().stack!.split("\n").slice(skip+2).join("\n");
     }
 
+    function appendMessage(base: string, message?: string) {
+        if (message === undefined) {
+            return base;
+        }
+        return `${base}
+    Message: ${message}`;
+    }
+
     function buildMessage(actual: any, expected: any, header: string, message?: string) {
-        return `${header}
+        return appendMessage(
+            `${header}
     Expected: ${expected}
-    Actual: ${actual}` + (message === undefined ? "" : `
-    Message: ${message}`);
+    Actual: ${actual}`,
+            message,
+        );
     }
 
     export function equal(
