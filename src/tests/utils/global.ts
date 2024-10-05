@@ -7,6 +7,8 @@ let notificationInvalidPresetWidths: Notification;
 
 let screen: QmlRect;
 let tilingArea: QmlRect;
+let gapH: number;
+let gapV: number;
 let runLog: string[];
 
 function init(config: Config) {
@@ -17,6 +19,8 @@ function init(config: Config) {
         screen.width - config.gapsOuterLeft - config.gapsOuterRight,
         screen.height - config.gapsOuterTop - config.gapsOuterBottom,
     );
+    gapH = config.gapsInnerHorizontal;
+    gapV = config.gapsInnerVertical;
     runLog = [];
 
     const qtMock = new MockQt();

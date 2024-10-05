@@ -8,6 +8,10 @@ function clamp(value: number, min: number, max: number) {
     return value;
 }
 
+function sum(...list: number[]) {
+    return list.reduce((acc, val) => acc + val);
+}
+
 function union<T>(array0: T[], array1: T[]) {
     const set = new Set([...array0, ...array1]);
     return [...set];

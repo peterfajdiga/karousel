@@ -5,7 +5,7 @@ class MockKwinClient {
 
     public readonly shadeable: boolean = false;
     public readonly caption = "App";
-    public readonly minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
+    public minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
     public readonly transient: boolean;
     public readonly move: boolean = false;
     public readonly resize: boolean = false;

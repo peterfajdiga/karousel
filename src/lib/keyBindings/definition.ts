@@ -147,6 +147,19 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.columnWidthDecrease),
         },
         {
+            name: "column-shrink-left",
+            description: "Decrease column width to make room for the left column",
+            comment: "Clashes with default KDE shortcuts, may require manual remapping",
+            defaultKeySequence: "Meta+Ctrl+A",
+            action: () => world.doIfTiledFocused(actions.columnShrinkLeft),
+        },
+        {
+            name: "column-shrink-right",
+            description: "Decrease column width to make room for the right column",
+            defaultKeySequence: "Meta+Ctrl+D",
+            action: () => world.doIfTiledFocused(actions.columnShrinkRight),
+        },
+        {
             name: "cycle-preset-widths",
             description: "Cycle through preset column widths",
             defaultKeySequence: "Meta+R",

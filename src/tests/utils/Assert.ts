@@ -140,4 +140,45 @@ namespace Assert {
             }
         }
     }
+
+    export function fullyVisible(
+        rect: QmlRect,
+        { message, skip=0 }: Options = {},
+    ) {
+        assert(
+            rect.left >= tilingArea.left && rect.right <= tilingArea.right,
+            {
+                message: appendMessage(`Rect ${rect} not fully visible`, message),
+                skip: skip + 1,
+            },
+        );
+    }
+
+    export function notFullyVisible(
+        rect: QmlRect,
+        { message, skip=0 }: Options = {},
+    ) {
+        assert(
+            rect.left < tilingArea.left || rect.right > tilingArea.right,
+            {
+                message: appendMessage(`Rect ${rect} is fully visible, but shouldn't be`, message),
+                skip: skip + 1,
+            },
+        );
+    }
+
+    export function columnsFillTilingArea(
+        columns: KwinClient[],
+        { message, skip=0 }: Options = {},
+    ) {
+        const options = { message: message, skip: skip+1 };
+        let x = tilingArea.left;
+        for (const column of columns) {
+            const width = column.frameGeometry.width;
+            fullyVisible(column.frameGeometry, options);
+            rect(column.frameGeometry, x, tilingArea.top, width, tilingArea.height, options);
+            x += width + gapH;
+        }
+        equal(columns[columns.length-1].frameGeometry.right, tilingArea.right, options);
+    }
 }
