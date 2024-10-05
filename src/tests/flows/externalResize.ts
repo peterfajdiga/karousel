@@ -36,9 +36,10 @@ tests.register("External resize", 1, () => {
         Assert.equalRects(client.frameGeometry, getClientDesiredFrame(200), { message: "We should give up and let the client have its desired frame" });
     }
 
-    testExternalResizing();
-    setTimeout(() => {
+    timeControl(addTime => {
+        testExternalResizing();
+        addTime(1000);
         // the concession has expired, let's test again
         testExternalResizing();
-    }, 1000);
+    });
 });
