@@ -98,7 +98,9 @@ class MockKwinClient {
         runReorder(
             () => {
                 this._fullScreen = fullScreen;
-                this.fullScreenChanged.fire();
+                if (fullScreen !== oldFullScreen) {
+                    this.fullScreenChanged.fire();
+                }
             },
             () => {
                 if (oldFullScreen && !fullScreen) {
@@ -151,7 +153,9 @@ class MockKwinClient {
         if (this.windowed) {
             this.windowedFrameGeometry = this._frameGeometry.clone();
         }
-        this.frameGeometryChanged.fire(oldFrameGeometry);
+        if (!rectEquals(frameGeometry, oldFrameGeometry)) {
+            this.frameGeometryChanged.fire(oldFrameGeometry);
+        }
     }
 
     public get minimized() {
