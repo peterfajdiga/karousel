@@ -9,7 +9,6 @@ class TestRunner {
         for (const test of this.tests) {
             console.log("Running test " + test.name);
             for (let i = 0; i < test.count; i++) {
-                runLog.length = 0;
                 test.f();
             }
         }
@@ -24,5 +23,4 @@ namespace TestRunner {
     }
 }
 
-const runLog: string[] = [];
 const tests = new TestRunner();
