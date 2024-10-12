@@ -49,7 +49,7 @@ class MockWorkspace {
         return this.createClientsWithFrames(...widths.map(width => new MockQmlRect(randomInt(100), randomInt(100), width, 100+randomInt(400))));
     }
 
-    public resizeWindow(window: MockKwinClient, widthDelta: number, heightDelta: number, leftEdge: boolean, topEdge: boolean, edgeResize: boolean) {
+    public resizeWindow(window: MockKwinClient, edgeResize: boolean, leftEdge: boolean, topEdge: boolean, ...deltas: QmlSize[]) {
         const frame = window.getFrameGeometryCopy();
         if (edgeResize) {
             this.cursorPos = new MockQmlPoint(
@@ -65,19 +65,21 @@ class MockWorkspace {
         window.resize = true;
         window.interactiveMoveResizeStarted.fire();
 
-        if (widthDelta !== 0) {
-            frame.width += widthDelta;
-            if (leftEdge) {
-                frame.x -= widthDelta;
+        for (const delta of deltas) {
+            if (delta.width !== 0) {
+                frame.width += delta.width;
+                if (leftEdge) {
+                    frame.x -= delta.width;
+                }
             }
-        }
-        if (heightDelta !== 0) {
-            frame.height += heightDelta;
-            if (topEdge) {
-                frame.y -= heightDelta;
+            if (delta.height !== 0) {
+                frame.height += delta.height;
+                if (topEdge) {
+                    frame.y -= delta.height;
+                }
             }
+            window.frameGeometry = frame;
         }
-        window.frameGeometry = frame;
 
         window.resize = false;
         window.interactiveMoveResizeFinished.fire();

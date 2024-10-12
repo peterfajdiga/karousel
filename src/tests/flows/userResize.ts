@@ -17,16 +17,16 @@ tests.register("User resize", 1, () => {
         qtMock.fireShortcut("karousel-window-move-left");
         assertSizes(300, 300, h, h);
 
-        workspaceMock.resizeWindow(clientLeft, 10, 20, false, false, false);
+        workspaceMock.resizeWindow(clientLeft, false, false, false, new MockQmlSize(10, 20));
         assertSizes(310, 300, h, h);
 
-        workspaceMock.resizeWindow(clientRightTop, -10, -20, false, false, false);
+        workspaceMock.resizeWindow(clientRightTop, false, false, false, new MockQmlSize(-10, -20));
         assertSizes(310, 290, h-20, h+20);
 
-        workspaceMock.resizeWindow(clientRightBottom, -10, 20, false, false, false);
+        workspaceMock.resizeWindow(clientRightBottom, false, false, false, new MockQmlSize(-10, 20));
         assertSizes(310, 280, h-20, h+20);
 
-        workspaceMock.resizeWindow(clientRightBottom, 0, 20, false, true, false);
+        workspaceMock.resizeWindow(clientRightBottom, false, false, true, new MockQmlSize(0, 20));
         assertSizes(310, 280, h-40, h+40);
     }
 
@@ -36,16 +36,16 @@ tests.register("User resize", 1, () => {
         qtMock.fireShortcut("karousel-window-move-left");
         assertSizes(300, 300, h, h);
 
-        workspaceMock.resizeWindow(clientLeft, 10, 20, false, false, true);
+        workspaceMock.resizeWindow(clientLeft, true, false, false, new MockQmlSize(10, 20));
         assertSizes(310, 290, h, h);
 
-        workspaceMock.resizeWindow(clientRightTop, -10, -20, false, false, true);
+        workspaceMock.resizeWindow(clientRightTop, true, false, false, new MockQmlSize(-10, -20));
         assertSizes(310, 280, h-20, h+20);
 
-        workspaceMock.resizeWindow(clientRightBottom, -10, 20, true, false, true);
+        workspaceMock.resizeWindow(clientRightBottom, true, true, false, new MockQmlSize(-10, 20));
         assertSizes(320, 270, h-20, h+20);
 
-        workspaceMock.resizeWindow(clientRightBottom, 0, 20, false, true, true);
+        workspaceMock.resizeWindow(clientRightBottom, true, false, true, new MockQmlSize(0, 20));
         assertSizes(320, 270, h-40, h+40);
     }
 
@@ -56,17 +56,17 @@ tests.register("User resize", 1, () => {
         qtMock.fireShortcut("karousel-window-move-left");
         assertSizes(300, 300, h, h);
 
-        workspaceMock.resizeWindow(clientLeft, 10, 20, false, false, true);
+        workspaceMock.resizeWindow(clientLeft, true, false, false, new MockQmlSize(10, 20));
         assertSizes(310, 295, h, h);
 
-        workspaceMock.resizeWindow(clientRightTop, -10, -20, false, false, true);
+        workspaceMock.resizeWindow(clientRightTop, true, false, false, new MockQmlSize(-10, -20));
         assertSizes(310, 295, h-20, h+20);
 
-        workspaceMock.resizeWindow(clientRightBottom, -10, 20, true, false, true);
+        workspaceMock.resizeWindow(clientRightBottom, true, true, false, new MockQmlSize(-10, 20));
         assertSizes(320, 295, h-20, h+20);
 
         // TODO
-        // workspaceMock.resizeWindow(clientRightBottom, 0, -80, false, true, true);
+        // workspaceMock.resizeWindow(clientRightBottom, true, false, true, new MockQmlSize(0, -80));
         // assertSizes(320, 295, h+60, h-20);
     }
 });
