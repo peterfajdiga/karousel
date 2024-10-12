@@ -60,23 +60,65 @@ tests.register("columns squeeze side", 1, () => {
     }
 });
 
-tests.register("columns squeeze left (just scroll)", 1, () => {
-    const config = getDefaultConfig();
-    const { qtMock, workspaceMock, world } = init(config);
+tests.register("columns squeeze side (just scroll)", 1, () => {
+    const baseTestCases = [
+        { focus: 0, startVisible: [true, true, false], endVisible: [true, true, false] },
+        { focus: 1, startVisible: [false, true, true], endVisible: [true, true, false] },
+        { focus: 2, startVisible: [false, true, true], endVisible: [false, true, true] },
+    ];
 
-    const [ clientLeft, clientMiddle, clientRight ] = workspaceMock.createClientsWithWidths(300, 300, 300);
-    const minSize = new MockQmlSize(300, 100);
-    clientLeft.minSize = minSize;
-    clientMiddle.minSize = minSize;
-    clientRight.minSize = minSize;
+    const testCasesLeft = baseTestCases.map((baseTestCase, i) => ({
+        ...baseTestCase,
+        name: "left " + i,
+        action: "karousel-columns-squeeze-left",
+        scrollStart: false,
+    }));
 
-    workspaceMock.activeWindow = clientMiddle;
-    Assert.notFullyVisible(clientLeft.frameGeometry);
-    Assert.fullyVisible(clientMiddle.frameGeometry);
-    Assert.fullyVisible(clientRight.frameGeometry);
+    const testCasesRight = baseTestCases.map((baseTestCase, i) => ({
+        focus: 2 - baseTestCase.focus,
+        startVisible: baseTestCase.startVisible.slice().reverse(),
+        endVisible: baseTestCase.endVisible.slice().reverse(),
+        name: "right " + i,
+        action: "karousel-columns-squeeze-right",
+        scrollStart: true,
+    }));
 
-    qtMock.fireShortcut("karousel-columns-squeeze-left");
-    Assert.fullyVisible(clientLeft.frameGeometry);
-    Assert.fullyVisible(clientMiddle.frameGeometry);
-    Assert.notFullyVisible(clientRight.frameGeometry);
+    const testCases = [...testCasesLeft, ...testCasesRight];
+
+    for (const testCase of testCases) {
+        const assertMsg = `Case: ${testCase.name}`;
+
+        const config = getDefaultConfig();
+        const { qtMock, workspaceMock, world } = init(config);
+
+        function assertVisible(clients: KwinClient[], visible: boolean[]) {
+            for (let i = 0; i < clients.length; i++) {
+                if (visible[i]) {
+                    Assert.fullyVisible(clients[i].frameGeometry, { message: assertMsg, skip: 1 });
+                } else {
+                    Assert.notFullyVisible(clients[i].frameGeometry, { message: assertMsg, skip: 1 });
+                }
+            }
+        }
+
+        const clients = workspaceMock.createClientsWithWidths(300, 300, 300);
+        for (const client of clients) {
+            client.minSize = new MockQmlSize(300, 100);
+        }
+        if (testCase.scrollStart) {
+            qtMock.fireShortcut("karousel-grid-scroll-start");
+        }
+        workspaceMock.activeWindow = clients[testCase.focus];
+        assertVisible(clients, testCase.startVisible);
+
+        qtMock.fireShortcut(testCase.action);
+        assertVisible(clients, testCase.endVisible);
+
+        const frames = clients.map(client => client.frameGeometry);
+        qtMock.fireShortcut(testCase.action);
+        const newFrames = clients.map(client => client.frameGeometry);
+        for (let i = 0; i < clients.length; i++) {
+            Assert.equalRects(frames[i], newFrames[i], { message: assertMsg });
+        }
+    }
 });
