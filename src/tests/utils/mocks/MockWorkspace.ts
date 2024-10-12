@@ -49,6 +49,40 @@ class MockWorkspace {
         return this.createClientsWithFrames(...widths.map(width => new MockQmlRect(randomInt(100), randomInt(100), width, 100+randomInt(400))));
     }
 
+    public resizeWindow(window: MockKwinClient, widthDelta: number, heightDelta: number, leftEdge: boolean, topEdge: boolean, edgeResize: boolean) {
+        const frame = window.getFrameGeometryCopy();
+        if (edgeResize) {
+            this.cursorPos = new MockQmlPoint(
+                leftEdge ? frame.left : frame.right,
+                topEdge ? frame.top : frame.bottom,
+            );
+        } else {
+            this.cursorPos = new MockQmlPoint(
+                Math.round(frame.x + frame.width/2),
+                Math.round(frame.y + frame.height/2),
+            );
+        }
+        window.resize = true;
+        window.interactiveMoveResizeStarted.fire();
+
+        if (widthDelta !== 0) {
+            frame.width += widthDelta;
+            if (leftEdge) {
+                frame.x -= widthDelta;
+            }
+        }
+        if (heightDelta !== 0) {
+            frame.height += heightDelta;
+            if (topEdge) {
+                frame.y -= heightDelta;
+            }
+        }
+        window.frameGeometry = frame;
+
+        window.resize = false;
+        window.interactiveMoveResizeFinished.fire();
+    }
+
     public get activeWindow() {
         return this._activeWindow;
     }

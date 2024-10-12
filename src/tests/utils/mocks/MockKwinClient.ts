@@ -8,7 +8,7 @@ class MockKwinClient {
     public minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
     public readonly transient: boolean;
     public readonly move: boolean = false;
-    public readonly resize: boolean = false;
+    public resize: boolean = false;
     public readonly moveable: boolean = true;
     public readonly resizeable: boolean = true;
     public readonly fullScreenable: boolean = true;
@@ -184,5 +184,9 @@ class MockKwinClient {
 
     public unpin() {
         this.tile = null;
+    }
+
+    public getFrameGeometryCopy() {
+        return this._frameGeometry.clone();
     }
 }

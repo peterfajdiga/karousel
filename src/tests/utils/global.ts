@@ -32,3 +32,15 @@ function init(config: Config) {
     const world = new World(config);
     return { qtMock, workspaceMock, world };
 }
+
+function getGridBounds(clientLeft: KwinClient, clientRight: KwinClient) {
+    const columnsWidth = clientRight.frameGeometry.right - clientLeft.frameGeometry.left;
+    const left = Math.floor((screen.width - columnsWidth) / 2);
+    const right = left + columnsWidth;
+    return { left, right };
+}
+
+function getWindowHeight(windowsInColumn: number) {
+    const totalGaps = (windowsInColumn-1) * gapV;
+    return Math.round((tilingArea.height - totalGaps) / windowsInColumn);
+}
