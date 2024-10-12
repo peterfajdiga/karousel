@@ -147,19 +147,6 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.columnWidthDecrease),
         },
         {
-            name: "column-shrink-left",
-            description: "Give room left",
-            comment: "Clashes with default KDE shortcuts, may require manual remapping",
-            defaultKeySequence: "Meta+Ctrl+A",
-            action: () => world.doIfTiledFocused(actions.columnShrinkLeft),
-        },
-        {
-            name: "column-shrink-right",
-            description: "Give room right",
-            defaultKeySequence: "Meta+Ctrl+D",
-            action: () => world.doIfTiledFocused(actions.columnShrinkRight),
-        },
-        {
             name: "cycle-preset-widths",
             description: "Cycle through preset column widths",
             defaultKeySequence: "Meta+R",
@@ -170,6 +157,19 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             description: "Equalize widths of visible columns",
             defaultKeySequence: "Meta+Ctrl+X",
             action: () => world.do(actions.columnsWidthEqualize),
+        },
+        {
+            name: "columns-squeeze-left",
+            description: "Squeeze left column onto the screen",
+            comment: "Clashes with default KDE shortcuts, may require manual remapping",
+            defaultKeySequence: "Meta+Ctrl+A",
+            action: () => world.doIfTiledFocused(actions.columnsSqueezeLeft),
+        },
+        {
+            name: "columns-squeeze-right",
+            description: "Squeeze right column onto the screen",
+            defaultKeySequence: "Meta+Ctrl+D",
+            action: () => world.doIfTiledFocused(actions.columnsSqueezeRight),
         },
         {
             name: "grid-scroll-focused",

@@ -1,4 +1,4 @@
-tests.register("column shrink left", 1, () => {
+tests.register("columns squeeze side", 1, () => {
     const baseTestCases = [
         { widths: [500, 500], blocked: [false, false], possible: true },
         { widths: [500, 768], blocked: [false, false], possible: true },
@@ -12,7 +12,7 @@ tests.register("column shrink left", 1, () => {
     const testCasesLeft = baseTestCases.map((baseTestCase, i) => ({
         ...baseTestCase,
         name: "left " + i,
-        action: "karousel-column-shrink-left",
+        action: "karousel-columns-squeeze-left",
         focus: baseTestCase.widths.length-1,
     }));
 
@@ -21,7 +21,7 @@ tests.register("column shrink left", 1, () => {
         widths: baseTestCase.widths.slice().reverse(),
         blocked: baseTestCase.blocked.slice().reverse(),
         name: "right " + i,
-        action: "karousel-column-shrink-right",
+        action: "karousel-columns-squeeze-right",
         focus: 0,
     }));
 
@@ -60,17 +60,22 @@ tests.register("column shrink left", 1, () => {
     }
 });
 
-tests.register("column shrink left (just scroll)", 1, () => {
+tests.register("columns squeeze left (just scroll)", 1, () => {
     const config = getDefaultConfig();
     const { qtMock, workspaceMock, world } = init(config);
 
     const [ clientLeft, clientMiddle, clientRight ] = workspaceMock.createClientsWithWidths(300, 300, 300);
+    const minSize = new MockQmlSize(300, 100);
+    clientLeft.minSize = minSize;
+    clientMiddle.minSize = minSize;
+    clientRight.minSize = minSize;
+
     workspaceMock.activeWindow = clientMiddle;
     Assert.notFullyVisible(clientLeft.frameGeometry);
     Assert.fullyVisible(clientMiddle.frameGeometry);
     Assert.fullyVisible(clientRight.frameGeometry);
 
-    qtMock.fireShortcut("karousel-column-shrink-left");
+    qtMock.fireShortcut("karousel-columns-squeeze-left");
     Assert.fullyVisible(clientLeft.frameGeometry);
     Assert.fullyVisible(clientMiddle.frameGeometry);
     Assert.notFullyVisible(clientRight.frameGeometry);
