@@ -70,7 +70,6 @@ class ContextualResizer {
                 column.getWidth() - step,
                 column.getWidth() - leftOffScreen,
                 column.getWidth() - rightOffScreen,
-                column.getMinWidth(),
             ],
             width => column.getWidth() - width,
         )
