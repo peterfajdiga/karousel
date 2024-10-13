@@ -185,9 +185,6 @@ class Actions {
     }
 
     public readonly cyclePresetWidths = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
-        if (this.config.presetWidths === null) {
-            return;
-        }
         const nextWidth = this.config.presetWidths.next(column.getWidth(), column.getMinWidth(), column.getMaxWidth());
         column.setWidth(nextWidth, true);
     }
@@ -411,7 +408,7 @@ namespace Actions {
     export type Config = {
         manualScrollStep: number;
         manualResizeStep: number;
-        presetWidths: PresetWidths|null;
+        presetWidths: { next: (currentWidth: number, minWidth: number, maxWidth: number) => number };
         columnResizer: ColumnResizer;
     };
 

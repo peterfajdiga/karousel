@@ -9,7 +9,9 @@ class World {
     constructor(config: Config) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
 
-        let presetWidths: PresetWidths|null = null;
+        let presetWidths = {
+            next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
+        };
         try {
             presetWidths = new PresetWidths(config.presetWidths, config.gapsInnerHorizontal);
         } catch (error: any) {
