@@ -5,7 +5,7 @@ class Column {
     private readonly windows: LinkedList<Window>;
     private stacked: boolean;
     private focusTaker: Window|null;
-    private static readonly minWidth = 10;
+    private static readonly minWidth = 40;
 
     constructor(grid: Grid, leftColumn: Column|null) {
         this.gridX = 0;
