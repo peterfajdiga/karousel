@@ -65,6 +65,15 @@ class MockQmlRect {
         return this.x + this.width;
     }
 
+    public set(target: QmlRect) {
+        const oldRect = this.clone();
+        this._x = target.x;
+        this._y = target.y;
+        this._width = target.width;
+        this._height = target.height;
+        this.onChanged(oldRect);
+    }
+
     public clone() {
         return new MockQmlRect(
             this._x,

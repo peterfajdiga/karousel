@@ -5,8 +5,8 @@ let qmlBase: QmlObject;
 let notificationInvalidWindowRules: Notification;
 let notificationInvalidPresetWidths: Notification;
 
-let screen: QmlRect;
-let tilingArea: QmlRect;
+let screen: MockQmlRect;
+let tilingArea: MockQmlRect;
 let gapH: number;
 let gapV: number;
 let runLog: string[];

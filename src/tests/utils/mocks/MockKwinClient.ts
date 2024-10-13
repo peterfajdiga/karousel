@@ -43,7 +43,7 @@ class MockKwinClient {
     public readonly interactiveMoveResizeFinished = new MockQSignal();
     public readonly frameGeometryChanged = new MockQSignal<[oldGeometry: QmlRect]>();
 
-    private windowedFrameGeometry: QmlRect;
+    private windowedFrameGeometry: MockQmlRect;
     private windowed: boolean = false;
     private hasBorder: boolean = true;
 
@@ -141,7 +141,7 @@ class MockKwinClient {
         return this._frameGeometry;
     }
 
-    public set frameGeometry(frameGeometry: QmlRect) {
+    public set frameGeometry(frameGeometry: MockQmlRect) {
         const oldFrameGeometry = this._frameGeometry;
         this._frameGeometry = new MockQmlRect(
             frameGeometry.x,
@@ -176,7 +176,7 @@ class MockKwinClient {
         this.tileChanged.fire();
     }
 
-    public pin(geometry: QmlRect) {
+    public pin(geometry: MockQmlRect) {
         runMaybe(() => this.frameGeometry = geometry);
         this.tile = { __brand: "Tile" };
         this.frameGeometry = geometry;

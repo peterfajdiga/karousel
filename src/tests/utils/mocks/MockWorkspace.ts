@@ -78,7 +78,10 @@ class MockWorkspace {
                     frame.y -= delta.height;
                 }
             }
-            window.frameGeometry = frame;
+            runOneOf(
+                () => window.frameGeometry.set(frame),
+                () => window.frameGeometry = frame,
+            )
         }
 
         window.resize = false;

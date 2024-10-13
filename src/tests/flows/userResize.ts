@@ -1,4 +1,4 @@
-tests.register("User resize", 1, () => {
+tests.register("User resize", 10, () => {
     const config = getDefaultConfig();
     config.resizeNeighborColumn = true;
 
