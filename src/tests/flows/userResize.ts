@@ -20,7 +20,7 @@ tests.register("User resize", 10, () => {
         workspaceMock.resizeWindow(clientLeft, false, false, false, new MockQmlSize(10, 20));
         assertSizes(310, 300, h, h);
 
-        workspaceMock.resizeWindow(clientRightTop, false, false, false, new MockQmlSize(-10, -20));
+        workspaceMock.resizeWindow(clientRightTop, false, false, false, new MockQmlSize(-5, -10), new MockQmlSize(-5, -10));
         assertSizes(310, 290, h-20, h+20);
 
         workspaceMock.resizeWindow(clientRightBottom, false, false, false, new MockQmlSize(-10, 20));
@@ -39,7 +39,7 @@ tests.register("User resize", 10, () => {
         workspaceMock.resizeWindow(clientLeft, true, false, false, new MockQmlSize(10, 20));
         assertSizes(310, 290, h, h);
 
-        workspaceMock.resizeWindow(clientRightTop, true, false, false, new MockQmlSize(-10, -20));
+        workspaceMock.resizeWindow(clientRightTop, true, false, false, new MockQmlSize(-5, -10), new MockQmlSize(-5, -10));
         assertSizes(310, 280, h-20, h+20);
 
         workspaceMock.resizeWindow(clientRightBottom, true, true, false, new MockQmlSize(-10, 20));
@@ -59,7 +59,7 @@ tests.register("User resize", 10, () => {
         workspaceMock.resizeWindow(clientLeft, true, false, false, new MockQmlSize(10, 20));
         assertSizes(310, 295, h, h);
 
-        workspaceMock.resizeWindow(clientRightTop, true, false, false, new MockQmlSize(-10, -20));
+        workspaceMock.resizeWindow(clientRightTop, true, false, false, new MockQmlSize(-5, -10), new MockQmlSize(-5, -10));
         assertSizes(310, 295, h-20, h+20);
 
         workspaceMock.resizeWindow(clientRightBottom, true, true, false, new MockQmlSize(-10, 20));
