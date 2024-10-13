@@ -107,24 +107,6 @@ class Window {
         this.column.grid.desktop.onLayoutChanged();
     }
 
-    public onUserResize(
-        oldGeometry: QmlRect,
-        startWidth: number,
-        neighbor?: { column: Column, startWidth: number },
-    ) {
-        const newGeometry = this.client.kwinClient.frameGeometry;
-        const widthDelta = newGeometry.width - oldGeometry.width;
-        const heightDelta = newGeometry.height - oldGeometry.height;
-        if (widthDelta !== 0) {
-            const resizingLeftSide = newGeometry.left !== oldGeometry.left;
-            let widthDeltaTotal = newGeometry.width - startWidth;
-            this.column.onUserResizeWidth(startWidth, widthDeltaTotal, resizingLeftSide, neighbor);
-        }
-        if (heightDelta !== 0) {
-            this.column.adjustWindowHeight(this, heightDelta, newGeometry.y !== oldGeometry.y);
-        }
-    }
-
     public onFrameGeometryChanged() {
         const newGeometry = this.client.kwinClient.frameGeometry;
         this.column.setWidth(newGeometry.width, true);

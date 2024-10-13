@@ -130,7 +130,23 @@ namespace ClientState {
                 }
 
                 if (kwinClient.resize) {
-                    world.do(() => window.onUserResize(oldGeometry, resizeStartWidth, resizeNeighbor));
+                    world.do(() => {
+                        if (newGeometry.width !== oldGeometry.width) {
+                            window.column.onUserResizeWidth(
+                                resizeStartWidth,
+                                newGeometry.width - resizeStartWidth,
+                                newGeometry.left !== oldGeometry.left,
+                                resizeNeighbor,
+                            );
+                        }
+                        if (newGeometry.height !== oldGeometry.height) {
+                            window.column.adjustWindowHeight(
+                                window,
+                                newGeometry.height - oldGeometry.height,
+                                newGeometry.y !== oldGeometry.y,
+                            );
+                        }
+                    });
                 } else if (
                     !window.column.grid.isUserResizing() &&
                     !client.isManipulatingGeometry(newGeometry) &&
