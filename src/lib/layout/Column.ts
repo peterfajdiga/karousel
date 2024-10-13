@@ -133,6 +133,27 @@ class Column {
         return this.gridX + this.width;
     }
 
+    public onUserResizeWidth(
+        startWidth: number,
+        currentDelta: number,
+        resizingLeftSide: boolean,
+        neighbor?: { column: Column, startWidth: number },
+    ) {
+        const oldColumnWidth = this.getWidth();
+        this.setWidth(startWidth + currentDelta, true);
+        const actualDelta = this.getWidth() - startWidth;
+
+        let leftEdgeDeltaStep = resizingLeftSide ? oldColumnWidth - this.getWidth() : 0;
+        if (neighbor !== undefined) {
+            const oldNeighborWidth = neighbor.column.getWidth();
+            neighbor.column.setWidth(neighbor.startWidth - actualDelta, true);
+            if (resizingLeftSide) {
+                leftEdgeDeltaStep -= neighbor.column.getWidth() - oldNeighborWidth;
+            }
+        }
+        this.grid.desktop.adjustScroll(-leftEdgeDeltaStep, true);
+    }
+
     public adjustWindowHeight(window: Window, heightDelta: number, top: boolean) {
         const otherWindow = top ? this.windows.getPrev(window) : this.windows.getNext(window);
         if (otherWindow === null) {

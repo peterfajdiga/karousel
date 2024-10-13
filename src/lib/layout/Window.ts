@@ -118,18 +118,7 @@ class Window {
         if (widthDelta !== 0) {
             const resizingLeftSide = newGeometry.left !== oldGeometry.left;
             let widthDeltaTotal = newGeometry.width - startWidth;
-            const oldColumnWidth = this.column.getWidth();
-            this.column.setWidth(startWidth + widthDeltaTotal, true);
-            widthDeltaTotal = this.column.getWidth() - startWidth;
-            let leftEdgeDelta = resizingLeftSide ? oldColumnWidth - this.column.getWidth() : 0;
-            if (neighbor !== undefined) {
-                const oldNeighborWidth = neighbor.column.getWidth();
-                neighbor.column.setWidth(neighbor.startWidth - widthDeltaTotal, true);
-                if (resizingLeftSide) {
-                    leftEdgeDelta -= neighbor.column.getWidth() - oldNeighborWidth;
-                }
-            }
-            this.column.grid.desktop.adjustScroll(-leftEdgeDelta, true);
+            this.column.onUserResizeWidth(startWidth, widthDeltaTotal, resizingLeftSide, neighbor);
         }
         if (heightDelta !== 0) {
             this.column.adjustWindowHeight(this, heightDelta, newGeometry.y !== oldGeometry.y);
