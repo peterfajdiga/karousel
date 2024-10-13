@@ -107,7 +107,11 @@ class Window {
         this.column.grid.desktop.onLayoutChanged();
     }
 
-    public onUserResize(oldGeometry: QmlRect, resizeNeighborColumn: boolean) {
+    public onUserResize(
+        oldGeometry: QmlRect,
+        startWidth: number,
+        neighbor?: { column: Column, startWidth: number },
+    ) {
         const newGeometry = this.client.kwinClient.frameGeometry;
         const widthDelta = newGeometry.width - oldGeometry.width;
         const heightDelta = newGeometry.height - oldGeometry.height;
@@ -115,14 +119,12 @@ class Window {
             this.column.adjustWidth(widthDelta, true);
             let leftEdgeDelta = newGeometry.left - oldGeometry.left;
             const resizingLeftSide = leftEdgeDelta !== 0;
-            if (resizeNeighborColumn && this.column.grid.config.resizeNeighborColumn) {
-                const neighborColumn = resizingLeftSide ? this.column.grid.getLeftColumn(this.column) : this.column.grid.getRightColumn(this.column);
-                if (neighborColumn !== null) {
-                    const oldNeighborWidth = neighborColumn.getWidth();
-                    neighborColumn.adjustWidth(-widthDelta, true);
-                    if (resizingLeftSide) {
-                        leftEdgeDelta -= neighborColumn.getWidth() - oldNeighborWidth;
-                    }
+            if (neighbor !== undefined) {
+                const widthDeltaTotal = newGeometry.width - startWidth;
+                const oldNeighborWidth = neighbor.column.getWidth();
+                neighbor.column.setWidth(neighbor.startWidth - widthDeltaTotal, true);
+                if (resizingLeftSide) {
+                    leftEdgeDelta -= neighbor.column.getWidth() - oldNeighborWidth;
                 }
             }
             this.column.grid.desktop.adjustScroll(-leftEdgeDelta, true);

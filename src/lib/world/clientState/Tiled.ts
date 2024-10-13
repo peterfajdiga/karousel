@@ -70,7 +70,8 @@ namespace ClientState {
             });
 
             let resizing = false;
-            let resizingBorder = false;
+            let resizeStartWidth = 0;
+            let resizeNeighbor: { column: Column, startWidth: number } | undefined;
             manager.connect(kwinClient.interactiveMoveResizeStarted, () => {
                 if (kwinClient.move) {
                     if (config.untileOnDrag) {
@@ -83,8 +84,16 @@ namespace ClientState {
 
                 if (kwinClient.resize) {
                     resizing = true;
-                    resizingBorder = Workspace.cursorPos.x > kwinClient.clientGeometry.right ||
-                        Workspace.cursorPos.x < kwinClient.clientGeometry.left;
+                    resizeStartWidth = kwinClient.frameGeometry.width;
+                    if (config.resizeNeighborColumn) {
+                        const resizeNeighborColumn = Tiled.getResizeNeighborColumn(window);
+                        if (resizeNeighborColumn !== null) {
+                            resizeNeighbor = {
+                                column: resizeNeighborColumn,
+                                startWidth: resizeNeighborColumn.getWidth(),
+                            };
+                        }
+                    }
                     window.column.grid.onUserResizeStarted();
                 }
             });
@@ -92,6 +101,7 @@ namespace ClientState {
             manager.connect(kwinClient.interactiveMoveResizeFinished, () => {
                 if (resizing) {
                     resizing = false;
+                    resizeNeighbor = undefined;
                     window.column.grid.onUserResizeFinished();
                 }
             });
@@ -120,7 +130,7 @@ namespace ClientState {
                 }
 
                 if (kwinClient.resize) {
-                    world.do(() => window.onUserResize(oldGeometry, resizingBorder));
+                    world.do(() => window.onUserResize(oldGeometry, resizeStartWidth, resizeNeighbor));
                 } else if (
                     !window.column.grid.isUserResizing() &&
                     !client.isManipulatingGeometry(newGeometry) &&
@@ -147,6 +157,18 @@ namespace ClientState {
             });
 
             return manager;
+        }
+
+        private static getResizeNeighborColumn(window: Window) {
+            const kwinClient = window.client.kwinClient;
+            const column = window.column;
+            if (Workspace.cursorPos.x > kwinClient.clientGeometry.right) {
+                return column.grid.getRightColumn(column);
+            } else if (Workspace.cursorPos.x < kwinClient.clientGeometry.left) {
+                return column.grid.getLeftColumn(column);
+            } else {
+                return null;
+            }
         }
 
         private static moveWindowToGrid(window: Window, grid: Grid) {
