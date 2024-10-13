@@ -11,6 +11,7 @@ class World {
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
+            getWidths: (minWidth: number, maxWidth: number): number[] => [],
         };
         try {
             presetWidths = new PresetWidths(config.presetWidths, config.gapsInnerHorizontal);
@@ -23,7 +24,7 @@ class World {
             manualScrollStep: config.manualScrollStep,
             manualResizeStep: config.manualResizeStep,
             presetWidths: presetWidths,
-            columnResizer: config.scrollingCentered ? new RawResizer() : new ContextualResizer(),
+            columnResizer: config.scrollingCentered ? new RawResizer() : new ContextualResizer(presetWidths),
         });
 
         this.screenResizedDelayer = new Delayer(1000, () => {
