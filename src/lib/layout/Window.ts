@@ -116,11 +116,13 @@ class Window {
         const widthDelta = newGeometry.width - oldGeometry.width;
         const heightDelta = newGeometry.height - oldGeometry.height;
         if (widthDelta !== 0) {
-            this.column.adjustWidth(widthDelta, true);
-            let leftEdgeDelta = newGeometry.left - oldGeometry.left;
-            const resizingLeftSide = leftEdgeDelta !== 0;
+            const resizingLeftSide = newGeometry.left !== oldGeometry.left;
+            let widthDeltaTotal = newGeometry.width - startWidth;
+            const oldColumnWidth = this.column.getWidth();
+            this.column.setWidth(startWidth + widthDeltaTotal, true);
+            widthDeltaTotal = this.column.getWidth() - startWidth;
+            let leftEdgeDelta = resizingLeftSide ? oldColumnWidth - this.column.getWidth() : 0;
             if (neighbor !== undefined) {
-                const widthDeltaTotal = newGeometry.width - startWidth;
                 const oldNeighborWidth = neighbor.column.getWidth();
                 neighbor.column.setWidth(neighbor.startWidth - widthDeltaTotal, true);
                 if (resizingLeftSide) {

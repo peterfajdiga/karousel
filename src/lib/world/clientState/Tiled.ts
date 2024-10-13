@@ -84,7 +84,7 @@ namespace ClientState {
 
                 if (kwinClient.resize) {
                     resizing = true;
-                    resizeStartWidth = kwinClient.frameGeometry.width;
+                    resizeStartWidth = window.column.getWidth();
                     if (config.resizeNeighborColumn) {
                         const resizeNeighborColumn = Tiled.getResizeNeighborColumn(window);
                         if (resizeNeighborColumn !== null) {

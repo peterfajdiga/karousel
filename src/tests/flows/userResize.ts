@@ -72,10 +72,39 @@ tests.register("User resize", 10, () => {
         assertSizes(310, 295, h-20, h+20);
 
         workspaceMock.resizeWindow(clientRightBottom, true, true, false, new MockQmlSize(-10, 20));
-        assertSizes(320, 295, h-20, h+20);
+        assertSizes(310, 295, h-20, h+20);
+
+        workspaceMock.resizeWindow(clientRightTop, true, true, false, new MockQmlSize(-10, 0));
+        assertSizes(310, 295, h-20, h+20);
 
         // TODO
         // workspaceMock.resizeWindow(clientRightBottom, true, false, true, new MockQmlSize(0, -80));
-        // assertSizes(320, 295, h+60, h-20);
+        // assertSizes(310, 295, h+60, h-20);
+    }
+
+    {
+        const { qtMock, workspaceMock, world } = init(config);
+        const [clientLeftTop, clientLeftBottom, clientRight] = workspaceMock.createClientsWithWidths(300, 200, 300);
+        clientLeftBottom.minSize = new MockQmlSize(295, h-20);
+
+        function assertSizes(leftWidth: number, rightWidth: number, topHeight: number, bottomHeight: number) {
+            const { left, right } = getGridBounds(clientLeftTop, clientRight);
+            Assert.rect(clientLeftTop.frameGeometry, left, tilingArea.top, leftWidth, topHeight);
+            Assert.rect(clientLeftBottom.frameGeometry, left, tilingArea.top+topHeight+gapV, leftWidth, bottomHeight);
+            Assert.rect(clientRight.frameGeometry, left+leftWidth+gapH, tilingArea.top, rightWidth, tilingArea.height);
+        }
+
+        workspaceMock.activeWindow = clientLeftBottom;
+        qtMock.fireShortcut("karousel-window-move-left");
+        assertSizes(300, 300, h, h);
+
+        workspaceMock.resizeWindow(clientLeftTop, true, false, false, new MockQmlSize(-10, 0));
+        assertSizes(295, 305, h, h);
+
+        workspaceMock.resizeWindow(clientLeftTop, true, false, false, new MockQmlSize(10, 0));
+        assertSizes(305, 295, h, h);
+
+        workspaceMock.resizeWindow(clientLeftTop, true, false, false, new MockQmlSize(-20, 0), new MockQmlSize(20, 0));
+        assertSizes(305, 295, h, h);
     }
 });
