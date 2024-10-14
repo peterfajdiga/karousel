@@ -28,6 +28,11 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "steam",
+        "caption": "Steam Big Picture Mode",
+        "tile": false
+    },
+    {
         "class": "zoom",
         "caption": "Zoom Cloud Meetings|zoom|zoom <2>",
         "tile": false
