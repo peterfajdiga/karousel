@@ -24,7 +24,7 @@ class World {
             manualScrollStep: config.manualScrollStep,
             manualResizeStep: config.manualResizeStep,
             presetWidths: presetWidths,
-            columnResizer: config.scrollingCentered ? new RawResizer() : new ContextualResizer(presetWidths),
+            columnResizer: config.scrollingCentered ? new RawResizer(presetWidths) : new ContextualResizer(presetWidths),
         });
 
         this.screenResizedDelayer = new Delayer(1000, () => {
