@@ -25,7 +25,6 @@ class ContextualResizer {
 
         const newWidth = findMinPositive(
             [
-                visibleRange.getWidth(),
                 column.getWidth() + step,
                 column.getWidth() + leftSpace + rightSpace,
                 column.getWidth() + leftSpace + rightSpace + leftVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal,
@@ -75,7 +74,6 @@ class ContextualResizer {
 
         const newWidth = findMinPositive(
             [
-                visibleRange.getWidth(),
                 column.getWidth() - step,
                 column.getWidth() - leftOffScreen,
                 column.getWidth() - rightOffScreen,
