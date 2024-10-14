@@ -22,7 +22,6 @@ class World {
 
         this.shortcutActions = registerKeyBindings(this, {
             manualScrollStep: config.manualScrollStep,
-            manualResizeStep: config.manualResizeStep,
             presetWidths: presetWidths,
             columnResizer: config.scrollingCentered ? new RawResizer(presetWidths) : new ContextualResizer(presetWidths),
         });

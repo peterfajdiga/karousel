@@ -3,10 +3,9 @@ class RawResizer {
         private readonly presetWidths: { getWidths: (minWidth: number, maxWidth: number) => number[] },
     ) {}
 
-    public increaseWidth(column: Column, step: number) {
+    public increaseWidth(column: Column) {
         const newWidth = findMinPositive(
             [
-                column.getWidth() + step,
                 ...this.presetWidths.getWidths(column.getMinWidth(), column.getMaxWidth()),
             ],
             width => width - column.getWidth(),
@@ -17,10 +16,9 @@ class RawResizer {
         column.setWidth(newWidth, true);
     }
 
-    public decreaseWidth(column: Column, step: number) {
+    public decreaseWidth(column: Column) {
         const newWidth = findMinPositive(
             [
-                column.getWidth() - step,
                 ...this.presetWidths.getWidths(column.getMinWidth(), column.getMaxWidth()),
             ],
             width => column.getWidth() - width,

@@ -177,11 +177,11 @@ class Actions {
     }
 
     public readonly columnWidthIncrease = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
-        this.config.columnResizer.increaseWidth(column, this.config.manualResizeStep);
+        this.config.columnResizer.increaseWidth(column);
     }
 
     public readonly columnWidthDecrease = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
-        this.config.columnResizer.decreaseWidth(column, this.config.manualResizeStep);
+        this.config.columnResizer.decreaseWidth(column);
     }
 
     public readonly cyclePresetWidths = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
@@ -407,13 +407,12 @@ class Actions {
 namespace Actions {
     export type Config = {
         manualScrollStep: number;
-        manualResizeStep: number;
         presetWidths: { next: (currentWidth: number, minWidth: number, maxWidth: number) => number };
         columnResizer: ColumnResizer;
     };
 
     export type ColumnResizer = {
-        increaseWidth(column: Column, step: number): void;
-        decreaseWidth(column: Column, step: number): void;
+        increaseWidth(column: Column): void;
+        decreaseWidth(column: Column): void;
     };
 }

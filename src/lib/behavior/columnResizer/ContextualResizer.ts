@@ -3,7 +3,7 @@ class ContextualResizer {
         private readonly presetWidths: { getWidths: (minWidth: number, maxWidth: number) => number[] },
     ) {}
 
-    public increaseWidth(column: Column, step: number) {
+    public increaseWidth(column: Column) {
         const grid = column.grid;
         const desktop = grid.desktop;
         const visibleRange = desktop.getCurrentVisibleRange();
@@ -25,7 +25,6 @@ class ContextualResizer {
 
         const newWidth = findMinPositive(
             [
-                column.getWidth() + step,
                 column.getWidth() + leftSpace + rightSpace,
                 column.getWidth() + leftSpace + rightSpace + leftVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal,
                 column.getWidth() + leftSpace + rightSpace + rightVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal,
@@ -41,7 +40,7 @@ class ContextualResizer {
         desktop.scrollCenterVisible(column);
     }
 
-    public decreaseWidth(column: Column, step: number) {
+    public decreaseWidth(column: Column) {
         const grid = column.grid;
         const desktop = grid.desktop;
         const visibleRange = desktop.getCurrentVisibleRange();
@@ -74,7 +73,6 @@ class ContextualResizer {
 
         const newWidth = findMinPositive(
             [
-                column.getWidth() - step,
                 column.getWidth() - leftOffScreen,
                 column.getWidth() - rightOffScreen,
                 ...this.presetWidths.getWidths(minWidth, maxWidth),

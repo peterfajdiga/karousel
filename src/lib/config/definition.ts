@@ -81,11 +81,6 @@ const configDef = [
         default: 200,
     },
     {
-        name: "manualResizeStep",
-        type: "UInt",
-        default: 600,
-    },
-    {
         name: "presetWidths",
         type: "String",
         default: "50%, 100%",
