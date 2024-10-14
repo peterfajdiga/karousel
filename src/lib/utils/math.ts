@@ -29,6 +29,19 @@ function uniq<T>(sortedArray: T[]) {
     return filtered;
 }
 
+function findMinPositive<T>(items: T[], evaluate: (item: T) => number) {
+    let bestScore = Infinity;
+    let bestItem = undefined;
+    for (const item of items) {
+        const score = evaluate(item);
+        if (score > 0 && score < bestScore) {
+            bestScore = score;
+            bestItem = item;
+        }
+    }
+    return bestItem;
+}
+
 function rectEquals(a: QmlRect, b: QmlRect) {
     return a.x === b.x &&
         a.y === b.y &&

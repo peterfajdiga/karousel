@@ -23,7 +23,7 @@ class ContextualResizer {
         const leftSpace = leftVisibleColumn.getLeft() - visibleRange.getLeft();
         const rightSpace = visibleRange.getRight() - rightVisibleColumn.getRight();
 
-        const newWidth = ContextualResizer.findNextStep(
+        const newWidth = findMinPositive(
             [
                 visibleRange.getWidth(),
                 column.getWidth() + step,
@@ -73,7 +73,7 @@ class ContextualResizer {
         const leftOffScreen = leftOffScreenColumn === null ? 0 : leftOffScreenColumn.getWidth() + grid.config.gapsInnerHorizontal - unusedWidth;
         const rightOffScreen = rightOffScreenColumn === null ? 0 : rightOffScreenColumn.getWidth() + grid.config.gapsInnerHorizontal - unusedWidth;
 
-        const newWidth = ContextualResizer.findNextStep(
+        const newWidth = findMinPositive(
             [
                 visibleRange.getWidth(),
                 column.getWidth() - step,
@@ -89,18 +89,5 @@ class ContextualResizer {
 
         column.setWidth(newWidth, true);
         desktop.scrollCenterVisible(column);
-    }
-
-    private static findNextStep(steps: number[], evaluate: (step: number) => number) {
-        let bestScore = Infinity;
-        let bestStep = undefined;
-        for (const step of steps) {
-            const score = evaluate(step);
-            if (score > 0 && score < bestScore) {
-                bestScore = score;
-                bestStep = step;
-            }
-        }
-        return bestStep;
     }
 }
