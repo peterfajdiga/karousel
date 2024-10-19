@@ -106,7 +106,7 @@ namespace ClientState {
                 }
             });
 
-            let externalFrameGeometryChangedRateLimiter = new RateLimiter(2, Tiled.maxExternalFrameGeometryChangedIntervalMs);
+            let externalFrameGeometryChangedRateLimiter = new RateLimiter(4, Tiled.maxExternalFrameGeometryChangedIntervalMs);
             manager.connect(kwinClient.frameGeometryChanged, (oldGeometry: QmlRect) => {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {

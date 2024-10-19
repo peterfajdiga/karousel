@@ -25,6 +25,12 @@ tests.register("External resize", 1, () => {
         client.frameGeometry = getClientDesiredFrame(120);
         Assert.equalRects(client.frameGeometry, getTiledFrame(120), { message: "We should re-arrange the window, respecting its new desired width" });
 
+        client.frameGeometry = getClientDesiredFrame(130);
+        Assert.equalRects(client.frameGeometry, getTiledFrame(130), { message: "We should re-arrange the window, respecting its new desired width" });
+
+        client.frameGeometry = getClientDesiredFrame(140);
+        Assert.equalRects(client.frameGeometry, getTiledFrame(140), { message: "We should re-arrange the window, respecting its new desired width" });
+
         client.frameGeometry = getClientDesiredFrame(200);
         Assert.equalRects(client.frameGeometry, getClientDesiredFrame(200), { message: "We should give up and let the client have its desired frame" });
     }
