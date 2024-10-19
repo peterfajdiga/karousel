@@ -75,7 +75,7 @@ class Desktop {
     public scrollCenterRange(range: Desktop.Range) {
         const windowCenter = range.getLeft() + range.getWidth() / 2;
         const screenCenter = this.scrollX + this.tilingArea.width / 2;
-        this.adjustScroll(Math.round(windowCenter - screenCenter), false);
+        this.adjustScroll(Math.round(windowCenter - screenCenter), true);
     }
 
     public scrollCenterVisible(focusedColumn: Column) {
