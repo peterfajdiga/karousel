@@ -42,6 +42,51 @@ function findMinPositive<T>(items: T[], evaluate: (item: T) => number) {
     return bestItem;
 }
 
+function findMeanInt(sum: number, constraints: { min: number, max: number }[]) {
+    let mean = Math.floor(sum / constraints.length);
+    while (true) {
+        let actualSum = 0;
+        let increasable = 0;
+        let decreasable = 0;
+        let low = -Infinity;
+        let high = Infinity;
+        for (const constraint of constraints) {
+            const value = clamp(mean, constraint.min, constraint.max);
+            actualSum += value;
+            if (mean > constraint.min) {
+                decreasable++;
+                if (value > low) {
+                    low = value;
+                }
+            }
+            if (mean < constraint.max) {
+                increasable++;
+                if (value < high) {
+                    high = value;
+                }
+            }
+        }
+
+        const oldMean = mean;
+        const error = actualSum - sum;
+        if (error > 0) {
+            // need to decrease mean
+            if (decreasable > 0) {
+                mean = Math.floor(low - error / decreasable);
+            }
+        } else if (error < 0) {
+            // need to increase mean
+            if (increasable > 0) {
+                mean = Math.floor(high - error / increasable);
+            }
+        }
+
+        if (mean === oldMean) {
+            return mean;
+        }
+    }
+}
+
 function rectEquals(a: QmlRect, b: QmlRect) {
     return a.x === b.x &&
         a.y === b.y &&
