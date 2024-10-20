@@ -21,8 +21,10 @@ namespace Assert {
         console.log(getStackTrace(skip+1));
 
         console.log("Random branches:");
-        for (const message of runLog) {
-            console.log("    " + message);
+        if (runLog !== undefined) {
+            for (const message of runLog) {
+                console.log("    " + message);
+            }
         }
 
         process.exit(1);
