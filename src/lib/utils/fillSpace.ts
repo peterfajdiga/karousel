@@ -1,4 +1,9 @@
 function fillSpace(availableSpace: number, items: { min: number, max: number }[]) {
+    const mean = findMeanSpaceFiller(availableSpace, items);
+    return items.map(item => clamp(mean, item.min, item.max));
+}
+
+function findMeanSpaceFiller(availableSpace: number, items: { min: number, max: number }[]) {
     let mean = Math.floor(availableSpace / items.length);
     while (true) {
         let requiredSpace = 0;
@@ -38,7 +43,7 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
         }
 
         if (mean === oldMean) {
-            return items.map(item => clamp(mean, item.min, item.max));
+            return mean;
         }
     }
 }
