@@ -2,7 +2,7 @@ tests.register("fillSpace", 1, () => {
     const testCases: {
         availableSpace: number,
         items: { min: number, max: number }[],
-        check: (result: number) => boolean,
+        expected: number[],
     }[] = [
         {
             availableSpace: 600,
@@ -10,7 +10,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 600 },
                 { min: 10, max: 600 },
             ],
-            check: r => r === 300,
+            expected: [300, 300],
         },
         {
             availableSpace: 600,
@@ -18,7 +18,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 250 },
                 { min: 10, max: 500 },
             ],
-            check: r => r === 350,
+            expected: [250, 350],
         },
         {
             availableSpace: 600,
@@ -26,7 +26,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 250 },
                 { min: 400, max: 500 },
             ],
-            check: r => r === 200,
+            expected: [200, 400],
         },
         {
             availableSpace: 765,
@@ -35,7 +35,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 254 },
                 { min: 10, max: 500 },
             ],
-            check: r => r === 261,
+            expected: [250, 254, 261],
         },
         {
             availableSpace: 600,
@@ -43,7 +43,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 150 },
                 { min: 400, max: 500 },
             ],
-            check: r => r === 450,
+            expected: [150, 450],
         },
         {
             availableSpace: 750,
@@ -53,7 +53,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 400, max: 500 },
                 { min: 10, max: 300 },
             ],
-            check: r => r === 116,
+            expected: [116, 116, 400, 116],
         },
         {
             availableSpace: 750,
@@ -63,7 +63,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 400, max: 500 },
                 { min: 10, max: 300 },
             ],
-            check: r => r === 115,
+            expected: [115, 120, 400, 115],
         },
         {
             availableSpace: 1200,
@@ -71,7 +71,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 250 },
                 { min: 10, max: 500 },
             ],
-            check: r => r >= 500,
+            expected: [250, 500],
         },
         {
             availableSpace: 5,
@@ -79,7 +79,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 250 },
                 { min: 10, max: 500 },
             ],
-            check: r => r <= 10,
+            expected: [10, 10],
         },
         {
             availableSpace: 800,
@@ -93,15 +93,16 @@ tests.register("fillSpace", 1, () => {
                 { min: 109, max: 800 },
                 { min: 10, max: 800 },
             ],
-            check: r => r === 110,
+            expected: [114, 93, 93, 93, 93, 93, 110, 110],
         },
     ];
 
     for (const testCase of testCases) {
         const result = fillSpace(testCase.availableSpace, testCase.items);
-        Assert.assert(
-            testCase.check(result),
-            { message: `got ${result} for test case ${JSON.stringify(testCase)}` },
+        Assert.equalArrays(
+            result,
+            testCase.expected,
+            { message: JSON.stringify(testCase) },
         );
     }
 });

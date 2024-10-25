@@ -6,16 +6,16 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
         let decreasable = 0;
         let low = -Infinity;
         let high = Infinity;
-        for (const constraint of items) {
-            const value = clamp(mean, constraint.min, constraint.max);
+        for (const item of items) {
+            const value = clamp(mean, item.min, item.max);
             requiredSpace += value;
-            if (mean > constraint.min) {
+            if (mean > item.min) {
                 decreasable++;
                 if (value > low) {
                     low = value;
                 }
             }
-            if (mean < constraint.max) {
+            if (mean < item.max) {
                 increasable++;
                 if (value < high) {
                     high = value;
@@ -38,7 +38,7 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
         }
 
         if (mean === oldMean) {
-            return mean;
+            return items.map(item => clamp(mean, item.min, item.max));
         }
     }
 }
