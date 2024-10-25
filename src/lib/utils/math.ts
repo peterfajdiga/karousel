@@ -42,17 +42,17 @@ function findMinPositive<T>(items: T[], evaluate: (item: T) => number) {
     return bestItem;
 }
 
-function findMeanInt(sum: number, constraints: { min: number, max: number }[]) {
-    let mean = Math.floor(sum / constraints.length);
+function fillSpace(availableSpace: number, items: { min: number, max: number }[]) {
+    let mean = Math.floor(availableSpace / items.length);
     while (true) {
-        let actualSum = 0;
+        let requiredSpace = 0;
         let increasable = 0;
         let decreasable = 0;
         let low = -Infinity;
         let high = Infinity;
-        for (const constraint of constraints) {
+        for (const constraint of items) {
             const value = clamp(mean, constraint.min, constraint.max);
-            actualSum += value;
+            requiredSpace += value;
             if (mean > constraint.min) {
                 decreasable++;
                 if (value > low) {
@@ -68,7 +68,7 @@ function findMeanInt(sum: number, constraints: { min: number, max: number }[]) {
         }
 
         const oldMean = mean;
-        const error = actualSum - sum;
+        const error = requiredSpace - availableSpace;
         if (error > 0) {
             // need to decrease mean
             if (decreasable > 0) {
