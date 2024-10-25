@@ -115,6 +115,34 @@ tests.register("fillSpace", 1, () => {
             expected: [114, 93, 93, 93, 93, 93, 111, 111],
         },
         {
+            availableSpace: 801,
+            items: [
+                { min: 114, max: 800 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 109, max: 800 },
+                { min: 10, max: 95 },
+            ],
+            expected: [120, 93, 93, 93, 93, 93, 120, 95],
+        },
+        {
+            availableSpace: 799,
+            items: [
+                { min: 10, max: 86 },
+                { min: 107, max: 800 },
+                { min: 107, max: 800 },
+                { min: 107, max: 800 },
+                { min: 107, max: 800 },
+                { min: 107, max: 800 },
+                { min: 10, max: 91},
+                { min: 105, max: 800 },
+            ],
+            expected: [79, 107, 107, 107, 107, 107, 79, 105],
+        },
+        {
             availableSpace: 1029,
             items: [
                 { min: 114, max: 800 },
@@ -157,6 +185,36 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 600 },
             ],
             expected: [204, 199, 199, 199],
+        },
+        {
+            availableSpace: 900,
+            items: [
+                { min: 10, max: 120 },
+                { min: 10, max: 250 },
+                { min: 500, max: 500 },
+                { min: 300, max: 500 },
+            ],
+            expected: [50, 50, 500, 300],
+        },
+        {
+            availableSpace: 845,
+            items: [
+                { min: 5, max: 5 },
+                { min: 10, max: 40 },
+                { min: 500, max: 500 },
+                { min: 300, max: 500 },
+            ],
+            expected: [5, 40, 500, 300],
+        },
+        {
+            availableSpace: 800,
+            items: [
+                { min: 10, max: 20 },
+                { min: 220, max: 221 },
+                { min: 250, max: 260 },
+                { min: 300, max: 305 },
+            ],
+            expected: [20, 221, 259, 300],
         },
     ];
 
