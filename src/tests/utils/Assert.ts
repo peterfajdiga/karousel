@@ -57,7 +57,7 @@ namespace Assert {
         { message, skip=0 }: Options = {},
     ) {
         assert(
-            expected == actual,
+            expected === actual,
             {
                 message: buildMessage(actual, expected, "Values not equal", message),
                 skip: skip + 1,
