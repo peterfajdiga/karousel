@@ -6,17 +6,16 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
 function findMeanSpaceFiller(availableSpace: number, items: { min: number, max: number }[]) {
     const ranges = buildRanges(items);
     let requiredSpace = items.reduce((acc, item) => acc + item.min, 0);
-    for (let i = 0; i < ranges.length; i++) {
-        const range = ranges[i];
+    for (const range of ranges) {
         const rangeSize = range.end - range.start;
         const maxRequiredSpaceDelta = rangeSize * range.n;
-        if (requiredSpace + maxRequiredSpaceDelta >= availableSpace || i === ranges.length-1) {
+        if (requiredSpace + maxRequiredSpaceDelta >= availableSpace) {
             const positionInRange = (availableSpace - requiredSpace) / maxRequiredSpaceDelta;
             return Math.floor(range.start + rangeSize * positionInRange);
         }
         requiredSpace += maxRequiredSpaceDelta;
     }
-    return 0;
+    return ranges[ranges.length-1].end;
 
     function buildRanges(items: { min: number, max: number }[]) {
         const landmarks = buildLandmarks(items);
