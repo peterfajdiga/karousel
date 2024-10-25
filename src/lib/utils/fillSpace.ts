@@ -12,18 +12,18 @@ function findMeanSpaceFiller(availableSpace: number, items: { min: number, max: 
         let low = -Infinity;
         let high = Infinity;
         for (const item of items) {
-            const value = clamp(mean, item.min, item.max);
-            requiredSpace += value;
+            const size = clamp(mean, item.min, item.max);
+            requiredSpace += size;
             if (mean > item.min) {
                 decreasable++;
-                if (value > low) {
-                    low = value;
+                if (size > low) {
+                    low = size;
                 }
             }
             if (mean < item.max) {
                 increasable++;
-                if (value < high) {
-                    high = value;
+                if (size < high) {
+                    high = size;
                 }
             }
         }
