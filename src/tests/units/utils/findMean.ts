@@ -81,6 +81,20 @@ tests.register("findMean", 1, () => {
             ],
             check: r => r <= 10,
         },
+        {
+            sum: 800,
+            constraints: [
+                { min: 114, max: 800 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 109, max: 800 },
+                { min: 10, max: 800 },
+            ],
+            check: r => r === 110,
+        },
     ];
 
     for (const testCase of testCases) {
