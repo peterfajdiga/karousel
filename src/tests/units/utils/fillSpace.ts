@@ -95,6 +95,64 @@ tests.register("fillSpace", 1, () => {
             ],
             expected: [114, 93, 93, 93, 93, 93, 110, 110],
         },
+        {
+            availableSpace: 801,
+            items: [
+                { min: 114, max: 800 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 109, max: 800 },
+                { min: 10, max: 800 },
+            ],
+            expected: [114, 93, 93, 93, 93, 93, 111, 111],
+        },
+        {
+            availableSpace: 1029,
+            items: [
+                { min: 114, max: 800 },
+                { min: 114, max: 800 },
+                { min: 114, max: 800 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 10, max: 93 },
+                { min: 109, max: 800 },
+                { min: 10, max: 800 },
+            ],
+            expected: [114, 114, 114, 93, 93, 93, 93, 93, 111, 111],
+        },
+        {
+            availableSpace: 602,
+            items: [
+                { min: 10, max: 600 },
+                { min: 10, max: 600 },
+                { min: 10, max: 600 },
+            ],
+            expected: [200, 200, 200],
+        },
+        {
+            availableSpace: 602,
+            items: [
+                { min: 204, max: 600 },
+                { min: 202, max: 600 },
+                { min: 10, max: 600 },
+            ],
+            expected: [204, 202, 196],
+        },
+        {
+            availableSpace: 803,
+            items: [
+                { min: 204, max: 600 },
+                { min: 10, max: 600 },
+                { min: 10, max: 600 },
+                { min: 10, max: 600 },
+            ],
+            expected: [204, 199, 199, 199],
+        },
     ];
 
     for (const testCase of testCases) {
