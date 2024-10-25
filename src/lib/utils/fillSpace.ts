@@ -4,6 +4,10 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
 }
 
 function findMeanSpaceFiller(availableSpace: number, items: { min: number, max: number }[]) {
+    if (items.length === 0) {
+        return 0;
+    }
+
     const ranges = buildRanges(items);
     let requiredSpace = items.reduce((acc, item) => acc + item.min, 0);
     for (const range of ranges) {

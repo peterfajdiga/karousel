@@ -6,6 +6,11 @@ tests.register("fillSpace", 1, () => {
     }[] = [
         {
             availableSpace: 600,
+            items: [],
+            expected: [],
+        },
+        {
+            availableSpace: 600,
             items: [
                 { min: 10, max: 600 },
                 { min: 10, max: 600 },
