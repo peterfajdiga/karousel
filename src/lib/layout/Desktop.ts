@@ -125,40 +125,6 @@ class Desktop {
         this.setScroll(this.scrollX + dx, force);
     }
 
-    public equalizeVisibleColumnsWidths() {
-        const visibleRange = this.getCurrentVisibleRange();
-        const visibleColumns = Array.from(this.grid.getVisibleColumns(visibleRange, true));
-
-        let remainingWidth = this.tilingArea.width - (visibleColumns.length-1) * this.grid.config.gapsInnerHorizontal;
-        let remainingColumns = visibleColumns.length;
-
-        const minWidths = visibleColumns.map(column => column.getMinWidth()).sort((a, b) => b - a);
-        for (const minWidth of minWidths) {
-            if (minWidth > remainingWidth / remainingColumns) {
-                remainingWidth -= minWidth;
-                remainingColumns--;
-            }
-        }
-
-        const avgWidth = remainingWidth / remainingColumns;
-        for (const column of visibleColumns) {
-            const minWidth = column.getMinWidth();
-            if (minWidth > avgWidth) {
-                column.setWidth(minWidth, true);
-            } else {
-                const columnWidth = Math.round(remainingWidth / remainingColumns);
-                column.setWidth(columnWidth, true);
-                remainingWidth -= column.getWidth();
-                remainingColumns--;
-            }
-        }
-
-        this.scrollCenterRange(Desktop.RangeImpl.fromRanges(
-            visibleColumns[0],
-            visibleColumns[visibleColumns.length - 1],
-        ));
-    }
-
     public arrange() {
         // TODO (optimization): only arrange visible windows
         this.updateArea();

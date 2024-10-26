@@ -190,7 +190,22 @@ class Actions {
     }
 
     public readonly columnsWidthEqualize = (cm: ClientManager, dm: DesktopManager) => {
-        dm.getCurrentDesktop().equalizeVisibleColumnsWidths();
+        const desktop = dm.getCurrentDesktop();
+        const visibleRange = desktop.getCurrentVisibleRange();
+        const visibleColumns = Array.from(desktop.grid.getVisibleColumns(visibleRange, true));
+
+        const availableSpace = desktop.tilingArea.width;
+        const gapsWidth = desktop.grid.config.gapsInnerHorizontal * (visibleColumns.length-1);
+        const widths = fillSpace(
+            availableSpace - gapsWidth,
+            visibleColumns.map(column => ({ min: column.getMinWidth(), max: column.getMaxWidth() })),
+        );
+        visibleColumns.forEach((column, index) => column.setWidth(widths[index], true));
+
+        desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(
+            visibleColumns[0],
+            visibleColumns[visibleColumns.length - 1],
+        ));
     }
 
     public readonly columnsSqueezeLeft = (cm: ClientManager, dm: DesktopManager, window: Window, focusedColumn: Column, grid: Grid) => {
