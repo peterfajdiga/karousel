@@ -58,7 +58,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 400, max: 500 },
                 { min: 10, max: 300 },
             ],
-            expected: [116, 116, 400, 116],
+            expected: [117, 117, 400, 116],
         },
         {
             availableSpace: 750,
@@ -98,7 +98,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 109, max: 800 },
                 { min: 10, max: 800 },
             ],
-            expected: [114, 93, 93, 93, 93, 93, 110, 110],
+            expected: [114, 93, 93, 93, 93, 93, 111, 110],
         },
         {
             availableSpace: 801,
@@ -126,7 +126,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 109, max: 800 },
                 { min: 10, max: 95 },
             ],
-            expected: [120, 93, 93, 93, 93, 93, 120, 95],
+            expected: [121, 93, 93, 93, 93, 93, 120, 95],
         },
         {
             availableSpace: 799,
@@ -140,7 +140,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 91},
                 { min: 105, max: 800 },
             ],
-            expected: [79, 107, 107, 107, 107, 107, 79, 105],
+            expected: [80, 107, 107, 107, 107, 107, 79, 105],
         },
         {
             availableSpace: 1029,
@@ -184,7 +184,7 @@ tests.register("fillSpace", 1, () => {
                 { min: 10, max: 600 },
                 { min: 10, max: 600 },
             ],
-            expected: [204, 199, 199, 199],
+            expected: [204, 200, 200, 199],
         },
         {
             availableSpace: 900,

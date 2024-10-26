@@ -1,12 +1,16 @@
 function fillSpace(availableSpace: number, items: { min: number, max: number }[]) {
+    if (items.length === 0) {
+        return [];
+    }
+
     const middleSize = findMiddleSize(availableSpace, items);
-    return items.map(item => clamp(middleSize, item.min, item.max));
+    const sizes = items.map(item => clamp(middleSize, item.min, item.max));
+    if (middleSize !== Math.floor(availableSpace / items.length)) {
+        distributeRemainder(availableSpace, middleSize, sizes, items);
+    }
+    return sizes;
 
     function findMiddleSize(availableSpace: number, items: { min: number, max: number }[]) {
-        if (items.length === 0) {
-            return 0;
-        }
-
         const ranges = buildRanges(items);
         let requiredSpace = items.reduce((acc, item) => acc + item.min, 0);
         for (const range of ranges) {
@@ -48,6 +52,28 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
         const array = Array.from(landmarks.values());
         array.sort((a, b) => a.value - b.value);
         return array;
+    }
+
+    function distributeRemainder(availableSpace: number, middleSize: number, sizes: number[], constraints: { max: number }[]) {
+        const indexes = Array.from(sizes.keys())
+            .filter(i => sizes[i] === middleSize);
+        indexes.sort((a, b) => constraints[a].max - constraints[b].max);
+
+        const requiredSpace = sum(...sizes);
+        let remainder = availableSpace - requiredSpace;
+        let n = indexes.length;
+        for (const i of indexes) {
+            if (remainder <= 0) {
+                break;
+            }
+            const enlargable = constraints[i].max - sizes[i];
+            if (enlargable > 0) {
+                const enlarge = Math.min(enlargable, Math.ceil(remainder / n));
+                sizes[i] += enlarge;
+                remainder -= enlarge;
+            }
+            n--;
+        }
     }
 
     type Range = {
