@@ -18,6 +18,23 @@ tests.register("fillSpace", 1, () => {
             expected: [300, 300],
         },
         {
+            availableSpace: 700,
+            items: [
+                { min: 300, max: 300 },
+                { min: 300, max: 300 },
+            ],
+            expected: [300, 300],
+        },
+        {
+            availableSpace: 700,
+            items: [
+                { min: 300, max: 300 },
+                { min: 300, max: 300 },
+                { min: 10,  max: 900 },
+            ],
+            expected: [300, 300, 100],
+        },
+        {
             availableSpace: 600,
             items: [
                 { min: 10, max: 250 },

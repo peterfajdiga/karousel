@@ -27,6 +27,14 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
 
     function buildRanges(items: { min: number, max: number }[]) {
         const landmarks = buildLandmarks(items);
+        if (landmarks.length === 1) {
+            return [{
+                start: landmarks[0].value,
+                end: landmarks[0].value,
+                n: items.length,
+            }];
+        }
+
         const ranges: Range[] = [];
         let n = 0;
         for (let i = 1; i < landmarks.length; i++) {
