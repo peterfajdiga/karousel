@@ -250,33 +250,21 @@ class Actions {
     private readonly squeezeColumns = (columns: Column[]) => {
         const firstColumn = columns[0];
         const lastColumn = columns[columns.length-1];
-        const desktop = firstColumn.grid.desktop;
+        const grid = firstColumn.grid;
+        const desktop = grid.desktop;
 
-        const neededSpace = lastColumn.getRight() - firstColumn.getLeft();
         const availableSpace = desktop.tilingArea.width;
-        let missingSpace = neededSpace - availableSpace;
-        if (missingSpace <= 0) {
-            // just scroll
-            desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(firstColumn, lastColumn));
-            return true;
-        }
-
-        const gainableSpacePerColumn = columns.map(column => column.getWidth() - column.getMinWidth());
-        const gainableSpaceTotal = sum(...gainableSpacePerColumn);
-        if (gainableSpaceTotal < missingSpace) {
+        const gapsWidth = grid.config.gapsInnerHorizontal * (columns.length-1);
+        const columnConstraints = columns.map(column => ({ min: column.getMinWidth(), max: column.getWidth() }));
+        const minTotalWidth = gapsWidth + columnConstraints.reduce((acc, constraint) => acc + constraint.min, 0);
+        if (minTotalWidth > availableSpace) {
             // there's nothing we can do
             return false;
         }
 
-        const shrinkRatio = missingSpace / gainableSpaceTotal;
-        for (let i = 0; i < columns.length-1; i++) {
-            const shrinkAmount = Math.round(gainableSpacePerColumn[i] * shrinkRatio);
-            columns[i].adjustWidth(-shrinkAmount, true);
-            missingSpace -= shrinkAmount;
-        }
-        lastColumn.adjustWidth(-missingSpace, true);
+        const widths = fillSpace(availableSpace - gapsWidth, columnConstraints);
+        columns.forEach((column, index) => column.setWidth(widths[index], true));
         desktop.scrollCenterRange(Desktop.RangeImpl.fromRanges(firstColumn, lastColumn));
-
         return true;
     }
 
