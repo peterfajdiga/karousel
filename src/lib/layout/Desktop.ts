@@ -101,7 +101,7 @@ class Desktop {
     }
 
     private getVisibleRange(scrollX: number) {
-        return new Range.Basic(scrollX, this.tilingArea.width);
+        return Range.create(scrollX, this.tilingArea.width);
     }
 
     public getCurrentVisibleRange() {

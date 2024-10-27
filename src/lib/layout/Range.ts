@@ -5,7 +5,7 @@ type Range = {
 };
 
 namespace Range {
-    export class Basic {
+    class Basic {
         constructor(
             private readonly x: number,
             private readonly width: number,
@@ -22,6 +22,10 @@ namespace Range {
         public getWidth() {
             return this.width;
         }
+    }
+
+    export function create(x: number, width: number) {
+        return new Basic(x, width);
     }
 
     export function fromRanges(leftRange: Range, rightRange: Range) {
