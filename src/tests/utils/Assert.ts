@@ -123,27 +123,32 @@ namespace Assert {
         );
     }
 
-    export function centeredGrid(
+    export function grid(
         config: Config,
         screen: QmlRect,
         columnWidth: number,
         grid: KwinClient[][],
+        centered: boolean,
         { message, skip=0 }: Options = {},
     ) {
+        const nColumns = grid.length;
+        const columnHeight = screen.height - config.gapsOuterTop - config.gapsOuterBottom;
+        const columnsWidth = nColumns * columnWidth + (nColumns-1) * config.gapsInnerHorizontal;
+        const startX = centered ?
+            screen.x + (screen.width - columnsWidth) / 2 :
+            grid[0][0].frameGeometry.x;
+
         // assumes uniformly sized windows within columns of uniform width
         function getRectInGrid(column: number, window: number, nColumns: number, nWindows: number) {
-            const columnHeight = screen.height - config.gapsOuterTop - config.gapsOuterBottom;
-            const columnsWidth = nColumns * columnWidth + (nColumns-1) * config.gapsInnerHorizontal;
             const windowHeight = (columnHeight - config.gapsInnerVertical * (nWindows-1)) / nWindows;
             return new MockQmlRect(
-                screen.x + column * (columnWidth + config.gapsInnerHorizontal) + (screen.width-columnsWidth) / 2,
+                startX + column * (columnWidth + config.gapsInnerHorizontal),
                 screen.y + config.gapsOuterTop + (windowHeight + config.gapsInnerVertical) * window,
                 columnWidth,
                 (columnHeight - config.gapsInnerVertical * (nWindows-1)) / nWindows,
             );
         }
 
-        const nColumns = grid.length;
         for (let iColumn = 0; iColumn < nColumns; iColumn++) {
             const column = grid[iColumn];
             const nWindows = column.length;
