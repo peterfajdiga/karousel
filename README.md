@@ -32,12 +32,16 @@ Here's the default ones:
 | Meta+D                   | Move focus right (Clashes with default KDE shortcuts, may require manual remapping)                                            |
 | Meta+W                   | Move focus up (Clashes with default KDE shortcuts, may require manual remapping)                                               |
 | Meta+S                   | Move focus down (Clashes with default KDE shortcuts, may require manual remapping)                                             |
+| (unassigned)             | Move focus to the next window in grid                                                                                          |
+| (unassigned)             | Move focus to the previous window in grid                                                                                      |
 | Meta+Home                | Move focus to start                                                                                                            |
 | Meta+End                 | Move focus to end                                                                                                              |
 | Meta+Shift+A             | Move window left (Moves window out of and into columns)                                                                        |
 | Meta+Shift+D             | Move window right (Moves window out of and into columns)                                                                       |
 | Meta+Shift+W             | Move window up                                                                                                                 |
 | Meta+Shift+S             | Move window down                                                                                                               |
+| (unassigned)             | Move window to the next position in grid                                                                                       |
+| (unassigned)             | Move window to the previous position in grid                                                                                   |
 | Meta+Shift+Home          | Move window to start                                                                                                           |
 | Meta+Shift+End           | Move window to end                                                                                                             |
 | Meta+X                   | Toggle stacked layout for focused column (One window in the column visible, others shaded; not supported on Wayland)           |
@@ -47,7 +51,10 @@ Here's the default ones:
 | Meta+Ctrl+Shift+End      | Move column to end                                                                                                             |
 | Meta+Ctrl++              | Increase column width                                                                                                          |
 | Meta+Ctrl+-              | Decrease column width                                                                                                          |
+| Meta+R                   | Cycle through preset column widths                                                                                             |
 | Meta+Ctrl+X              | Equalize widths of visible columns                                                                                             |
+| Meta+Ctrl+A              | Squeeze left column onto the screen (Clashes with default KDE shortcuts, may require manual remapping)                         |
+| Meta+Ctrl+D              | Squeeze right column onto the screen                                                                                           |
 | Meta+Alt+Return          | Center focused window (Scrolls so that the focused window is centered in the screen)                                           |
 | Meta+Alt+A               | Scroll one column to the left                                                                                                  |
 | Meta+Alt+D               | Scroll one column to the right                                                                                                 |
