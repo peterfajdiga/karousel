@@ -135,21 +135,6 @@ class Grid {
         }
     }
 
-    public getVisibleColumnsWidth(visibleRange: Desktop.Range, fullyVisible: boolean) {
-        let width = 0;
-        let nVisible = 0;
-        for (const column of this.getVisibleColumns(visibleRange, fullyVisible)) {
-            width += column.getWidth();
-            nVisible++;
-        }
-
-        if (nVisible > 0) {
-            width += (nVisible-1) * this.config.gapsInnerHorizontal;
-        }
-
-        return width;
-    }
-
     public arrange(x: number, visibleRange: Range) {
         for (const column of this.columns.iterator()) {
             column.arrange(x, visibleRange, this.userResize);
