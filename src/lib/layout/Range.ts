@@ -25,12 +25,12 @@ namespace Range {
         public getWidth() {
             return this.width;
         }
+    }
 
-        public static fromRanges(leftRange: Range, rightRange: Range) {
-            const left = leftRange.getLeft();
-            const right = rightRange.getRight();
-            return new Basic(left, right - left);
-        }
+    export function fromRanges(leftRange: Range, rightRange: Range) {
+        const left = leftRange.getLeft();
+        const right = rightRange.getRight();
+        return new Basic(left, right - left);
     }
 
     export function contains(parent: Range, child: Range) {
