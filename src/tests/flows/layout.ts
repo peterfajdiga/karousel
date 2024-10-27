@@ -12,7 +12,7 @@ tests.register("Focus and move windows", 1, () => {
 
     function testLayout(shortcutName: string, grid: KwinClient[][]) {
         qtMock.fireShortcut(shortcutName);
-        Assert.grid(config, screen, grid, { skip: 1 });
+        Assert.centeredGrid(config, screen, 100, grid, { skip: 1 });
     }
 
     function testFocus(shortcutName: string, expectedFocus: KwinClient) {

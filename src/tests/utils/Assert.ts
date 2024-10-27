@@ -123,21 +123,22 @@ namespace Assert {
         );
     }
 
-    export function grid(
+    export function centeredGrid(
         config: Config,
         screen: QmlRect,
+        columnWidth: number,
         grid: KwinClient[][],
         { message, skip=0 }: Options = {},
     ) {
-        // assumes uniformly sized windows within columns of width 100
+        // assumes uniformly sized windows within columns of uniform width
         function getRectInGrid(column: number, window: number, nColumns: number, nWindows: number) {
             const columnHeight = screen.height - config.gapsOuterTop - config.gapsOuterBottom;
-            const columnsWidth = nColumns * 100 + (nColumns-1) * config.gapsInnerHorizontal;
+            const columnsWidth = nColumns * columnWidth + (nColumns-1) * config.gapsInnerHorizontal;
             const windowHeight = (columnHeight - config.gapsInnerVertical * (nWindows-1)) / nWindows;
             return new MockQmlRect(
-                screen.x + column * (100 + config.gapsInnerHorizontal) + (screen.width-columnsWidth) / 2,
+                screen.x + column * (columnWidth + config.gapsInnerHorizontal) + (screen.width-columnsWidth) / 2,
                 screen.y + config.gapsOuterTop + (windowHeight + config.gapsInnerVertical) * window,
-                100,
+                columnWidth,
                 (columnHeight - config.gapsInnerVertical * (nWindows-1)) / nWindows,
             );
         }
