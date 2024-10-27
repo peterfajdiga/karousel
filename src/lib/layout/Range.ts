@@ -6,13 +6,10 @@ type Range = {
 
 namespace Range {
     export class Basic {
-        private readonly x: number;
-        private readonly width: number;
-
-        constructor(x: number, width: number) {
-            this.x = x;
-            this.width = width;
-        }
+        constructor(
+            private readonly x: number,
+            private readonly width: number,
+        ) {}
 
         public getLeft() {
             return this.x;
