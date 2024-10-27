@@ -104,7 +104,7 @@ class Grid {
         this.width = x - this.config.gapsInnerHorizontal;
     }
 
-    public getLeftmostVisibleColumn(visibleRange: Desktop.SuperRange, fullyVisible: boolean) {
+    public getLeftmostVisibleColumn(visibleRange: SuperRange, fullyVisible: boolean) {
         for (const column of this.columns.iterator()) {
             if (visibleRange.contains(column)) {
                 return column;
@@ -113,7 +113,7 @@ class Grid {
         return null;
     }
 
-    public getRightmostVisibleColumn(visibleRange: Desktop.SuperRange, fullyVisible: boolean) {
+    public getRightmostVisibleColumn(visibleRange: SuperRange, fullyVisible: boolean) {
         let last = null;
         for (const column of this.columns.iterator()) {
             if (visibleRange.contains(column)) {
@@ -125,7 +125,7 @@ class Grid {
         return last;
     }
 
-    public *getVisibleColumns(visibleRange: Desktop.SuperRange, fullyVisible: boolean) {
+    public *getVisibleColumns(visibleRange: SuperRange, fullyVisible: boolean) {
         for (const column of this.columns.iterator()) {
             if (visibleRange.contains(column)) {
                 yield column;
@@ -133,7 +133,7 @@ class Grid {
         }
     }
 
-    public arrange(x: number, visibleRange: Desktop.SuperRange) {
+    public arrange(x: number, visibleRange: SuperRange) {
         for (const column of this.columns.iterator()) {
             column.arrange(x, visibleRange, this.userResize);
             x += column.getWidth() + this.config.gapsInnerHorizontal;

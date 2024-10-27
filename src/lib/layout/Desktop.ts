@@ -55,7 +55,7 @@ class Desktop {
         )
     }
 
-    public scrollIntoView(range: Desktop.Range) {
+    public scrollIntoView(range: Range) {
         const left = range.getLeft();
         const right = range.getRight();
         const initialVisibleRange = this.getCurrentVisibleRange();
@@ -72,7 +72,7 @@ class Desktop {
         this.setScroll(targetScrollX, false);
     }
 
-    public scrollCenterRange(range: Desktop.Range) {
+    public scrollCenterRange(range: Range) {
         const windowCenter = range.getLeft() + range.getWidth() / 2;
         const screenCenter = this.scrollX + this.tilingArea.width / 2;
         this.adjustScroll(Math.round(windowCenter - screenCenter), true);
@@ -101,7 +101,7 @@ class Desktop {
     }
 
     private getVisibleRange(scrollX: number) {
-        return new Desktop.RangeImpl(scrollX, this.tilingArea.width);
+        return new Range.Basic(scrollX, this.tilingArea.width);
     }
 
     public getCurrentVisibleRange() {
@@ -161,49 +161,6 @@ namespace Desktop {
         clamper: Desktop.Clamper;
     };
 
-    export type Range = {
-        getLeft(): number;
-        getRight(): number;
-        getWidth(): number;
-    };
-
-    export type SuperRange = Range & {
-        contains(child: Range): boolean;
-    };
-
-    export class RangeImpl {
-        private readonly x: number;
-        private readonly width: number;
-
-        constructor(x: number, width: number) {
-            this.x = x;
-            this.width = width;
-        }
-
-        public getLeft() {
-            return this.x;
-        }
-
-        public getRight() {
-            return this.x + this.width;
-        }
-
-        public getWidth() {
-            return this.width;
-        }
-
-        public contains(child: Range) {
-            return child.getLeft() >= this.getLeft() &&
-                child.getRight() <= this.getRight();
-        }
-
-        public static fromRanges(leftRange: Range, rightRange: Range) {
-            const left = leftRange.getLeft();
-            const right = rightRange.getRight();
-            return new RangeImpl(left, right - left);
-        }
-    }
-
     export class ColumnRange {
         private left: Column;
         private right: Column;
@@ -215,7 +172,7 @@ namespace Desktop {
             this.width = initialColumn.getWidth();
         }
 
-        public addNeighbors(visibleRange: Desktop.Range, gap: number) {
+        public addNeighbors(visibleRange: Range, gap: number) {
             const grid = this.left.grid;
 
             const columnRange = this;

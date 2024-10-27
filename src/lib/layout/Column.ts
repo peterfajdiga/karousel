@@ -203,7 +203,7 @@ class Column {
         window.focus();
     }
 
-    public arrange(x: number, visibleRange: Desktop.SuperRange, forceOpaque: boolean) {
+    public arrange(x: number, visibleRange: SuperRange, forceOpaque: boolean) {
         if (this.grid.config.offScreenOpacity < 1.0 && !forceOpaque) {
             const opacity = visibleRange.contains(this) ? 100 : this.grid.config.offScreenOpacity;
             for (const window of this.windows.iterator()) {
