@@ -9,7 +9,7 @@
         }],
         "Id": "karousel",
         "ServiceTypes": ["KWin/Script"],
-        "Version": "0.7.1",
+        "Version": "0.7.2",
         "License": "GPLv3",
         "Website": "https://github.com/peterfajdiga/karousel",
         "BugReportUrl": "https://github.com/peterfajdiga/karousel/issues"
