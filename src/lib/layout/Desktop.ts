@@ -95,7 +95,7 @@ class Desktop {
     }
 
     public scrollToColumn(column: Column) {
-        if (this.dirtyScroll || !column.isVisible(this.getCurrentVisibleRange(), true)) {
+        if (this.dirtyScroll || !this.getCurrentVisibleRange().contains(column)) {
             this.config.scroller.scrollToColumn(this, column);
         }
     }
@@ -167,6 +167,10 @@ namespace Desktop {
         getWidth(): number;
     };
 
+    export type SuperRange = Range & {
+        contains(child: Range): boolean;
+    };
+
     export class RangeImpl {
         private readonly x: number;
         private readonly width: number;
@@ -186,6 +190,11 @@ namespace Desktop {
 
         public getWidth() {
             return this.width;
+        }
+
+        public contains(child: Range) {
+            return child.getLeft() >= this.getLeft() &&
+                child.getRight() <= this.getRight();
         }
 
         public static fromRanges(leftRange: Range, rightRange: Range) {

@@ -210,7 +210,7 @@ class Actions {
 
     public readonly columnsSqueezeLeft = (cm: ClientManager, dm: DesktopManager, window: Window, focusedColumn: Column, grid: Grid) => {
         const visibleRange = grid.desktop.getCurrentVisibleRange();
-        if (!focusedColumn.isVisible(visibleRange, true)) {
+        if (!visibleRange.contains(focusedColumn)) {
             return;
         }
 
@@ -237,7 +237,7 @@ class Actions {
 
     public readonly columnsSqueezeRight = (cm: ClientManager, dm: DesktopManager, window: Window, focusedColumn: Column, grid: Grid) => {
         const visibleRange = grid.desktop.getCurrentVisibleRange();
-        if (!focusedColumn.isVisible(visibleRange, true)) {
+        if (!visibleRange.contains(focusedColumn)) {
             return;
         }
 

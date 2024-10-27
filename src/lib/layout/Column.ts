@@ -203,9 +203,9 @@ class Column {
         window.focus();
     }
 
-    public arrange(x: number, visibleRange: Range, forceOpaque: boolean) {
+    public arrange(x: number, visibleRange: Desktop.SuperRange, forceOpaque: boolean) {
         if (this.grid.config.offScreenOpacity < 1.0 && !forceOpaque) {
-            const opacity = this.isVisible(visibleRange, true) ? 100 : this.grid.config.offScreenOpacity;
+            const opacity = visibleRange.contains(this) ? 100 : this.grid.config.offScreenOpacity;
             for (const window of this.windows.iterator()) {
                 window.client.kwinClient.opacity = opacity;
             }
@@ -265,16 +265,6 @@ class Column {
             }
         }
         return true;
-    }
-
-    public isVisible(visibleRange: Desktop.Range, fullyVisible: boolean) {
-        if (fullyVisible) {
-            return this.getLeft() >= visibleRange.getLeft() &&
-                this.getRight() <= visibleRange.getRight();
-        } else {
-            return this.getRight() + this.grid.config.gapsInnerHorizontal > visibleRange.getLeft() &&
-                this.getLeft() - this.grid.config.gapsInnerHorizontal < visibleRange.getRight();
-        }
     }
 
     public onWindowAdded(window: Window, bottom: boolean) {
