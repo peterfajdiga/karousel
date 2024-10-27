@@ -95,7 +95,7 @@ class Desktop {
     }
 
     public scrollToColumn(column: Column) {
-        if (this.dirtyScroll || !this.getCurrentVisibleRange().contains(column)) {
+        if (this.dirtyScroll || !Range.contains(this.getCurrentVisibleRange(), column)) {
             this.config.scroller.scrollToColumn(this, column);
         }
     }

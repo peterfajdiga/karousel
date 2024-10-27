@@ -4,10 +4,6 @@ type Range = {
     getWidth(): number;
 };
 
-type SuperRange = Range & {
-    contains(child: Range): boolean;
-};
-
 namespace Range {
     export class Basic {
         private readonly x: number;
@@ -30,15 +26,15 @@ namespace Range {
             return this.width;
         }
 
-        public contains(child: Range) {
-            return child.getLeft() >= this.getLeft() &&
-                child.getRight() <= this.getRight();
-        }
-
         public static fromRanges(leftRange: Range, rightRange: Range) {
             const left = leftRange.getLeft();
             const right = rightRange.getRight();
             return new Basic(left, right - left);
         }
+    }
+
+    export function contains(parent: Range, child: Range) {
+        return child.getLeft() >= parent.getLeft() &&
+            child.getRight() <= parent.getRight();
     }
 }

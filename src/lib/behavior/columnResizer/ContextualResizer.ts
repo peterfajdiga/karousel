@@ -9,7 +9,7 @@ class ContextualResizer {
         const visibleRange = desktop.getCurrentVisibleRange();
         const minWidth = column.getMinWidth();
         const maxWidth = column.getMaxWidth();
-        if(!visibleRange.contains(column) || column.getWidth() >= maxWidth) {
+        if(!Range.contains(visibleRange, column) || column.getWidth() >= maxWidth) {
             return;
         }
 
@@ -46,7 +46,7 @@ class ContextualResizer {
         const visibleRange = desktop.getCurrentVisibleRange();
         const minWidth = column.getMinWidth();
         const maxWidth = column.getMaxWidth();
-        if(!visibleRange.contains(column) || column.getWidth() <= minWidth) {
+        if(!Range.contains(visibleRange, column) || column.getWidth() <= minWidth) {
             return;
         }
 

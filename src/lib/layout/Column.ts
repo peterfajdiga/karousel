@@ -203,9 +203,9 @@ class Column {
         window.focus();
     }
 
-    public arrange(x: number, visibleRange: SuperRange, forceOpaque: boolean) {
+    public arrange(x: number, visibleRange: Range, forceOpaque: boolean) {
         if (this.grid.config.offScreenOpacity < 1.0 && !forceOpaque) {
-            const opacity = visibleRange.contains(this) ? 100 : this.grid.config.offScreenOpacity;
+            const opacity = Range.contains(visibleRange, this) ? 100 : this.grid.config.offScreenOpacity;
             for (const window of this.windows.iterator()) {
                 window.client.kwinClient.opacity = opacity;
             }
