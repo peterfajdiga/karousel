@@ -22,6 +22,11 @@ Karousel requires the following QML modules:
 - Doesn't support windows on all desktops
 - Doesn't support windows on multiple activities
 
+## Installation
+Download the [latest release](https://github.com/peterfajdiga/karousel/releases/latest) and extract it into _~/.local/share/kwin/scripts/_.
+
+Or clone the repo and run `make install` (requires node and tsc).
+
 ## Key bindings
 The key bindings can be configured in KDE System Settings among KWin's own keyboard shortcuts.
 Here's the default ones:
