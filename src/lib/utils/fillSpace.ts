@@ -26,38 +26,38 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
     }
 
     function buildRanges(items: { min: number, max: number }[]) {
-        const landmarks = buildLandmarks(items);
-        if (landmarks.length === 1) {
+        const fenceposts = extractFenceposts(items);
+        if (fenceposts.length === 1) {
             return [{
-                start: landmarks[0].value,
-                end: landmarks[0].value,
+                start: fenceposts[0].value,
+                end: fenceposts[0].value,
                 n: items.length,
             }];
         }
 
         const ranges: Range[] = [];
         let n = 0;
-        for (let i = 1; i < landmarks.length; i++) {
-            const startLandmark = landmarks[i-1];
-            const endLandmark = landmarks[i];
-            n = n - startLandmark.nMax + startLandmark.nMin;
+        for (let i = 1; i < fenceposts.length; i++) {
+            const startFencepost = fenceposts[i-1];
+            const endFencepost = fenceposts[i];
+            n = n - startFencepost.nMax + startFencepost.nMin;
             ranges.push({
-                start: startLandmark.value,
-                end: endLandmark.value,
+                start: startFencepost.value,
+                end: endFencepost.value,
                 n: n,
             });
         }
         return ranges;
     }
 
-    function buildLandmarks(items: { min: number, max: number }[]) {
-        const landmarks = new Map<number, Landmark>();
+    function extractFenceposts(items: { min: number, max: number }[]) {
+        const fenceposts = new Map<number, Fencepost>();
         for (const item of items) {
-            mapGetOrInit(landmarks, item.min, { value: item.min, nMin: 0, nMax: 0 }).nMin++;
-            mapGetOrInit(landmarks, item.max, { value: item.max, nMin: 0, nMax: 0 }).nMax++;
+            mapGetOrInit(fenceposts, item.min, { value: item.min, nMin: 0, nMax: 0 }).nMin++;
+            mapGetOrInit(fenceposts, item.max, { value: item.max, nMin: 0, nMax: 0 }).nMax++;
         }
 
-        const array = Array.from(landmarks.values());
+        const array = Array.from(fenceposts.values());
         array.sort((a, b) => a.value - b.value);
         return array;
     }
@@ -90,7 +90,7 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
         n: number,
     };
 
-    type Landmark = {
+    type Fencepost = {
         value: number,
         nMin: number,
         nMax: number,
