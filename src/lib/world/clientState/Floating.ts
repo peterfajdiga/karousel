@@ -18,9 +18,6 @@ namespace ClientState {
 
         public destroy(passFocus: boolean) {
             this.signalManager.destroy();
-            if (this.config.floatingKeepAbove) {
-                this.client.kwinClient.keepAbove = false;
-            }
         }
 
         // TODO: move to `Tiled.restoreClientAfterTiling`

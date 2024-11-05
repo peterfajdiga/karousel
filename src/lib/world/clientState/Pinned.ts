@@ -19,9 +19,6 @@ namespace ClientState {
 
         public destroy(passFocus: boolean) {
             this.signalManager.destroy();
-            if (this.config.floatingKeepAbove) {
-                this.kwinClient.keepAbove = true;
-            }
             this.pinManager.removeClient(this.kwinClient);
             for (const desktop of this.desktopManager.getDesktopsForClient(this.kwinClient)) {
                 desktop.onPinsChanged();
