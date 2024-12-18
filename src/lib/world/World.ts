@@ -11,6 +11,7 @@ class World {
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
+            prev: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
             getWidths: (minWidth: number, maxWidth: number): number[] => [],
         };
         try {

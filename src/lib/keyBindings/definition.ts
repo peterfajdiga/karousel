@@ -153,6 +153,12 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.cyclePresetWidths),
         },
         {
+            name: "cycle-preset-widths-reverse",
+            description: "Cycle through preset column widths in reverse",
+            defaultKeySequence: "Meta+Shift+R",
+            action: () => world.doIfTiledFocused(actions.cyclePresetWidthsReverse),
+        },
+        {
             name: "columns-width-equalize",
             description: "Equalize widths of visible columns",
             defaultKeySequence: "Meta+Ctrl+X",

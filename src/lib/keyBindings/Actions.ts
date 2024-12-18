@@ -189,6 +189,11 @@ class Actions {
         column.setWidth(nextWidth, true);
     }
 
+    public readonly cyclePresetWidthsReverse = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        const nextWidth = this.config.presetWidths.prev(column.getWidth(), column.getMinWidth(), column.getMaxWidth());
+        column.setWidth(nextWidth, true);
+    }
+
     public readonly columnsWidthEqualize = (cm: ClientManager, dm: DesktopManager) => {
         const desktop = dm.getCurrentDesktop();
         const visibleRange = desktop.getCurrentVisibleRange();
@@ -410,7 +415,10 @@ class Actions {
 namespace Actions {
     export type Config = {
         manualScrollStep: number;
-        presetWidths: { next: (currentWidth: number, minWidth: number, maxWidth: number) => number };
+        presetWidths: {
+            next: (currentWidth: number, minWidth: number, maxWidth: number) => number;
+            prev: (currentWidth: number, minWidth: number, maxWidth: number) => number
+};
         columnResizer: ColumnResizer;
     };
 
