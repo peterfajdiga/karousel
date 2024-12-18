@@ -11,6 +11,12 @@ class PresetWidths {
         return nextIndex >= 0 ? widths[nextIndex] : widths[0];
     }
 
+    public prev(currentWidth: number, minWidth: number, maxWidth: number) {
+        const widths = this.getWidths(minWidth, maxWidth).reverse();
+        const nextIndex = widths.findIndex(width => width < currentWidth);
+        return nextIndex >= 0 ? widths[nextIndex] : widths[0];
+    }
+
     public getWidths(minWidth: number, maxWidth: number) {
         const widths = this.presets.map(f => clamp(f(maxWidth), minWidth, maxWidth));
         widths.sort((a, b) => a - b);
