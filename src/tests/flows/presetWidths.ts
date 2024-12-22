@@ -25,6 +25,12 @@ tests.register("Preset Widths default", 1, () => {
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
     Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 });
 
 tests.register("Preset Widths custom", 1, () => {
@@ -61,6 +67,15 @@ tests.register("Preset Widths custom", 1, () => {
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
     Assert.equalRects(kwinClient.frameGeometry, getRect(250));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(100));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(500));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 });
 
 tests.register("Preset Widths fill screen uniform", 1, () => {
