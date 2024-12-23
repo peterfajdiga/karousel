@@ -297,8 +297,7 @@ class Actions {
     }
 
     private readonly gridScroll = (desktopManager: DesktopManager, amount: number) => {
-        const grid = desktopManager.getCurrentDesktop().grid;
-        grid.desktop.adjustScroll(amount, false);
+        desktopManager.getCurrentDesktop().adjustScroll(amount, false);
     }
 
     public readonly gridScrollStart = (cm: ClientManager, dm: DesktopManager) => {
