@@ -25,7 +25,7 @@ Karousel requires the following QML modules:
 ## Installation
 First install the _org.kde.notification_ QML module (_qml-module-org-kde-notifications_ package on Ubuntu).
 
-Download the [latest release](https://github.com/peterfajdiga/karousel/releases/latest) and extract it into _~/.local/share/kwin/scripts/_.
+Then download the [latest release](https://github.com/peterfajdiga/karousel/releases/latest) and extract it into _~/.local/share/kwin/scripts/_.
 
 Or clone the repo and run `make install` (requires node and tsc).
 
