@@ -21,6 +21,8 @@ class MockKwinClient {
     public readonly popupWindow: boolean = false;
     public readonly pid = 1;
 
+    private _maximizedVertically: boolean = false;
+    private _maximizedHorizontally: boolean = false;
     private _fullScreen: boolean = false;
     public activities: string[] = [];
     public skipSwitcher: boolean = false;
@@ -57,6 +59,12 @@ class MockKwinClient {
 
     setMaximize(vertically: boolean, horizontally: boolean) {
         this.windowed = !(vertically || horizontally);
+
+        if (vertically === this._maximizedVertically && horizontally === this._maximizedHorizontally) {
+            return;
+        }
+        this._maximizedVertically = vertically;
+        this._maximizedHorizontally = horizontally;
 
         this.maximizedAboutToChange.fire(
             vertically ? (
