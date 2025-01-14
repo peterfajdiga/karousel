@@ -44,7 +44,7 @@ class MockKwinClient {
     public readonly frameGeometryChanged = new MockQSignal<[oldGeometry: QmlRect]>();
 
     private windowedFrameGeometry: MockQmlRect;
-    private windowed: boolean = false;
+    private windowed: boolean = true;
     private hasBorder: boolean = true;
 
     constructor(
