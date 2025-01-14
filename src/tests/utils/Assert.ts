@@ -163,6 +163,22 @@ namespace Assert {
         }
     }
 
+    export function centered(
+        config: Config,
+        screen: QmlRect,
+        client:KwinClient,
+        { message, skip=0 }: Options = {},
+    ) {
+        grid(
+            config,
+            screen,
+            client.frameGeometry.width,
+            [[client]],
+            true,
+            { message: appendMessage("Window not centered", message), skip: skip+1 },
+        );
+    }
+
     export function fullyVisible(
         rect: QmlRect,
         { message, skip=0 }: Options = {},

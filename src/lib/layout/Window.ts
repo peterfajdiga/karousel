@@ -66,6 +66,14 @@ class Window {
     }
 
     public onFocused() {
+        if (this.column.grid.config.reMaximize && (
+            this.focusedState.maximizedMode !== MaximizedMode.Unmaximized ||
+            this.focusedState.fullScreen
+        )) {
+            // We need to maximize/fullscreen this window, but we can't do it here.
+            // We need to do it in `arrange` to ensure it happens after placement.
+            this.column.grid.desktop.forceArrange();
+        }
         this.column.onWindowFocused(this);
     }
 
@@ -75,7 +83,6 @@ class Window {
         }
         this.client.setFullScreen(false);
         this.client.setMaximize(false, false);
-        this.column.grid.desktop.onLayoutChanged();
     }
 
     public onMaximizedChanged(maximizedMode: MaximizedMode) {

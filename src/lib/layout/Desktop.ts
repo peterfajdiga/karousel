@@ -135,6 +135,10 @@ class Desktop {
         this.dirty = false;
     }
 
+    public forceArrange() {
+        this.dirty = true;
+    }
+
     public onLayoutChanged() {
         this.dirty = true;
         this.dirtyScroll = true;
