@@ -21,7 +21,7 @@ class Window {
         if (targetColumn === this.column) {
             return;
         }
-        this.column.onWindowRemoved(this, false);
+        this.column.onWindowRemoved(this, this.isFocused() && targetColumn.grid !== this.column.grid);
         this.column = targetColumn;
         targetColumn.onWindowAdded(this, bottom);
     }

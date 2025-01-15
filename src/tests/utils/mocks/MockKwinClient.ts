@@ -182,14 +182,10 @@ class MockKwinClient {
 
     public set desktops(desktops: KwinDesktop[]) {
         this._desktops = desktops;
-        runReorder(
-            () => this.desktopsChanged.fire(),
-            () => {
-                if (Workspace.activeWindow === this && !desktops.includes(Workspace.currentDesktop)) {
-                    Workspace.activeWindow = null;
-                }
-            },
-        );
+        this.desktopsChanged.fire();
+        if (Workspace.activeWindow === this && !desktops.includes(Workspace.currentDesktop)) {
+            Workspace.activeWindow = null;
+        };
     }
 
     public get tile() {

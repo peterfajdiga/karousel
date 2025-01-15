@@ -1,4 +1,4 @@
-tests.register("Pass focus", 1, () => {
+tests.register("Pass focus", 10, () => {
     const config = getDefaultConfig();
     const { qtMock, workspaceMock, world } = init(config);
 
@@ -10,4 +10,7 @@ tests.register("Pass focus", 1, () => {
 
     qtMock.fireShortcut("karousel-column-move-to-desktop-2");
     Assert.equal(workspaceMock.activeWindow, client1);
+
+    client1.desktops = [workspaceMock.desktops[1]];
+    Assert.equal(workspaceMock.activeWindow, client0);
 });
