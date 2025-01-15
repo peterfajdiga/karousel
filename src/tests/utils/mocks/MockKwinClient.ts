@@ -30,7 +30,7 @@ class MockKwinClient {
     public keepBelow: boolean = false;
     public shade: boolean = false;
     private _minimized: boolean = false;
-    public desktops: KwinDesktop[] = [];
+    private _desktops: KwinDesktop[] = [];
     private _tile: Tile|null = null;
     public opacity: number = 1.0;
 
@@ -55,6 +55,7 @@ class MockKwinClient {
     ) {
         this.windowedFrameGeometry = _frameGeometry.clone();
         this.transient = transientFor !== null;
+        this._desktops = [Workspace.currentDesktop];
     }
 
     setMaximize(vertically: boolean, horizontally: boolean) {
@@ -173,6 +174,15 @@ class MockKwinClient {
     public set minimized(minimized: boolean) {
         this._minimized = minimized;
         this.minimizedChanged.fire();
+    }
+
+    public get desktops() {
+        return this._desktops;
+    }
+
+    public set desktops(desktops: KwinDesktop[]) {
+        this._desktops = desktops;
+        this.desktopsChanged.fire();
     }
 
     public get tile() {
