@@ -21,7 +21,7 @@ class Column {
         if (targetGrid === this.grid) {
             this.grid.moveColumn(this, leftColumn);
         } else {
-            this.grid.onColumnRemoved(this, false);
+            this.grid.onColumnRemoved(this, this.isFocused());
             this.grid = targetGrid;
             targetGrid.onColumnAdded(this, leftColumn);
             for (const window of this.windows.iterator()) {
@@ -201,6 +201,14 @@ class Column {
             return;
         }
         window.focus();
+    }
+
+    public isFocused() {
+        const lastFocusedWindow = this.grid.getLastFocusedWindow();
+        if (lastFocusedWindow === null) {
+            return false;
+        }
+        return lastFocusedWindow.column === this && lastFocusedWindow.isFocused();
     }
 
     public arrange(x: number, visibleRange: Range, forceOpaque: boolean) {

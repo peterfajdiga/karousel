@@ -50,6 +50,11 @@ class MockWorkspace {
         return this.createClientsWithFrames(...widths.map(width => new MockQmlRect(randomInt(100), randomInt(100), width, 100+randomInt(400))));
     }
 
+    public removeWindow(window: MockKwinClient) {
+        this.windowRemoved.fire(window);
+        // TODO: activate another window
+    }
+
     public resizeWindow(window: MockKwinClient, edgeResize: boolean, leftEdge: boolean, topEdge: boolean, ...deltas: QmlSize[]) {
         const frame = window.getFrameGeometryCopy();
         if (edgeResize) {
