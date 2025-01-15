@@ -4,7 +4,7 @@ class MockKwinClient {
     private static readonly borderThickness = 10;
 
     public readonly shadeable: boolean = false;
-    public readonly caption = "App";
+    public caption = "App";
     public minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
     public readonly transient: boolean;
     public readonly move: boolean = false;
@@ -196,5 +196,9 @@ class MockKwinClient {
 
     public getFrameGeometryCopy() {
         return this._frameGeometry.clone();
+    }
+
+    public toString() {
+        return `MockKwinClient("${this.caption}")`;
     }
 }

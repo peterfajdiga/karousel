@@ -41,6 +41,7 @@ class MockWorkspace {
 
     public createClientsWithFrames(...frames: MockQmlRect[]) {
         const clients = frames.map(rect => new MockKwinClient(rect));
+        clients.forEach((client, index) => client.caption = `Client ${index}`);
         this.createWindows(...clients);
         return clients;
     }
