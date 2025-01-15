@@ -26,6 +26,12 @@ function randomInt(n: number) {
     return Math.floor(Math.random() * n);
 }
 
+function randomItem(items: any[]) {
+    Assert.assert(items.length > 0);
+    const index = randomInt(items.length);
+    return items[index];
+}
+
 function shuffle(items: any[]) {
     for (let n = items.length; n > 1; n--) {
         const i = n-1;

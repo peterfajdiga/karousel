@@ -9,7 +9,7 @@ class MockWorkspace {
     public currentDesktop = this.desktops[0];
     public currentActivity = this.activities[0];
     public activeScreen: Output = { __brand: "Output" };
-    public windows = [];
+    public readonly windows: MockKwinClient[] = [];
     public cursorPos = new MockQmlPoint(0, 0);
 
     private _activeWindow: KwinClient|null = null;
@@ -30,6 +30,7 @@ class MockWorkspace {
 
     public createWindows(...kwinClients: MockKwinClient[]) {
         for (const kwinClient of kwinClients) {
+            this.windows.push(kwinClient);
             this.windowAdded.fire(kwinClient);
             this.activeWindow = kwinClient;
         }
@@ -51,11 +52,14 @@ class MockWorkspace {
     }
 
     public removeWindow(window: MockKwinClient) {
-        this.windowRemoved.fire(window);
+        runReorder(
+            () => this.windows.splice(this.windows.indexOf(window), 1),
+            () => this.windowRemoved.fire(window),
+        );
         if (window === this.activeWindow) {
-            Workspace.activeWindow = null;
+            const windows = this.windows.filter(w => w.desktops.includes(this.currentDesktop));
+            Workspace.activeWindow = windows.length > 0 ? randomItem(windows) : null;
         };
-        // TODO: activate another window
     }
 
     public resizeWindow(window: MockKwinClient, edgeResize: boolean, leftEdge: boolean, topEdge: boolean, ...deltas: QmlSize[]) {
