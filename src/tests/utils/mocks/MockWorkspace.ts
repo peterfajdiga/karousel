@@ -52,6 +52,9 @@ class MockWorkspace {
 
     public removeWindow(window: MockKwinClient) {
         this.windowRemoved.fire(window);
+        if (window === this.activeWindow) {
+            Workspace.activeWindow = null;
+        };
         // TODO: activate another window
     }
 
