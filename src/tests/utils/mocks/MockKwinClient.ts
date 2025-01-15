@@ -34,15 +34,15 @@ class MockKwinClient {
     private _tile: Tile|null = null;
     public opacity: number = 1.0;
 
-    public readonly fullScreenChanged = new MockQSignal();
-    public readonly desktopsChanged = new MockQSignal();
-    public readonly activitiesChanged = new MockQSignal();
-    public readonly minimizedChanged = new MockQSignal();
+    public readonly fullScreenChanged = new MockQSignal<[]>();
+    public readonly desktopsChanged = new MockQSignal<[]>();
+    public readonly activitiesChanged = new MockQSignal<[]>();
+    public readonly minimizedChanged = new MockQSignal<[]>();
     public readonly maximizedAboutToChange = new MockQSignal<[MaximizedMode]>();
-    public readonly captionChanged = new MockQSignal();
-    public readonly tileChanged = new MockQSignal();
-    public readonly interactiveMoveResizeStarted = new MockQSignal();
-    public readonly interactiveMoveResizeFinished = new MockQSignal();
+    public readonly captionChanged = new MockQSignal<[]>();
+    public readonly tileChanged = new MockQSignal<[]>();
+    public readonly interactiveMoveResizeStarted = new MockQSignal<[]>();
+    public readonly interactiveMoveResizeFinished = new MockQSignal<[]>();
     public readonly frameGeometryChanged = new MockQSignal<[oldGeometry: QmlRect]>();
 
     private windowedFrameGeometry: MockQmlRect;
