@@ -29,9 +29,9 @@ class MockKwinClient {
     public keepAbove: boolean = false;
     public keepBelow: boolean = false;
     public shade: boolean = false;
-    public _minimized: boolean = false;
+    private _minimized: boolean = false;
     public desktops: KwinDesktop[] = [];
-    public _tile: Tile|null = null;
+    private _tile: Tile|null = null;
     public opacity: number = 1.0;
 
     public readonly fullScreenChanged = new MockQSignal();
