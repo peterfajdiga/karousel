@@ -59,6 +59,7 @@ Here's the default ones:
 | Meta+Ctrl++              | Increase column width                                                                                                          |
 | Meta+Ctrl+-              | Decrease column width                                                                                                          |
 | Meta+R                   | Cycle through preset column widths                                                                                             |
+| Meta+Shift+R             | Cycle through preset column widths in reverse                                                                                  |
 | Meta+Ctrl+X              | Equalize widths of visible columns                                                                                             |
 | Meta+Ctrl+A              | Squeeze left column onto the screen (Clashes with default KDE shortcuts, may require manual remapping)                         |
 | Meta+Ctrl+D              | Squeeze right column onto the screen                                                                                           |
