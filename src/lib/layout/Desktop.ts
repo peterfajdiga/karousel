@@ -73,9 +73,8 @@ class Desktop {
     }
 
     public scrollCenterRange(range: Range) {
-        const windowCenter = range.getLeft() + range.getWidth() / 2;
-        const screenCenter = this.scrollX + this.tilingArea.width / 2;
-        this.adjustScroll(Math.round(windowCenter - screenCenter), true);
+        const scrollAmount = Range.minus(range, this.getCurrentVisibleRange());
+        this.adjustScroll(scrollAmount, true);
     }
 
     public scrollCenterVisible(focusedColumn: Column) {
@@ -91,11 +90,11 @@ class Desktop {
             return;
         }
 
-        this.scrollToColumn(focusedColumn);
+        this.scrollToColumn(focusedColumn, false);
     }
 
-    public scrollToColumn(column: Column) {
-        if (this.dirtyScroll || !Range.contains(this.getCurrentVisibleRange(), column)) {
+    public scrollToColumn(column: Column, force: boolean) {
+        if (force || this.dirtyScroll || !Range.contains(this.getCurrentVisibleRange(), column)) {
             this.config.scroller.scrollToColumn(this, column);
         }
     }

@@ -20,6 +20,12 @@ namespace Range {
             child.getRight() <= parent.getRight();
     }
 
+    export function minus(a: Range, b: Range) {
+        const aCenter = a.getLeft() + a.getWidth() / 2;
+        const bCenter = b.getLeft() + b.getWidth() / 2;
+        return Math.round(aCenter - bCenter);
+    }
+
     class Basic {
         constructor(
             private readonly x: number,

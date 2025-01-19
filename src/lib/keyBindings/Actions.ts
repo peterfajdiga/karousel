@@ -306,7 +306,7 @@ class Actions {
         if (firstColumn === null) {
             return;
         }
-        grid.desktop.scrollToColumn(firstColumn);
+        grid.desktop.scrollToColumn(firstColumn, false);
     }
 
     public readonly gridScrollEnd = (cm: ClientManager, dm: DesktopManager) => {
@@ -315,11 +315,16 @@ class Actions {
         if (lastColumn === null) {
             return;
         }
-        grid.desktop.scrollToColumn(lastColumn);
+        grid.desktop.scrollToColumn(lastColumn, false);
     }
 
     public readonly gridScrollFocused = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
-        grid.desktop.scrollCenterRange(column);
+        const scrollAmount = Range.minus(column, grid.desktop.getCurrentVisibleRange());
+        if (scrollAmount !== 0) {
+            grid.desktop.adjustScroll(scrollAmount, true);
+        } else {
+            grid.desktop.scrollToColumn(column, true);
+        }
     }
 
     public readonly gridScrollLeftColumn = (cm: ClientManager, dm: DesktopManager) => {
@@ -334,7 +339,7 @@ class Actions {
             return;
         }
 
-        grid.desktop.scrollToColumn(leftColumn);
+        grid.desktop.scrollToColumn(leftColumn, false);
     }
 
     public readonly gridScrollRightColumn = (cm: ClientManager, dm: DesktopManager) => {
@@ -349,7 +354,7 @@ class Actions {
             return;
         }
 
-        grid.desktop.scrollToColumn(rightColumn);
+        grid.desktop.scrollToColumn(rightColumn, false);
     }
 
     public readonly screenSwitch = (cm: ClientManager, dm: DesktopManager) => {
