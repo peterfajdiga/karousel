@@ -4,6 +4,10 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "org.kde.polkit-kde-authentication-agent-1",
+        "tile": false
+    },
+    {
         "class": "(org\\\\.kde\\\\.)?kded6",
         "tile": false
     },
