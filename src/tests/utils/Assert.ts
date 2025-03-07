@@ -157,7 +157,7 @@ namespace Assert {
                 equalRects(
                     window.frameGeometry,
                     getRectInGrid(iColumn, iWindow, nColumns, nWindows),
-                    { message: appendMessage(`window ${iWindow}, column ${iColumn}`, message), skip: skip+1 },
+                    { message: appendMessage(`column ${iColumn}, window ${iWindow}`, message), skip: skip+1 },
                 );
             }
         }
