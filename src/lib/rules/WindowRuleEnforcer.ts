@@ -16,6 +16,8 @@ class WindowRuleEnforcer {
             !kwinClient.transient &&
             kwinClient.managed &&
             kwinClient.pid > -1 &&
+            !kwinClient.fullScreen &&
+            !Clients.isFullScreenGeometry(kwinClient) &&
             !this.preferFloating.matches(kwinClient)
         );
     }

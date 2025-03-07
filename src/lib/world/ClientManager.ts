@@ -35,8 +35,6 @@ class ClientManager {
             constructState = () => new ClientState.Docked(this.world, kwinClient);
         } else if (
             Clients.canTileEver(kwinClient) &&
-            !kwinClient.fullScreen &&
-            !Clients.isFullScreenGeometry(kwinClient) &&
             this.windowRuleEnforcer.shouldTile(kwinClient)
         ) {
             Clients.makeTileable(kwinClient);

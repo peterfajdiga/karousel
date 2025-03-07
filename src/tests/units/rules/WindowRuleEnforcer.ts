@@ -1,4 +1,7 @@
 tests.register("WindowRuleEnforcer", 1, () => {
+    screen = new MockQmlRect(0, 0, 800, 600);
+    Workspace = new MockWorkspace();
+
     const testCases = [
         { tiledByDefault: true, resourceClass: "unknown", caption: "anything", shouldTile: true },
         { tiledByDefault: false, resourceClass: "unknown", caption: "anything", shouldTile: false },
@@ -25,6 +28,7 @@ tests.register("WindowRuleEnforcer", 1, () => {
         return {
             normalWindow: normalWindow,
             transient: false,
+            clientGeometry: new MockQmlRect(0, 0, 200, 200),
             managed: true,
             pid: 100,
             moveable: true,
