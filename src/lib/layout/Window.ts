@@ -8,11 +8,17 @@ class Window {
     constructor(client: ClientWrapper, column: Column) {
         this.client = client;
         this.height = client.kwinClient.frameGeometry.height;
+
+        let maximizedMode = this.client.getMaximizedMode();
+        if (maximizedMode === undefined) {
+            maximizedMode = MaximizedMode.Unmaximized; // defaulting to unmaximized, as this is set in Tiled.prepareClientForTiling
+        }
         this.focusedState = {
-            fullScreen: false,
-            maximizedMode: MaximizedMode.Unmaximized,
+            fullScreen: this.client.kwinClient.fullScreen,
+            maximizedMode: maximizedMode,
         };
-        this.skipArrange = false;
+
+        this.skipArrange = this.client.kwinClient.fullScreen || maximizedMode !== MaximizedMode.Unmaximized;
         this.column = column;
         column.onWindowAdded(this, true);
     }
