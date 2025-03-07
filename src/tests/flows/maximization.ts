@@ -143,3 +143,72 @@ tests.register("Re-maximize enabled", 100, () => {
     Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
     Assert.equalRects(client2.frameGeometry, screen);
 });
+
+tests.register("Start full-screen", 100, () => {
+    const config = getDefaultConfig();
+    config.reMaximize = true;
+    const { qtMock, workspaceMock, world } = init(config);
+
+    const [windowedClient] = workspaceMock.createClientsWithWidths(300);
+    const fullScreenClient = new MockKwinClient(new MockQmlRect(0, 0, 400, 200));
+    fullScreenClient.resourceClass = "full-screen-app";
+    fullScreenClient.fullScreen = true;
+    workspaceMock.createWindows(fullScreenClient);
+
+    world.do((clientManager, desktopManager) => {
+        Assert.assert(clientManager.hasClient(windowedClient));
+        Assert.assert(clientManager.hasClient(fullScreenClient));
+    });
+
+    Assert.centered(config, screen, windowedClient);
+    Assert.equalRects(fullScreenClient.frameGeometry, screen);
+    Assert.equal(Workspace.activeWindow, fullScreenClient);
+
+    {
+        qtMock.fireShortcut("karousel-focus-left");
+        const opts = { message: "fullScreenClient is not in the grid, so we can't move focus directionally" };
+        Assert.centered(config, screen, windowedClient, opts);
+        Assert.equalRects(fullScreenClient.frameGeometry, screen, opts);
+        Assert.equal(Workspace.activeWindow, fullScreenClient, opts);
+    }
+
+    {
+        qtMock.fireShortcut("karousel-focus-1");
+        const opts = { message: "fullScreenClient is not in grid, so it should stay full-screen" };
+        Assert.centered(config, screen, windowedClient, opts);
+        Assert.equalRects(fullScreenClient.frameGeometry, screen, opts);
+        Assert.equal(Workspace.activeWindow, windowedClient);
+    }
+});
+
+tests.register("Start full-screen (force tiling)", 100, () => {
+    const config = getDefaultConfig();
+    config.reMaximize = true;
+    config.windowRules = '[{ "class": "full-screen-app", "tile": true }]';
+    const { qtMock, workspaceMock, world } = init(config);
+
+    const column1Width = 300;
+    const [windowedClient] = workspaceMock.createClientsWithWidths(column1Width);
+    const fullScreenClient = new MockKwinClient(new MockQmlRect(0, 0, 400, 200));
+    fullScreenClient.resourceClass = "full-screen-app";
+    fullScreenClient.fullScreen = true;
+    workspaceMock.createWindows(fullScreenClient);
+
+    world.do((clientManager, desktopManager) => {
+        Assert.assert(clientManager.hasClient(windowedClient));
+        Assert.assert(clientManager.hasClient(fullScreenClient));
+    });
+    Assert.equalRects(fullScreenClient.frameGeometry, screen);
+    Assert.equal(Workspace.activeWindow, fullScreenClient);
+
+    const column2Width = tilingArea.width;
+    const column1LeftX = tilingArea.left;
+    const column2LeftX = column1LeftX + column1Width + gapH;
+    const columnTopY = tilingArea.top;
+    const columnHeight = tilingArea.height;
+    qtMock.fireShortcut("karousel-focus-left");
+    const opts = { message: "fullScreenClient should be restored from full-screen mode to tiled mode" };
+    Assert.rect(windowedClient.frameGeometry, column1LeftX, columnTopY, column1Width, columnHeight, opts);
+    Assert.rect(fullScreenClient.frameGeometry, column2LeftX, columnTopY, column2Width, columnHeight, opts);
+    Assert.equal(Workspace.activeWindow, windowedClient);
+});
