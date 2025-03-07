@@ -62,6 +62,28 @@ class MockWorkspace {
         };
     }
 
+    public moveWindow(window: MockKwinClient, ...deltas: QmlPoint[]) {
+        const frame = window.getFrameGeometryCopy();
+        window.move = true;
+        window.interactiveMoveResizeStarted.fire();
+
+        for (const delta of deltas) {
+            if (delta.x !== 0) {
+                frame.x += delta.x;
+            }
+            if (delta.y !== 0) {
+                frame.y += delta.y;
+            }
+            runOneOf(
+                () => window.frameGeometry.set(frame),
+                () => window.frameGeometry = frame,
+            );
+        }
+
+        window.move = false;
+        window.interactiveMoveResizeFinished.fire();
+    }
+
     public resizeWindow(window: MockKwinClient, edgeResize: boolean, leftEdge: boolean, topEdge: boolean, ...deltas: QmlSize[]) {
         const frame = window.getFrameGeometryCopy();
         if (edgeResize) {
@@ -94,7 +116,7 @@ class MockWorkspace {
             runOneOf(
                 () => window.frameGeometry.set(frame),
                 () => window.frameGeometry = frame,
-            )
+            );
         }
 
         window.resize = false;

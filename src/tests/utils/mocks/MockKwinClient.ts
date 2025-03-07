@@ -7,7 +7,7 @@ class MockKwinClient {
     public caption = "App";
     public minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
     public readonly transient: boolean;
-    public readonly move: boolean = false;
+    public move: boolean = false;
     public resize: boolean = false;
     public readonly fullScreenable: boolean = true;
     public readonly maximizable: boolean = true;

@@ -44,3 +44,10 @@ function getWindowHeight(windowsInColumn: number) {
     const totalGaps = (windowsInColumn-1) * gapV;
     return Math.round((tilingArea.height - totalGaps) / windowsInColumn);
 }
+
+function getClientManager(world: World): ClientManager {
+    // don't do this outside of tests
+    let clientManager;
+    world.do((cm, dm) => clientManager = cm);
+    return clientManager!;
+}

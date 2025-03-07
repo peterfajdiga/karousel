@@ -219,4 +219,26 @@ namespace Assert {
         }
         equal(columns[columns.length-1].frameGeometry.right, tilingArea.right, options);
     }
+
+    export function tiledClient(
+        clientManager: ClientManager,
+        client: KwinClient,
+        { message, skip=0 }: Options = {},
+    ) {
+        assert(
+            clientManager.findTiledWindow(client) !== null,
+            { message: message, skip: skip+1 },
+        );
+    }
+
+    export function notTiledClient(
+        clientManager: ClientManager,
+        client: KwinClient,
+        { message, skip=0 }: Options = {},
+    ) {
+        assert(
+            clientManager.findTiledWindow(client) === null,
+            { message: message, skip: skip+1 },
+        );
+    }
 }
