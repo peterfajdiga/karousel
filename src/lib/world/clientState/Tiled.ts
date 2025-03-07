@@ -69,6 +69,7 @@ namespace ClientState {
                 });
             });
 
+            let moving = false;
             let resizing = false;
             let resizeStartWidth = 0;
             let resizeNeighbor: { column: Column, startWidth: number } | undefined;
@@ -78,6 +79,8 @@ namespace ClientState {
                         world.do((clientManager, desktopManager) => {
                             clientManager.floatClient(client);
                         });
+                    } else {
+                        moving = true;
                     }
                     return;
                 }
@@ -99,6 +102,10 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.interactiveMoveResizeFinished, () => {
+                if (moving) {
+                    moving = false;
+                    world.do(() => window.column.grid.desktop.onLayoutChanged()); // move the dragged window back to its position
+                }
                 if (resizing) {
                     resizing = false;
                     resizeNeighbor = undefined;
