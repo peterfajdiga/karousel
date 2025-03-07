@@ -9,8 +9,6 @@ class MockKwinClient {
     public readonly transient: boolean;
     public readonly move: boolean = false;
     public resize: boolean = false;
-    public readonly moveable: boolean = true;
-    public readonly resizeable: boolean = true;
     public readonly fullScreenable: boolean = true;
     public readonly maximizable: boolean = true;
     public readonly output: Output = { __brand: "Output" };
@@ -94,6 +92,14 @@ class MockKwinClient {
         } else {
             return this.frameGeometry;
         }
+    }
+
+    public get moveable() {
+        return !this._fullScreen;
+    }
+
+    public get resizeable() {
+        return !this._fullScreen;
     }
 
     public get fullScreen() {
