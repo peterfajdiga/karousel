@@ -205,7 +205,6 @@ namespace ClientState {
                 client.kwinClient.keepBelow = true;
             }
             client.kwinClient.keepAbove = false;
-            client.setFullScreen(false);
             if (client.kwinClient.tile !== null) {
                 client.setMaximize(false, true); // disable quick tile mode
             }
