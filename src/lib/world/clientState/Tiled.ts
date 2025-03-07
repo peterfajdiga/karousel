@@ -160,7 +160,15 @@ namespace ClientState {
             });
 
             manager.connect(kwinClient.fullScreenChanged, () => {
-                world.do(() => window.onFullScreenChanged(kwinClient.fullScreen));
+                world.do((clientManager, desktopManager) => {
+                    // some clients only turn out to be untileable after exiting full-screen mode
+                    if (!Clients.canTileEver(kwinClient)) {
+                        clientManager.floatClient(client);
+                        return;
+                    }
+
+                    window.onFullScreenChanged(kwinClient.fullScreen);
+                });
             });
 
             manager.connect(kwinClient.tileChanged, () => {

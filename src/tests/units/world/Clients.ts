@@ -4,6 +4,7 @@ tests.register("Clients.canTileEver", 1, () => {
         { clientProperties: { resourceClass: "app", caption: "Title", moveable: false }, tileable: false },
         { clientProperties: { resourceClass: "app", caption: "Caption", resizeable: false }, tileable: false },
         { clientProperties: { resourceClass: "app", caption: "Caption", normalWindow: false, popupWindow: true }, tileable: false },
+        { clientProperties: { resourceClass: "app", caption: "Caption", moveable: false, resizeable: false, fullScreen: true }, tileable: true },
         { clientProperties: { resourceClass: "ksmserver-logout-greeter", caption: "Caption" }, tileable: false },
         { clientProperties: { resourceClass: "xwaylandvideobridge", caption: "" }, tileable: false },
     ];
@@ -24,6 +25,7 @@ tests.register("Clients.canTileEver", 1, () => {
             pid: 100,
             moveable: true,
             resizeable: true,
+            fullScreen: false,
             popupWindow: false,
             minimized: false,
             desktops: [1],
