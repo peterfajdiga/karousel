@@ -7,7 +7,7 @@ tests.register("Maximization", 100, () => {
         Assert.assert(clientManager.hasClient(kwinClient));
     });
 
-    const columnLeftX = screen.width/2 - 300/2;
+    const columnLeftX = tilingArea.left + tilingArea.width/2 - 300/2;
     const columnTopY = tilingArea.top;
     const columnHeight = tilingArea.height;
     Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
@@ -66,7 +66,7 @@ tests.register("Re-maximize disabled", 100, () => {
     });
 
     const columnsWidth = 300 + 400 + config.gapsInnerHorizontal;
-    const column1LeftX = screen.width/2 - columnsWidth/2;
+    const column1LeftX = tilingArea.left + tilingArea.width/2 - columnsWidth/2;
     const column2LeftX = column1LeftX + 300 + config.gapsInnerHorizontal;
     const columnTopY = tilingArea.top;
     const columnHeight = tilingArea.height;
@@ -111,7 +111,7 @@ tests.register("Re-maximize enabled", 100, () => {
     });
 
     const columnsWidth = 300 + 400 + config.gapsInnerHorizontal;
-    const column1LeftX = screen.width/2 - columnsWidth/2;
+    const column1LeftX = tilingArea.left + tilingArea.width/2 - columnsWidth/2;
     const column2LeftX = column1LeftX + 300 + config.gapsInnerHorizontal;
     const columnTopY = tilingArea.top;
     const columnHeight = tilingArea.height;

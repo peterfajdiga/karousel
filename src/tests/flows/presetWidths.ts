@@ -7,7 +7,7 @@ tests.register("Preset Widths default", 1, () => {
 
     function getRect(columnWidth: number) {
         return new MockQmlRect(
-            (screen.width - columnWidth) / 2,
+            tilingArea.left + (tilingArea.width - columnWidth) / 2,
             tilingArea.top,
             columnWidth,
             tilingArea.height,
@@ -43,7 +43,7 @@ tests.register("Preset Widths custom", 1, () => {
 
     function getRect(columnWidth: number) {
         return new MockQmlRect(
-            (screen.width - columnWidth) / 2,
+            tilingArea.left + (tilingArea.width - columnWidth) / 2,
             tilingArea.top,
             columnWidth,
             tilingArea.height,
