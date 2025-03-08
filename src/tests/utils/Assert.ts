@@ -129,6 +129,7 @@ namespace Assert {
         columnWidth: number,
         grid: KwinClient[][],
         centered: boolean,
+        stackedColumns: number[] = [],
         { message, skip=0 }: Options = {},
     ) {
         const nColumns = grid.length;
@@ -149,14 +150,26 @@ namespace Assert {
             );
         }
 
+        function getRectInGridStacked(column: number, window: number, nColumns: number, nWindows: number) {
+            const columnX = startX + column * (columnWidth + config.gapsInnerHorizontal);
+            return new MockQmlRect(
+                columnX + window * Column.stackOffsetX,
+                screen.y + config.gapsOuterTop + window * Column.stackOffsetY,
+                columnWidth - (nWindows-1) * Column.stackOffsetX,
+                columnHeight - (nWindows-1) * Column.stackOffsetY,
+            );
+        }
+
         for (let iColumn = 0; iColumn < nColumns; iColumn++) {
             const column = grid[iColumn];
+            const stacked = stackedColumns.includes(iColumn);
+            const getRect = stacked ? getRectInGridStacked : getRectInGrid;
             const nWindows = column.length;
             for (let iWindow = 0; iWindow < nWindows; iWindow++) {
                 const window = column[iWindow];
                 equalRects(
                     window.frameGeometry,
-                    getRectInGrid(iColumn, iWindow, nColumns, nWindows),
+                    getRect(iColumn, iWindow, nColumns, nWindows),
                     { message: appendMessage(`column ${iColumn}, window ${iWindow}`, message), skip: skip+1 },
                 );
             }
@@ -175,6 +188,7 @@ namespace Assert {
             client.frameGeometry.width,
             [[client]],
             true,
+            [],
             { message: appendMessage("Window not centered", message), skip: skip+1 },
         );
     }

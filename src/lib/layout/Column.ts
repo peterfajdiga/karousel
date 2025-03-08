@@ -6,8 +6,8 @@ class Column {
     private stacked: boolean;
     private focusTaker: Window|null;
     private static readonly minWidth = 40;
-    private static readonly stackOffsetX = 10; // TODO: make configurable
-    private static readonly stackOffsetY = 30; // TODO: make configurable
+    public static readonly stackOffsetX = 10; // TODO: make configurable
+    public static readonly stackOffsetY = 30; // TODO: make configurable
 
     constructor(grid: Grid, leftColumn: Column|null) {
         this.gridX = 0;
