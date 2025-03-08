@@ -3,7 +3,6 @@ class MockKwinClient {
 
     private static readonly borderThickness = 10;
 
-    public readonly shadeable: boolean = false;
     public caption = "App";
     public minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
     public readonly transient: boolean;
@@ -26,7 +25,6 @@ class MockKwinClient {
     public skipSwitcher: boolean = false;
     public keepAbove: boolean = false;
     public keepBelow: boolean = false;
-    public shade: boolean = false;
     private _minimized: boolean = false;
     private _desktops: KwinDesktop[] = [];
     private _tile: Tile|null = null;

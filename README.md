@@ -51,7 +51,7 @@ Here's the default ones:
 | (unassigned)             | Move window to the previous position in grid                                                                                   |
 | Meta+Shift+Home          | Move window to start                                                                                                           |
 | Meta+Shift+End           | Move window to end                                                                                                             |
-| Meta+X                   | Toggle stacked layout for focused column (One window in the column visible, others shaded; not supported on Wayland)           |
+| Meta+X                   | Toggle stacked layout for focused column (Only the active window visible)                                                      |
 | Meta+Ctrl+Shift+A        | Move column left                                                                                                               |
 | Meta+Ctrl+Shift+D        | Move column right                                                                                                              |
 | Meta+Ctrl+Shift+Home     | Move column to start                                                                                                           |

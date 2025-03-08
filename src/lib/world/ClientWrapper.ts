@@ -108,16 +108,6 @@ class ClientWrapper {
         });
     }
 
-    public setShade(shade: boolean) {
-        this.manipulatingGeometry.do(() => {
-            this.kwinClient.shade = shade;
-        });
-    }
-
-    public isShaded() {
-        return this.kwinClient.shade;
-    }
-
     public getMaximizedMode() {
         return this.maximizedMode;
     }

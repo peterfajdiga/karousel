@@ -35,7 +35,7 @@
                                                     <string>Stack columns by default</string>
                                                 </property>
                                                 <property name="toolTip">
-                                                    <string>New columns start in stacked mode (one window in the column visible, others shaded). Not supported on Wayland.</string>
+                                                    <string>New columns start in stacked mode (only the active window visible)</string>
                                                 </property>
                                             </widget>
                                         </item>

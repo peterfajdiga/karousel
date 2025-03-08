@@ -54,7 +54,6 @@ type Output = { __brand: "Output" };
 type KwinClient = {
     __brand: "KwinClient";
 
-    readonly shadeable: boolean;
     readonly caption: string;
     readonly minSize: Readonly<QmlSize>;
     readonly transient: boolean;
@@ -79,7 +78,6 @@ type KwinClient = {
     skipSwitcher: boolean;
     keepAbove: boolean;
     keepBelow: boolean;
-    shade: boolean;
     minimized: boolean;
     frameGeometry: QmlRect;
     desktops: KwinDesktop[]; // empty array means all desktops

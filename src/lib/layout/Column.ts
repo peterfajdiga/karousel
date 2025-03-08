@@ -221,13 +221,12 @@ class Column {
             }
         }
 
-        if (this.stacked && this.windows.length() >= 2 && this.canStack()) {
+        if (this.stacked && this.windows.length() >= 2) {
             this.arrangeStacked(x);
             return;
         }
         let y = this.grid.desktop.tilingArea.y;
         for (const window of this.windows.iterator()) {
-            window.client.setShade(false);
             window.arrange(x, y, this.width, window.height);
             y += window.height + this.grid.config.gapsInnerVertical;
         }
@@ -253,15 +252,6 @@ class Column {
         }
         this.stacked = !this.stacked;
         this.grid.desktop.onLayoutChanged();
-    }
-
-    private canStack() {
-        for (const window of this.windows.iterator()) {
-            if (!window.client.kwinClient.shadeable) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public onWindowAdded(window: Window, bottom: boolean) {
