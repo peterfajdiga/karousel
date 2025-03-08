@@ -125,7 +125,7 @@ namespace Assert {
 
     export function grid(
         config: Config,
-        screen: QmlRect,
+        tilingArea: QmlRect,
         columnWidth: number,
         grid: KwinClient[][],
         centered: boolean,
@@ -133,20 +133,19 @@ namespace Assert {
         { message, skip=0 }: Options = {},
     ) {
         const nColumns = grid.length;
-        const columnHeight = screen.height - config.gapsOuterTop - config.gapsOuterBottom;
         const columnsWidth = nColumns * columnWidth + (nColumns-1) * config.gapsInnerHorizontal;
         const startX = centered ?
-            screen.x + (screen.width - columnsWidth) / 2 :
+            tilingArea.x + (tilingArea.width - columnsWidth) / 2 :
             grid[0][0].frameGeometry.x;
 
         // assumes uniformly sized windows within columns of uniform width
         function getRectInGrid(column: number, window: number, nColumns: number, nWindows: number) {
-            const windowHeight = (columnHeight - config.gapsInnerVertical * (nWindows-1)) / nWindows;
+            const windowHeight = (tilingArea.height - config.gapsInnerVertical * (nWindows-1)) / nWindows;
             return new MockQmlRect(
                 startX + column * (columnWidth + config.gapsInnerHorizontal),
-                screen.y + config.gapsOuterTop + (windowHeight + config.gapsInnerVertical) * window,
+                tilingArea.y + (windowHeight + config.gapsInnerVertical) * window,
                 columnWidth,
-                (columnHeight - config.gapsInnerVertical * (nWindows-1)) / nWindows,
+                (tilingArea.height - config.gapsInnerVertical * (nWindows-1)) / nWindows,
             );
         }
 
@@ -154,9 +153,9 @@ namespace Assert {
             const columnX = startX + column * (columnWidth + config.gapsInnerHorizontal);
             return new MockQmlRect(
                 columnX + window * Column.stackOffsetX,
-                screen.y + config.gapsOuterTop + window * Column.stackOffsetY,
+                tilingArea.y + window * Column.stackOffsetY,
                 columnWidth - (nWindows-1) * Column.stackOffsetX,
-                columnHeight - (nWindows-1) * Column.stackOffsetY,
+                tilingArea.height - (nWindows-1) * Column.stackOffsetY,
             );
         }
 
@@ -178,13 +177,13 @@ namespace Assert {
 
     export function centered(
         config: Config,
-        screen: QmlRect,
+        tilingArea: QmlRect,
         client:KwinClient,
         { message, skip=0 }: Options = {},
     ) {
         grid(
             config,
-            screen,
+            tilingArea,
             client.frameGeometry.width,
             [[client]],
             true,

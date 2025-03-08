@@ -13,7 +13,7 @@ tests.register("Center focused", 1, () => {
 
     // center client2
     qtMock.fireShortcut("karousel-grid-scroll-focused");
-    Assert.centered(config, screen, client2);
+    Assert.centered(config, tilingArea, client2);
     Assert.fullyVisible(client1.frameGeometry);
     Assert.fullyVisible(client2.frameGeometry);
 
@@ -23,13 +23,13 @@ tests.register("Center focused", 1, () => {
 
     // center client2
     qtMock.fireShortcut("karousel-grid-scroll-focused");
-    Assert.centered(config, screen, client2);
+    Assert.centered(config, tilingArea, client2);
     Assert.fullyVisible(client1.frameGeometry);
     Assert.fullyVisible(client2.frameGeometry);
 
     // focus client1 (no scrolling should occur)
     qtMock.fireShortcut("karousel-focus-left");
-    Assert.centered(config, screen, client2, { message: "No scrolling should have occured" });
+    Assert.centered(config, tilingArea, client2, { message: "No scrolling should have occured" });
     Assert.fullyVisible(client1.frameGeometry);
     Assert.fullyVisible(client2.frameGeometry);
 

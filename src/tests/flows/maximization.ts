@@ -160,14 +160,14 @@ tests.register("Start full-screen", 100, () => {
         Assert.assert(clientManager.hasClient(fullScreenClient));
     });
 
-    Assert.centered(config, screen, windowedClient);
+    Assert.centered(config, tilingArea, windowedClient);
     Assert.equalRects(fullScreenClient.frameGeometry, screen);
     Assert.equal(Workspace.activeWindow, fullScreenClient);
 
     {
         qtMock.fireShortcut("karousel-focus-left");
         const opts = { message: "fullScreenClient is not in the grid, so we can't move focus directionally" };
-        Assert.centered(config, screen, windowedClient, opts);
+        Assert.centered(config, tilingArea, windowedClient, opts);
         Assert.equalRects(fullScreenClient.frameGeometry, screen, opts);
         Assert.equal(Workspace.activeWindow, fullScreenClient, opts);
     }
@@ -175,7 +175,7 @@ tests.register("Start full-screen", 100, () => {
     {
         qtMock.fireShortcut("karousel-focus-1");
         const opts = { message: "fullScreenClient is not in grid, so it should stay full-screen" };
-        Assert.centered(config, screen, windowedClient, opts);
+        Assert.centered(config, tilingArea, windowedClient, opts);
         Assert.equalRects(fullScreenClient.frameGeometry, screen, opts);
         Assert.equal(Workspace.activeWindow, windowedClient);
     }
