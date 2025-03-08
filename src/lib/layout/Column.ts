@@ -6,6 +6,8 @@ class Column {
     private stacked: boolean;
     private focusTaker: Window|null;
     private static readonly minWidth = 40;
+    private static readonly stackOffsetX = 10; // TODO: make configurable
+    private static readonly stackOffsetY = 30; // TODO: make configurable
 
     constructor(grid: Grid, leftColumn: Column|null) {
         this.gridX = 0;
@@ -232,29 +234,16 @@ class Column {
     }
 
     public arrangeStacked(x: number) {
-        const expandedWindow = this.getFocusTaker();
-        let collapsedHeight;
-        for (const window of this.windows.iterator()) {
-            if (window === expandedWindow) {
-                window.client.setShade(false);
-            } else {
-                window.client.setShade(true);
-                collapsedHeight = window.client.kwinClient.frameGeometry.height;
-            }
-        }
+        const nWindows = this.windows.length();
+        const windowWidth = this.width - (nWindows - 1) * Column.stackOffsetX;
+        const windowHeight = this.grid.desktop.tilingArea.height - (nWindows - 1) * Column.stackOffsetY;
 
-        const nCollapsed = this.getWindowCount() - 1;
-        const expandedHeight = this.grid.desktop.tilingArea.height - nCollapsed * (collapsedHeight! + this.grid.config.gapsInnerVertical);
-        let y = this.grid.desktop.tilingArea.y;
+        let windowX = x;
+        let windowY = this.grid.desktop.tilingArea.y;
         for (const window of this.windows.iterator()) {
-            if (window === expandedWindow) {
-                window.arrange(x, y, this.width, expandedHeight);
-                y += expandedHeight;
-            } else {
-                window.arrange(x, y, this.width, window.height);
-                y += collapsedHeight!;
-            }
-            y += this.grid.config.gapsInnerVertical;
+            window.arrange(windowX, windowY, windowWidth, windowHeight);
+            windowX += Column.stackOffsetX;
+            windowY += Column.stackOffsetY;
         }
     }
 
