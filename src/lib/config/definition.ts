@@ -85,6 +85,16 @@ const configDef = [
         default: 8,
     },
     {
+        name: "stackOffsetX",
+        type: "UInt",
+        default: 8,
+    },
+    {
+        name: "stackOffsetY",
+        type: "UInt",
+        default: 32,
+    },
+    {
         name: "manualScrollStep",
         type: "UInt",
         default: 200,

@@ -5,6 +5,8 @@ type Config = {
     gapsOuterRight: number;
     gapsInnerHorizontal: number;
     gapsInnerVertical: number;
+    stackOffsetX: number;
+    stackOffsetY: number;
     manualScrollStep: number;
     presetWidths: string;
     offScreenOpacity: number;

@@ -152,10 +152,10 @@ namespace Assert {
         function getRectInGridStacked(column: number, window: number, nColumns: number, nWindows: number) {
             const columnX = startX + column * (columnWidth + config.gapsInnerHorizontal);
             return new MockQmlRect(
-                columnX + window * Column.stackOffsetX,
-                tilingArea.y + window * Column.stackOffsetY,
-                columnWidth - (nWindows-1) * Column.stackOffsetX,
-                tilingArea.height - (nWindows-1) * Column.stackOffsetY,
+                columnX + window * config.stackOffsetX,
+                tilingArea.y + window * config.stackOffsetY,
+                columnWidth - (nWindows-1) * config.stackOffsetX,
+                tilingArea.height - (nWindows-1) * config.stackOffsetY,
             );
         }
 

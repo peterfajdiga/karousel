@@ -6,8 +6,6 @@ class Column {
     private stacked: boolean;
     private focusTaker: Window|null;
     private static readonly minWidth = 40;
-    public static readonly stackOffsetX = 10; // TODO: make configurable
-    public static readonly stackOffsetY = 30; // TODO: make configurable
 
     constructor(grid: Grid, leftColumn: Column|null) {
         this.gridX = 0;
@@ -234,15 +232,15 @@ class Column {
 
     public arrangeStacked(x: number) {
         const nWindows = this.windows.length();
-        const windowWidth = this.width - (nWindows - 1) * Column.stackOffsetX;
-        const windowHeight = this.grid.desktop.tilingArea.height - (nWindows - 1) * Column.stackOffsetY;
+        const windowWidth = this.width - (nWindows - 1) * this.grid.config.stackOffsetX;
+        const windowHeight = this.grid.desktop.tilingArea.height - (nWindows - 1) * this.grid.config.stackOffsetY;
 
         let windowX = x;
         let windowY = this.grid.desktop.tilingArea.y;
         for (const window of this.windows.iterator()) {
             window.arrange(windowX, windowY, windowWidth, windowHeight);
-            windowX += Column.stackOffsetX;
-            windowY += Column.stackOffsetY;
+            windowX += this.grid.config.stackOffsetX;
+            windowY += this.grid.config.stackOffsetY;
         }
     }
 

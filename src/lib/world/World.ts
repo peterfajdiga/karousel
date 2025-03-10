@@ -40,6 +40,8 @@ class World {
         const layoutConfig = {
             gapsInnerHorizontal: config.gapsInnerHorizontal,
             gapsInnerVertical: config.gapsInnerVertical,
+            stackOffsetX: config.stackOffsetX,
+            stackOffsetY: config.stackOffsetY,
             offScreenOpacity: config.offScreenOpacity / 100.0,
             stackColumnsByDefault: config.stackColumnsByDefault,
             resizeNeighborColumn: config.resizeNeighborColumn,
