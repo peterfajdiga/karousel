@@ -216,10 +216,18 @@ namespace ClientState {
             if (config.skipSwitcher) {
                 client.kwinClient.skipSwitcher = true;
             }
-            if (config.tiledKeepBelow) {
-                client.kwinClient.keepBelow = true;
+
+            if (client.kwinClient.fullScreen) {
+                if (config.maximizedKeepAbove) {
+                    client.kwinClient.keepAbove = true;
+                }
+            } else {
+                if (config.tiledKeepBelow) {
+                    client.kwinClient.keepBelow = true;
+                }
+                client.kwinClient.keepAbove = false;
             }
-            client.kwinClient.keepAbove = false;
+
             if (client.kwinClient.tile !== null) {
                 client.setMaximize(false, true); // disable quick tile mode
             }
