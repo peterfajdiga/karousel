@@ -5,9 +5,11 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
+    private readonly moveToFocus: DBusCall;
 
-    constructor(config: Config) {
+    constructor(config: Config, moveToFocus: DBusCall) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
+        this.moveToFocus = moveToFocus;
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
@@ -99,6 +101,7 @@ class World {
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {
         f(this.clientManager, this.desktopManager);
         this.update();
+        this.callMoveToFocus();
     }
 
     public doIfTiled(
@@ -135,5 +138,9 @@ class World {
 
     public onScreenResized() {
         this.screenResizedDelayer.run();
+    }
+
+    public callMoveToFocus() {
+        this.moveToFocus.call();
     }
 }

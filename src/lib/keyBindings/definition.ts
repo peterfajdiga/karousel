@@ -32,7 +32,7 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             comment: "Clashes with default KDE shortcuts, may require manual remapping",
             defaultKeySequence: "Meta+S",
             action: () => world.doIfTiledFocused(actions.focusDown),
-        },
+       },
         {
             name: "focus-next",
             description: "Move focus to the next window in grid",

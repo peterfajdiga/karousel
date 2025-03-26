@@ -1,5 +1,5 @@
 function init() {
-    return new World(loadConfig());
+    return new World(loadConfig(), moveToFocus);
 }
 
 function loadConfig(): Config {

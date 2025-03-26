@@ -35,4 +35,13 @@ Item {
         flags: Notification.Persistent
         urgency: Notification.HighUrgency
     }
+
+    DBusCall {
+        id: moveToFocus
+
+        service: "org.kde.kglobalaccel"
+        path: "/component/kwin"
+        method: "invokeShortcut"
+        arguments: ["MoveMouseToFocus"]
+    }
 }
