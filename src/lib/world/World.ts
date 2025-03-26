@@ -98,17 +98,12 @@ class World {
         this.desktopManager.getCurrentDesktop().arrange();
     }
 
-    public performGesture(progress: number) {
-        let desktop = this.desktopManager.getCurrentDesktop();
-        if (this.scrollX === null) {
-            this.scrollX = desktop.getScroll()
-        }
-        desktop.setScroll(this.scrollX + desktop.clientArea.width * progress, false);
-        this.update();
+    public doGesture(progress: number) {
+        this.desktopManager.getCurrentDesktop().gestureScroll(progress);
     }
 
-    public clearScrollX() {
-        this.scrollX = null
+    public finishGesture() {
+        this.desktopManager.getCurrentDesktop().finishGesture();
     }
 
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {
