@@ -21,4 +21,5 @@ type Config = {
     tiledKeepBelow: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;
+    cursorFollowsFocus: boolean;
 };

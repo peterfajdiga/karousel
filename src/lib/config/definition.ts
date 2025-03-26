@@ -115,6 +115,11 @@ const configDef = [
         default: true,
     },
     {
+        name: "cursorFollowsFocus",
+        type: "Bool",
+        default: false,
+    },
+    {
         name: "stackColumnsByDefault",
         type: "Bool",
         default: false,

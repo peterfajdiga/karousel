@@ -30,6 +30,13 @@
                                             </widget>
                                         </item>
                                         <item>
+                                            <widget class="QCheckBox" name="kcfg_cursorFollowsFocus">
+                                                <property name="text">
+                                                    <string>Always warp the cursor to the currently focused window</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
                                             <widget class="QCheckBox" name="kcfg_stackColumnsByDefault">
                                                 <property name="text">
                                                     <string>Stack columns by default</string>
