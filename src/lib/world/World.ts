@@ -5,9 +5,11 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
+    private scrollX: number | null;
 
     constructor(config: Config) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
+        this.scrollX = null;
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
@@ -94,6 +96,19 @@ class World {
 
     private update() {
         this.desktopManager.getCurrentDesktop().arrange();
+    }
+
+    public performGesture(progress: number) {
+        let desktop = this.desktopManager.getCurrentDesktop();
+        if (this.scrollX === null) {
+            this.scrollX = desktop.getScroll()
+        }
+        desktop.setScroll(this.scrollX + desktop.clientArea.width * progress, false);
+        this.update();
+    }
+
+    public clearScrollX() {
+        this.scrollX = null
     }
 
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {

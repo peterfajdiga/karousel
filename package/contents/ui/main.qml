@@ -35,4 +35,21 @@ Item {
         flags: Notification.Persistent
         urgency: Notification.HighUrgency
     }
+
+    SwipeGestureHandler {
+        direction: SwipeGestureHandler.Direction.Left
+        fingerCount: 3
+        onActivated: qmlBase.karouselInstance.clearScrollX()
+        onCancelled: qmlBase.karouselInstance.clearScrollX()
+        onProgressChanged: qmlBase.karouselInstance.performGesture(-progress)
+    }
+
+    SwipeGestureHandler {
+        direction: SwipeGestureHandler.Direction.Right
+        fingerCount: 3
+        onActivated: qmlBase.karouselInstance.clearScrollX()
+        onCancelled: qmlBase.karouselInstance.clearScrollX()
+        onProgressChanged: qmlBase.karouselInstance.performGesture(progress)
+    }
+
 }

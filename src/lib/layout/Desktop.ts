@@ -124,6 +124,10 @@ class Desktop {
         this.setScroll(this.scrollX + dx, force);
     }
 
+    public getScroll(): number {
+        return this.scrollX
+    }
+
     public arrange() {
         // TODO (optimization): only arrange visible windows
         this.updateArea();
