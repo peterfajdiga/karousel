@@ -1,6 +1,7 @@
 class Desktop {
     public readonly grid: Grid;
     private scrollX: number;
+    private gestureScrollXInitial: number | null;
     private dirty: boolean;
     private dirtyScroll: boolean;
     private dirtyPins: boolean;
@@ -15,6 +16,7 @@ class Desktop {
         layoutConfig: LayoutConfig,
     ) {
         this.scrollX = 0;
+        this.gestureScrollXInitial = null;
         this.dirty = true;
         this.dirtyScroll = true;
         this.dirtyPins = true;
@@ -124,6 +126,24 @@ class Desktop {
         this.setScroll(this.scrollX + dx, force);
     }
 
+    public gestureScroll(amount: number) {
+        if (!this.config.gestureScroll) {
+            return
+        }
+        if (this.gestureScrollXInitial === null) {
+            this.gestureScrollXInitial = this.scrollX;
+        }
+
+        if (this.config.gestureScrollInvert) {
+            amount = -amount;
+        }
+        this.setScroll(this.gestureScrollXInitial + this.config.gestureScrollStep * amount, false);
+    }
+
+    public gestureScrollFinish() {
+        this.gestureScrollXInitial = null;
+    }
+
     public arrange() {
         // TODO (optimization): only arrange visible windows
         this.updateArea();
@@ -160,6 +180,9 @@ namespace Desktop {
         marginBottom: number;
         marginLeft: number;
         marginRight: number;
+        gestureScroll: boolean;
+        gestureScrollInvert: boolean;
+        gestureScrollStep: number;
         scroller: Desktop.Scroller;
         clamper: Desktop.Clamper;
     };

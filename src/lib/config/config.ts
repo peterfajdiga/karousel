@@ -18,6 +18,9 @@ type Config = {
     scrollingLazy: boolean;
     scrollingCentered: boolean;
     scrollingGrouped: boolean;
+    gestureScroll: boolean;
+    gestureScrollInvert: boolean;
+    gestureScrollStep: number;
     tiledKeepBelow: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;

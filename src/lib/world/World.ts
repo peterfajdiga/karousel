@@ -61,6 +61,9 @@ class World {
                 marginRight: config.gapsOuterRight,
                 scroller: World.createScroller(config),
                 clamper: config.scrollingLazy ? new EdgeClamper() : new CenterClamper(),
+                gestureScroll: config.gestureScroll,
+                gestureScrollInvert: config.gestureScrollInvert,
+                gestureScrollStep: config.gestureScrollStep,
             },
             layoutConfig,
             Workspace.currentActivity,
@@ -122,6 +125,14 @@ class World {
             return;
         }
         this.doIfTiled(Workspace.activeWindow, f);
+    }
+
+    public gestureScroll(amount: number) {
+        this.do((clientManager, desktopManager) => desktopManager.getCurrentDesktop().gestureScroll(amount));
+    }
+
+    public gestureScrollFinish() {
+        this.do((clientManager, desktopManager) => desktopManager.getCurrentDesktop().gestureScrollFinish());
     }
 
     public destroy() {

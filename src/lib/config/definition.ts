@@ -150,6 +150,21 @@ const configDef = [
         default: false,
     },
     {
+        name: "gestureScroll",
+        type: "Bool",
+        default: false,
+    },
+    {
+        name: "gestureScrollInvert",
+        type: "Bool",
+        default: false,
+    },
+    {
+        name: "gestureScrollStep",
+        type: "UInt",
+        default: 1920,
+    },
+    {
         name: "tiledKeepBelow",
         type: "Bool",
         default: true,
