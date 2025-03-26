@@ -4,6 +4,7 @@ let Workspace: Workspace;
 let qmlBase: QmlObject;
 let notificationInvalidWindowRules: Notification;
 let notificationInvalidPresetWidths: Notification;
+let moveCursorToFocus: DBusCall;
 
 let screen: MockQmlRect;
 let tilingArea: MockQmlRect;

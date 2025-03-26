@@ -11,6 +11,7 @@ type Config = {
     presetWidths: string;
     offScreenOpacity: number;
     untileOnDrag: boolean;
+    cursorFollowsFocus: boolean;
     stackColumnsByDefault: boolean;
     resizeNeighborColumn: boolean;
     reMaximize: boolean;

@@ -30,6 +30,16 @@
                                             </widget>
                                         </item>
                                         <item>
+                                            <widget class="QCheckBox" name="kcfg_cursorFollowsFocus">
+                                                <property name="text">
+                                                    <string>Cursor follows focus</string>
+                                                </property>
+                                                <property name="toolTip">
+                                                    <string>When a window gains focus, move the cursor to it</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
                                             <widget class="QCheckBox" name="kcfg_stackColumnsByDefault">
                                                 <property name="text">
                                                     <string>Stack columns by default</string>

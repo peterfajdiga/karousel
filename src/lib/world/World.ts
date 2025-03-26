@@ -5,9 +5,11 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
+    private readonly cursorFollowsFocus: boolean;
 
     constructor(config: Config) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
+        this.cursorFollowsFocus = config.cursorFollowsFocus;
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
@@ -97,6 +99,13 @@ class World {
 
     private update() {
         this.desktopManager.getCurrentDesktop().arrange();
+        this.moveCursorToFocus();
+    }
+
+    private moveCursorToFocus() {
+        if (this.cursorFollowsFocus && moveCursorToFocus !== undefined) {
+            moveCursorToFocus.call();
+        }
     }
 
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {

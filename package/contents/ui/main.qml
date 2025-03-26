@@ -51,4 +51,13 @@ Item {
         onCancelled: qmlBase.karouselInstance.gestureScrollFinish()
         onProgressChanged: qmlBase.karouselInstance.gestureScroll(progress)
     }
+
+    DBusCall {
+        id: moveCursorToFocus
+
+        service: "org.kde.kglobalaccel"
+        path: "/component/kwin"
+        method: "invokeShortcut"
+        arguments: ["MoveMouseToFocus"]
+    }
 }
