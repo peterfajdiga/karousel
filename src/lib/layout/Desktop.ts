@@ -2,6 +2,7 @@ class Desktop {
     public readonly grid: Grid;
     private scrollX: number;
     private phantomScrollX: number | null;
+    private naturalScrolling: boolean;
     private dirty: boolean;
     private dirtyScroll: boolean;
     private dirtyPins: boolean;
@@ -23,6 +24,7 @@ class Desktop {
         this.grid = new Grid(this, layoutConfig);
         this.clientArea = Desktop.getClientArea(this.getScreen(), kwinDesktop);
         this.tilingArea = Desktop.getTilingArea(this.clientArea, kwinDesktop, pinManager, config);
+        this.naturalScrolling = config.naturalScrolling;
     }
 
     private updateArea() {
@@ -130,6 +132,10 @@ class Desktop {
         if (this.phantomScrollX === null) {
             this.phantomScrollX = this.scrollX;
         }
+
+        if (this.naturalScrolling) {
+            progress = -progress;
+        }
         this.setScroll(this.phantomScrollX + this.clientArea.width * progress, false);
         this.arrange();
     }
@@ -174,6 +180,7 @@ namespace Desktop {
         marginBottom: number;
         marginLeft: number;
         marginRight: number;
+        naturalScrolling: boolean;
         scroller: Desktop.Scroller;
         clamper: Desktop.Clamper;
     };

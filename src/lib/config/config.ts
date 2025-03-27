@@ -19,6 +19,7 @@ type Config = {
     scrollingCentered: boolean;
     scrollingGrouped: boolean;
     tiledKeepBelow: boolean;
+    naturalScrolling: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;
 };

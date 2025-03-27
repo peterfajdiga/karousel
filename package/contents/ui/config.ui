@@ -104,6 +104,23 @@
                             <item>
                                 <widget class="QGroupBox">
                                     <property name="title">
+                                        <string>Touchpad scrolling (Wayland only)</string>
+                                    </property>
+                                    <layout class="QVBoxLayout">
+                                        <item>
+                                            <widget class="QRadioButton" name="kcfg_naturalScrolling">
+                                                <property name="text">
+                                                    <string>Natural scrolling: scroll the contents instead of the view</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+
+                            <item>
+                                <widget class="QGroupBox">
+                                    <property name="title">
                                         <string>Layering mode</string>
                                     </property>
                                     <layout class="QVBoxLayout">

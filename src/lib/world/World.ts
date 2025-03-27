@@ -63,6 +63,7 @@ class World {
                 marginRight: config.gapsOuterRight,
                 scroller: World.createScroller(config),
                 clamper: config.scrollingLazy ? new EdgeClamper() : new CenterClamper(),
+                naturalScrolling: config.naturalScrolling,
             },
             layoutConfig,
             Workspace.currentActivity,
