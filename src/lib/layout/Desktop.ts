@@ -1,7 +1,7 @@
 class Desktop {
     public readonly grid: Grid;
     private scrollX: number;
-    private phantomScrollX: number | null;
+    private gestureInitialScrollX: number | null;
     private dirty: boolean;
     private dirtyScroll: boolean;
     private dirtyPins: boolean;
@@ -16,7 +16,7 @@ class Desktop {
         layoutConfig: LayoutConfig,
     ) {
         this.scrollX = 0;
-        this.phantomScrollX = null;
+        this.gestureInitialScrollX = null;
         this.dirty = true;
         this.dirtyScroll = true;
         this.dirtyPins = true;
@@ -127,19 +127,19 @@ class Desktop {
     }
 
     public gestureScroll(progress: number) {
-        if (this.phantomScrollX === null) {
-            this.phantomScrollX = this.scrollX;
+        if (this.gestureInitialScrollX === null) {
+            this.gestureInitialScrollX = this.scrollX;
         }
 
         if (this.config.naturalScrolling) {
             progress = -progress;
         }
-        this.setScroll(this.phantomScrollX + this.clientArea.width * progress, false);
+        this.setScroll(this.gestureInitialScrollX + this.clientArea.width * progress, false);
         this.arrange();
     }
 
     public finishGesture() {
-        this.phantomScrollX = null;
+        this.gestureInitialScrollX = null;
     }
 
     public arrange() {
