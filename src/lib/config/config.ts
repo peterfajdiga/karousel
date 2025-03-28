@@ -11,6 +11,7 @@ type Config = {
     presetWidths: string;
     offScreenOpacity: number;
     untileOnDrag: boolean;
+    cursorFollowsFocus: boolean;
     stackColumnsByDefault: boolean;
     resizeNeighborColumn: boolean;
     reMaximize: boolean;
@@ -21,5 +22,4 @@ type Config = {
     tiledKeepBelow: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;
-    cursorFollowsFocus: boolean;
 };
