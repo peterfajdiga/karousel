@@ -108,9 +108,9 @@
                                     </property>
                                     <layout class="QVBoxLayout">
                                         <item>
-                                            <widget class="QRadioButton" name="kcfg_naturalScrolling">
+                                            <widget class="QCheckBox" name="kcfg_naturalScrolling">
                                                 <property name="text">
-                                                    <string>Natural scrolling: scroll the contents instead of the view</string>
+                                                    <string>Invert scroll direction (Natural scrolling)</string>
                                                 </property>
                                             </widget>
                                         </item>
