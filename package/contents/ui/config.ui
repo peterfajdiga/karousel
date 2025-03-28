@@ -110,7 +110,10 @@
                                         <item>
                                             <widget class="QCheckBox" name="kcfg_touchpadGestures">
                                                 <property name="text">
-                                                    <string>Enable touchpad gestures</string>
+                                                    <string>Enable scrolling with touchpad gestures</string>
+                                                </property>
+                                                <property name="toolTip">
+                                                    <string>Scroll with a three-finger horizontal swipe gesture</string>
                                                 </property>
                                             </widget>
                                         </item>
