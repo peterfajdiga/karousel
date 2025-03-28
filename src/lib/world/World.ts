@@ -62,6 +62,7 @@ class World {
                 scroller: World.createScroller(config),
                 clamper: config.scrollingLazy ? new EdgeClamper() : new CenterClamper(),
                 naturalScrolling: config.naturalScrolling,
+                touchpadGestures: config.touchpadGestures,
             },
             layoutConfig,
             Workspace.currentActivity,

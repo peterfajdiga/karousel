@@ -108,6 +108,14 @@
                                     </property>
                                     <layout class="QVBoxLayout">
                                         <item>
+                                            <widget class="QCheckBox" name="kcfg_touchpadGestures">
+                                                <property name="text">
+                                                    <string>Enable touchpad gestures</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+
+                                        <item>
                                             <widget class="QCheckBox" name="kcfg_naturalScrolling">
                                                 <property name="text">
                                                     <string>Invert scroll direction (Natural scrolling)</string>

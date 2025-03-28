@@ -127,6 +127,9 @@ class Desktop {
     }
 
     public gestureScroll(progress: number) {
+        if (!this.config.touchpadGestures) {
+            return
+        }
         if (this.gestureInitialScrollX === null) {
             this.gestureInitialScrollX = this.scrollX;
         }
@@ -178,6 +181,7 @@ namespace Desktop {
         marginBottom: number;
         marginLeft: number;
         marginRight: number;
+        touchpadGestures: boolean;
         naturalScrolling: boolean;
         scroller: Desktop.Scroller;
         clamper: Desktop.Clamper;
