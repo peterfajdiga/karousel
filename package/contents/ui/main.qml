@@ -39,17 +39,17 @@ Item {
     SwipeGestureHandler {
         direction: SwipeGestureHandler.Direction.Left
         fingerCount: 3
-        onActivated: qmlBase.karouselInstance.finishGesture()
-        onCancelled: qmlBase.karouselInstance.finishGesture()
-        onProgressChanged: qmlBase.karouselInstance.doGesture(-progress)
+        onActivated: qmlBase.karouselInstance.gestureScrollFinish()
+        onCancelled: qmlBase.karouselInstance.gestureScrollFinish()
+        onProgressChanged: qmlBase.karouselInstance.gestureScroll(-progress)
     }
 
     SwipeGestureHandler {
         direction: SwipeGestureHandler.Direction.Right
         fingerCount: 3
-        onActivated: qmlBase.karouselInstance.finishGesture()
-        onCancelled: qmlBase.karouselInstance.finishGesture()
-        onProgressChanged: qmlBase.karouselInstance.doGesture(progress)
+        onActivated: qmlBase.karouselInstance.gestureScrollFinish()
+        onCancelled: qmlBase.karouselInstance.gestureScrollFinish()
+        onProgressChanged: qmlBase.karouselInstance.gestureScroll(progress)
     }
 
 }

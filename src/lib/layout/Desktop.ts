@@ -126,22 +126,21 @@ class Desktop {
         this.setScroll(this.scrollX + dx, force);
     }
 
-    public gestureScroll(progress: number) {
-        if (!this.config.touchpadGestures) {
+    public gestureScroll(amount: number) {
+        if (!this.config.gestureScroll) {
             return
         }
         if (this.gestureInitialScrollX === null) {
             this.gestureInitialScrollX = this.scrollX;
         }
 
-        if (this.config.naturalScrolling) {
-            progress = -progress;
+        if (this.config.gestureScrollInvert) {
+            amount = -amount;
         }
-        this.setScroll(this.gestureInitialScrollX + this.config.gestureScrollStep * progress, false);
-        this.arrange();
+        this.setScroll(this.gestureInitialScrollX + this.config.gestureScrollStep * amount, false);
     }
 
-    public finishGesture() {
+    public gestureScrollFinish() {
         this.gestureInitialScrollX = null;
     }
 
@@ -181,9 +180,9 @@ namespace Desktop {
         marginBottom: number;
         marginLeft: number;
         marginRight: number;
-        touchpadGestures: boolean;
+        gestureScroll: boolean;
         gestureScrollStep: number;
-        naturalScrolling: boolean;
+        gestureScrollInvert: boolean;
         scroller: Desktop.Scroller;
         clamper: Desktop.Clamper;
     };

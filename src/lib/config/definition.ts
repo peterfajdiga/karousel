@@ -155,12 +155,12 @@ const configDef = [
         default: false,
     },
     {
-        name: "touchpadGestures",
+        name: "gestureScroll",
         type: "Bool",
         default: false,
     },
     {
-        name: "naturalScrolling",
+        name: "gestureScrollInvert",
         type: "Bool",
         default: false,
     },

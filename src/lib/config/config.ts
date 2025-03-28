@@ -19,8 +19,8 @@ type Config = {
     scrollingLazy: boolean;
     scrollingCentered: boolean;
     scrollingGrouped: boolean;
-    touchpadGestures: boolean;
-    naturalScrolling: boolean;
+    gestureScroll: boolean;
+    gestureScrollInvert: boolean;
     tiledKeepBelow: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;
