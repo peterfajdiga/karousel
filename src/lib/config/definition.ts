@@ -110,6 +110,11 @@ const configDef = [
         default: 100,
     },
     {
+        name: "gestureScrollStep",
+        type: "UInt",
+        default: 1920,
+    },
+    {
         name: "untileOnDrag",
         type: "Bool",
         default: true,

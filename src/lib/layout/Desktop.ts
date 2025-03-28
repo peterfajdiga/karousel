@@ -137,7 +137,7 @@ class Desktop {
         if (this.config.naturalScrolling) {
             progress = -progress;
         }
-        this.setScroll(this.gestureInitialScrollX + this.clientArea.width * progress, false);
+        this.setScroll(this.gestureInitialScrollX + this.config.gestureScrollStep * progress, false);
         this.arrange();
     }
 
@@ -182,6 +182,7 @@ namespace Desktop {
         marginLeft: number;
         marginRight: number;
         touchpadGestures: boolean;
+        gestureScrollStep: number;
         naturalScrolling: boolean;
         scroller: Desktop.Scroller;
         clamper: Desktop.Clamper;

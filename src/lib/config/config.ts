@@ -10,6 +10,7 @@ type Config = {
     manualScrollStep: number;
     presetWidths: string;
     offScreenOpacity: number;
+    gestureScrollStep: number;
     untileOnDrag: boolean;
     stackColumnsByDefault: boolean;
     resizeNeighborColumn: boolean;
