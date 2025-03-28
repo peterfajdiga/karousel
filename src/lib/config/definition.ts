@@ -157,7 +157,7 @@ const configDef = [
     {
         name: "naturalScrolling",
         type: "Bool",
-        default: true,
+        default: false,
     },
     {
         name: "floatingKeepAbove",
