@@ -5,22 +5,11 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
-    private readonly moveMouseToFocus: DBusCall | undefined = undefined;
+    private readonly moveToFocus: DBusCall | undefined;
 
-    constructor(config: Config) {
+    constructor(config: Config, moveToFocus: DBusCall) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
-        if (config.cursorFollowsFocus) {
-            this.moveMouseToFocus = <DBusCall>Qt.createQmlObject(
-                `import org.kde.kwin 3.0
-DBusCall {
-    service: "org.kde.kglobalaccel"
-    path: "/component/kwin"
-    method: "invokeShortcut"
-    arguments: ["MoveMouseToFocus"]
-}`,
-                qmlBase,
-            );
-        }
+        this.moveToFocus = config.cursorFollowsFocus ? moveToFocus: undefined;
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
@@ -151,8 +140,8 @@ DBusCall {
     }
 
     public callMoveToFocus() {
-        if (this.moveMouseToFocus !== undefined) {
-            this.moveMouseToFocus.call();
+        if (this.moveToFocus !== undefined) {
+            this.moveToFocus.call();
         }
     }
 }
