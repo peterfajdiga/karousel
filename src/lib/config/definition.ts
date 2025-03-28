@@ -150,14 +150,14 @@ const configDef = [
         default: false,
     },
     {
-        name: "tiledKeepBelow",
-        type: "Bool",
-        default: true,
-    },
-    {
         name: "naturalScrolling",
         type: "Bool",
         default: false,
+    },
+    {
+        name: "tiledKeepBelow",
+        type: "Bool",
+        default: true,
     },
     {
         name: "floatingKeepAbove",

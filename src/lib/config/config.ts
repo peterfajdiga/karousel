@@ -18,8 +18,8 @@ type Config = {
     scrollingLazy: boolean;
     scrollingCentered: boolean;
     scrollingGrouped: boolean;
-    tiledKeepBelow: boolean;
     naturalScrolling: boolean;
+    tiledKeepBelow: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;
 };
