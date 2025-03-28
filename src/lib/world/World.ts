@@ -5,11 +5,9 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
-    private scrollX: number | null;
 
     constructor(config: Config) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
-        this.scrollX = null;
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
