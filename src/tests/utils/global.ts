@@ -4,7 +4,7 @@ let Workspace: Workspace;
 let qmlBase: QmlObject;
 let notificationInvalidWindowRules: Notification;
 let notificationInvalidPresetWidths: Notification;
-let moveToFocus: DBusCall;
+let moveCursorToFocus: DBusCall;
 
 let screen: MockQmlRect;
 let tilingArea: MockQmlRect;
@@ -30,7 +30,7 @@ function init(config: Config) {
     Qt = qtMock;
     Workspace = workspaceMock;
 
-    const world = new World(config, moveToFocus);
+    const world = new World(config);
     return { qtMock, workspaceMock, world };
 }
 

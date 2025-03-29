@@ -5,11 +5,11 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
-    private readonly moveToFocus: DBusCall | undefined;
+    private readonly cursorFollowsFocus: boolean;
 
-    constructor(config: Config, moveToFocus: DBusCall) {
+    constructor(config: Config) {
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
-        this.moveToFocus = config.cursorFollowsFocus ? moveToFocus: undefined;
+        this.cursorFollowsFocus = config.cursorFollowsFocus;
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
@@ -140,8 +140,8 @@ class World {
     }
 
     public callMoveToFocus() {
-        if (this.moveToFocus !== undefined) {
-            this.moveToFocus.call();
+        if (this.cursorFollowsFocus && moveCursorToFocus !== undefined) {
+            moveCursorToFocus.call();
         }
     }
 }

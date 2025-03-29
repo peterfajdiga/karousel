@@ -37,7 +37,7 @@ Item {
     }
 
     DBusCall {
-        id: moveToFocus
+        id: moveCursorToFocus
 
         service: "org.kde.kglobalaccel"
         path: "/component/kwin"
