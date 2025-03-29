@@ -96,6 +96,7 @@ class World {
 
     private update() {
         this.desktopManager.getCurrentDesktop().arrange();
+        this.callMoveToFocus();
     }
 
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {
