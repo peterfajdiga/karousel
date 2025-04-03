@@ -78,6 +78,7 @@ class ClientWrapper {
 
     public setMaximize(horizontally: boolean, vertically: boolean) {
         if (!this.kwinClient.maximizable) {
+            this.maximizedMode = MaximizedMode.Unmaximized;
             return;
         }
 
