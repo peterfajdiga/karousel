@@ -293,8 +293,21 @@ tests.register("Start full-screen (force tiling) (floating above)", 100, () => {
     Assert.equalRects(fullScreenClient.frameGeometry, screen);
     Assert.equal(Workspace.activeWindow, fullScreenClient);
 
-    const column2Width = tilingArea.width;
-    qtMock.fireShortcut("karousel-focus-left");
+    let expectedColumn2Width = 0;
+    let expectedActiveWindow;
+    runOneOf(
+        () => {
+            fullScreenClient.fullScreen = false;
+            expectedColumn2Width = 400;
+            expectedActiveWindow = fullScreenClient;
+        },
+        () => {
+            qtMock.fireShortcut("karousel-focus-left");
+            expectedColumn2Width = tilingArea.width;
+            expectedActiveWindow = windowedClient;
+        },
+    );
+
     const opts = { message: "fullScreenClient should be restored from full-screen mode to tiled mode" };
     Assert.assert(!windowedClient.fullScreen);
     Assert.assert(!windowedClient.keepBelow);
@@ -302,6 +315,6 @@ tests.register("Start full-screen (force tiling) (floating above)", 100, () => {
     Assert.assert(!fullScreenClient.fullScreen);
     Assert.assert(!fullScreenClient.keepBelow);
     Assert.assert(!fullScreenClient.keepAbove);
-    Assert.grid(config, tilingArea, [column1Width, column2Width], [[windowedClient], [fullScreenClient]], false, [], opts);
-    Assert.equal(Workspace.activeWindow, windowedClient);
+    Assert.grid(config, tilingArea, [column1Width, expectedColumn2Width], [[windowedClient], [fullScreenClient]], false, [], opts);
+    Assert.equal(Workspace.activeWindow, expectedActiveWindow);
 });
