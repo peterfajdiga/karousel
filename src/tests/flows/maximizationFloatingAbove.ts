@@ -96,19 +96,13 @@ tests.register("Re-maximize disabled (floating above)", 100, () => {
         Assert.assert(clientManager.hasClient(client2));
     });
 
-    const columnsWidth = 300 + 400 + config.gapsInnerHorizontal;
-    const column1LeftX = tilingArea.left + tilingArea.width/2 - columnsWidth/2;
-    const column2LeftX = column1LeftX + 300 + config.gapsInnerHorizontal;
-    const columnTopY = tilingArea.top;
-    const columnHeight = tilingArea.height;
     Assert.assert(!client1.fullScreen);
     Assert.assert(!client1.keepBelow);
     Assert.assert(!client1.keepAbove);
-    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
     Assert.assert(!client2.fullScreen);
     Assert.assert(!client2.keepBelow);
     Assert.assert(!client2.keepAbove);
-    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.grid(config, tilingArea, [300, 400], [[client1], [client2]], true);
 
     runOneOf(
         () => client2.fullScreen = true,
@@ -117,7 +111,7 @@ tests.register("Re-maximize disabled (floating above)", 100, () => {
     Assert.assert(!client1.fullScreen);
     Assert.assert(!client1.keepBelow);
     Assert.assert(!client1.keepAbove);
-    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.grid(config, tilingArea, [300], [[client1]], false);
     Assert.assert(!client2.keepBelow);
     Assert.assert(client2.keepAbove);
     Assert.equalRects(client2.frameGeometry, screen);
@@ -131,11 +125,10 @@ tests.register("Re-maximize disabled (floating above)", 100, () => {
     Assert.assert(!client1.fullScreen);
     Assert.assert(!client1.keepBelow);
     Assert.assert(!client1.keepAbove);
-    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
     Assert.assert(!client2.fullScreen);
     Assert.assert(!client2.keepBelow);
     Assert.assert(!client2.keepAbove);
-    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.grid(config, tilingArea, [300, 400], [[client1], [client2]], true);
 
     runOneOf(
         () => workspaceMock.activeWindow = client2,
@@ -146,11 +139,10 @@ tests.register("Re-maximize disabled (floating above)", 100, () => {
     Assert.assert(!client1.fullScreen);
     Assert.assert(!client1.keepBelow);
     Assert.assert(!client1.keepAbove);
-    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
     Assert.assert(!client2.fullScreen);
     Assert.assert(!client2.keepBelow);
     Assert.assert(!client2.keepAbove);
-    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.grid(config, tilingArea, [300, 400], [[client1], [client2]], true);
 });
 
 tests.register("Re-maximize enabled (floating above)", 100, () => {
@@ -166,19 +158,13 @@ tests.register("Re-maximize enabled (floating above)", 100, () => {
         Assert.assert(clientManager.hasClient(client2));
     });
 
-    const columnsWidth = 300 + 400 + config.gapsInnerHorizontal;
-    const column1LeftX = tilingArea.left + tilingArea.width/2 - columnsWidth/2;
-    const column2LeftX = column1LeftX + 300 + config.gapsInnerHorizontal;
-    const columnTopY = tilingArea.top;
-    const columnHeight = tilingArea.height;
     Assert.assert(!client1.fullScreen);
     Assert.assert(!client1.keepBelow);
     Assert.assert(!client1.keepAbove);
-    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
     Assert.assert(!client2.fullScreen);
     Assert.assert(!client2.keepBelow);
     Assert.assert(!client2.keepAbove);
-    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.grid(config, tilingArea, [300, 400], [[client1], [client2]], true);
 
     runOneOf(
         () => client2.fullScreen = true,
@@ -187,7 +173,7 @@ tests.register("Re-maximize enabled (floating above)", 100, () => {
     Assert.assert(!client1.fullScreen);
     Assert.assert(!client1.keepBelow);
     Assert.assert(!client1.keepAbove);
-    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.grid(config, tilingArea, [300], [[client1]], false);
     Assert.assert(!client2.keepBelow);
     Assert.assert(client2.keepAbove);
     Assert.equalRects(client2.frameGeometry, screen);
@@ -201,11 +187,10 @@ tests.register("Re-maximize enabled (floating above)", 100, () => {
     Assert.assert(!client1.fullScreen);
     Assert.assert(!client1.keepBelow);
     Assert.assert(!client1.keepAbove);
-    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
     Assert.assert(!client2.fullScreen);
     Assert.assert(!client2.keepBelow);
     Assert.assert(!client2.keepAbove);
-    Assert.rect(client2.frameGeometry, column2LeftX, columnTopY, 400, columnHeight);
+    Assert.grid(config, tilingArea, [300, 400], [[client1], [client2]], true);
 
     runOneOf(
         () => workspaceMock.activeWindow = client2,
@@ -216,7 +201,7 @@ tests.register("Re-maximize enabled (floating above)", 100, () => {
     Assert.assert(!client1.fullScreen);
     Assert.assert(!client1.keepBelow);
     Assert.assert(!client1.keepAbove);
-    Assert.rect(client1.frameGeometry, column1LeftX, columnTopY, 300, columnHeight);
+    Assert.grid(config, tilingArea, [300], [[client1]], false);
     Assert.assert(!client2.keepBelow);
     Assert.assert(client2.keepAbove);
     Assert.equalRects(client2.frameGeometry, screen);
@@ -308,19 +293,14 @@ tests.register("Start full-screen (force tiling) (floating above)", 100, () => {
     Assert.equal(Workspace.activeWindow, fullScreenClient);
 
     const column2Width = tilingArea.width;
-    const column1LeftX = tilingArea.left;
-    const column2LeftX = column1LeftX + column1Width + gapH;
-    const columnTopY = tilingArea.top;
-    const columnHeight = tilingArea.height;
     qtMock.fireShortcut("karousel-focus-left");
     const opts = { message: "fullScreenClient should be restored from full-screen mode to tiled mode" };
     Assert.assert(!windowedClient.fullScreen);
     Assert.assert(!windowedClient.keepBelow);
     Assert.assert(!windowedClient.keepAbove);
-    Assert.rect(windowedClient.frameGeometry, column1LeftX, columnTopY, column1Width, columnHeight, opts);
     Assert.assert(!fullScreenClient.fullScreen);
     Assert.assert(!fullScreenClient.keepBelow);
     Assert.assert(!fullScreenClient.keepAbove);
-    Assert.rect(fullScreenClient.frameGeometry, column2LeftX, columnTopY, column2Width, columnHeight, opts);
+    Assert.grid(config, tilingArea, [column1Width, column2Width], [[windowedClient], [fullScreenClient]], false, [], opts);
     Assert.equal(Workspace.activeWindow, windowedClient);
 });

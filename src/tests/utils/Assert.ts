@@ -126,23 +126,61 @@ namespace Assert {
     export function grid(
         config: Config,
         tilingArea: QmlRect,
-        columnWidth: number,
+        columnWidths: number[] | number,
         grid: KwinClient[][],
         centered: boolean,
         stackedColumns: number[] = [],
         { message, skip=0 }: Options = {},
     ) {
         const nColumns = grid.length;
-        const columnsWidth = nColumns * columnWidth + (nColumns-1) * config.gapsInnerHorizontal;
+        function getGridWidth() {
+            function getColumnsWidth() {
+                if (columnWidths instanceof Array) {
+                    let columnsWidth = 0;
+                    for (const columnWidth of columnWidths) {
+                        columnsWidth += columnWidth
+                    }
+                    return columnsWidth;
+                } else {
+                    return nColumns * columnWidths;
+                }
+            }
+
+            const gapsWidth = (nColumns-1) * config.gapsInnerHorizontal;
+            return getColumnsWidth() + gapsWidth;
+        }
+
+        function getColumnWidth(column: number) {
+            if (columnWidths instanceof Array) {
+                return columnWidths[column];
+            } else {
+                return columnWidths;
+            }
+        }
+
+        const gridWidth = getGridWidth();
         const startX = centered ?
-            tilingArea.x + (tilingArea.width - columnsWidth) / 2 :
+            tilingArea.x + (tilingArea.width - gridWidth) / 2 :
             grid[0][0].frameGeometry.x;
+
+        function getColumnX(column: number) {
+            if (columnWidths instanceof Array) {
+                let x = startX;
+                for (let i = 0; i < column; i++) {
+                    x += columnWidths[i] + config.gapsInnerHorizontal;
+                }
+                return x;
+            } else {
+                return startX + column * (columnWidths + config.gapsInnerHorizontal);
+            }
+        }
 
         // assumes uniformly sized windows within columns of uniform width
         function getRectInGrid(column: number, window: number, nColumns: number, nWindows: number) {
+            const columnWidth = getColumnWidth(column);
             const windowHeight = (tilingArea.height - config.gapsInnerVertical * (nWindows-1)) / nWindows;
             return new MockQmlRect(
-                startX + column * (columnWidth + config.gapsInnerHorizontal),
+                getColumnX(column),
                 tilingArea.y + (windowHeight + config.gapsInnerVertical) * window,
                 columnWidth,
                 (tilingArea.height - config.gapsInnerVertical * (nWindows-1)) / nWindows,
@@ -150,9 +188,9 @@ namespace Assert {
         }
 
         function getRectInGridStacked(column: number, window: number, nColumns: number, nWindows: number) {
-            const columnX = startX + column * (columnWidth + config.gapsInnerHorizontal);
+            const columnWidth = getColumnWidth(column);
             return new MockQmlRect(
-                columnX + window * config.stackOffsetX,
+                getColumnX(column) + window * config.stackOffsetX,
                 tilingArea.y + window * config.stackOffsetY,
                 columnWidth - (nWindows-1) * config.stackOffsetX,
                 tilingArea.height - (nWindows-1) * config.stackOffsetY,
