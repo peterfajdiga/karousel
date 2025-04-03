@@ -286,6 +286,7 @@ tests.register("Start full-screen (force tiling) (floating above)", 100, () => {
     Assert.assert(!windowedClient.fullScreen);
     Assert.assert(!windowedClient.keepBelow);
     Assert.assert(!windowedClient.keepAbove);
+    Assert.grid(config, tilingArea, [column1Width], [[windowedClient]], false);
     Assert.assert(fullScreenClient.fullScreen);
     Assert.assert(!fullScreenClient.keepBelow);
     Assert.assert(fullScreenClient.keepAbove);
