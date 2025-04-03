@@ -22,6 +22,12 @@ function runReorder(...fs: (() => void)[]) {
     }
 }
 
+function runReorderDebug(order: number[], ...fs: (() => void)[]) {
+    for (const index of order) {
+        fs[index]();
+    }
+}
+
 function randomInt(n: number) {
     return Math.floor(Math.random() * n);
 }
