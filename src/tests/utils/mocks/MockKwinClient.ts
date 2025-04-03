@@ -107,6 +107,7 @@ class MockKwinClient {
     public set fullScreen(fullScreen: boolean) {
         const oldFullScreen = this._fullScreen;
         this.hasBorder = !fullScreen;
+        const targetFrameGeometry = fullScreen ? screen : this.windowedFrameGeometry;
 
         runReorder(
             () => {
@@ -118,7 +119,7 @@ class MockKwinClient {
             () => {
                 if (oldFullScreen && !fullScreen) {
                     // when switching from full-screen to windowed, Kwin sometimes first adds the frame before changing the frameGeometry to the final value
-                    if (rectEquals(this.frameGeometry, this.windowedFrameGeometry)) {
+                    if (!rectEquals(this.frameGeometry, screen)) {
                         // already has windowed frame geometry, don't undo that
                         return;
                     }
@@ -141,11 +142,7 @@ class MockKwinClient {
             },
             () => {
                 this.windowed = !fullScreen;
-                if (fullScreen) {
-                    this.frameGeometry = screen;
-                } else {
-                    this.frameGeometry = this.windowedFrameGeometry;
-                }
+                this.frameGeometry = targetFrameGeometry;
             },
         );
     }
