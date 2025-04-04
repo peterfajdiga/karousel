@@ -90,31 +90,41 @@ tests.register("Re-maximize disabled (tiled below)", 100, () => {
     config.reMaximize = false;
     const { qtMock, workspaceMock, world } = init(config);
 
-    const [client1, client2] = workspaceMock.createClientsWithWidths(300, 400);
-    world.do((clientManager, desktopManager) => {
-        Assert.assert(clientManager.hasClient(client1));
-        Assert.assert(clientManager.hasClient(client2));
-    });
+    const [client1, client2a, client2b] = workspaceMock.createClientsWithWidths(300, 400, 400);
+    qtMock.fireShortcut("karousel-window-move-left");
 
-    Assert.assert(!client1.fullScreen);
-    Assert.assert(client1.keepBelow);
-    Assert.assert(!client1.keepAbove);
-    Assert.assert(!client2.fullScreen);
-    Assert.assert(client2.keepBelow);
-    Assert.assert(!client2.keepAbove);
-    Assert.grid(config, tilingArea, [300, 400], [[client1], [client2]], true);
+    function assertWindowed() {
+        Assert.assert(!client1.fullScreen);
+        Assert.assert(client1.keepBelow);
+        Assert.assert(!client1.keepAbove);
+        Assert.assert(!client2a.fullScreen);
+        Assert.assert(client2a.keepBelow);
+        Assert.assert(!client2a.keepAbove);
+        Assert.assert(!client2b.fullScreen);
+        Assert.assert(client2b.keepBelow);
+        Assert.assert(!client2b.keepAbove);
+        Assert.grid(config, tilingArea, [300, 400], [[client1], [client2a, client2b]], true);
+    }
+
+    function assertFullScreenOrMaximized() {
+        Assert.assert(!client1.fullScreen);
+        Assert.assert(client1.keepBelow);
+        Assert.assert(!client1.keepAbove);
+        Assert.assert(!client2a.fullScreen);
+        Assert.assert(client2a.keepBelow);
+        Assert.assert(!client2a.keepAbove);
+        Assert.assert(!client2b.keepBelow);
+        Assert.assert(!client2b.keepAbove);
+        Assert.equalRects(client2b.frameGeometry, screen);
+    }
+
+    assertWindowed();
 
     runOneOf(
-        () => client2.fullScreen = true,
-        () => client2.setMaximize(true, true),
+        () => client2b.fullScreen = true,
+        () => client2b.setMaximize(true, true),
     );
-    Assert.assert(!client1.fullScreen);
-    Assert.assert(client1.keepBelow);
-    Assert.assert(!client1.keepAbove);
-    Assert.grid(config, tilingArea, [300], [[client1]], false);
-    Assert.assert(!client2.keepBelow);
-    Assert.assert(!client2.keepAbove);
-    Assert.equalRects(client2.frameGeometry, screen);
+    assertFullScreenOrMaximized();
 
     runOneOf(
         () => workspaceMock.activeWindow = client1,
@@ -122,27 +132,15 @@ tests.register("Re-maximize disabled (tiled below)", 100, () => {
         () => qtMock.fireShortcut("karousel-focus-left"),
         () => qtMock.fireShortcut("karousel-focus-start"),
     );
-    Assert.assert(!client1.fullScreen);
-    Assert.assert(client1.keepBelow);
-    Assert.assert(!client1.keepAbove);
-    Assert.assert(!client2.fullScreen);
-    Assert.assert(client2.keepBelow);
-    Assert.assert(!client2.keepAbove);
-    Assert.grid(config, tilingArea, [300, 400], [[client1], [client2]], true);
+    assertWindowed();
 
     runOneOf(
-        () => workspaceMock.activeWindow = client2,
+        () => workspaceMock.activeWindow = client2b,
         () => qtMock.fireShortcut("karousel-focus-2"),
         () => qtMock.fireShortcut("karousel-focus-right"),
         () => qtMock.fireShortcut("karousel-focus-end"),
     );
-    Assert.assert(!client1.fullScreen);
-    Assert.assert(client1.keepBelow);
-    Assert.assert(!client1.keepAbove);
-    Assert.assert(!client2.fullScreen);
-    Assert.assert(client2.keepBelow);
-    Assert.assert(!client2.keepAbove);
-    Assert.grid(config, tilingArea, [300, 400], [[client1], [client2]], true);
+    assertWindowed();
 });
 
 tests.register("Re-maximize enabled (tiled below)", 100, () => {
