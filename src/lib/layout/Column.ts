@@ -297,13 +297,13 @@ class Column {
     }
 
     public onWindowFocused(window: Window) {
-        this.grid.onColumnFocused(this);
+        this.grid.onColumnFocused(this, window);
         this.focusTaker = window;
     }
 
-    public restoreToTiled() {
+    public restoreToTiled(focusedWindow: Window) {
         const lastFocusedWindow = this.getFocusTaker();
-        if (lastFocusedWindow !== null) {
+        if (lastFocusedWindow !== null && lastFocusedWindow !== focusedWindow) {
             lastFocusedWindow.restoreToTiled();
         }
     }

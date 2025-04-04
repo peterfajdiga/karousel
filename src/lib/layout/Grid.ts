@@ -184,10 +184,10 @@ class Grid {
         }
     }
 
-    public onColumnFocused(column: Column) {
+    public onColumnFocused(column: Column, window: Window) {
         const lastFocusedColumn = this.getLastFocusedColumn();
-        if (lastFocusedColumn !== null && lastFocusedColumn !== column) {
-            lastFocusedColumn.restoreToTiled();
+        if (lastFocusedColumn !== null) {
+            lastFocusedColumn.restoreToTiled(window);
         }
         this.lastFocusedColumn = column;
         this.desktop.scrollToColumn(column, false);

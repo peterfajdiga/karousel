@@ -143,6 +143,24 @@
                     () => qtMock.fireShortcut("karousel-focus-end"),
                 );
                 assertWindowed(config, clients);
+
+                runOneOf(
+                    () => clients[2].fullScreen = true,
+                    () => clients[2].setMaximize(true, true),
+                );
+                assertFullScreenOrMaximized(clients);
+
+                runOneOf(
+                    () => workspaceMock.activeWindow = clients[1],
+                    () => qtMock.fireShortcut("karousel-focus-up"),
+                );
+                assertWindowed(config, clients);
+
+                runOneOf(
+                    () => workspaceMock.activeWindow = clients[2],
+                    () => qtMock.fireShortcut("karousel-focus-down"),
+                );
+                assertWindowed(config, clients);
             });
 
             tests.register("Re-maximize enabled " + suffix, 100, () => {
@@ -174,6 +192,18 @@
                     () => qtMock.fireShortcut("karousel-focus-2"),
                     () => qtMock.fireShortcut("karousel-focus-right"),
                     () => qtMock.fireShortcut("karousel-focus-end"),
+                );
+                assertFullScreenOrMaximized(clients);
+
+                runOneOf(
+                    () => workspaceMock.activeWindow = clients[1],
+                    () => qtMock.fireShortcut("karousel-focus-up"),
+                );
+                assertWindowed(config, clients);
+
+                runOneOf(
+                    () => workspaceMock.activeWindow = clients[2],
+                    () => qtMock.fireShortcut("karousel-focus-down"),
                 );
                 assertFullScreenOrMaximized(clients);
             });
