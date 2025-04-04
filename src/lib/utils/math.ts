@@ -18,3 +18,15 @@ function rectEquals(a: QmlRect, b: QmlRect) {
         a.width === b.width &&
         a.height === b.height;
 }
+
+function pointEquals(a: QmlPoint, b: QmlPoint) {
+    return a.x === b.x &&
+        a.y === b.y;
+}
+
+function rectContainsPoint(rect: QmlRect, point: QmlPoint) {
+    return rect.left <= point.x &&
+        rect.right >= point.x &&
+        rect.top <= point.y &&
+        rect.bottom >= point.y;
+}

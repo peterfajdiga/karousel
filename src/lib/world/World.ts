@@ -103,7 +103,11 @@ class World {
     }
 
     private moveCursorToFocus() {
-        if (this.cursorFollowsFocus && moveCursorToFocus !== undefined) {
+        if (this.cursorFollowsFocus && Workspace.activeWindow !== null) {
+            const cursorAlreadyInFocus = rectContainsPoint(Workspace.activeWindow.frameGeometry, Workspace.cursorPos);
+            if (cursorAlreadyInFocus) {
+                return;
+            }
             moveCursorToFocus.call();
         }
     }

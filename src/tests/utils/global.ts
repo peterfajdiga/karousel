@@ -29,6 +29,15 @@ function init(config: Config) {
 
     Qt = qtMock;
     Workspace = workspaceMock;
+    moveCursorToFocus = {
+        __brand: "QmlObject",
+        call: () => {
+            Assert.assert(Workspace.activeWindow !== null, { message: "moveCursorToFocus should never be called if there's no focused window" });
+            const frame = Workspace.activeWindow!.frameGeometry;
+            workspaceMock.cursorPos.x = Math.floor(frame.x + frame.width/2);
+            workspaceMock.cursorPos.y = Math.floor(frame.y + frame.height/2);
+        },
+    };
 
     const world = new World(config);
     return { qtMock, workspaceMock, world };

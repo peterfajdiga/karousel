@@ -5,4 +5,11 @@ class MockQmlPoint {
         public x: number,
         public y: number,
     ) {}
+
+    public clone() {
+        return new MockQmlPoint(
+            this.x,
+            this.y,
+        );
+    }
 }
