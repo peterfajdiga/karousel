@@ -1,30 +1,12 @@
 {
-    function getConfig(floatingKeepAbove: boolean) {
-        const config = getDefaultConfig();
-        config.tiledKeepBelow = !floatingKeepAbove;
-        config.floatingKeepAbove = floatingKeepAbove;
-        return config;
-    }
-
-    function shouldKeepBelow(floatingKeepAbove: boolean, tiled: boolean) {
-        if (floatingKeepAbove) {
-            return false;
-        } else {
-            return tiled;
-        }
-    }
-
-    function shouldKeepAbove(floatingKeepAbove: boolean, tiled: boolean) {
-        if (floatingKeepAbove) {
-            return !tiled;
-        } else {
-            return false;
-        }
-    }
-
-    function registerTests(floatingKeepAbove: boolean, suffix: string) {
+    function registerTests(
+        suffix: string,
+        getConfig: () => Config,
+        shouldKeepBelow: (tiled: boolean) => boolean,
+        shouldKeepAbove: (tiled: boolean) => boolean,
+    ) {
         tests.register("Maximization " + suffix, 100, () => {
-            const config = getConfig(floatingKeepAbove);
+            const config = getConfig();
             const { qtMock, workspaceMock, world } = init(config);
 
             const [kwinClient] = workspaceMock.createClientsWithWidths(300);
@@ -36,43 +18,43 @@
             const columnTopY = tilingArea.top;
             const columnHeight = tilingArea.height;
             Assert.assert(!kwinClient.fullScreen);
-            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(true));
+            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(true));
             Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
 
             kwinClient.fullScreen = true;
             Assert.assert(kwinClient.fullScreen);
-            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(false));
+            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(false));
             Assert.equalRects(kwinClient.frameGeometry, screen);
 
             kwinClient.fullScreen = false;
             Assert.assert(!kwinClient.fullScreen);
-            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(true));
+            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(true));
             Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
 
             kwinClient.setMaximize(true, true);
             Assert.assert(!kwinClient.fullScreen);
-            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(false));
+            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(false));
             Assert.equalRects(kwinClient.frameGeometry, screen);
 
             kwinClient.setMaximize(true, false);
             Assert.assert(!kwinClient.fullScreen);
-            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(false));
+            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(false));
             Assert.rect(kwinClient.frameGeometry, columnLeftX, 0, 300, screen.height);
 
             kwinClient.setMaximize(false, false);
             Assert.assert(!kwinClient.fullScreen);
-            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+            Assert.equal(kwinClient.keepBelow, shouldKeepBelow(true));
+            Assert.equal(kwinClient.keepAbove, shouldKeepAbove(true));
             Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
         });
 
         tests.register("Maximize with transient " + suffix, 100, () => {
-            const config = getConfig(floatingKeepAbove);
+            const config = getConfig();
             const { qtMock, workspaceMock, world } = init(config);
 
             const parent = new MockKwinClient(new MockQmlRect(10, 20, 300, 200));
@@ -87,8 +69,8 @@
                 () => parent.fullScreen = true,
                 () => parent.setMaximize(true, true),
             );
-            Assert.equal(parent.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-            Assert.equal(parent.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+            Assert.equal(parent.keepBelow, shouldKeepBelow(false));
+            Assert.equal(parent.keepAbove, shouldKeepAbove(false));
             Assert.equalRects(parent.frameGeometry, screen);
 
             workspaceMock.createWindows(child);
@@ -96,42 +78,42 @@
                 Assert.assert(clientManager.hasClient(child));
             });
             Assert.assert(!child.fullScreen);
-            Assert.equal(child.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-            Assert.equal(child.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+            Assert.equal(child.keepBelow, shouldKeepBelow(false));
+            Assert.equal(child.keepAbove, shouldKeepAbove(false));
             Assert.rect(child.frameGeometry, 14, 24, 50, 50);
-            Assert.equal(parent.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-            Assert.equal(parent.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+            Assert.equal(parent.keepBelow, shouldKeepBelow(false));
+            Assert.equal(parent.keepAbove, shouldKeepAbove(false));
             Assert.equalRects(parent.frameGeometry, screen);
         });
 
         {
             function assertWindowed(config: Config, clients: KwinClient[]) {
                 Assert.assert(!clients[0].fullScreen);
-                Assert.equal(clients[0].keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-                Assert.equal(clients[0].keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+                Assert.equal(clients[0].keepBelow, shouldKeepBelow(true));
+                Assert.equal(clients[0].keepAbove, shouldKeepAbove(true));
                 Assert.assert(!clients[1].fullScreen);
-                Assert.equal(clients[1].keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-                Assert.equal(clients[1].keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+                Assert.equal(clients[1].keepBelow, shouldKeepBelow(true));
+                Assert.equal(clients[1].keepAbove, shouldKeepAbove(true));
                 Assert.assert(!clients[2].fullScreen);
-                Assert.equal(clients[2].keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-                Assert.equal(clients[2].keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+                Assert.equal(clients[2].keepBelow, shouldKeepBelow(true));
+                Assert.equal(clients[2].keepAbove, shouldKeepAbove(true));
                 Assert.grid(config, tilingArea, [300, 400], [[clients[0]], [clients[1], clients[2]]], true);
             }
 
             function assertFullScreenOrMaximized(clients: KwinClient[]) {
                 Assert.assert(!clients[0].fullScreen);
-                Assert.equal(clients[0].keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-                Assert.equal(clients[0].keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+                Assert.equal(clients[0].keepBelow, shouldKeepBelow(true));
+                Assert.equal(clients[0].keepAbove, shouldKeepAbove(true));
                 Assert.assert(!clients[1].fullScreen);
-                Assert.equal(clients[1].keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-                Assert.equal(clients[1].keepAbove, shouldKeepAbove(floatingKeepAbove, true));
-                Assert.equal(clients[2].keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-                Assert.equal(clients[2].keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+                Assert.equal(clients[1].keepBelow, shouldKeepBelow(true));
+                Assert.equal(clients[1].keepAbove, shouldKeepAbove(true));
+                Assert.equal(clients[2].keepBelow, shouldKeepBelow(false));
+                Assert.equal(clients[2].keepAbove, shouldKeepAbove(false));
                 Assert.equalRects(clients[2].frameGeometry, screen);
             }
 
             tests.register("Re-maximize disabled " + suffix, 100, () => {
-                const config = getConfig(floatingKeepAbove);
+                const config = getConfig();
                 config.reMaximize = false;
                 const { qtMock, workspaceMock, world } = init(config);
 
@@ -164,7 +146,7 @@
             });
 
             tests.register("Re-maximize enabled " + suffix, 100, () => {
-                const config = getConfig(floatingKeepAbove);
+                const config = getConfig();
                 config.reMaximize = true;
                 const { qtMock, workspaceMock, world } = init(config);
 
@@ -198,7 +180,7 @@
         }
 
         tests.register("Start full-screen " + suffix, 100, () => {
-            const config = getConfig(floatingKeepAbove);
+            const config = getConfig();
             config.reMaximize = true;
             const { qtMock, workspaceMock, world } = init(config);
 
@@ -214,12 +196,12 @@
             });
 
             Assert.assert(!windowedClient.fullScreen);
-            Assert.equal(windowedClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-            Assert.equal(windowedClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+            Assert.equal(windowedClient.keepBelow, shouldKeepBelow(true));
+            Assert.equal(windowedClient.keepAbove, shouldKeepAbove(true));
             Assert.centered(config, tilingArea, windowedClient);
             Assert.assert(fullScreenClient.fullScreen);
-            Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-            Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+            Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(false));
+            Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(false));
             Assert.equalRects(fullScreenClient.frameGeometry, screen);
             Assert.equal(Workspace.activeWindow, fullScreenClient);
 
@@ -227,12 +209,12 @@
                 qtMock.fireShortcut("karousel-focus-left");
                 const opts = { message: "fullScreenClient is not in the grid, so we can't move focus directionally" };
                 Assert.assert(!windowedClient.fullScreen);
-                Assert.equal(windowedClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-                Assert.equal(windowedClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+                Assert.equal(windowedClient.keepBelow, shouldKeepBelow(true));
+                Assert.equal(windowedClient.keepAbove, shouldKeepAbove(true));
                 Assert.centered(config, tilingArea, windowedClient);
                 Assert.assert(fullScreenClient.fullScreen);
-                Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-                Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+                Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(false));
+                Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(false));
                 Assert.equalRects(fullScreenClient.frameGeometry, screen);
                 Assert.equal(Workspace.activeWindow, fullScreenClient, opts);
             }
@@ -241,19 +223,19 @@
                 qtMock.fireShortcut("karousel-focus-1");
                 const opts = { message: "fullScreenClient is not in grid, so it should stay full-screen" };
                 Assert.assert(!windowedClient.fullScreen);
-                Assert.equal(windowedClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-                Assert.equal(windowedClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+                Assert.equal(windowedClient.keepBelow, shouldKeepBelow(true));
+                Assert.equal(windowedClient.keepAbove, shouldKeepAbove(true));
                 Assert.centered(config, tilingArea, windowedClient);
                 Assert.assert(fullScreenClient.fullScreen);
-                Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-                Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+                Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(false));
+                Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(false));
                 Assert.equalRects(fullScreenClient.frameGeometry, screen);
                 Assert.equal(Workspace.activeWindow, windowedClient);
             }
         });
 
         tests.register("Start full-screen (force tiling) " + suffix, 100, () => {
-            const config = getConfig(floatingKeepAbove);
+            const config = getConfig();
             config.reMaximize = true;
             config.windowRules = '[{ "class": "full-screen-app", "tile": true }]';
             const { qtMock, workspaceMock, world } = init(config);
@@ -270,12 +252,12 @@
                 Assert.assert(clientManager.hasClient(fullScreenClient));
             });
             Assert.assert(!windowedClient.fullScreen);
-            Assert.equal(windowedClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-            Assert.equal(windowedClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+            Assert.equal(windowedClient.keepBelow, shouldKeepBelow(true));
+            Assert.equal(windowedClient.keepAbove, shouldKeepAbove(true));
             Assert.grid(config, tilingArea, [column1Width], [[windowedClient]], false);
             Assert.assert(fullScreenClient.fullScreen);
-            Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(floatingKeepAbove, false));
-            Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(floatingKeepAbove, false));
+            Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(false));
+            Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(false));
             Assert.equalRects(fullScreenClient.frameGeometry, screen);
             Assert.equal(Workspace.activeWindow, fullScreenClient);
 
@@ -296,16 +278,34 @@
 
             const opts = { message: "fullScreenClient should be restored from full-screen mode to tiled mode" };
             Assert.assert(!windowedClient.fullScreen);
-            Assert.equal(windowedClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-            Assert.equal(windowedClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+            Assert.equal(windowedClient.keepBelow, shouldKeepBelow(true));
+            Assert.equal(windowedClient.keepAbove, shouldKeepAbove(true));
             Assert.assert(!fullScreenClient.fullScreen);
-            Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(floatingKeepAbove, true));
-            Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(floatingKeepAbove, true));
+            Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(true));
+            Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(true));
             Assert.grid(config, tilingArea, [column1Width, expectedColumn2Width], [[windowedClient], [fullScreenClient]], false, [], opts);
             Assert.equal(Workspace.activeWindow, expectedActiveWindow);
         });
     }
 
-    registerTests(false, "(tiled below)");
-    registerTests(true, "(floating above)");
+    function getConfig(floatingKeepAbove: boolean) {
+        const config = getDefaultConfig();
+        config.tiledKeepBelow = !floatingKeepAbove;
+        config.floatingKeepAbove = floatingKeepAbove;
+        return config;
+    }
+
+    registerTests(
+        "(tiled below)",
+        getConfig.partial(false),
+        tiled => tiled,
+        tiled => false,
+    );
+
+    registerTests(
+        "(floating above)",
+        getConfig.partial(true),
+        tiled => false,
+        tiled => !tiled,
+    );
 }
