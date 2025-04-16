@@ -20,7 +20,7 @@ namespace ClientState {
         }
     }
 
-    export type State = {
+    export interface State {
         destroy(passFocus: boolean): void;
-    };
+    }
 }

@@ -1,3 +1,3 @@
-type DBusCall = QmlObject & {
+interface DBusCall extends QmlObject {
     call(): void;
-};
+}

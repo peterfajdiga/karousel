@@ -128,8 +128,8 @@ class Window {
 }
 
 namespace Window {
-    export type State = {
+    export interface State {
         fullScreen: boolean;
         maximizedMode: MaximizedMode;
-    };
+    }
 }

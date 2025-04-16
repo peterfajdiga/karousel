@@ -175,7 +175,7 @@ class Desktop {
 }
 
 namespace Desktop {
-    export type Config = {
+    export interface Config {
         marginTop: number;
         marginBottom: number;
         marginLeft: number;
@@ -185,7 +185,7 @@ namespace Desktop {
         gestureScrollStep: number;
         scroller: Desktop.Scroller;
         clamper: Desktop.Clamper;
-    };
+    }
 
     export class ColumnRange {
         private left: Column;
@@ -259,11 +259,11 @@ namespace Desktop {
         }
     }
 
-    export type Scroller = {
+    export interface Scroller {
         scrollToColumn(desktop: Desktop, column: Column): void;
-    };
+    }
 
-    export type Clamper = {
+    export interface Clamper {
         clampScrollX(desktop: Desktop, x: number): number;
-    };
+    }
 }

@@ -1,3 +1,3 @@
-type Notification = QmlObject & {
+interface Notification extends QmlObject {
     sendEvent(): void;
-};
+}

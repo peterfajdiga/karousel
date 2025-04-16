@@ -29,9 +29,9 @@ ${sequenceLine}}`,
 }
 
 namespace ShortcutAction {
-    export type KeyBinding = {
+    export interface KeyBinding {
         name: string;
         description: string;
         defaultKeySequence?: string;
-    };
+    }
 }

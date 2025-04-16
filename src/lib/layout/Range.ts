@@ -1,8 +1,8 @@
-type Range = {
+interface Range {
     getLeft(): number;
     getRight(): number;
     getWidth(): number;
-};
+}
 
 namespace Range {
     export function create(x: number, width: number) {

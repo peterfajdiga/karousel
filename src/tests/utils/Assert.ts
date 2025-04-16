@@ -1,5 +1,5 @@
 namespace Assert {
-    type Options = {
+    interface Options {
         message?: string,
         skip?: number,
     }

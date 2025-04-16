@@ -1,4 +1,4 @@
-type LayoutConfig = {
+interface LayoutConfig {
     gapsInnerHorizontal: number;
     gapsInnerVertical: number;
     stackOffsetX: number;
@@ -11,4 +11,4 @@ type LayoutConfig = {
     tiledKeepBelow: boolean;
     maximizedKeepAbove: boolean;
     untileOnDrag: boolean;
-};
+}

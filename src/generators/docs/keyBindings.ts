@@ -1,7 +1,7 @@
-type DocsKeyBinding = {
+interface DocsKeyBinding {
     description: string;
     keySequence: string;
-};
+}
 
 function formatDescription(item: {description: string, comment?: string}) {
     const suffix = item.comment === undefined ? "" : ` (${item.comment})`;

@@ -1,19 +1,19 @@
-type KeyBinding = {
+interface KeyBinding {
     name: string;
     description: string;
     comment?: string;
     defaultKeySequence?: string;
     action: () => void;
-};
+}
 
-type NumKeyBinding = {
+interface NumKeyBinding {
     name: string;
     description: string;
     comment?: string;
     defaultModifiers: string;
     fKeys: boolean;
     action: (i: number) => void;
-};
+}
 
 function catchWrap(f: () => void) {
     return () => {

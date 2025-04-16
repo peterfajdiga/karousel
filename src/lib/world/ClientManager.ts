@@ -214,7 +214,7 @@ class ClientManager {
 }
 
 namespace ClientManager {
-    export type Config = {
+    export interface Config {
         floatingKeepAbove: boolean;
-    };
+    }
 }

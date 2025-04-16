@@ -16,7 +16,7 @@ class TestRunner {
 }
 
 namespace TestRunner {
-    export type Test = {
+    export interface Test {
         name: string,
         count: number,
         f: () => void,

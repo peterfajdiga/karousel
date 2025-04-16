@@ -1,10 +1,10 @@
-type KWin = {
+interface KWin {
     __brand: "KWin";
 
     readConfig(key: string, defaultValue: any): any;
-};
+}
 
-type Workspace = {
+interface Workspace {
     __brand: "Workspace";
 
     readonly activities: string[];
@@ -28,7 +28,7 @@ type Workspace = {
     readonly virtualScreenSizeChanged: QSignal<[]>;
 
     clientArea(option: ClientAreaOption, output: Output, kwinDesktop: KwinDesktop): QmlRect;
-};
+}
 
 const enum ClientAreaOption {
     PlacementArea,
@@ -48,10 +48,10 @@ const enum MaximizedMode {
     Maximized,
 }
 
-type Tile = { __brand: "Tile" };
-type Output = { __brand: "Output" };
+interface Tile { __brand: "Tile" }
+interface Output { __brand: "Output" }
 
-type KwinClient = {
+interface KwinClient {
     __brand: "KwinClient";
 
     readonly caption: string;
@@ -96,15 +96,15 @@ type KwinClient = {
     readonly frameGeometryChanged: QSignal<[oldGeometry: QmlRect]>;
 
     setMaximize(vertically: boolean, horizontally: boolean): void;
-};
+}
 
-type KwinDesktop = {
+interface KwinDesktop {
     __brand: "KwinDesktop";
 
     readonly id: string;
-};
+}
 
-type ShortcutHandler = QmlObject & {
+interface ShortcutHandler extends QmlObject {
     readonly activated: QSignal<[]>;
     destroy(): void;
-};
+}

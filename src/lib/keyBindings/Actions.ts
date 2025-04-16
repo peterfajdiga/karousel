@@ -417,17 +417,17 @@ class Actions {
 }
 
 namespace Actions {
-    export type Config = {
+    export interface Config {
         manualScrollStep: number;
         presetWidths: {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => number;
             prev: (currentWidth: number, minWidth: number, maxWidth: number) => number
 };
         columnResizer: ColumnResizer;
-    };
+    }
 
-    export type ColumnResizer = {
+    export interface ColumnResizer {
         increaseWidth(column: Column): void;
         decreaseWidth(column: Column): void;
-    };
+    }
 }

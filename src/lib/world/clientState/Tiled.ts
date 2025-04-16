@@ -253,8 +253,8 @@ namespace ClientState {
     }
 
     namespace Tiled {
-        export type WindowState = {
+        export interface WindowState {
             skipSwitcher: boolean;
-        };
+        }
     }
 }

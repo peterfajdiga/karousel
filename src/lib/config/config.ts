@@ -1,4 +1,4 @@
-type Config = {
+interface Config {
     gapsOuterTop: number;
     gapsOuterBottom: number;
     gapsOuterLeft: number;
@@ -25,4 +25,4 @@ type Config = {
     tiledKeepBelow: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;
-};
+}

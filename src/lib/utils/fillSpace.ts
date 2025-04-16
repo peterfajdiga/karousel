@@ -84,13 +84,13 @@ function fillSpace(availableSpace: number, items: { min: number, max: number }[]
         }
     }
 
-    type Range = {
+    interface Range {
         start: number,
         end: number,
         n: number,
-    };
+    }
 
-    type Fencepost = {
+    interface Fencepost {
         value: number,
         nMin: number,
         nMax: number,
