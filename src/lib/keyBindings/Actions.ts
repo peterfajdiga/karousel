@@ -95,7 +95,7 @@ class Actions {
         }
     }
 
-    public readonly windowMoveRight = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid, bottom: boolean = true) => {
+    public readonly windowMoveRight = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid, bottom = true) => {
         if (column.getWindowCount() === 1) {
             // move from own column into existing column
             const rightColumn = grid.getRightColumn(column);

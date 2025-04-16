@@ -6,8 +6,8 @@ class MockKwinClient {
     public caption = "App";
     public minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
     public readonly transient: boolean;
-    public move: boolean = false;
-    public resize: boolean = false;
+    public move = false;
+    public resize = false;
     public readonly fullScreenable: boolean = true;
     public readonly maximizable: boolean = true;
     public readonly output: Output = { __brand: "Output" };
@@ -18,17 +18,17 @@ class MockKwinClient {
     public readonly popupWindow: boolean = false;
     public readonly pid = 1;
 
-    private _maximizedVertically: boolean = false;
-    private _maximizedHorizontally: boolean = false;
-    private _fullScreen: boolean = false;
+    private _maximizedVertically = false;
+    private _maximizedHorizontally = false;
+    private _fullScreen = false;
     public activities: string[] = [];
-    public skipSwitcher: boolean = false;
-    public keepAbove: boolean = false;
-    public keepBelow: boolean = false;
-    private _minimized: boolean = false;
+    public skipSwitcher = false;
+    public keepAbove = false;
+    public keepBelow = false;
+    private _minimized = false;
     private _desktops: KwinDesktop[] = [];
     private _tile: Tile|null = null;
-    public opacity: number = 1.0;
+    public opacity = 1.0;
 
     public readonly fullScreenChanged = new MockQSignal<[]>();
     public readonly desktopsChanged = new MockQSignal<[]>();
@@ -42,8 +42,8 @@ class MockKwinClient {
     public readonly frameGeometryChanged = new MockQSignal<[oldGeometry: QmlRect]>();
 
     private windowedFrameGeometry: MockQmlRect;
-    private windowed: boolean = true;
-    private hasBorder: boolean = true;
+    private windowed = true;
+    private hasBorder = true;
 
     constructor(
         private _frameGeometry: MockQmlRect = new MockQmlRect(10, 10, 100, 200),

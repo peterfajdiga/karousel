@@ -1,7 +1,7 @@
 class MockQSignal<T extends unknown[]> {
     public readonly __brand = "QSignal";
 
-    private readonly handlers: Set<(...args: [...T]) => void> = new Set();
+    private readonly handlers = new Set<(...args: [...T]) => void>();
 
     public connect(handler: (...args: [...T]) => void) {
         this.handlers.add(handler);
