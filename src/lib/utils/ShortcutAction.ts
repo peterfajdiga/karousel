@@ -16,7 +16,7 @@ class ShortcutAction {
 ` :
             "";
 
-        return <ShortcutHandler>Qt.createQmlObject(
+        return Qt.createQmlObject(
             `import QtQuick 6.0
 import org.kde.kwin 3.0
 ShortcutHandler {
@@ -24,7 +24,7 @@ ShortcutHandler {
     text: "Karousel: ${keyBinding.description}";
 ${sequenceLine}}`,
             qmlBase,
-        );
+        ) as ShortcutHandler;
     }
 }
 
