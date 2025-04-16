@@ -2,4 +2,6 @@
 /package/contents/config/main.xml
 /karousel*.tar.gz
 run-ts-tmp.js
+
+/node_modules
 /.idea
