@@ -1,5 +1,5 @@
 VERSION = $(shell grep '"Version":' ./package/metadata.json | grep -o '[0-9\.]*')
-TESTS := true
+CHECKS := true
 
 .PHONY: *
 
@@ -12,13 +12,15 @@ npm-install:
 	npm install
 
 lint: npm-install
+ifeq (${CHECKS}, true)
 	npx eslint ./src
+endif
 
 lint-fix: npm-install
 	npx eslint ./src --fix
 
 tests:
-ifeq (${TESTS}, true)
+ifeq (${CHECKS}, true)
 	./run-ts.sh ./src/tests
 endif
 
