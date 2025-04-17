@@ -54,7 +54,7 @@ namespace ClientState {
                     }
                     Tiled.moveWindowToGrid(window, desktop.grid);
                 });
-            })
+            });
 
             manager.connect(kwinClient.minimizedChanged, () => {
                 console.assert(kwinClient.minimized);

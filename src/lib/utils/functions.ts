@@ -7,4 +7,4 @@ interface Function {
 
 Function.prototype.partial = function<H extends any[], T extends any[]>(...head: H) {
     return (...tail: T) => this(...head, ...tail);
-}
+};

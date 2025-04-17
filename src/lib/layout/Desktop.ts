@@ -54,7 +54,7 @@ class Desktop {
             top,
             right - left,
             bottom - top,
-        )
+        );
     }
 
     public scrollIntoView(range: Range) {
@@ -128,7 +128,7 @@ class Desktop {
 
     public gestureScroll(amount: number) {
         if (!this.config.gestureScroll) {
-            return
+            return;
         }
         if (this.gestureScrollXInitial === null) {
             this.gestureScrollXInitial = this.scrollX;

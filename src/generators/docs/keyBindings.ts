@@ -29,7 +29,7 @@ function printCols(...columns: (string[] | string)[]) {
             if (column instanceof Array) {
                 return Math.max(...column.map(
                     (cell: string) => cell.length
-                ))
+                ));
             } else {
                 return column.length;
             }

@@ -9,7 +9,7 @@ class Actions {
             return;
         }
         leftColumn.focus();
-    }
+    };
 
     public readonly focusRight = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const rightColumn = grid.getRightColumn(column);
@@ -17,7 +17,7 @@ class Actions {
             return;
         }
         rightColumn.focus();
-    }
+    };
 
     public readonly focusUp = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const aboveWindow = column.getAboveWindow(window);
@@ -25,7 +25,7 @@ class Actions {
             return;
         }
         aboveWindow.focus();
-    }
+    };
 
     public readonly focusDown = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const belowWindow = column.getBelowWindow(window);
@@ -33,7 +33,7 @@ class Actions {
             return;
         }
         belowWindow.focus();
-    }
+    };
 
     public readonly focusNext = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const belowWindow = column.getBelowWindow(window);
@@ -46,7 +46,7 @@ class Actions {
             }
             rightColumn.getFirstWindow().focus();
         }
-    }
+    };
 
     public readonly focusPrevious = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const aboveWindow = column.getAboveWindow(window);
@@ -59,7 +59,7 @@ class Actions {
             }
             leftColumn.getLastWindow().focus();
         }
-    }
+    };
 
     public readonly focusStart = (cm: ClientManager, dm: DesktopManager) => {
         const grid = dm.getCurrentDesktop().grid;
@@ -68,7 +68,7 @@ class Actions {
             return;
         }
         firstColumn.focus();
-    }
+    };
 
     public readonly focusEnd = (cm: ClientManager, dm: DesktopManager) => {
         const grid = dm.getCurrentDesktop().grid;
@@ -77,7 +77,7 @@ class Actions {
             return;
         }
         lastColumn.focus();
-    }
+    };
 
     public readonly windowMoveLeft = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         if (column.getWindowCount() === 1) {
@@ -93,7 +93,7 @@ class Actions {
             const newColumn = new Column(grid, grid.getLeftColumn(column));
             window.moveToColumn(newColumn, true);
         }
-    }
+    };
 
     public readonly windowMoveRight = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid, bottom = true) => {
         if (column.getWindowCount() === 1) {
@@ -109,17 +109,17 @@ class Actions {
             const newColumn = new Column(grid, column);
             window.moveToColumn(newColumn, true);
         }
-    }
+    };
 
     // TODO (optimization): only arrange moved windows
     public readonly windowMoveUp = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         column.moveWindowUp(window);
-    }
+    };
 
     // TODO (optimization): only arrange moved windows
     public readonly windowMoveDown = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         column.moveWindowDown(window);
-    }
+    };
 
     public readonly windowMoveNext = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const canMoveDown = window !== column.getLastWindow();
@@ -128,7 +128,7 @@ class Actions {
         } else {
             this.windowMoveRight(cm, dm, window, column, grid, false);
         }
-    }
+    };
 
     public readonly windowMovePrevious = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const canMoveUp = window !== column.getFirstWindow();
@@ -137,62 +137,62 @@ class Actions {
         } else {
             this.windowMoveLeft(cm, dm, window, column, grid);
         }
-    }
+    };
 
     public readonly windowMoveStart = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const newColumn = new Column(grid, null);
         window.moveToColumn(newColumn, true);
-    }
+    };
 
     public readonly windowMoveEnd = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const newColumn = new Column(grid, grid.getLastColumn());
         window.moveToColumn(newColumn, true);
-    }
+    };
 
     public readonly windowToggleFloating = (cm: ClientManager, dm: DesktopManager) => {
         if (Workspace.activeWindow === null) {
             return;
         }
         cm.toggleFloatingClient(Workspace.activeWindow);
-    }
+    };
 
     public readonly columnMoveLeft = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         grid.moveColumnLeft(column);
-    }
+    };
 
     public readonly columnMoveRight = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         grid.moveColumnRight(column);
-    }
+    };
 
     public readonly columnMoveStart = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         grid.moveColumn(column, null);
-    }
+    };
 
     public readonly columnMoveEnd = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         grid.moveColumn(column, grid.getLastColumn());
-    }
+    };
 
     public readonly columnToggleStacked = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         column.toggleStacked();
-    }
+    };
 
     public readonly columnWidthIncrease = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         this.config.columnResizer.increaseWidth(column);
-    }
+    };
 
     public readonly columnWidthDecrease = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         this.config.columnResizer.decreaseWidth(column);
-    }
+    };
 
     public readonly cyclePresetWidths = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const nextWidth = this.config.presetWidths.next(column.getWidth(), column.getMinWidth(), column.getMaxWidth());
         column.setWidth(nextWidth, true);
-    }
+    };
 
     public readonly cyclePresetWidthsReverse = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const nextWidth = this.config.presetWidths.prev(column.getWidth(), column.getMinWidth(), column.getMaxWidth());
         column.setWidth(nextWidth, true);
-    }
+    };
 
     public readonly columnsWidthEqualize = (cm: ClientManager, dm: DesktopManager) => {
         const desktop = dm.getCurrentDesktop();
@@ -211,7 +211,7 @@ class Actions {
             visibleColumns[0],
             visibleColumns[visibleColumns.length - 1],
         ));
-    }
+    };
 
     public readonly columnsSqueezeLeft = (cm: ClientManager, dm: DesktopManager, window: Window, focusedColumn: Column, grid: Grid) => {
         const visibleRange = grid.desktop.getCurrentVisibleRange();
@@ -238,7 +238,7 @@ class Actions {
                 break; // don't scroll past the currently focused column
             }
         }
-    }
+    };
 
     public readonly columnsSqueezeRight = (cm: ClientManager, dm: DesktopManager, window: Window, focusedColumn: Column, grid: Grid) => {
         const visibleRange = grid.desktop.getCurrentVisibleRange();
@@ -265,7 +265,7 @@ class Actions {
                 break; // don't scroll past the currently focused column
             }
         }
-    }
+    };
 
     private readonly squeezeColumns = (columns: Column[]) => {
         const firstColumn = columns[0];
@@ -286,19 +286,19 @@ class Actions {
         columns.forEach((column, index) => column.setWidth(widths[index], true));
         desktop.scrollCenterRange(Range.fromRanges(firstColumn, lastColumn));
         return true;
-    }
+    };
 
     public readonly gridScrollLeft = (cm: ClientManager, dm: DesktopManager) => {
         this.gridScroll(dm, -this.config.manualScrollStep);
-    }
+    };
 
     public readonly gridScrollRight = (cm: ClientManager, dm: DesktopManager) => {
         this.gridScroll(dm, this.config.manualScrollStep);
-    }
+    };
 
     private readonly gridScroll = (desktopManager: DesktopManager, amount: number) => {
         desktopManager.getCurrentDesktop().adjustScroll(amount, false);
-    }
+    };
 
     public readonly gridScrollStart = (cm: ClientManager, dm: DesktopManager) => {
         const grid = dm.getCurrentDesktop().grid;
@@ -307,7 +307,7 @@ class Actions {
             return;
         }
         grid.desktop.scrollToColumn(firstColumn, false);
-    }
+    };
 
     public readonly gridScrollEnd = (cm: ClientManager, dm: DesktopManager) => {
         const grid = dm.getCurrentDesktop().grid;
@@ -316,7 +316,7 @@ class Actions {
             return;
         }
         grid.desktop.scrollToColumn(lastColumn, false);
-    }
+    };
 
     public readonly gridScrollFocused = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const scrollAmount = Range.minus(column, grid.desktop.getCurrentVisibleRange());
@@ -325,7 +325,7 @@ class Actions {
         } else {
             grid.desktop.scrollToColumn(column, true);
         }
-    }
+    };
 
     public readonly gridScrollLeftColumn = (cm: ClientManager, dm: DesktopManager) => {
         const grid = dm.getCurrentDesktop().grid;
@@ -340,7 +340,7 @@ class Actions {
         }
 
         grid.desktop.scrollToColumn(leftColumn, false);
-    }
+    };
 
     public readonly gridScrollRightColumn = (cm: ClientManager, dm: DesktopManager) => {
         const grid = dm.getCurrentDesktop().grid;
@@ -355,11 +355,11 @@ class Actions {
         }
 
         grid.desktop.scrollToColumn(rightColumn, false);
-    }
+    };
 
     public readonly screenSwitch = (cm: ClientManager, dm: DesktopManager) => {
         dm.selectScreen(Workspace.activeScreen);
-    }
+    };
 
     public readonly focus = (columnIndex: number, cm: ClientManager, dm: DesktopManager) => {
         const grid = dm.getCurrentDesktop().grid;

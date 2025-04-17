@@ -31,7 +31,7 @@ class ContextualResizer {
                 ...this.presetWidths.getWidths(minWidth, maxWidth),
             ],
             width => width - column.getWidth(),
-        )
+        );
         if (newWidth === undefined) {
             return;
         }
@@ -78,7 +78,7 @@ class ContextualResizer {
                 ...this.presetWidths.getWidths(minWidth, maxWidth),
             ],
             width => column.getWidth() - width,
-        )
+        );
         if (newWidth === undefined) {
             return;
         }

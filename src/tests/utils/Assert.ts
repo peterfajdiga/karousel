@@ -138,7 +138,7 @@ namespace Assert {
                 if (columnWidths instanceof Array) {
                     let columnsWidth = 0;
                     for (const columnWidth of columnWidths) {
-                        columnsWidth += columnWidth
+                        columnsWidth += columnWidth;
                     }
                     return columnsWidth;
                 } else {
