@@ -1,7 +1,10 @@
 // @ts-check
 
-import tseslint from 'typescript-eslint';
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  tseslint.configs.stylistic,
+  {
+    extends: [tseslint.configs.stylistic],
+    rules: { "@typescript-eslint/no-empty-function": "off" },
+  }
 );
