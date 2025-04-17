@@ -90,9 +90,7 @@ class World {
     }
 
     private addExistingClients() {
-        const kwinClients = Workspace.windows;
-        for (let i = 0; i < kwinClients.length; i++) {
-            const kwinClient = kwinClients[i];
+        for (const kwinClient of Workspace.windows) {
             this.clientManager.addClient(kwinClient);
         }
     }
