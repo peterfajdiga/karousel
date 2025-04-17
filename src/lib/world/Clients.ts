@@ -32,16 +32,16 @@ namespace Clients {
 
     export function getKwinDesktopApprox(kwinClient: KwinClient) {
         switch (kwinClient.desktops.length) {
-            case 0:
+        case 0:
+            return Workspace.currentDesktop;
+        case 1:
+            return kwinClient.desktops[0];
+        default:
+            if (kwinClient.desktops.includes(Workspace.currentDesktop)) {
                 return Workspace.currentDesktop;
-            case 1:
+            } else {
                 return kwinClient.desktops[0];
-            default:
-                if (kwinClient.desktops.includes(Workspace.currentDesktop)) {
-                    return Workspace.currentDesktop;
-                } else {
-                    return kwinClient.desktops[0];
-                }
+            }
         }
     }
 
