@@ -3,10 +3,19 @@ TESTS := true
 
 .PHONY: *
 
-build: tests
+build: lint tests
 	tsc -p ./src/main --outFile ./package/contents/code/main.js
 	mkdir -p ./package/contents/config
 	./run-ts.sh ./src/generators/config > ./package/contents/config/main.xml
+
+npm-install:
+	npm install
+
+lint: npm-install
+	npx eslint ./src
+
+lint-fix: npm-install
+	npx eslint ./src --fix
 
 tests:
 ifeq (${TESTS}, true)
