@@ -120,7 +120,8 @@
                                         <item>
                                             <widget class="QCheckBox" name="kcfg_gestureScroll">
                                                 <property name="text">
-                                                    <string>Enable scrolling with touchpad gestures</string>
+                                                    <string>Enable scrolling with touchpad gestures
+(please don't forget to disable KDE's workspace switching gestures)</string>
                                                 </property>
                                                 <property name="toolTip">
                                                     <string>Scroll with a three-finger horizontal swipe gesture</string>
