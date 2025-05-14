@@ -27,7 +27,7 @@ First install the _org.kde.notification_ QML module (_qml-module-org-kde-notific
 
 Then download the [latest release](https://github.com/peterfajdiga/karousel/releases/latest) and extract it into _~/.local/share/kwin/scripts/_.
 
-Or clone the repo and run `make install` (requires node and tsc).
+Or clone the repo and run `make install` (requires npm, node, and tsc).
 
 ## Key bindings
 The key bindings can be configured in KDE System Settings among KWin's own keyboard shortcuts.
