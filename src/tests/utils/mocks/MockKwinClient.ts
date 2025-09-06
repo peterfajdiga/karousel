@@ -124,18 +124,22 @@ class MockKwinClient {
                         return;
                     }
                     runOneOf(
-                        () => this.frameGeometry = new MockQmlRect(
-                            0,
-                            0,
-                            screen.width + 2 * MockKwinClient.borderThickness,
-                            screen.height + 2 * MockKwinClient.borderThickness,
-                        ),
-                        () => this.frameGeometry = new MockQmlRect(
-                            -MockKwinClient.borderThickness,
-                            -MockKwinClient.borderThickness,
-                            screen.width + 2 * MockKwinClient.borderThickness,
-                            screen.height + 2 * MockKwinClient.borderThickness,
-                        ),
+                        () => {
+                            this.frameGeometry = new MockQmlRect(
+                                0,
+                                0,
+                                screen.width + 2 * MockKwinClient.borderThickness,
+                                screen.height + 2 * MockKwinClient.borderThickness,
+                            );
+                        },
+                        () => {
+                            this.frameGeometry = new MockQmlRect(
+                                -MockKwinClient.borderThickness,
+                                -MockKwinClient.borderThickness,
+                                screen.width + 2 * MockKwinClient.borderThickness,
+                                screen.height + 2 * MockKwinClient.borderThickness,
+                            );
+                        },
                         () => {},
                     );
                 }

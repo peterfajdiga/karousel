@@ -4,10 +4,10 @@ function runMaybe(f: () => void) {
     }
 }
 
-function runOneOf(...fs: (() => void)[]) {
+function runOneOf<T>(...fs: (() => T)[]) {
     const index = randomInt(fs.length);
     runLog.push(`${getStackFrame(1)} - Chose ${index}`);
-    fs[index]();
+    return fs[index]();
 }
 
 function runReorder(...fs: (() => void)[]) {

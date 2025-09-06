@@ -66,8 +66,8 @@
             });
 
             runOneOf(
-                () => parent.fullScreen = true,
-                () => parent.setMaximize(true, true),
+                () => { parent.fullScreen = true; },
+                () => { parent.setMaximize(true, true); },
             );
             Assert.equal(parent.keepBelow, shouldKeepBelow(false));
             Assert.equal(parent.keepAbove, shouldKeepAbove(false));
@@ -123,42 +123,42 @@
                 assertWindowed(config, clients);
 
                 runOneOf(
-                    () => clients[2].fullScreen = true,
-                    () => clients[2].setMaximize(true, true),
+                    () => { clients[2].fullScreen = true; },
+                    () => { clients[2].setMaximize(true, true); },
                 );
                 assertFullScreenOrMaximized(clients);
 
                 runOneOf(
-                    () => workspaceMock.activeWindow = clients[0],
-                    () => qtMock.fireShortcut("karousel-focus-1"),
-                    () => qtMock.fireShortcut("karousel-focus-left"),
-                    () => qtMock.fireShortcut("karousel-focus-start"),
+                    () => { workspaceMock.activeWindow = clients[0]; },
+                    () => { qtMock.fireShortcut("karousel-focus-1"); },
+                    () => { qtMock.fireShortcut("karousel-focus-left"); },
+                    () => { qtMock.fireShortcut("karousel-focus-start"); },
                 );
                 assertWindowed(config, clients);
 
                 runOneOf(
-                    () => workspaceMock.activeWindow = clients[2],
-                    () => qtMock.fireShortcut("karousel-focus-2"),
-                    () => qtMock.fireShortcut("karousel-focus-right"),
-                    () => qtMock.fireShortcut("karousel-focus-end"),
+                    () => { workspaceMock.activeWindow = clients[2]; },
+                    () => { qtMock.fireShortcut("karousel-focus-2"); },
+                    () => { qtMock.fireShortcut("karousel-focus-right"); },
+                    () => { qtMock.fireShortcut("karousel-focus-end"); },
                 );
                 assertWindowed(config, clients);
 
                 runOneOf(
-                    () => clients[2].fullScreen = true,
-                    () => clients[2].setMaximize(true, true),
+                    () => { clients[2].fullScreen = true; },
+                    () => { clients[2].setMaximize(true, true); },
                 );
                 assertFullScreenOrMaximized(clients);
 
                 runOneOf(
-                    () => workspaceMock.activeWindow = clients[1],
-                    () => qtMock.fireShortcut("karousel-focus-up"),
+                    () => { workspaceMock.activeWindow = clients[1]; },
+                    () => { qtMock.fireShortcut("karousel-focus-up"); },
                 );
                 assertWindowed(config, clients);
 
                 runOneOf(
-                    () => workspaceMock.activeWindow = clients[2],
-                    () => qtMock.fireShortcut("karousel-focus-down"),
+                    () => { workspaceMock.activeWindow = clients[2]; },
+                    () => { qtMock.fireShortcut("karousel-focus-down"); },
                 );
                 assertWindowed(config, clients);
             });
@@ -174,36 +174,36 @@
                 assertWindowed(config, clients);
 
                 runOneOf(
-                    () => clients[2].fullScreen = true,
-                    () => clients[2].setMaximize(true, true),
+                    () => { clients[2].fullScreen = true; },
+                    () => { clients[2].setMaximize(true, true); },
                 );
                 assertFullScreenOrMaximized(clients);
 
                 runOneOf(
-                    () => workspaceMock.activeWindow = clients[0],
-                    () => qtMock.fireShortcut("karousel-focus-1"),
-                    () => qtMock.fireShortcut("karousel-focus-left"),
-                    () => qtMock.fireShortcut("karousel-focus-start"),
+                    () => { workspaceMock.activeWindow = clients[0]; },
+                    () => { qtMock.fireShortcut("karousel-focus-1"); },
+                    () => { qtMock.fireShortcut("karousel-focus-left"); },
+                    () => { qtMock.fireShortcut("karousel-focus-start"); },
                 );
                 assertWindowed(config, clients);
 
                 runOneOf(
-                    () => workspaceMock.activeWindow = clients[2],
-                    () => qtMock.fireShortcut("karousel-focus-2"),
-                    () => qtMock.fireShortcut("karousel-focus-right"),
-                    () => qtMock.fireShortcut("karousel-focus-end"),
+                    () => { workspaceMock.activeWindow = clients[2]; },
+                    () => { qtMock.fireShortcut("karousel-focus-2"); },
+                    () => { qtMock.fireShortcut("karousel-focus-right"); },
+                    () => { qtMock.fireShortcut("karousel-focus-end"); },
                 );
                 assertFullScreenOrMaximized(clients);
 
                 runOneOf(
-                    () => workspaceMock.activeWindow = clients[1],
-                    () => qtMock.fireShortcut("karousel-focus-up"),
+                    () => { workspaceMock.activeWindow = clients[1]; },
+                    () => { qtMock.fireShortcut("karousel-focus-up"); },
                 );
                 assertWindowed(config, clients);
 
                 runOneOf(
-                    () => workspaceMock.activeWindow = clients[2],
-                    () => qtMock.fireShortcut("karousel-focus-down"),
+                    () => { workspaceMock.activeWindow = clients[2]; },
+                    () => { qtMock.fireShortcut("karousel-focus-down"); },
                 );
                 assertFullScreenOrMaximized(clients);
             });
