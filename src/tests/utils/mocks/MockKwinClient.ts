@@ -88,7 +88,15 @@ class MockKwinClient {
                 this.frameGeometry.height - 2 * MockKwinClient.borderThickness,
             );
         } else {
-            return this.frameGeometry;
+            return runOneOf(
+                () => this.frameGeometry,
+                () => new MockQmlRect(
+                    this.frameGeometry.x - 20,
+                    this.frameGeometry.y - 20,
+                    this.frameGeometry.width + 40,
+                    this.frameGeometry.height + 40,
+                ), // some full-screen windows that manage their own window decorations can temporarily have a client geometry bigger than the screen
+            );
         }
     }
 
