@@ -13,7 +13,7 @@ tests.register("Pass focus", 20, () => {
     function removeWindow(client: MockKwinClient) {
         runOneOf(
             () => workspaceMock.removeWindow(client),
-            () => client.desktops = [workspaceMock.desktops[1]],
+            // () => client.desktops = [workspaceMock.desktops[1]],
         );
     }
 

@@ -52,13 +52,16 @@ class MockWorkspace {
     }
 
     public removeWindow(window: MockKwinClient) {
+        Workspace.activeWindow = null;
         runReorder(
             () => this.windows.splice(this.windows.indexOf(window), 1),
             () => this.windowRemoved.fire(window),
         );
         if (window === this.activeWindow) {
             const windows = this.windows.filter(w => w.desktops.includes(this.currentDesktop));
-            Workspace.activeWindow = windows.length > 0 ? randomItem(windows) : null;
+            if (Workspace.activeWindow === null && windows.length > 0) {
+                Workspace.activeWindow = randomItem(windows);
+            }
         };
     }
 
