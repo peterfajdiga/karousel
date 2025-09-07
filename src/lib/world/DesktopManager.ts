@@ -7,7 +7,8 @@ class DesktopManager {
     constructor(
         private readonly pinManager: PinManager,
         private readonly config: Desktop.Config,
-        public readonly layoutConfig: LayoutConfig,
+        private readonly layoutConfig: LayoutConfig,
+        private readonly focusPasser: FocusPassing.Passer,
         currentActivity: string,
         currentDesktop: KwinDesktop,
     ) {
@@ -54,6 +55,7 @@ class DesktopManager {
             this.config,
             () => this.selectedScreen,
             this.layoutConfig,
+            this.focusPasser,
         );
         this.desktops.set(desktopKey, desktop);
         return desktop;

@@ -1,15 +1,17 @@
 class Grid {
     public readonly desktop: Desktop;
     public readonly config: LayoutConfig;
+    public readonly focusPasser: FocusPassing.Passer;
     private readonly columns: LinkedList<Column>;
     private lastFocusedColumn: Column|null;
     private width: number;
     private userResize: boolean; // is any part of the grid being resized by the user
     private readonly userResizeFinishedDelayer: Delayer;
 
-    constructor(desktop: Desktop, config: LayoutConfig) {
+    constructor(desktop: Desktop, config: LayoutConfig, focusPasser: FocusPassing.Passer) {
         this.desktop = desktop;
         this.config = config;
+        this.focusPasser = focusPasser;
         this.columns = new LinkedList();
         this.lastFocusedColumn = null;
         this.width = 0;
@@ -169,7 +171,7 @@ class Grid {
 
         this.desktop.onLayoutChanged();
         if (passFocus && columnToFocus !== null) {
-            columnToFocus.focus();
+            this.focusPasser.request(columnToFocus);
         } else {
             this.desktop.autoAdjustScroll();
         }

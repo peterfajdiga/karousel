@@ -8,7 +8,8 @@ class World {
     private readonly cursorFollowsFocus: boolean;
 
     constructor(config: Config) {
-        this.workspaceSignalManager = initWorkspaceSignalHandlers(this);
+        const focusPasser = new FocusPassing.Passer();
+        this.workspaceSignalManager = initWorkspaceSignalHandlers(this, focusPasser);
         this.cursorFollowsFocus = config.cursorFollowsFocus;
 
         let presetWidths = {
@@ -68,6 +69,7 @@ class World {
                 gestureScrollStep: config.gestureScrollStep,
             },
             layoutConfig,
+            focusPasser,
             Workspace.currentActivity,
             Workspace.currentDesktop,
         );

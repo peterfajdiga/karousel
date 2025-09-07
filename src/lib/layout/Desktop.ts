@@ -14,13 +14,14 @@ class Desktop {
         private readonly config: Desktop.Config,
         private readonly getScreen: () => Output,
         layoutConfig: LayoutConfig,
+        focusPasser: FocusPassing.Passer,
     ) {
         this.scrollX = 0;
         this.gestureScrollXInitial = null;
         this.dirty = true;
         this.dirtyScroll = true;
         this.dirtyPins = true;
-        this.grid = new Grid(this, layoutConfig);
+        this.grid = new Grid(this, layoutConfig, focusPasser);
         this.clientArea = Desktop.getClientArea(this.getScreen(), kwinDesktop);
         this.tilingArea = Desktop.getTilingArea(this.clientArea, kwinDesktop, pinManager, config);
     }

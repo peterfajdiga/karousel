@@ -289,7 +289,7 @@ class Column {
         } else {
             this.resizeWindows();
             if (passFocus && windowToFocus !== null) {
-                windowToFocus.focus();
+                this.grid.focusPasser.request(windowToFocus);
             }
         }
 

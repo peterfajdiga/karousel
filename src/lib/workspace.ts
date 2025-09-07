@@ -1,4 +1,4 @@
-function initWorkspaceSignalHandlers(world: World) {
+function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Passer) {
     const manager = new SignalManager();
 
     manager.connect(Workspace.windowAdded, (kwinClient: KwinClient) => {
@@ -15,11 +15,13 @@ function initWorkspaceSignalHandlers(world: World) {
 
     manager.connect(Workspace.windowActivated, (kwinClient: KwinClient|null) => {
         if (kwinClient === null) {
-            return;
+            focusPasser.activate();
+        } else {
+            focusPasser.clear();
+            world.do((clientManager, desktopManager) => {
+                clientManager.onClientFocused(kwinClient);
+            });
         }
-        world.do((clientManager, desktopManager) => {
-            clientManager.onClientFocused(kwinClient);
-        });
     });
 
     manager.connect(Workspace.currentDesktopChanged, () => {
