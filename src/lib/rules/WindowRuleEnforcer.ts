@@ -52,7 +52,7 @@ class WindowRuleEnforcer {
             const ruleCaption = WindowRuleEnforcer.parseRegex(windowRule.caption);
             const ruleString = ClientMatcher.getRuleString(
                 WindowRuleEnforcer.wrapParens(ruleClass),
-                WindowRuleEnforcer.wrapParens(ruleCaption)
+                WindowRuleEnforcer.wrapParens(ruleCaption),
             );
 
             (windowRule.tile ? tileRegexes : floatRegexes).push(ruleString);

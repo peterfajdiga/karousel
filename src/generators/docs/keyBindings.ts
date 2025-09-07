@@ -15,9 +15,9 @@ function printCols(...columns: (string[] | string)[]) {
     }
 
     let nRows = Math.min(...columns.filter(
-        (column: string[] | string) => column instanceof Array
+        (column: string[] | string) => column instanceof Array,
     ).map(
-        (column: string[] | string) => column.length
+        (column: string[] | string) => column.length,
     ));
     if (nRows === Infinity) {
         // we only have single string columns
@@ -28,12 +28,12 @@ function printCols(...columns: (string[] | string)[]) {
         (column: string[] | string) => {
             if (column instanceof Array) {
                 return Math.max(...column.map(
-                    (cell: string) => cell.length
+                    (cell: string) => cell.length,
                 ));
             } else {
                 return column.length;
             }
-        }
+        },
     );
 
     function getCell(col: number, row: number) {

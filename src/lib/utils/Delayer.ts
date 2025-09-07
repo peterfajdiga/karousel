@@ -20,6 +20,6 @@ function initQmlTimer() {
     return Qt.createQmlObject(
         `import QtQuick 6.0
         Timer {}`,
-        qmlBase
+        qmlBase,
     ) as QmlTimer;
 }

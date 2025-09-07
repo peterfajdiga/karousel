@@ -188,5 +188,5 @@ const configDef = [
         name: "windowRules",
         type: "String",
         default: defaultWindowRules,
-    }
+    },
 ];

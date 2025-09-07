@@ -4,7 +4,7 @@ class MockWorkspace {
     public activities = ["test-activity"];
     public desktops: KwinDesktop[] = [
         { __brand: "KwinDesktop", id: "desktop1" },
-        { __brand: "KwinDesktop", id: "desktop2" }
+        { __brand: "KwinDesktop", id: "desktop2" },
     ];
     public currentDesktop = this.desktops[0];
     public currentActivity = this.activities[0];

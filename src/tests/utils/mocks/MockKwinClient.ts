@@ -68,7 +68,7 @@ class MockKwinClient {
                 horizontally ? MaximizedMode.Maximized : MaximizedMode.Vertically
             ) : (
                 horizontally ? MaximizedMode.Horizontally : MaximizedMode.Unmaximized
-            )
+            ),
         );
 
         this.frameGeometry = new MockQmlRect(
