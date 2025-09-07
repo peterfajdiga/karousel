@@ -6,12 +6,12 @@ class MockWorkspace {
         { __brand: "KwinDesktop", id: "desktop1" },
         { __brand: "KwinDesktop", id: "desktop2" },
     ];
-    public currentDesktop = this.desktops[0];
     public currentActivity = this.activities[0];
     public activeScreen: Output = { __brand: "Output" };
     public readonly windows: MockKwinClient[] = [];
     public cursorPos = new MockQmlPoint(0, 0);
 
+    private _currentDesktop = this.desktops[0];
     private _activeWindow: KwinClient|null = null;
 
     public readonly currentDesktopChanged = new MockQSignal<[]>();
@@ -124,6 +124,15 @@ class MockWorkspace {
 
         window.resize = false;
         window.interactiveMoveResizeFinished.fire();
+    }
+
+    public get currentDesktop() {
+        return this._currentDesktop;
+    }
+
+    public set currentDesktop(currentDesktop: KwinDesktop) {
+        this._currentDesktop = currentDesktop;
+        this.currentDesktopChanged.fire();
     }
 
     public get activeWindow() {

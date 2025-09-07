@@ -201,6 +201,13 @@ class MockKwinClient {
         };
     }
 
+    public moveAndFollowToDesktop(desktop: KwinDesktop, workspaceMock: MockWorkspace) {
+        Assert.assert(workspaceMock.activeWindow === this);
+        this._desktops = [desktop];
+        this.desktopsChanged.fire();
+        workspaceMock.currentDesktop = desktop;
+    }
+
     public get tile() {
         return this._tile;
     }
