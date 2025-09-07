@@ -16,7 +16,7 @@ namespace ClientState {
             this.signalManager = Tiled.initSignalManager(world, window, grid.config);
         }
 
-        public destroy(passFocus: boolean) {
+        public destroy(passFocus: FocusPassing.Type) {
             this.signalManager.destroy();
 
             const window = this.window;
@@ -209,7 +209,8 @@ namespace ClientState {
             }
 
             const newColumn = new Column(grid, grid.getLastFocusedColumn() ?? grid.getLastColumn());
-            window.moveToColumn(newColumn, true);
+            const passFocus = window.isFocused() ? FocusPassing.Type.OnUnfocus : FocusPassing.Type.None;
+            window.moveToColumn(newColumn, true, passFocus);
         }
 
         private static prepareClientForTiling(client: ClientWrapper, config: LayoutConfig) {

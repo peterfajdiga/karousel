@@ -1,4 +1,10 @@
 namespace FocusPassing {
+    export const enum Type {
+        None,
+        Immediate,
+        OnUnfocus,
+    }
+
     export class Passer {
         private currentRequest: Request | null = null;
 

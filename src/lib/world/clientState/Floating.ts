@@ -16,7 +16,7 @@ namespace ClientState {
             this.signalManager = Floating.initSignalManager(world, client.kwinClient);
         }
 
-        public destroy(passFocus: boolean) {
+        public destroy(passFocus: FocusPassing.Type) {
             this.signalManager.destroy();
         }
 

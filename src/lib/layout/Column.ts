@@ -21,7 +21,7 @@ class Column {
         if (targetGrid === this.grid) {
             this.grid.moveColumn(this, leftColumn);
         } else {
-            this.grid.onColumnRemoved(this, this.isFocused());
+            this.grid.onColumnRemoved(this, this.isFocused() ? FocusPassing.Type.Immediate : FocusPassing.Type.None);
             this.grid = targetGrid;
             targetGrid.onColumnAdded(this, leftColumn);
             for (const window of this.windows.iterator()) {
@@ -273,7 +273,7 @@ class Column {
         this.grid.desktop.onLayoutChanged();
     }
 
-    public onWindowRemoved(window: Window, passFocus: boolean) {
+    public onWindowRemoved(window: Window, passFocus: FocusPassing.Type) {
         const lastWindow = this.windows.length() === 1;
         const windowToFocus = this.getAboveWindow(window) ?? this.getBelowWindow(window);
 
@@ -288,8 +288,15 @@ class Column {
             this.destroy(passFocus);
         } else {
             this.resizeWindows();
-            if (passFocus && windowToFocus !== null) {
-                this.grid.focusPasser.request(windowToFocus);
+            if (windowToFocus !== null) {
+                switch (passFocus) {
+                case FocusPassing.Type.Immediate:
+                    windowToFocus.focus();
+                    break;
+                case FocusPassing.Type.OnUnfocus:
+                    this.grid.focusPasser.request(windowToFocus);
+                    break;
+                }
             }
         }
 
@@ -308,7 +315,7 @@ class Column {
         }
     }
 
-    private destroy(passFocus: boolean) {
+    private destroy(passFocus: FocusPassing.Type) {
         this.grid.onColumnRemoved(this, passFocus);
     }
 }

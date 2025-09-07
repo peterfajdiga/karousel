@@ -9,7 +9,7 @@ namespace ClientState {
             world.onScreenResized();
         }
 
-        public destroy(passFocus: boolean) {
+        public destroy(passFocus: FocusPassing.Type) {
             this.signalManager.destroy();
             this.world.onScreenResized();
         }

@@ -55,13 +55,16 @@ class ClientManager {
         this.clientMap.set(kwinClient, client);
     }
 
-    public removeClient(kwinClient: KwinClient, passFocus: boolean) {
+    public removeClient(kwinClient: KwinClient, passFocus: FocusPassing.Type) {
         console.assert(this.hasClient(kwinClient));
         const client = this.clientMap.get(kwinClient);
         if (client === undefined) {
             return;
         }
-        client.destroy(passFocus && kwinClient === this.lastFocusedClient);
+        if (kwinClient !== this.lastFocusedClient) {
+            passFocus = FocusPassing.Type.None;
+        }
+        client.destroy(passFocus);
         this.clientMap.delete(kwinClient);
     }
 
@@ -84,9 +87,10 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
+            const passFocus = kwinClient === this.lastFocusedClient ? FocusPassing.Type.Immediate : FocusPassing.Type.None;
             client.stateManager.setState(
                 () => new ClientState.TiledMinimized(this.world, client),
-                kwinClient === this.lastFocusedClient,
+                passFocus,
             );
         }
     }
@@ -95,14 +99,14 @@ class ClientManager {
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
             return;
         }
-        client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), false);
+        client.stateManager.setState(() => new ClientState.Tiled(this.world, client, grid), FocusPassing.Type.None);
     }
 
     public floatClient(client: ClientWrapper) {
         if (client.stateManager.getState() instanceof ClientState.Floating) {
             return;
         }
-        client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), false);
+        client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), FocusPassing.Type.None);
     }
 
     public tileKwinClient(kwinClient: KwinClient, grid: Grid) {
@@ -131,7 +135,7 @@ class ClientManager {
             kwinClient.tile = null;
             return;
         }
-        client.stateManager.setState(() => new ClientState.Pinned(this.world, this.pinManager, this.desktopManager, kwinClient, this.config), false);
+        client.stateManager.setState(() => new ClientState.Pinned(this.world, this.pinManager, this.desktopManager, kwinClient, this.config), FocusPassing.Type.None);
         this.pinManager.addClient(kwinClient);
         for (const desktop of this.desktopManager.getDesktopsForClient(kwinClient)) {
             desktop.onPinsChanged();
@@ -144,7 +148,7 @@ class ClientManager {
             return;
         }
         console.assert(client.stateManager.getState() instanceof ClientState.Pinned);
-        client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, false), false);
+        client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, false), FocusPassing.Type.None);
         this.pinManager.removeClient(kwinClient);
         for (const desktop of this.desktopManager.getDesktopsForClient(kwinClient)) {
             desktop.onPinsChanged();
@@ -164,9 +168,9 @@ class ClientManager {
             if (desktop === undefined) {
                 return;
             }
-            client.stateManager.setState(() => new ClientState.Tiled(this.world, client, desktop.grid), false);
+            client.stateManager.setState(() => new ClientState.Tiled(this.world, client, desktop.grid), FocusPassing.Type.None);
         } else if (clientState instanceof ClientState.Tiled) {
-            client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), false);
+            client.stateManager.setState(() => new ClientState.Floating(this.world, client, this.config, true), FocusPassing.Type.None);
         }
     }
 
@@ -204,7 +208,7 @@ class ClientManager {
 
     private removeAllClients() {
         for (const kwinClient of Array.from(this.clientMap.keys())) {
-            this.removeClient(kwinClient, false);
+            this.removeClient(kwinClient, FocusPassing.Type.None);
         }
     }
 

@@ -150,7 +150,7 @@ class ClientWrapper {
         }
     }
 
-    public destroy(passFocus: boolean) {
+    public destroy(passFocus: FocusPassing.Type) {
         this.stateManager.destroy(passFocus);
         this.signalManager.destroy();
         if (this.rulesSignalManager !== null) {

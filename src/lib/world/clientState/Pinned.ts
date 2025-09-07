@@ -17,7 +17,7 @@ namespace ClientState {
             this.signalManager = Pinned.initSignalManager(world, pinManager, kwinClient);
         }
 
-        public destroy(passFocus: boolean) {
+        public destroy(passFocus: FocusPassing.Type) {
             this.signalManager.destroy();
             this.pinManager.removeClient(this.kwinClient);
             for (const desktop of this.desktopManager.getDesktopsForClient(this.kwinClient)) {

@@ -86,12 +86,12 @@ class Actions {
             if (leftColumn === null) {
                 return;
             }
-            window.moveToColumn(leftColumn, true);
+            window.moveToColumn(leftColumn, true, FocusPassing.Type.None);
             grid.desktop.autoAdjustScroll();
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid, grid.getLeftColumn(column));
-            window.moveToColumn(newColumn, true);
+            window.moveToColumn(newColumn, true, FocusPassing.Type.None);
         }
     };
 
@@ -102,12 +102,12 @@ class Actions {
             if (rightColumn === null) {
                 return;
             }
-            window.moveToColumn(rightColumn, bottom);
+            window.moveToColumn(rightColumn, bottom, FocusPassing.Type.None);
             grid.desktop.autoAdjustScroll();
         } else {
             // move from shared column into own column
             const newColumn = new Column(grid, column);
-            window.moveToColumn(newColumn, true);
+            window.moveToColumn(newColumn, true, FocusPassing.Type.None);
         }
     };
 
@@ -141,12 +141,12 @@ class Actions {
 
     public readonly windowMoveStart = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const newColumn = new Column(grid, null);
-        window.moveToColumn(newColumn, true);
+        window.moveToColumn(newColumn, true, FocusPassing.Type.None);
     };
 
     public readonly windowMoveEnd = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         const newColumn = new Column(grid, grid.getLastColumn());
-        window.moveToColumn(newColumn, true);
+        window.moveToColumn(newColumn, true, FocusPassing.Type.None);
     };
 
     public readonly windowToggleFloating = (cm: ClientManager, dm: DesktopManager) => {
@@ -375,7 +375,7 @@ class Actions {
         if (targetColumn === null) {
             return;
         }
-        window.moveToColumn(targetColumn, true);
+        window.moveToColumn(targetColumn, true, FocusPassing.Type.None);
         grid.desktop.autoAdjustScroll();
     };
 

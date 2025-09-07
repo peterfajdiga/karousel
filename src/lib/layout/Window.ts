@@ -23,11 +23,11 @@ class Window {
         column.onWindowAdded(this, true);
     }
 
-    public moveToColumn(targetColumn: Column, bottom: boolean) {
+    public moveToColumn(targetColumn: Column, bottom: boolean, passFocus: FocusPassing.Type) {
         if (targetColumn === this.column) {
             return;
         }
-        this.column.onWindowRemoved(this, this.isFocused() && targetColumn.grid !== this.column.grid);
+        this.column.onWindowRemoved(this, passFocus);
         this.column = targetColumn;
         targetColumn.onWindowAdded(this, bottom);
     }
@@ -122,7 +122,7 @@ class Window {
         this.column.grid.desktop.onLayoutChanged();
     }
 
-    public destroy(passFocus: boolean) {
+    public destroy(passFocus: FocusPassing.Type) {
         this.column.onWindowRemoved(this, passFocus);
     }
 }

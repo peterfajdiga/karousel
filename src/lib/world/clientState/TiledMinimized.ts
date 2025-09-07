@@ -6,7 +6,7 @@ namespace ClientState {
             this.signalManager = TiledMinimized.initSignalManager(world, client);
         }
 
-        public destroy(passFocus: boolean) {
+        public destroy(passFocus: FocusPassing.Type) {
             this.signalManager.destroy();
         }
 

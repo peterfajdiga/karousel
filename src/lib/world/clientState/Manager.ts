@@ -6,7 +6,7 @@ namespace ClientState {
             this.state = initialState;
         }
 
-        public setState(constructNewState: () => State, passFocus: boolean) {
+        public setState(constructNewState: () => State, passFocus: FocusPassing.Type) {
             this.state.destroy(passFocus);
             this.state = constructNewState();
         }
@@ -15,12 +15,12 @@ namespace ClientState {
             return this.state;
         }
 
-        public destroy(passFocus: boolean) {
+        public destroy(passFocus: FocusPassing.Type) {
             this.state.destroy(passFocus);
         }
     }
 
     export interface State {
-        destroy(passFocus: boolean): void;
+        destroy(passFocus: FocusPassing.Type): void;
     }
 }

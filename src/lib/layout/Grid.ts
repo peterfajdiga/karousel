@@ -158,7 +158,7 @@ class Grid {
         this.desktop.autoAdjustScroll();
     }
 
-    public onColumnRemoved(column: Column, passFocus: boolean) {
+    public onColumnRemoved(column: Column, passFocus: FocusPassing.Type) {
         const isLastColumn = this.columns.length() === 1;
         const rightColumn = this.getRightColumn(column);
         const columnToFocus = isLastColumn ? null : this.getLeftColumn(column) ?? rightColumn;
@@ -170,11 +170,17 @@ class Grid {
         this.columnsSetX(rightColumn);
 
         this.desktop.onLayoutChanged();
-        if (passFocus && columnToFocus !== null) {
-            this.focusPasser.request(columnToFocus);
-        } else {
-            this.desktop.autoAdjustScroll();
+        if (columnToFocus !== null) {
+            switch (passFocus) {
+            case FocusPassing.Type.Immediate:
+                columnToFocus.focus();
+                return;
+            case FocusPassing.Type.OnUnfocus:
+                this.focusPasser.request(columnToFocus);
+                return;
+            }
         }
+        this.desktop.autoAdjustScroll();
     }
 
     public onColumnWidthChanged(column: Column) {
