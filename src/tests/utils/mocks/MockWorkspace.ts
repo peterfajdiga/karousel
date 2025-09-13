@@ -52,12 +52,12 @@ class MockWorkspace {
     }
 
     public removeWindow(window: MockKwinClient) {
-        Workspace.activeWindow = null;
+        this.activeWindow = null;
         runReorder(
             () => this.windows.splice(this.windows.indexOf(window), 1),
             () => this.windowRemoved.fire(window),
         );
-        if (window === this.activeWindow) {
+        if (this.activeWindow === null) {
             activateRandomWindowOnDesktop(this.currentDesktop);
         };
     }
