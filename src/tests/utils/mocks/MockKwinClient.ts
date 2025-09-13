@@ -198,6 +198,10 @@ class MockKwinClient {
         this.desktopsChanged.fire();
         if (Workspace.activeWindow === this && !desktops.includes(Workspace.currentDesktop)) {
             Workspace.activeWindow = null;
+            runMaybe(() => Workspace.activeWindow = null); // fired again for some reason
+            if (Workspace.activeWindow === null) {
+                activateRandomWindowOnDesktop(Workspace.currentDesktop);
+            }
         };
     }
 

@@ -61,3 +61,10 @@ function getClientManager(world: World): ClientManager {
     world.do((cm, dm) => clientManager = cm);
     return clientManager!;
 }
+
+function activateRandomWindowOnDesktop(desktop: KwinDesktop) {
+    const windows = Workspace.windows.filter(w => w.desktops.includes(desktop));
+    if (windows.length > 0) {
+        Workspace.activeWindow = randomItem(windows);
+    }
+}

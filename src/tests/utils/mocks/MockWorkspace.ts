@@ -58,10 +58,7 @@ class MockWorkspace {
             () => this.windowRemoved.fire(window),
         );
         if (window === this.activeWindow) {
-            const windows = this.windows.filter(w => w.desktops.includes(this.currentDesktop));
-            if (Workspace.activeWindow === null && windows.length > 0) {
-                Workspace.activeWindow = randomItem(windows);
-            }
+            activateRandomWindowOnDesktop(this.currentDesktop);
         };
     }
 
