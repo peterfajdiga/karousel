@@ -8,7 +8,7 @@ namespace FocusPassing {
     export class Passer {
         private currentRequest: Request | null = null;
 
-        public request(target: Window) {
+        public request(target: KwinClient) {
             this.currentRequest = new Request(target, Date.now());
         }
 
@@ -16,8 +16,8 @@ namespace FocusPassing {
             this.currentRequest = null;
         }
 
-        public clearIfDifferent(window: Window) {
-            if (this.currentRequest !== null && this.currentRequest.target !== window) {
+        public clearIfDifferent(kwinClient: KwinClient) {
+            if (this.currentRequest !== null && this.currentRequest.target !== kwinClient) {
                 this.clear();
             }
         }
@@ -32,7 +32,7 @@ namespace FocusPassing {
                 return;
             }
 
-            this.currentRequest.target.focus();
+            Workspace.activeWindow = this.currentRequest.target;
         }
     }
 
@@ -40,7 +40,7 @@ namespace FocusPassing {
         private static readonly validMs = 200;
 
         constructor(
-            public readonly target: Window,
+            public readonly target: KwinClient,
             private readonly time: number,
         ) {}
 

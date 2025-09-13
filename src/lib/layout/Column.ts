@@ -290,7 +290,7 @@ class Column {
                     windowToFocus.focus();
                     break;
                 case FocusPassing.Type.OnUnfocus:
-                    this.grid.focusPasser.request(windowToFocus);
+                    this.grid.focusPasser.request(windowToFocus.client.kwinClient);
                     break;
                 }
             }

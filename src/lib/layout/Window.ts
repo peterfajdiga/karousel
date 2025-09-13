@@ -61,11 +61,10 @@ class Window {
 
     public focus() {
         this.client.focus();
-        if (this.isFocused()) {
-            this.column.grid.focusPasser.clearIfDifferent(this);
-        } else {
+        const kwinClient = this.client.kwinClient;
+        if (!this.isFocused()) {
             // in some situations focus assignment just doesn't work, let's do it later
-            this.column.grid.focusPasser.request(this);
+            this.column.grid.focusPasser.request(kwinClient);
         }
     }
 

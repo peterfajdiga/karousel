@@ -176,7 +176,7 @@ class Grid {
                 columnToFocus.getWindowToFocus().focus();
                 return;
             case FocusPassing.Type.OnUnfocus:
-                this.focusPasser.request(columnToFocus.getWindowToFocus());
+                this.focusPasser.request(columnToFocus.getWindowToFocus().client.kwinClient);
                 return;
             }
         }
