@@ -173,10 +173,10 @@ class Grid {
         if (columnToFocus !== null) {
             switch (passFocus) {
             case FocusPassing.Type.Immediate:
-                columnToFocus.focus();
+                columnToFocus.getWindowToFocus().focus();
                 return;
             case FocusPassing.Type.OnUnfocus:
-                this.focusPasser.request(columnToFocus);
+                this.focusPasser.request(columnToFocus.getWindowToFocus());
                 return;
             }
         }

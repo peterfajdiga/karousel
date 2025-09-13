@@ -195,12 +195,8 @@ class Column {
         return this.focusTaker;
     }
 
-    public focus() {
-        const window = this.getFocusTaker() ?? this.windows.getFirst();
-        if (window === null) {
-            return;
-        }
-        window.focus();
+    public getWindowToFocus() {
+        return this.getFocusTaker() ?? this.windows.getFirst()!;
     }
 
     public isFocused() {

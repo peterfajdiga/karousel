@@ -8,7 +8,7 @@ class Actions {
         if (leftColumn === null) {
             return;
         }
-        leftColumn.focus();
+        leftColumn.getWindowToFocus().focus();
     };
 
     public readonly focusRight = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
@@ -16,7 +16,7 @@ class Actions {
         if (rightColumn === null) {
             return;
         }
-        rightColumn.focus();
+        rightColumn.getWindowToFocus().focus();
     };
 
     public readonly focusUp = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
@@ -67,7 +67,7 @@ class Actions {
         if (firstColumn === null) {
             return;
         }
-        firstColumn.focus();
+        firstColumn.getWindowToFocus().focus();
     };
 
     public readonly focusEnd = (cm: ClientManager, dm: DesktopManager) => {
@@ -76,7 +76,7 @@ class Actions {
         if (lastColumn === null) {
             return;
         }
-        lastColumn.focus();
+        lastColumn.getWindowToFocus().focus();
     };
 
     public readonly windowMoveLeft = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
@@ -367,7 +367,7 @@ class Actions {
         if (targetColumn === null) {
             return;
         }
-        targetColumn.focus();
+        targetColumn.getWindowToFocus().focus();
     };
 
     public readonly windowMoveToColumn = (columnIndex: number, cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {

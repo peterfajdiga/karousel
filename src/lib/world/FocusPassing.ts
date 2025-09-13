@@ -8,7 +8,7 @@ namespace FocusPassing {
     export class Passer {
         private currentRequest: Request | null = null;
 
-        public request(target: Focuser) {
+        public request(target: Window) {
             this.currentRequest = new Request(target, Date.now());
         }
 
@@ -35,16 +35,12 @@ namespace FocusPassing {
         private static readonly validMs = 200;
 
         constructor(
-            public readonly target: Focuser,
+            public readonly target: Window,
             private readonly time: number,
         ) {}
 
         public isExpired() {
             return Date.now() - this.time > Request.validMs;
         }
-    }
-
-    interface Focuser {
-        focus(): void;
     }
 }
