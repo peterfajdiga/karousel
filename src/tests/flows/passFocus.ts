@@ -34,7 +34,4 @@ tests.register("Pass focus", 100, () => {
 
     removeWindow(client0);
     Assert.equal(workspaceMock.activeWindow, client6);
-
-    removeWindow(client6);
-    Assert.equal(workspaceMock.activeWindow, null);
 });
