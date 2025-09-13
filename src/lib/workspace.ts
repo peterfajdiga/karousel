@@ -17,7 +17,6 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
         if (kwinClient === null) {
             focusPasser.activate();
         } else {
-            focusPasser.clear();
             world.do((clientManager, desktopManager) => {
                 clientManager.onClientFocused(kwinClient);
             });

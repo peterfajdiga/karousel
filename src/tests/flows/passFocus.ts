@@ -1,4 +1,4 @@
-tests.register("Pass focus", 20, () => {
+tests.register("Pass focus", 100, () => {
     const config = getDefaultConfig();
     const { qtMock, workspaceMock, world } = init(config);
 

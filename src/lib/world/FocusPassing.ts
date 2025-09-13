@@ -16,6 +16,12 @@ namespace FocusPassing {
             this.currentRequest = null;
         }
 
+        public clearIfDifferent(window: Window) {
+            if (this.currentRequest !== null && this.currentRequest.target !== window) {
+                this.clear();
+            }
+        }
+
         public activate() {
             if (this.currentRequest === null) {
                 return;
@@ -27,7 +33,6 @@ namespace FocusPassing {
             }
 
             this.currentRequest.target.focus();
-            this.clear();
         }
     }
 
