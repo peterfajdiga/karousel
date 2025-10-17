@@ -189,4 +189,9 @@ const configDef = [
         type: "String",
         default: defaultWindowRules,
     },
+    {
+        name: "desktops",
+        type: "String",
+        default: "*",
+    },
 ];

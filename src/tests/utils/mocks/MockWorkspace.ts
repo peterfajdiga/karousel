@@ -3,8 +3,8 @@ class MockWorkspace {
 
     public activities = ["test-activity"];
     public desktops: KwinDesktop[] = [
-        { __brand: "KwinDesktop", id: "desktop1" },
-        { __brand: "KwinDesktop", id: "desktop2" },
+        { __brand: "KwinDesktop", id: "desktop1", name: "Desktop 1" },
+        { __brand: "KwinDesktop", id: "desktop2", name: "Desktop 2" },
     ];
     public currentActivity = this.activities[0];
     public activeScreen: Output = { __brand: "Output" };

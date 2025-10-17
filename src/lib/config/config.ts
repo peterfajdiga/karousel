@@ -25,4 +25,5 @@ interface Config {
     tiledKeepBelow: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;
+    desktops: string;
 }
