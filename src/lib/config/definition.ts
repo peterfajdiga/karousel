@@ -190,8 +190,8 @@ const configDef = [
         default: defaultWindowRules,
     },
     {
-        name: "desktops",
+        name: "tiledDesktops",
         type: "String",
-        default: "*",
+        default: ".*",
     },
 ];

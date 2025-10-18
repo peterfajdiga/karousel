@@ -459,38 +459,31 @@
                         </attribute>
                         <layout class="QVBoxLayout">
                             <item>
+                                <layout class="QHBoxLayout">
+                                    <item>
+                                        <widget class="QLabel" name="label_desktops">
+                                            <property name="text">
+                                                <string>Tiled desktops:</string>
+                                            </property>
+                                            <property name="wordWrap">
+                                                <bool>true</bool>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QLineEdit" name="kcfg_tiledDesktops">
+                                            <property name="font">
+                                                <font><family>Monospace</family></font>
+                                            </property>
+                                            <property name="toolTip">
+                                                <string>Regex string to match desktops. Default value is ".*". Example: "Desktop [1-3]"</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                </layout>
+                            </item>
+                            <item>
                                 <widget class="QPlainTextEdit" name="kcfg_windowRules">
-                                    <property name="tabChangesFocus">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="lineWrapMode">
-                                        <enum>QPlainTextEdit::NoWrap</enum>
-                                    </property>
-                                    <property name="font">
-                                        <font><family>Monospace</family></font>
-                                    </property>
-                                </widget>
-                            </item>
-                        </layout>
-                    </widget>
-
-                    <widget class="QWidget" name="tab_desktops">
-                        <attribute name="title">
-                            <string>Desktops</string>
-                        </attribute>
-                        <layout class="QVBoxLayout">
-                            <item>
-                                <widget class="QLabel" name="label_desktops">
-                                    <property name="text">
-                                        <string>Desktop names (one per line). Use '*' alone to work on all desktops:</string>
-                                    </property>
-                                    <property name="wordWrap">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                            </item>
-                            <item>
-                                <widget class="QPlainTextEdit" name="kcfg_desktops">
                                     <property name="tabChangesFocus">
                                         <bool>true</bool>
                                     </property>

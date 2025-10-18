@@ -1,49 +1,41 @@
-function testDesktopFilter() {
-    // Test 1: Single '*' means all desktops
-    let filter = new DesktopFilter("*");
+tests.register("DesktopFilter", 1, () => {
     const desktop1 = { __brand: "KwinDesktop" as const, id: "1", name: "Desktop 1" };
     const desktop2 = { __brand: "KwinDesktop" as const, id: "2", name: "Work" };
-    Assert.assert(filter.shouldWorkOnDesktop(desktop1), { message: "Single '*' should work on desktop1" });
-    Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Single '*' should work on desktop2" });
+    const desktop3 = { __brand: "KwinDesktop" as const, id: "3", name: "Desktop 2" };
 
-    // Test 2: Empty config means all desktops
-    filter = new DesktopFilter("");
+    // Test 1: Empty config means all desktops
+    let filter = new DesktopFilter("");
     Assert.assert(filter.shouldWorkOnDesktop(desktop1), { message: "Empty config should work on desktop1" });
     Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Empty config should work on desktop2" });
 
-    // Test 3: Whitespace only means all desktops
+    // Test 2: Whitespace only means all desktops
     filter = new DesktopFilter("  \n  \n  ");
     Assert.assert(filter.shouldWorkOnDesktop(desktop1), { message: "Whitespace only should work on desktop1" });
     Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Whitespace only should work on desktop2" });
 
-    // Test 4: Single specific desktop name
+    // Test 3: Match all regex pattern
+    filter = new DesktopFilter(".*");
+    Assert.assert(filter.shouldWorkOnDesktop(desktop1), { message: "Regex '.*' should work on desktop1" });
+    Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Regex '.*' should work on desktop2" });
+
+    // Test 4: Partial match without anchors
     filter = new DesktopFilter("Work");
     Assert.assert(!filter.shouldWorkOnDesktop(desktop1), { message: "Should not work on desktop1" });
-    Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Should work on desktop2 named 'Work'" });
+    Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Should work on desktop2 containing 'Work'" });
 
-    // Test 5: Multiple desktop names
-    filter = new DesktopFilter("Desktop 1\nWork");
+    // Test 5: Regex alternation for multiple desktops
+    filter = new DesktopFilter("Desktop 1|Work");
     Assert.assert(filter.shouldWorkOnDesktop(desktop1), { message: "Should work on desktop1" });
     Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Should work on desktop2" });
+    Assert.assert(!filter.shouldWorkOnDesktop(desktop3), { message: "Should not work on desktop3" });
 
-    // Test 6: Multiple desktop names with some not matching
-    filter = new DesktopFilter("Desktop 1\nHome");
+    // Test 6: Regex pattern with character class
+    filter = new DesktopFilter("Desktop [12]");
     Assert.assert(filter.shouldWorkOnDesktop(desktop1), { message: "Should work on desktop1" });
     Assert.assert(!filter.shouldWorkOnDesktop(desktop2), { message: "Should not work on desktop2" });
+    Assert.assert(filter.shouldWorkOnDesktop(desktop3), { message: "Should work on desktop3" });
 
-    // Test 7: '*' in multiple lines is treated as desktop name (not wildcard)
-    filter = new DesktopFilter("*\nWork");
-    const desktopStar = { __brand: "KwinDesktop" as const, id: "3", name: "*" };
-    Assert.assert(filter.shouldWorkOnDesktop(desktopStar), { message: "Should work on desktop named '*'" });
-    Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Should work on desktop2" });
-    Assert.assert(!filter.shouldWorkOnDesktop(desktop1), { message: "Should not work on desktop1" });
-
-    // Test 8: Whitespace handling in desktop names
-    filter = new DesktopFilter("  Work  \n  Desktop 1  ");
-    Assert.assert(filter.shouldWorkOnDesktop(desktop1), { message: "Should work on desktop1 after trimming" });
-    Assert.assert(filter.shouldWorkOnDesktop(desktop2), { message: "Should work on desktop2 after trimming" });
-
-    log("DesktopFilter tests passed!");
-}
-
-testDesktopFilter();
+    // Test 7: Case-sensitive matching
+    filter = new DesktopFilter("work");
+    Assert.assert(!filter.shouldWorkOnDesktop(desktop2), { message: "Should not work on desktop2 (case mismatch)" });
+});

@@ -3,7 +3,6 @@ class ClientManager {
     private readonly clientMap: Map<KwinClient, ClientWrapper>;
     private lastFocusedClient: KwinClient|null;
     private readonly windowRuleEnforcer: WindowRuleEnforcer;
-    private readonly desktopFilter: DesktopFilter;
 
     constructor(
         config: Config,
@@ -26,24 +25,22 @@ class ClientManager {
             log("failed to parse windowRules:", error);
         }
         this.windowRuleEnforcer = new WindowRuleEnforcer(parsedWindowRules);
-        this.desktopFilter = new DesktopFilter(config.desktops);
     }
 
     public addClient(kwinClient: KwinClient) {
         console.assert(!this.hasClient(kwinClient));
 
         let constructState: (client: ClientWrapper) => ClientState.State;
+        let desktop: Desktop | undefined;
         if (kwinClient.dock) {
             constructState = () => new ClientState.Docked(this.world, kwinClient);
         } else if (
             Clients.canTileEver(kwinClient) &&
             this.windowRuleEnforcer.shouldTile(kwinClient) &&
-            this.shouldWorkOnClientDesktop(kwinClient)
+            (desktop = this.desktopManager.getDesktopForClient(kwinClient)) !== undefined
         ) {
             Clients.makeTileable(kwinClient);
             console.assert(Clients.canTileNow(kwinClient));
-            const desktop = this.desktopManager.getDesktopForClient(kwinClient);
-            console.assert(desktop !== undefined);
             constructState = (client: ClientWrapper) => new ClientState.Tiled(this.world, client, desktop!.grid);
         } else {
             constructState = (client: ClientWrapper) => new ClientState.Floating(this.world, client, this.config, false);
@@ -207,14 +204,6 @@ class ClientManager {
         } else {
             return null;
         }
-    }
-
-    private shouldWorkOnClientDesktop(kwinClient: KwinClient): boolean {
-        // If client is on multiple desktops, we don't handle it
-        if (kwinClient.desktops.length !== 1) {
-            return false;
-        }
-        return this.desktopFilter.shouldWorkOnDesktop(kwinClient.desktops[0]);
     }
 
     private removeAllClients() {

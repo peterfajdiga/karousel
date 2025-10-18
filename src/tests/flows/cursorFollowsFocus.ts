@@ -39,7 +39,7 @@ tests.register("Cursor follows focus only on matched desktops", 1, () => {
     // Test that cursor follow focus only works for windows on matched desktops (tiled windows)
     const config = getDefaultConfig();
     config.cursorFollowsFocus = true;
-    config.desktops = "Desktop 1"; // Only work on Desktop 1
+    config.tiledDesktops = "^Desktop 1$"; // Only work on Desktop 1
     const { workspaceMock, world } = init(config);
 
     // Create a client on Desktop 1 (matched desktop) - should be tiled

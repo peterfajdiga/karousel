@@ -62,7 +62,11 @@ class Actions {
     };
 
     public readonly focusStart = (cm: ClientManager, dm: DesktopManager) => {
-        const grid = dm.getCurrentDesktop().grid;
+        const desktop = dm.getCurrentDesktop();
+        if (desktop === undefined) {
+            return;
+        }
+        const grid = desktop.grid;
         const firstColumn = grid.getFirstColumn();
         if (firstColumn === null) {
             return;
@@ -71,7 +75,11 @@ class Actions {
     };
 
     public readonly focusEnd = (cm: ClientManager, dm: DesktopManager) => {
-        const grid = dm.getCurrentDesktop().grid;
+        const desktop = dm.getCurrentDesktop();
+        if (desktop === undefined) {
+            return;
+        }
+        const grid = desktop.grid;
         const lastColumn = grid.getLastColumn();
         if (lastColumn === null) {
             return;
@@ -196,6 +204,9 @@ class Actions {
 
     public readonly columnsWidthEqualize = (cm: ClientManager, dm: DesktopManager) => {
         const desktop = dm.getCurrentDesktop();
+        if (desktop === undefined) {
+            return;
+        }
         const visibleRange = desktop.getCurrentVisibleRange();
         const visibleColumns = Array.from(desktop.grid.getVisibleColumns(visibleRange, true));
 
@@ -297,11 +308,18 @@ class Actions {
     };
 
     private readonly gridScroll = (desktopManager: DesktopManager, amount: number) => {
-        desktopManager.getCurrentDesktop().adjustScroll(amount, false);
+        const desktop = desktopManager.getCurrentDesktop();
+        if (desktop !== undefined) {
+            desktop.adjustScroll(amount, false);
+        }
     };
 
     public readonly gridScrollStart = (cm: ClientManager, dm: DesktopManager) => {
-        const grid = dm.getCurrentDesktop().grid;
+        const desktop = dm.getCurrentDesktop();
+        if (desktop === undefined) {
+            return;
+        }
+        const grid = desktop.grid;
         const firstColumn = grid.getFirstColumn();
         if (firstColumn === null) {
             return;
@@ -310,7 +328,11 @@ class Actions {
     };
 
     public readonly gridScrollEnd = (cm: ClientManager, dm: DesktopManager) => {
-        const grid = dm.getCurrentDesktop().grid;
+        const desktop = dm.getCurrentDesktop();
+        if (desktop === undefined) {
+            return;
+        }
+        const grid = desktop.grid;
         const lastColumn = grid.getLastColumn();
         if (lastColumn === null) {
             return;
@@ -328,7 +350,11 @@ class Actions {
     };
 
     public readonly gridScrollLeftColumn = (cm: ClientManager, dm: DesktopManager) => {
-        const grid = dm.getCurrentDesktop().grid;
+        const desktop = dm.getCurrentDesktop();
+        if (desktop === undefined) {
+            return;
+        }
+        const grid = desktop.grid;
         const column = grid.getLeftmostVisibleColumn(grid.desktop.getCurrentVisibleRange(), true);
         if (column === null) {
             return;
@@ -343,7 +369,11 @@ class Actions {
     };
 
     public readonly gridScrollRightColumn = (cm: ClientManager, dm: DesktopManager) => {
-        const grid = dm.getCurrentDesktop().grid;
+        const desktop = dm.getCurrentDesktop();
+        if (desktop === undefined) {
+            return;
+        }
+        const grid = desktop.grid;
         const column = grid.getRightmostVisibleColumn(grid.desktop.getCurrentVisibleRange(), true);
         if (column === null) {
             return;
@@ -362,7 +392,11 @@ class Actions {
     };
 
     public readonly focus = (columnIndex: number, cm: ClientManager, dm: DesktopManager) => {
-        const grid = dm.getCurrentDesktop().grid;
+        const desktop = dm.getCurrentDesktop();
+        if (desktop === undefined) {
+            return;
+        }
+        const grid = desktop.grid;
         const targetColumn = grid.getColumnAtIndex(columnIndex);
         if (targetColumn === null) {
             return;
@@ -396,7 +430,11 @@ class Actions {
         if (kwinDesktop === undefined) {
             return;
         }
-        const newGrid = dm.getDesktopInCurrentActivity(kwinDesktop).grid;
+        const newDesktop = dm.getDesktopInCurrentActivity(kwinDesktop);
+        if (newDesktop === undefined) {
+            return;
+        }
+        const newGrid = newDesktop.grid;
         if (newGrid === null || newGrid === oldGrid) {
             return;
         }
@@ -408,7 +446,11 @@ class Actions {
         if (kwinDesktop === undefined) {
             return;
         }
-        const newGrid = dm.getDesktopInCurrentActivity(kwinDesktop).grid;
+        const newDesktop = dm.getDesktopInCurrentActivity(kwinDesktop);
+        if (newDesktop === undefined) {
+            return;
+        }
+        const newGrid = newDesktop.grid;
         if (newGrid === null || newGrid === oldGrid) {
             return;
         }

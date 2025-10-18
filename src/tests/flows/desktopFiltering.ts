@@ -15,7 +15,7 @@ tests.register("Desktop filtering", 1, () => {
 tests.register("Desktop filtering - specific desktop", 1, () => {
     // Test 2: Specific desktop name - should work only on matching desktop
     const config2 = getDefaultConfig();
-    config2.desktops = "Desktop 1";
+    config2.tiledDesktops = "^Desktop 1$";
     const { workspaceMock: wm2, world: world2 } = init(config2);
     
     const client1 = new MockKwinClient();
@@ -36,9 +36,9 @@ tests.register("Desktop filtering - specific desktop", 1, () => {
 });
 
 tests.register("Desktop filtering - multiple desktops", 1, () => {
-    // Test 3: Multiple desktop names
+    // Test 3: Multiple desktop names using regex alternation
     const config3 = getDefaultConfig();
-    config3.desktops = "Desktop 1\nDesktop 2";
+    config3.tiledDesktops = "^Desktop [12]$";
     const { workspaceMock: wm3, world: world3 } = init(config3);
     
     const client1 = new MockKwinClient();
@@ -61,7 +61,7 @@ tests.register("Desktop filtering - multiple desktops", 1, () => {
 tests.register("Desktop filtering - windows on multiple desktops", 1, () => {
     // Test 4: Windows on multiple desktops should not be tiled (fallback to floating)
     const config4 = getDefaultConfig();
-    config4.desktops = "*";
+    config4.tiledDesktops = ".*";
     const { workspaceMock: wm4, world: world4 } = init(config4);
     
     const client1 = new MockKwinClient();

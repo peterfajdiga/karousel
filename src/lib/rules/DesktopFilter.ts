@@ -1,31 +1,29 @@
 class DesktopFilter {
-    private readonly allowedDesktops: Set<string> | null; // null means all desktops
+    private readonly desktopRegex: RegExp | null; // null means all desktops
 
     constructor(desktopsConfig: string) {
-        this.allowedDesktops = DesktopFilter.parseDesktopConfig(desktopsConfig);
+        this.desktopRegex = DesktopFilter.parseDesktopConfig(desktopsConfig);
     }
 
     public shouldWorkOnDesktop(kwinDesktop: KwinDesktop): boolean {
-        if (this.allowedDesktops === null) {
+        if (this.desktopRegex === null) {
             return true; // Work on all desktops
         }
-        return this.allowedDesktops.has(kwinDesktop.name);
+        return this.desktopRegex.test(kwinDesktop.name);
     }
 
-    private static parseDesktopConfig(config: string): Set<string> | null {
-        const lines = config.split('\n')
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
+    private static parseDesktopConfig(config: string): RegExp | null {
+        const trimmed = config.trim();
 
-        if (lines.length === 0) {
-            return null; // No config means work on all desktops
+        if (trimmed.length === 0) {
+            return null; // Empty config means work on all desktops
         }
 
-        if (lines.length === 1 && lines[0] === '*') {
-            return null; // Single '*' means work on all desktops
+        try {
+            return new RegExp(`^${trimmed}$`);
+        } catch (e) {
+            log(`Invalid regex pattern in tiledDesktops config: ${trimmed}. Working on all desktops.`);
+            return null; // Invalid regex means work on all desktops as fallback
         }
-
-        // Multiple lines or single non-'*' line means specific desktops
-        return new Set(lines);
     }
 }

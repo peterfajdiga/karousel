@@ -102,7 +102,7 @@ interface KwinDesktop {
     __brand: "KwinDesktop";
 
     readonly id: string;
-    name: string;
+    readonly name: string;
 }
 
 interface ShortcutHandler extends QmlObject {
