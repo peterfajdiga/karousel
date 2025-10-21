@@ -69,8 +69,6 @@ class World {
             layoutConfig,
             focusPasser,
             new DesktopFilter(config.tiledDesktops),
-            Workspace.currentActivity,
-            Workspace.currentDesktop,
         );
         this.clientManager = new ClientManager(config, this, this.desktopManager, this.pinManager);
         this.addExistingClients();

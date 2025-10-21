@@ -10,8 +10,6 @@ class DesktopManager {
         private readonly layoutConfig: LayoutConfig,
         private readonly focusPasser: FocusPassing.Passer,
         private readonly desktopFilter: DesktopFilter,
-        currentActivity: string,
-        currentDesktop: KwinDesktop,
     ) {
         this.pinManager = pinManager;
         this.config = config;
@@ -20,9 +18,6 @@ class DesktopManager {
         this.selectedScreen = Workspace.activeScreen;
         this.kwinActivities = new Set(Workspace.activities);
         this.kwinDesktops = new Set(Workspace.desktops);
-        if (this.desktopFilter.shouldWorkOnDesktop(currentDesktop)) {
-            this.addDesktop(currentActivity, currentDesktop);
-        }
     }
 
     public getDesktop(activity: string, kwinDesktop: KwinDesktop) {
