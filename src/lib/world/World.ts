@@ -5,12 +5,10 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
-    private readonly cursorFollowsFocus: boolean;
 
     constructor(config: Config) {
         const focusPasser = new FocusPassing.Passer();
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this, focusPasser);
-        this.cursorFollowsFocus = config.cursorFollowsFocus;
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
@@ -70,6 +68,7 @@ class World {
             },
             layoutConfig,
             focusPasser,
+            new DesktopFilter(config.tiledDesktops),
             Workspace.currentActivity,
             Workspace.currentDesktop,
         );
@@ -98,12 +97,20 @@ class World {
     }
 
     private update() {
-        this.desktopManager.getCurrentDesktop().arrange();
-        this.moveCursorToFocus();
+        const currentDesktop = this.desktopManager.getCurrentDesktop();
+        if (currentDesktop !== undefined) {
+            currentDesktop.arrange();
+            this.moveCursorToFocus();
+        }
     }
 
     private moveCursorToFocus() {
-        if (this.cursorFollowsFocus && Workspace.activeWindow !== null) {
+        if (Workspace.activeWindow !== null) {
+            // Only move cursor for tiled windows
+            const tiledWindow = this.clientManager.findTiledWindow(Workspace.activeWindow);
+            if (tiledWindow === null) {
+                return;
+            }
             const cursorAlreadyInFocus = rectContainsPoint(Workspace.activeWindow.frameGeometry, Workspace.cursorPos);
             if (cursorAlreadyInFocus) {
                 return;
@@ -141,11 +148,21 @@ class World {
     }
 
     public gestureScroll(amount: number) {
-        this.do((clientManager, desktopManager) => desktopManager.getCurrentDesktop().gestureScroll(amount));
+        this.do((clientManager, desktopManager) => {
+            const currentDesktop = desktopManager.getCurrentDesktop();
+            if (currentDesktop !== undefined) {
+                currentDesktop.gestureScroll(amount);
+            }
+        });
     }
 
     public gestureScrollFinish() {
-        this.do((clientManager, desktopManager) => desktopManager.getCurrentDesktop().gestureScrollFinish());
+        this.do((clientManager, desktopManager) => {
+            const currentDesktop = desktopManager.getCurrentDesktop();
+            if (currentDesktop !== undefined) {
+                currentDesktop.gestureScrollFinish();
+            }
+        });
     }
 
     public destroy() {

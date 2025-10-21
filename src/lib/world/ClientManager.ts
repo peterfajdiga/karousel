@@ -31,16 +31,16 @@ class ClientManager {
         console.assert(!this.hasClient(kwinClient));
 
         let constructState: (client: ClientWrapper) => ClientState.State;
+        let desktop: Desktop | undefined;
         if (kwinClient.dock) {
             constructState = () => new ClientState.Docked(this.world, kwinClient);
         } else if (
             Clients.canTileEver(kwinClient) &&
-            this.windowRuleEnforcer.shouldTile(kwinClient)
+            this.windowRuleEnforcer.shouldTile(kwinClient) &&
+            (desktop = this.desktopManager.getDesktopForClient(kwinClient)) !== undefined
         ) {
             Clients.makeTileable(kwinClient);
             console.assert(Clients.canTileNow(kwinClient));
-            const desktop = this.desktopManager.getDesktopForClient(kwinClient);
-            console.assert(desktop !== undefined);
             constructState = (client: ClientWrapper) => new ClientState.Tiled(this.world, client, desktop!.grid);
         } else {
             constructState = (client: ClientWrapper) => new ClientState.Floating(this.world, client, this.config, false);

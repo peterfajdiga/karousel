@@ -52,6 +52,7 @@ class MockKwinClient {
         this.windowedFrameGeometry = _frameGeometry.clone();
         this.transient = transientFor !== null;
         this._desktops = [Workspace.currentDesktop];
+        this.activities = [Workspace.currentActivity];
     }
 
     setMaximize(vertically: boolean, horizontally: boolean) {

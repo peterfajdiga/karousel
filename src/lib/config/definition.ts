@@ -189,4 +189,9 @@ const configDef = [
         type: "String",
         default: defaultWindowRules,
     },
+    {
+        name: "tiledDesktops",
+        type: "String",
+        default: ".*",
+    },
 ];

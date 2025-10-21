@@ -9,6 +9,7 @@ class DesktopManager {
         private readonly config: Desktop.Config,
         private readonly layoutConfig: LayoutConfig,
         private readonly focusPasser: FocusPassing.Passer,
+        private readonly desktopFilter: DesktopFilter,
         currentActivity: string,
         currentDesktop: KwinDesktop,
     ) {
@@ -19,10 +20,15 @@ class DesktopManager {
         this.selectedScreen = Workspace.activeScreen;
         this.kwinActivities = new Set(Workspace.activities);
         this.kwinDesktops = new Set(Workspace.desktops);
-        this.addDesktop(currentActivity, currentDesktop);
+        if (this.desktopFilter.shouldWorkOnDesktop(currentDesktop)) {
+            this.addDesktop(currentActivity, currentDesktop);
+        }
     }
 
     public getDesktop(activity: string, kwinDesktop: KwinDesktop) {
+        if (!this.desktopFilter.shouldWorkOnDesktop(kwinDesktop)) {
+            return undefined;
+        }
         const desktopKey = DesktopManager.getDesktopKey(activity, kwinDesktop);
         const desktop = this.desktops.get(desktopKey);
         if (desktop !== undefined) {
