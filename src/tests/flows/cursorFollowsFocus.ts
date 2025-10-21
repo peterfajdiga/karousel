@@ -46,7 +46,7 @@ tests.register("Cursor follows focus only on matched desktops", 1, () => {
     const client1 = new MockKwinClient();
     client1.desktops = [workspaceMock.desktops[0]]; // Desktop 1
     workspaceMock.createWindows(client1);
-    
+
     // Create a client on Desktop 2 (non-matched desktop) - should be floating
     const client2 = new MockKwinClient();
     client2.desktops = [workspaceMock.desktops[1]]; // Desktop 2
@@ -60,7 +60,7 @@ tests.register("Cursor follows focus only on matched desktops", 1, () => {
     workspaceMock.currentDesktop = workspaceMock.desktops[0]; // Switch to Desktop 1
     Workspace.activeWindow = client1;
     world.do(() => {});
-    Assert.assert(rectContainsPoint(client1.frameGeometry, Workspace.cursorPos), 
+    Assert.assert(rectContainsPoint(client1.frameGeometry, Workspace.cursorPos),
         { message: "Cursor should have moved to tiled window on matched desktop" });
 
     // Test 2: Switch to non-matched desktop (Desktop 2) and focus client2 - cursor should NOT move
@@ -68,7 +68,7 @@ tests.register("Cursor follows focus only on matched desktops", 1, () => {
     workspaceMock.currentDesktop = workspaceMock.desktops[1]; // Switch to Desktop 2
     Workspace.activeWindow = client2;
     world.do(() => {});
-    Assert.assert(pointEquals(Workspace.cursorPos, initialCursorPos), 
+    Assert.assert(pointEquals(Workspace.cursorPos, initialCursorPos),
         { message: "Cursor should NOT move on non-matched desktop" });
 
     // Test 3: Even if we focus client1 (tiled) while on Desktop 2, cursor should NOT move
@@ -77,6 +77,6 @@ tests.register("Cursor follows focus only on matched desktops", 1, () => {
     workspaceMock.currentDesktop = workspaceMock.desktops[1]; // Stay on Desktop 2
     Workspace.activeWindow = client1;
     world.do(() => {});
-    Assert.assert(pointEquals(Workspace.cursorPos, initialCursorPos), 
+    Assert.assert(pointEquals(Workspace.cursorPos, initialCursorPos),
         { message: "Cursor should NOT move even for tiled window when current desktop is not matched" });
 });
