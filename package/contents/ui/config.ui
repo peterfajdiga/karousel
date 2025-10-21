@@ -473,7 +473,7 @@
                                     <item>
                                         <widget class="QLineEdit" name="kcfg_tiledDesktops">
                                             <property name="toolTip">
-                                                <string>Regex string to match desktops. Default value is ".*". Example: "Desktop [1-3]"</string>
+                                                <string>Regex string to match desktops by desktop name"</string>
                                             </property>
                                         </widget>
                                     </item>
