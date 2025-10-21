@@ -2,6 +2,7 @@ let Qt: Qt;
 let KWin: KWin;
 let Workspace: Workspace;
 let qmlBase: QmlObject;
+let notificationInvalidTiledDesktops: Notification;
 let notificationInvalidWindowRules: Notification;
 let notificationInvalidPresetWidths: Notification;
 let moveCursorToFocus: DBusCall;

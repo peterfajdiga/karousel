@@ -22,6 +22,7 @@ class DesktopFilter {
         try {
             return new RegExp(`^${trimmed}$`);
         } catch (e) {
+            notificationInvalidTiledDesktops.sendEvent();
             log(`Invalid regex pattern in tiledDesktops config: ${trimmed}. Working on all desktops.`);
             return null; // Invalid regex means work on all desktops as fallback
         }

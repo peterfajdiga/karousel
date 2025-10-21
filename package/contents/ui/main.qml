@@ -17,6 +17,16 @@ Item {
     }
 
     Notification {
+        id: notificationInvalidTiledDesktops
+        componentName: "plasma_workspace"
+        eventId: "notification"
+        title: "Karousel"
+        text: "Your Tiled Desktops regex is malformed, please review your Karousel configuration"
+        flags: Notification.Persistent
+        urgency: Notification.HighUrgency
+    }
+
+    Notification {
         id: notificationInvalidWindowRules
         componentName: "plasma_workspace"
         eventId: "notification"
