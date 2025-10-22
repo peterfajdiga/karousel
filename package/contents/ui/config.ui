@@ -32,7 +32,7 @@
                                         <item>
                                             <widget class="QCheckBox" name="kcfg_cursorFollowsFocus">
                                                 <property name="text">
-                                                    <string>Cursor follows focus</string>
+                                                    <string>Cursor follows focus (experimental)</string>
                                                 </property>
                                                 <property name="toolTip">
                                                     <string>When a window gains focus, move the cursor to it</string>
