@@ -143,6 +143,21 @@ class Desktop {
 
     public gestureScrollFinish() {
         this.gestureScrollXInitial = null;
+
+        const visibleRange = this.grid.desktop.getCurrentVisibleRange();
+
+        const focusedColumn = this.grid.getLastFocusedColumn();
+        if (focusedColumn !== null) {
+            if (Range.contains(visibleRange, focusedColumn)) {
+                return;
+            }
+        }
+
+        const currentVisibleColumns = Array.from(this.grid.getVisibleColumns(visibleRange, false));
+
+        if (currentVisibleColumns.length != 0) {
+            currentVisibleColumns[0].getFirstWindow().focus();
+        }
     }
 
     public arrange() {
