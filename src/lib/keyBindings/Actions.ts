@@ -208,7 +208,7 @@ class Actions {
             return;
         }
         const visibleRange = desktop.getCurrentVisibleRange();
-        const visibleColumns = Array.from(desktop.grid.getVisibleColumns(visibleRange, true));
+        const visibleColumns = Array.from(desktop.grid.getVisibleColumns(visibleRange));
 
         const availableSpace = desktop.tilingArea.width;
         const gapsWidth = desktop.grid.config.gapsInnerHorizontal * (visibleColumns.length-1);
@@ -230,7 +230,7 @@ class Actions {
             return;
         }
 
-        const currentVisibleColumns = Array.from(grid.getVisibleColumns(visibleRange, true));
+        const currentVisibleColumns = Array.from(grid.getVisibleColumns(visibleRange));
         console.assert(currentVisibleColumns.includes(focusedColumn), "should at least contain the focused column");
 
         const targetColumn = grid.getLeftColumn(currentVisibleColumns[0]);
@@ -257,7 +257,7 @@ class Actions {
             return;
         }
 
-        const currentVisibleColumns = Array.from(grid.getVisibleColumns(visibleRange, true));
+        const currentVisibleColumns = Array.from(grid.getVisibleColumns(visibleRange));
         console.assert(currentVisibleColumns.includes(focusedColumn), "should at least contain the focused column");
 
         const targetColumn = grid.getRightColumn(currentVisibleColumns[currentVisibleColumns.length-1]);
@@ -355,7 +355,7 @@ class Actions {
             return;
         }
         const grid = desktop.grid;
-        const column = grid.getLeftmostVisibleColumn(grid.desktop.getCurrentVisibleRange(), true);
+        const column = grid.getLeftmostVisibleColumn(grid.desktop.getCurrentVisibleRange());
         if (column === null) {
             return;
         }
@@ -374,7 +374,7 @@ class Actions {
             return;
         }
         const grid = desktop.grid;
-        const column = grid.getRightmostVisibleColumn(grid.desktop.getCurrentVisibleRange(), true);
+        const column = grid.getRightmostVisibleColumn(grid.desktop.getCurrentVisibleRange());
         if (column === null) {
             return;
         }

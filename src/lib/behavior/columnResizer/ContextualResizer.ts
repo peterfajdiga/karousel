@@ -13,8 +13,8 @@ class ContextualResizer {
             return;
         }
 
-        const leftVisibleColumn = grid.getLeftmostVisibleColumn(visibleRange, true);
-        const rightVisibleColumn = grid.getRightmostVisibleColumn(visibleRange, true);
+        const leftVisibleColumn = grid.getLeftmostVisibleColumn(visibleRange);
+        const rightVisibleColumn = grid.getRightmostVisibleColumn(visibleRange);
         if (leftVisibleColumn === null || rightVisibleColumn === null) {
             console.assert(false); // should at least see self
             return;
@@ -50,8 +50,8 @@ class ContextualResizer {
             return;
         }
 
-        const leftVisibleColumn = grid.getLeftmostVisibleColumn(visibleRange, true);
-        const rightVisibleColumn = grid.getRightmostVisibleColumn(visibleRange, true);
+        const leftVisibleColumn = grid.getLeftmostVisibleColumn(visibleRange);
+        const rightVisibleColumn = grid.getRightmostVisibleColumn(visibleRange);
         if (leftVisibleColumn === null || rightVisibleColumn === null) {
             console.assert(false); // should at least see self
             return;
