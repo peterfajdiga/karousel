@@ -141,8 +141,20 @@ class Desktop {
         this.setScroll(this.gestureScrollXInitial + this.config.gestureScrollStep * amount, false);
     }
 
-    public gestureScrollFinish() {
+    public gestureScrollFinish(focusedWindow: Window|null) {
+        const scrolledRight = this.scrollX > this.gestureScrollXInitial!;
         this.gestureScrollXInitial = null;
+
+        const visibleRange = this.getCurrentVisibleRange();
+        if (focusedWindow !== null && !Range.contains(visibleRange, focusedWindow.column)) {
+            // the focused window is no longer visible, find a new window to focus
+            const focusTargetColumn = scrolledRight ?
+                this.grid.getLeftmostVisibleColumn(visibleRange) :
+                this.grid.getRightmostVisibleColumn(visibleRange);
+            if (focusTargetColumn !== null) {
+                focusTargetColumn.getWindowToFocus().focus();
+            }
+        }
     }
 
     public arrange() {

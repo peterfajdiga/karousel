@@ -158,9 +158,11 @@ class World {
 
     public gestureScrollFinish() {
         this.do((clientManager, desktopManager) => {
+            const focusedWindow = Workspace.activeWindow === null ? null : clientManager.findTiledWindow(Workspace.activeWindow);
             const currentDesktop = desktopManager.getCurrentDesktop();
             if (currentDesktop !== undefined) {
-                currentDesktop.gestureScrollFinish();
+                console.assert(focusedWindow === null || focusedWindow.column.grid.desktop === currentDesktop);
+                currentDesktop.gestureScrollFinish(focusedWindow);
             }
         });
     }
