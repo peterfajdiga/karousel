@@ -3,7 +3,7 @@ CHECKS := true
 
 .PHONY: *
 
-build: lint tests
+build: lint test
 	tsc -p ./src/main --outFile ./package/contents/code/main.js
 	mkdir -p ./package/contents/config
 	./run-ts.sh ./src/generators/config > ./package/contents/config/main.xml
@@ -19,7 +19,7 @@ endif
 lint-fix: npm-install
 	npx eslint ./src --fix
 
-tests:
+test:
 ifeq (${CHECKS}, true)
 	./run-ts.sh ./src/tests
 endif
