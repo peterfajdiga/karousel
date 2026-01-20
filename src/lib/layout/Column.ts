@@ -231,11 +231,11 @@ class Column {
         const windowWidth = this.width - (nWindows - 1) * this.grid.config.stackOffsetX;
         const windowHeight = this.grid.desktop.tilingArea.height - (nWindows - 1) * this.grid.config.stackOffsetY;
 
-        let windowX = x;
+        let windowX = x + (nWindows - 1) * this.grid.config.stackOffsetX;
         let windowY = this.grid.desktop.tilingArea.y;
         for (const window of this.windows.iterator()) {
             window.arrange(windowX, windowY, windowWidth, windowHeight);
-            windowX += this.grid.config.stackOffsetX;
+            windowX -= this.grid.config.stackOffsetX;
             windowY += this.grid.config.stackOffsetY;
         }
     }
