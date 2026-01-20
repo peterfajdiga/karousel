@@ -157,6 +157,22 @@ class Actions {
         window.moveToColumn(newColumn, true, FocusPassing.Type.None);
     };
 
+    public readonly windowHeightIncrease = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        window.column.adjustWindowHeight(
+            window,
+            window.column.grid.config.stackOffsetY,
+            window.column.getLastWindow() === window,
+        );
+    };
+
+    public readonly windowHeightDecrease = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        window.column.adjustWindowHeight(
+            window,
+            -window.column.grid.config.stackOffsetY,
+            window.column.getLastWindow() === window,
+        );
+    };
+
     public readonly windowToggleFloating = (cm: ClientManager, dm: DesktopManager) => {
         if (Workspace.activeWindow === null) {
             return;
