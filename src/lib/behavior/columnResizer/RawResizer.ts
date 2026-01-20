@@ -28,4 +28,14 @@ class RawResizer {
         }
         column.setWidth(newWidth, true);
     }
+
+    public maximizeWidth(column: Column) {
+        const maxWidth = column.getMaxWidth();
+        column.setWidth(maxWidth, true);
+    }
+
+    public minimizeWidth(column: Column) {
+        const minWidth = column.getMinWidth();
+        column.setWidth(minWidth, true);
+    }
 }

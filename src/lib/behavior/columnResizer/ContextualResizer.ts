@@ -86,4 +86,20 @@ class ContextualResizer {
         column.setWidth(newWidth, true);
         desktop.scrollCenterVisible(column);
     }
+
+    public maximizeWidth(column: Column) {
+        const grid = column.grid;
+        const desktop = grid.desktop;
+        const maxWidth = column.getMaxWidth();
+        column.setWidth(maxWidth, true);
+        desktop.scrollCenterVisible(column);
+    }
+
+    public minimizeWidth(column: Column) {
+        const grid = column.grid;
+        const desktop = grid.desktop;
+        const minWidth = column.getMinWidth();
+        column.setWidth(minWidth, true);
+        desktop.scrollCenterVisible(column);
+    }
 }
