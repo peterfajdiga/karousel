@@ -464,7 +464,7 @@ namespace Actions {
         presetWidths: {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => number;
             prev: (currentWidth: number, minWidth: number, maxWidth: number) => number
-};
+        };
         columnResizer: ColumnResizer;
     }
 
