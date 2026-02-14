@@ -3,6 +3,8 @@ class ContextualResizer {
         private readonly presetWidths: { getWidths: (minWidth: number, maxWidth: number) => number[] },
     ) {}
 
+    private readonly DELTA = 1;
+
     public increaseWidth(column: Column) {
         const grid = column.grid;
         const desktop = grid.desktop;
@@ -30,7 +32,7 @@ class ContextualResizer {
                 column.getWidth() + leftSpace + rightSpace + rightVisibleColumn.getWidth() + grid.config.gapsInnerHorizontal,
                 ...this.presetWidths.getWidths(minWidth, maxWidth),
             ],
-            width => width - column.getWidth(),
+            width => width - column.getWidth() - this.DELTA,
         );
         if (newWidth === undefined) {
             return;
@@ -77,7 +79,7 @@ class ContextualResizer {
                 column.getWidth() - rightOffScreen,
                 ...this.presetWidths.getWidths(minWidth, maxWidth),
             ],
-            width => column.getWidth() - width,
+            width => column.getWidth() - width - this.DELTA,
         );
         if (newWidth === undefined) {
             return;
