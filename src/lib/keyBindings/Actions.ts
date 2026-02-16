@@ -192,13 +192,12 @@ class Actions {
         this.config.columnResizer.decreaseWidth(column);
     };
 
-    public readonly columnWidthMaximize = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
-        this.config.columnResizer.maximizeWidth(column);
+    public readonly columnWidthToPresetMax = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        this.config.columnResizer.toPresetMaxWidth(column);
     };
 
-
-    public readonly columnWidthMinimize = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
-        this.config.columnResizer.minimizeWidth(column);
+    public readonly columnWidthToPresetMin = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        this.config.columnResizer.toPresetMinWidth(column);
     };
 
     public readonly cyclePresetWidths = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
@@ -480,7 +479,7 @@ namespace Actions {
     export interface ColumnResizer {
         increaseWidth(column: Column): void;
         decreaseWidth(column: Column): void;
-        maximizeWidth(column: Column): void;
-        minimizeWidth(column: Column): void;
+        toPresetMaxWidth(column: Column): void;
+        toPresetMinWidth(column: Column): void;
     }
 }
