@@ -148,12 +148,12 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
         },
         {
             name: "column-width-maximize",
-            description: "Set column width to maximum",
+            description: "Increase column width to maximum",
             action: () => world.doIfTiledFocused(actions.columnWidthMaximize),
         },
         {
             name: "column-width-minimize",
-            description: "Set column width to minimum",
+            description: "Decrease column width to minimum",
             action: () => world.doIfTiledFocused(actions.columnWidthMinimize),
         },
         {
