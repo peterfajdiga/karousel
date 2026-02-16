@@ -28,4 +28,14 @@ class RawResizer {
         }
         column.setWidth(newWidth, true);
     }
+
+    public toPresetMaxWidth(column: Column) {
+        const maxWidth = this.presetWidths.getWidths(column.getMinWidth(), column.getMaxWidth()).slice(-1)[0];
+        column.setWidth(maxWidth, true);
+    }
+
+    public toPresetMinWidth(column: Column) {
+        const minWidth = this.presetWidths.getWidths(column.getMinWidth(), column.getMaxWidth())[0];
+        column.setWidth(minWidth, true);
+    }
 }
