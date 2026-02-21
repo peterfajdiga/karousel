@@ -34,7 +34,7 @@ function init(config: Config) {
         __brand: "QmlObject",
         call: () => {
             Assert.assert(Workspace.activeWindow !== null, { message: "moveCursorToFocus should never be called if there's no focused window" });
-            const frame = Workspace.activeWindow!.frameGeometry;
+            const frame = (Workspace.activeWindow! as MockKwinClient).getActualFrameGeometry();
             workspaceMock.cursorPos.x = Math.floor(frame.x + frame.width/2);
             workspaceMock.cursorPos.y = Math.floor(frame.y + frame.height/2);
         },
@@ -44,8 +44,8 @@ function init(config: Config) {
     return { qtMock, workspaceMock, world };
 }
 
-function getGridBounds(clientLeft: KwinClient, clientRight: KwinClient) {
-    const columnsWidth = rectRight(clientRight.frameGeometry) - clientLeft.frameGeometry.x;
+function getGridBounds(clientLeft: MockKwinClient, clientRight: MockKwinClient) {
+    const columnsWidth = rectRight(clientRight.getActualFrameGeometry()) - clientLeft.getActualFrameGeometry().x;
     const left = tilingArea.x + Math.floor((tilingArea.width - columnsWidth) / 2);
     const right = left + columnsWidth;
     return { left, right };

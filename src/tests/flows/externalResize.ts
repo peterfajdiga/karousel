@@ -16,23 +16,23 @@ tests.register("External resize", 1, () => {
     }
 
     const [client] = workspaceMock.createClientsWithFrames(getClientDesiredFrame(100));
-    Assert.equalRects(client.frameGeometry, getTiledFrame(100), { message: "We should tile the window, respecting its desired width" });
+    Assert.equalRects(client.getActualFrameGeometry(), getTiledFrame(100), { message: "We should tile the window, respecting its desired width" });
 
     function testExternalResizing() {
         client.frameGeometry = getClientDesiredFrame(110);
-        Assert.equalRects(client.frameGeometry, getTiledFrame(110), { message: "We should re-arrange the window, respecting its new desired width" });
+        Assert.equalRects(client.getActualFrameGeometry(), getTiledFrame(110), { message: "We should re-arrange the window, respecting its new desired width" });
 
         client.frameGeometry = getClientDesiredFrame(120);
-        Assert.equalRects(client.frameGeometry, getTiledFrame(120), { message: "We should re-arrange the window, respecting its new desired width" });
+        Assert.equalRects(client.getActualFrameGeometry(), getTiledFrame(120), { message: "We should re-arrange the window, respecting its new desired width" });
 
         client.frameGeometry = getClientDesiredFrame(130);
-        Assert.equalRects(client.frameGeometry, getTiledFrame(130), { message: "We should re-arrange the window, respecting its new desired width" });
+        Assert.equalRects(client.getActualFrameGeometry(), getTiledFrame(130), { message: "We should re-arrange the window, respecting its new desired width" });
 
         client.frameGeometry = getClientDesiredFrame(140);
-        Assert.equalRects(client.frameGeometry, getTiledFrame(140), { message: "We should re-arrange the window, respecting its new desired width" });
+        Assert.equalRects(client.getActualFrameGeometry(), getTiledFrame(140), { message: "We should re-arrange the window, respecting its new desired width" });
 
         client.frameGeometry = getClientDesiredFrame(200);
-        Assert.equalRects(client.frameGeometry, getClientDesiredFrame(200), { message: "We should give up and let the client have its desired frame" });
+        Assert.equalRects(client.getActualFrameGeometry(), getClientDesiredFrame(200), { message: "We should give up and let the client have its desired frame" });
     }
 
     timeControl(addTime => {

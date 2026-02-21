@@ -20,37 +20,37 @@
             Assert.assert(!kwinClient.fullScreen);
             Assert.equal(kwinClient.keepBelow, shouldKeepBelow(true));
             Assert.equal(kwinClient.keepAbove, shouldKeepAbove(true));
-            Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
+            Assert.rect(kwinClient.getActualFrameGeometry(), columnLeftX, columnTopY, 300, columnHeight);
 
             kwinClient.fullScreen = true;
             Assert.assert(kwinClient.fullScreen);
             Assert.equal(kwinClient.keepBelow, shouldKeepBelow(false));
             Assert.equal(kwinClient.keepAbove, shouldKeepAbove(false));
-            Assert.equalRects(kwinClient.frameGeometry, screen);
+            Assert.equalRects(kwinClient.getActualFrameGeometry(), screen);
 
             kwinClient.fullScreen = false;
             Assert.assert(!kwinClient.fullScreen);
             Assert.equal(kwinClient.keepBelow, shouldKeepBelow(true));
             Assert.equal(kwinClient.keepAbove, shouldKeepAbove(true));
-            Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
+            Assert.rect(kwinClient.getActualFrameGeometry(), columnLeftX, columnTopY, 300, columnHeight);
 
             kwinClient.setMaximize(true, true);
             Assert.assert(!kwinClient.fullScreen);
             Assert.equal(kwinClient.keepBelow, shouldKeepBelow(false));
             Assert.equal(kwinClient.keepAbove, shouldKeepAbove(false));
-            Assert.equalRects(kwinClient.frameGeometry, screen);
+            Assert.equalRects(kwinClient.getActualFrameGeometry(), screen);
 
             kwinClient.setMaximize(true, false);
             Assert.assert(!kwinClient.fullScreen);
             Assert.equal(kwinClient.keepBelow, shouldKeepBelow(false));
             Assert.equal(kwinClient.keepAbove, shouldKeepAbove(false));
-            Assert.rect(kwinClient.frameGeometry, columnLeftX, 0, 300, screen.height);
+            Assert.rect(kwinClient.getActualFrameGeometry(), columnLeftX, 0, 300, screen.height);
 
             kwinClient.setMaximize(false, false);
             Assert.assert(!kwinClient.fullScreen);
             Assert.equal(kwinClient.keepBelow, shouldKeepBelow(true));
             Assert.equal(kwinClient.keepAbove, shouldKeepAbove(true));
-            Assert.rect(kwinClient.frameGeometry, columnLeftX, columnTopY, 300, columnHeight);
+            Assert.rect(kwinClient.getActualFrameGeometry(), columnLeftX, columnTopY, 300, columnHeight);
         });
 
         tests.register("Maximize with transient " + suffix, 100, () => {
@@ -71,7 +71,7 @@
             );
             Assert.equal(parent.keepBelow, shouldKeepBelow(false));
             Assert.equal(parent.keepAbove, shouldKeepAbove(false));
-            Assert.equalRects(parent.frameGeometry, screen);
+            Assert.equalRects(parent.getActualFrameGeometry(), screen);
 
             workspaceMock.createWindows(child);
             world.do((clientManager, desktopManager) => {
@@ -80,14 +80,14 @@
             Assert.assert(!child.fullScreen);
             Assert.equal(child.keepBelow, shouldKeepBelow(false));
             Assert.equal(child.keepAbove, shouldKeepAbove(false));
-            Assert.rect(child.frameGeometry, 14, 24, 50, 50);
+            Assert.rect(child.getActualFrameGeometry(), 14, 24, 50, 50);
             Assert.equal(parent.keepBelow, shouldKeepBelow(false));
             Assert.equal(parent.keepAbove, shouldKeepAbove(false));
-            Assert.equalRects(parent.frameGeometry, screen);
+            Assert.equalRects(parent.getActualFrameGeometry(), screen);
         });
 
         {
-            function assertWindowed(config: Config, clients: KwinClient[]) {
+            function assertWindowed(config: Config, clients: MockKwinClient[]) {
                 Assert.assert(!clients[0].fullScreen);
                 Assert.equal(clients[0].keepBelow, shouldKeepBelow(true));
                 Assert.equal(clients[0].keepAbove, shouldKeepAbove(true));
@@ -100,7 +100,7 @@
                 Assert.grid(config, tilingArea, [300, 400], [[clients[0]], [clients[1], clients[2]]], true);
             }
 
-            function assertFullScreenOrMaximized(clients: KwinClient[]) {
+            function assertFullScreenOrMaximized(clients: MockKwinClient[]) {
                 Assert.assert(!clients[0].fullScreen);
                 Assert.equal(clients[0].keepBelow, shouldKeepBelow(true));
                 Assert.equal(clients[0].keepAbove, shouldKeepAbove(true));
@@ -109,7 +109,7 @@
                 Assert.equal(clients[1].keepAbove, shouldKeepAbove(true));
                 Assert.equal(clients[2].keepBelow, shouldKeepBelow(false));
                 Assert.equal(clients[2].keepAbove, shouldKeepAbove(false));
-                Assert.equalRects(clients[2].frameGeometry, screen);
+                Assert.equalRects(clients[2].getActualFrameGeometry(), screen);
             }
 
             tests.register("Re-maximize disabled " + suffix, 100, () => {
@@ -232,7 +232,7 @@
             Assert.assert(fullScreenClient.fullScreen);
             Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(false));
             Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(false));
-            Assert.equalRects(fullScreenClient.frameGeometry, screen);
+            Assert.equalRects(fullScreenClient.getActualFrameGeometry(), screen);
             Assert.equal(Workspace.activeWindow, fullScreenClient);
 
             {
@@ -245,7 +245,7 @@
                 Assert.assert(fullScreenClient.fullScreen);
                 Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(false));
                 Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(false));
-                Assert.equalRects(fullScreenClient.frameGeometry, screen);
+                Assert.equalRects(fullScreenClient.getActualFrameGeometry(), screen);
                 Assert.equal(Workspace.activeWindow, fullScreenClient, opts);
             }
 
@@ -259,7 +259,7 @@
                 Assert.assert(fullScreenClient.fullScreen);
                 Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(false));
                 Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(false));
-                Assert.equalRects(fullScreenClient.frameGeometry, screen);
+                Assert.equalRects(fullScreenClient.getActualFrameGeometry(), screen);
                 Assert.equal(Workspace.activeWindow, windowedClient);
             }
         });
@@ -288,7 +288,7 @@
             Assert.assert(fullScreenClient.fullScreen);
             Assert.equal(fullScreenClient.keepBelow, shouldKeepBelow(false));
             Assert.equal(fullScreenClient.keepAbove, shouldKeepAbove(false));
-            Assert.equalRects(fullScreenClient.frameGeometry, screen);
+            Assert.equalRects(fullScreenClient.getActualFrameGeometry(), screen);
             Assert.equal(Workspace.activeWindow, fullScreenClient);
 
             let expectedColumn2Width = 0;

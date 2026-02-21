@@ -5,30 +5,30 @@ tests.register("Drag tiled window, untile", 10, () => {
 
     const [client1, client2] = workspaceMock.createClients(2);
     const initialCursorPos = new MockQmlPoint(380, 20);
-    Assert.assert(rectContainsPoint(client1.frameGeometry, initialCursorPos), { message: "invalid test setup" });
+    Assert.assert(rectContainsPoint(client1.getActualFrameGeometry(), initialCursorPos), { message: "invalid test setup" });
     workspaceMock.cursorPos = initialCursorPos.clone();
 
     runOneOf(
         () => { Workspace.activeWindow = client1; },
         () => { qtMock.fireShortcut("karousel-focus-1"); },
     );
-    Assert.assert(rectContainsPoint(client1.frameGeometry, Workspace.cursorPos));
-    Assert.assert(!rectContainsPoint(client2.frameGeometry, Workspace.cursorPos));
+    Assert.assert(rectContainsPoint(client1.getActualFrameGeometry(), Workspace.cursorPos));
+    Assert.assert(!rectContainsPoint(client2.getActualFrameGeometry(), Workspace.cursorPos));
     Assert.assert(pointEquals(Workspace.cursorPos, initialCursorPos), { message: "Cursor should not have been moved because it was already within the focused client" });
 
     runOneOf(
         () => { Workspace.activeWindow = client2; },
         () => { qtMock.fireShortcut("karousel-focus-2"); },
     );
-    Assert.assert(!rectContainsPoint(client1.frameGeometry, Workspace.cursorPos));
-    Assert.assert(rectContainsPoint(client2.frameGeometry, Workspace.cursorPos));
+    Assert.assert(!rectContainsPoint(client1.getActualFrameGeometry(), Workspace.cursorPos));
+    Assert.assert(rectContainsPoint(client2.getActualFrameGeometry(), Workspace.cursorPos));
 
     runOneOf(
         () => { Workspace.activeWindow = client1; },
         () => { qtMock.fireShortcut("karousel-focus-1"); },
     );
-    Assert.assert(rectContainsPoint(client1.frameGeometry, Workspace.cursorPos));
-    Assert.assert(!rectContainsPoint(client2.frameGeometry, Workspace.cursorPos));
+    Assert.assert(rectContainsPoint(client1.getActualFrameGeometry(), Workspace.cursorPos));
+    Assert.assert(!rectContainsPoint(client2.getActualFrameGeometry(), Workspace.cursorPos));
     const lastCursorPos = workspaceMock.cursorPos.clone();
 
     Workspace.activeWindow = null;
@@ -60,7 +60,7 @@ tests.register("Cursor follows focus only on matched desktops", 1, () => {
     workspaceMock.currentDesktop = workspaceMock.desktops[0]; // Switch to Desktop 1
     Workspace.activeWindow = client1;
     world.do(() => {});
-    Assert.assert(rectContainsPoint(client1.frameGeometry, Workspace.cursorPos),
+    Assert.assert(rectContainsPoint(client1.getActualFrameGeometry(), Workspace.cursorPos),
         { message: "Cursor should have moved to tiled window on matched desktop" });
 
     // Test 2: Switch to non-matched desktop (Desktop 2) and focus client2 - cursor should NOT move

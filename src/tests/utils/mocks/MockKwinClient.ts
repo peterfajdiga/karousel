@@ -4,7 +4,7 @@ class MockKwinClient {
     private static readonly borderThickness = 10;
 
     public caption = "App";
-    public minSize: Readonly<QmlSize> = new MockQmlSize(0, 0);
+    public minSize: Readonly<QmlSize> = new MockQmlSize(randomJitter(), randomJitter());
     public readonly transient: boolean;
     public move = false;
     public resize = false;
@@ -160,8 +160,20 @@ class MockKwinClient {
         );
     }
 
-    public get frameGeometry() {
+    // for assertions
+    public getActualFrameGeometry() {
         return this._frameGeometry;
+    }
+
+    // for Karousel
+    public get frameGeometry() {
+        return new MockQmlRect(
+            this._frameGeometry.x + randomJitter(),
+            this._frameGeometry.y + randomJitter(),
+            this._frameGeometry.width + randomJitter(),
+            this._frameGeometry.height + randomJitter(),
+            this.frameGeometryChanged.fire.bind(this.frameGeometryChanged),
+        );
     }
 
     public set frameGeometry(frameGeometry: MockQmlRect) {

@@ -15,37 +15,37 @@ tests.register("Preset Widths default", 5, () => {
     }
 
     const [kwinClient] = workspaceMock.createClientsWithWidths(300);
-    Assert.equalRects(kwinClient.frameGeometry, getRect(300));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(300));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(halfWidth));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(maxWidth));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-decrease"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(halfWidth));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(maxWidth));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-decrease"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(halfWidth));
 });
 
 tests.register("Preset Widths custom", 5, () => {
@@ -66,49 +66,49 @@ tests.register("Preset Widths custom", 5, () => {
     }
 
     const [kwinClient] = workspaceMock.createClientsWithWidths(200);
-    Assert.equalRects(kwinClient.frameGeometry, getRect(200));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(200));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(250));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(250));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(halfWidth));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(500));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(500));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    Assert.equalRects(kwinClient.frameGeometry, getRect(100));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(100));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(250));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(250));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
         () => qtMock.fireShortcut("karousel-column-width-decrease"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(100));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(100));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
-    Assert.equalRects(kwinClient.frameGeometry, getRect(500));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(500));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
         () => qtMock.fireShortcut("karousel-column-width-decrease"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(halfWidth));
 });
 
 tests.register("Preset Widths custom percentages", 5, () => {
@@ -131,49 +131,49 @@ tests.register("Preset Widths custom percentages", 5, () => {
     }
 
     const [kwinClient] = workspaceMock.createClientsWithWidths(200);
-    Assert.equalRects(kwinClient.frameGeometry, getRect(200));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(200));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(width50));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(width50));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(width75));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(width75));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
         () => qtMock.fireShortcut("karousel-column-width-increase"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(width100));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(width100));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
-    Assert.equalRects(kwinClient.frameGeometry, getRect(width25));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(width25));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
-    Assert.equalRects(kwinClient.frameGeometry, getRect(width100));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(width100));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
         () => qtMock.fireShortcut("karousel-column-width-decrease"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(width75));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(width75));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
         () => qtMock.fireShortcut("karousel-column-width-decrease"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(width50));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(width50));
 
     runOneOf(
         () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
         () => qtMock.fireShortcut("karousel-column-width-decrease"),
     );
-    Assert.equalRects(kwinClient.frameGeometry, getRect(width25));
+    Assert.equalRects(kwinClient.getActualFrameGeometry(), getRect(width25));
 });
 
 tests.register("Preset Widths fill screen uniform", 1, () => {
@@ -198,8 +198,8 @@ tests.register("Preset Widths fill screen uniform", 1, () => {
         const right = rectRight(tilingArea);
         const maxLeftoverPx = nColumns - 1;
         const eps = Math.ceil(maxLeftoverPx / 2);
-        Assert.between(firstClient!.frameGeometry.x, left, left+eps, { message: `nColumns: ${nColumns}` });
-        Assert.between(rectRight(lastClient!.frameGeometry), right-eps, right, { message: `nColumns: ${nColumns}` });
+        Assert.between(firstClient!.getActualFrameGeometry().x, left, left+eps, { message: `nColumns: ${nColumns}` });
+        Assert.between(rectRight(lastClient!.getActualFrameGeometry()), right-eps, right, { message: `nColumns: ${nColumns}` });
     }
 });
 
@@ -225,8 +225,8 @@ tests.register("Preset Widths fill screen non-uniform", 1, () => {
     const left2 = left1 + config.gapsInnerHorizontal + quarterWidth;
     const left3 = left2 + config.gapsInnerHorizontal + quarterWidth;
 
-    Assert.rect(clientThin1.frameGeometry, left1, tilingArea.y, quarterWidth, height);
-    Assert.rect(clientThin2.frameGeometry, left2, tilingArea.y, quarterWidth, height);
-    Assert.rect(clientWide.frameGeometry, left3, tilingArea.y, halfWidth, height);
-    Assert.equal(rectRight(clientWide.frameGeometry), rectRight(tilingArea));
+    Assert.rect(clientThin1.getActualFrameGeometry(), left1, tilingArea.y, quarterWidth, height);
+    Assert.rect(clientThin2.getActualFrameGeometry(), left2, tilingArea.y, quarterWidth, height);
+    Assert.rect(clientWide.getActualFrameGeometry(), left3, tilingArea.y, halfWidth, height);
+    Assert.equal(rectRight(clientWide.getActualFrameGeometry()), rectRight(tilingArea));
 });

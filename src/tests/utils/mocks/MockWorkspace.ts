@@ -75,7 +75,7 @@ class MockWorkspace {
                 frame.y += delta.y;
             }
             runOneOf(
-                () => window.frameGeometry.set(frame),
+                () => window.getActualFrameGeometry().set(frame),
                 () => window.frameGeometry = frame,
             );
         }
@@ -114,7 +114,7 @@ class MockWorkspace {
                 }
             }
             runOneOf(
-                () => window.frameGeometry.set(frame),
+                () => window.getActualFrameGeometry().set(frame),
                 () => window.frameGeometry = frame,
             );
         }

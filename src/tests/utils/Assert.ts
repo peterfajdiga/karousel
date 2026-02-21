@@ -127,7 +127,7 @@ namespace Assert {
         config: Config,
         tilingArea: QmlRect,
         columnWidths: number[] | number,
-        grid: KwinClient[][],
+        grid: MockKwinClient[][],
         centered: boolean,
         stackedColumns: number[] = [],
         { message, skip=0 }: Options = {},
@@ -161,7 +161,7 @@ namespace Assert {
         const gridWidth = getGridWidth();
         const startX = centered ?
             tilingArea.x + (tilingArea.width - gridWidth) / 2 :
-            grid[0][0].frameGeometry.x;
+            grid[0][0].getActualFrameGeometry().x;
 
         function getColumnX(column: number) {
             if (columnWidths instanceof Array) {
@@ -205,7 +205,7 @@ namespace Assert {
             for (let iWindow = 0; iWindow < nWindows; iWindow++) {
                 const window = column[iWindow];
                 equalRects(
-                    window.frameGeometry,
+                    window.getActualFrameGeometry(),
                     getRect(iColumn, iWindow, nColumns, nWindows),
                     { message: appendMessage(`column ${iColumn}, window ${iWindow}`, message), skip: skip+1 },
                 );
@@ -216,13 +216,13 @@ namespace Assert {
     export function centered(
         config: Config,
         tilingArea: QmlRect,
-        client:KwinClient,
+        client:MockKwinClient,
         { message, skip=0 }: Options = {},
     ) {
         grid(
             config,
             tilingArea,
-            client.frameGeometry.width,
+            client.getActualFrameGeometry().width,
             [[client]],
             true,
             [],
@@ -257,18 +257,18 @@ namespace Assert {
     }
 
     export function columnsFillTilingArea(
-        columns: KwinClient[],
+        columns: MockKwinClient[],
         { message, skip=0 }: Options = {},
     ) {
         const options = { message: message, skip: skip+1 };
         let x = tilingArea.x;
         for (const column of columns) {
-            const width = column.frameGeometry.width;
-            fullyVisible(column.frameGeometry, options);
-            rect(column.frameGeometry, x, tilingArea.y, width, tilingArea.height, options);
+            const width = column.getActualFrameGeometry().width;
+            fullyVisible(column.getActualFrameGeometry(), options);
+            rect(column.getActualFrameGeometry(), x, tilingArea.y, width, tilingArea.height, options);
             x += width + gapH;
         }
-        equal(rectRight(columns[columns.length-1].frameGeometry), rectRight(tilingArea), options);
+        equal(rectRight(columns[columns.length-1].getActualFrameGeometry()), rectRight(tilingArea), options);
     }
 
     export function tiledClient(
