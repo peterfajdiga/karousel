@@ -111,7 +111,7 @@ class World {
             if (tiledWindow === null) {
                 return;
             }
-            const cursorAlreadyInFocus = rectContainsPoint(Workspace.activeWindow.frameGeometry, Workspace.cursorPos);
+            const cursorAlreadyInFocus = rectContainsPoint(roundQtRect(Workspace.activeWindow.frameGeometry), Workspace.cursorPos);
             if (cursorAlreadyInFocus) {
                 return;
             }

@@ -21,7 +21,7 @@ class ClientWrapper {
         }
         this.signalManager = ClientWrapper.initSignalManager(this);
         this.rulesSignalManager = rulesSignalManager;
-        this.preferredWidth = kwinClient.frameGeometry.width;
+        this.preferredWidth = kwinClient.frameGeometry.width.round();
         this.manipulatingGeometry = new Doer();
         this.lastPlacement = null;
         this.stateManager = new ClientState.Manager(constructInitialState(this));
@@ -49,10 +49,10 @@ class ClientWrapper {
             if (Clients.isOnOneOfVirtualDesktops(this.kwinClient, kwinDesktops)) {
                 const frame = this.kwinClient.frameGeometry;
                 this.kwinClient.frameGeometry = Qt.rect(
-                    frame.x + dx,
-                    frame.y + dy,
-                    frame.width,
-                    frame.height,
+                    frame.x.round() + dx,
+                    frame.y.round() + dy,
+                    frame.width.round(),
+                    frame.height.round(),
                 );
             }
 
@@ -142,7 +142,7 @@ class ClientWrapper {
         if (!Clients.isOnVirtualDesktop(this.kwinClient, Workspace.currentDesktop)) {
             return;
         }
-        const frame = this.kwinClient.frameGeometry;
+        const frame = roundQtRect(this.kwinClient.frameGeometry);
         if (frame.x < screenSize.x) {
             frame.x = screenSize.x;
         } else if (rectRight(frame) > rectRight(screenSize)) {

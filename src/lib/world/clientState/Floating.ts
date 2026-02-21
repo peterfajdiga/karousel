@@ -30,10 +30,10 @@ namespace ClientState {
             const clientRect = client.kwinClient.frameGeometry;
             const width = client.preferredWidth;
             client.place(
-                clientRect.x,
-                clientRect.y,
+                clientRect.x.round(),
+                clientRect.y.round(),
                 width,
-                Math.min(clientRect.height, Math.round(placementArea.height / 2)),
+                Math.min(clientRect.height.round(), Math.round(placementArea.height / 2)),
             );
         }
 

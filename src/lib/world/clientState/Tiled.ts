@@ -123,7 +123,12 @@ namespace ClientState {
                     return;
                 }
 
-                const newGeometry = client.kwinClient.frameGeometry;
+                const newGeometry = roundQtRect(client.kwinClient.frameGeometry);
+                if (rectEquals(oldGeometry, newGeometry)) {
+                    // no real changes, nothing to do
+                    return;
+                }
+
                 const oldCenterX = oldGeometry.x + oldGeometry.width/2;
                 const oldCenterY = oldGeometry.y + oldGeometry.height/2;
                 const newCenterX = newGeometry.x + newGeometry.width/2;
@@ -193,9 +198,9 @@ namespace ClientState {
         private static getResizeNeighborColumn(window: Window) {
             const kwinClient = window.client.kwinClient;
             const column = window.column;
-            if (Workspace.cursorPos.x > rectRight(kwinClient.clientGeometry)) {
+            if (Workspace.cursorPos.x > rectRightRound(kwinClient.clientGeometry)) {
                 return column.grid.getRightColumn(column);
-            } else if (Workspace.cursorPos.x < kwinClient.clientGeometry.x) {
+            } else if (Workspace.cursorPos.x < kwinClient.clientGeometry.x.round()) {
                 return column.grid.getLeftColumn(column);
             } else {
                 return null;

@@ -38,3 +38,20 @@ function rectContainsPoint(rect: QmlRect, point: QmlPoint) {
         rect.y <= point.y &&
         rectBottom(rect) >= point.y;
 }
+
+function roundQtRect(rect: QmlRect) {
+    return Qt.rect(
+        rect.x.round(),
+        rect.y.round(),
+        rect.width.round(),
+        rect.height.round(),
+    );
+}
+
+function rectRightRound(rect: QmlRect) {
+    return rect.x.round() + rect.width.round();
+}
+
+function rectBottomRound(rect: QmlRect) {
+    return rect.y.round() + rect.height.round();
+}

@@ -23,7 +23,7 @@ class PinManager {
 
             const newLots: PinManager.Lot[] = [];
             for (const lot of lots) {
-                lot.split(newLots, client.frameGeometry);
+                lot.split(newLots, roundQtRect(client.frameGeometry));
             }
             lots = newLots;
         }
