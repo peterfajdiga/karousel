@@ -7,8 +7,8 @@ tests.register("Preset Widths default", 5, () => {
 
     function getRect(columnWidth: number) {
         return new MockQmlRect(
-            tilingArea.left + (tilingArea.width - columnWidth) / 2,
-            tilingArea.top,
+            tilingArea.x + (tilingArea.width - columnWidth) / 2,
+            tilingArea.y,
             columnWidth,
             tilingArea.height,
         );
@@ -58,8 +58,8 @@ tests.register("Preset Widths custom", 5, () => {
 
     function getRect(columnWidth: number) {
         return new MockQmlRect(
-            tilingArea.left + (tilingArea.width - columnWidth) / 2,
-            tilingArea.top,
+            tilingArea.x + (tilingArea.width - columnWidth) / 2,
+            tilingArea.y,
             columnWidth,
             tilingArea.height,
         );
@@ -123,8 +123,8 @@ tests.register("Preset Widths custom percentages", 5, () => {
 
     function getRect(columnWidth: number) {
         return new MockQmlRect(
-            tilingArea.left + (tilingArea.width - columnWidth) / 2,
-            tilingArea.top,
+            tilingArea.x + (tilingArea.width - columnWidth) / 2,
+            tilingArea.y,
             columnWidth,
             tilingArea.height,
         );
@@ -194,12 +194,12 @@ tests.register("Preset Widths fill screen uniform", 1, () => {
             qtMock.fireShortcut("karousel-cycle-preset-widths");
         }
 
-        const left = tilingArea.left;
-        const right = tilingArea.right;
+        const left = tilingArea.x;
+        const right = rectRight(tilingArea);
         const maxLeftoverPx = nColumns - 1;
         const eps = Math.ceil(maxLeftoverPx / 2);
-        Assert.between(firstClient!.frameGeometry.left, left, left+eps, { message: `nColumns: ${nColumns}` });
-        Assert.between(lastClient!.frameGeometry.right, right-eps, right, { message: `nColumns: ${nColumns}` });
+        Assert.between(firstClient!.frameGeometry.x, left, left+eps, { message: `nColumns: ${nColumns}` });
+        Assert.between(rectRight(lastClient!.frameGeometry), right-eps, right, { message: `nColumns: ${nColumns}` });
     }
 });
 
@@ -221,12 +221,12 @@ tests.register("Preset Widths fill screen non-uniform", 1, () => {
     const halfWidth = maxWidth/2 - config.gapsInnerHorizontal/2;
     const quarterWidth = halfWidth/2 - config.gapsInnerHorizontal/2;
     const height = tilingArea.height;
-    const left1 = tilingArea.left;
+    const left1 = tilingArea.x;
     const left2 = left1 + config.gapsInnerHorizontal + quarterWidth;
     const left3 = left2 + config.gapsInnerHorizontal + quarterWidth;
 
-    Assert.rect(clientThin1.frameGeometry, left1, tilingArea.top, quarterWidth, height);
-    Assert.rect(clientThin2.frameGeometry, left2, tilingArea.top, quarterWidth, height);
-    Assert.rect(clientWide.frameGeometry, left3, tilingArea.top, halfWidth, height);
-    Assert.equal(clientWide.frameGeometry.right, tilingArea.right);
+    Assert.rect(clientThin1.frameGeometry, left1, tilingArea.y, quarterWidth, height);
+    Assert.rect(clientThin2.frameGeometry, left2, tilingArea.y, quarterWidth, height);
+    Assert.rect(clientWide.frameGeometry, left3, tilingArea.y, halfWidth, height);
+    Assert.equal(rectRight(clientWide.frameGeometry), rectRight(tilingArea));
 });

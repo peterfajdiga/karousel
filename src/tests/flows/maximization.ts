@@ -14,8 +14,8 @@
                 Assert.assert(clientManager.hasClient(kwinClient));
             });
 
-            const columnLeftX = tilingArea.left + tilingArea.width/2 - 300/2;
-            const columnTopY = tilingArea.top;
+            const columnLeftX = tilingArea.x + tilingArea.width/2 - 300/2;
+            const columnTopY = tilingArea.y;
             const columnHeight = tilingArea.height;
             Assert.assert(!kwinClient.fullScreen);
             Assert.equal(kwinClient.keepBelow, shouldKeepBelow(true));

@@ -14,7 +14,7 @@ class PinManager {
     }
 
     public getAvailableSpace(kwinDesktop: KwinDesktop, screen: QmlRect) {
-        const baseLot = new PinManager.Lot(screen.top, screen.bottom, screen.left, screen.right);
+        const baseLot = new PinManager.Lot(screen.y, rectBottom(screen), screen.x, rectRight(screen));
         let lots = [baseLot];
         for (const client of this.pinnedClients) {
             if (!Clients.isOnVirtualDesktop(client, kwinDesktop) || client.minimized) {
@@ -60,23 +60,23 @@ namespace PinManager {
                 return;
             }
 
-            if (obstacle.top - this.top >= Lot.minHeight) {
-                destLots.push(new Lot(this.top, obstacle.top, this.left, this.right));
+            if (obstacle.y - this.top >= Lot.minHeight) {
+                destLots.push(new Lot(this.top, obstacle.y, this.left, this.right));
             }
-            if (this.bottom - obstacle.bottom >= Lot.minHeight) {
-                destLots.push(new Lot(obstacle.bottom, this.bottom, this.left, this.right));
+            if (this.bottom - rectBottom(obstacle) >= Lot.minHeight) {
+                destLots.push(new Lot(rectBottom(obstacle), this.bottom, this.left, this.right));
             }
-            if (obstacle.left - this.left >= Lot.minWidth) {
-                destLots.push(new Lot(this.top, this.bottom, this.left, obstacle.left));
+            if (obstacle.x - this.left >= Lot.minWidth) {
+                destLots.push(new Lot(this.top, this.bottom, this.left, obstacle.x));
             }
-            if (this.right - obstacle.right >= Lot.minWidth) {
-                destLots.push(new Lot(this.top, this.bottom, obstacle.right, this.right));
+            if (this.right - rectRight(obstacle) >= Lot.minWidth) {
+                destLots.push(new Lot(this.top, this.bottom, rectRight(obstacle), this.right));
             }
         }
 
         private contains(obstacle: QmlRect) {
-            return obstacle.right > this.left && obstacle.left < this.right &&
-                obstacle.bottom > this.top && obstacle.top < this.bottom;
+            return rectRight(obstacle) > this.left && obstacle.x < this.right &&
+                rectBottom(obstacle) > this.top && obstacle.y < this.bottom;
         }
 
         public area() {

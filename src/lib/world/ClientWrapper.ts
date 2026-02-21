@@ -143,10 +143,10 @@ class ClientWrapper {
             return;
         }
         const frame = this.kwinClient.frameGeometry;
-        if (frame.left < screenSize.left) {
-            frame.x = screenSize.left;
-        } else if (frame.right > screenSize.right) {
-            frame.x = screenSize.right - frame.width;
+        if (frame.x < screenSize.x) {
+            frame.x = screenSize.x;
+        } else if (rectRight(frame) > rectRight(screenSize)) {
+            frame.x = rectRight(screenSize) - frame.width;
         }
     }
 

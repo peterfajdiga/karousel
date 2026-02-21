@@ -88,8 +88,8 @@ class MockWorkspace {
         const frame = window.getFrameGeometryCopy();
         if (edgeResize) {
             this.cursorPos = new MockQmlPoint(
-                leftEdge ? frame.left : frame.right,
-                topEdge ? frame.top : frame.bottom,
+                leftEdge ? frame.x : rectRight(frame),
+                topEdge ? frame.y : rectBottom(frame),
             );
         } else {
             this.cursorPos = new MockQmlPoint(

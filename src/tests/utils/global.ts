@@ -45,8 +45,8 @@ function init(config: Config) {
 }
 
 function getGridBounds(clientLeft: KwinClient, clientRight: KwinClient) {
-    const columnsWidth = clientRight.frameGeometry.right - clientLeft.frameGeometry.left;
-    const left = tilingArea.left + Math.floor((tilingArea.width - columnsWidth) / 2);
+    const columnsWidth = rectRight(clientRight.frameGeometry) - clientLeft.frameGeometry.x;
+    const left = tilingArea.x + Math.floor((tilingArea.width - columnsWidth) / 2);
     const right = left + columnsWidth;
     return { left, right };
 }

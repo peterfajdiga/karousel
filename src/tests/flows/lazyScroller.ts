@@ -13,7 +13,7 @@ tests.register("LazyScroller", 20, () => {
 
     const [client3] = workspaceMock.createClientsWithWidths(300);
     Assert.grid(config, tilingArea, 300, [[client1], [client2], [client3]], false);
-    Assert.equal(client3.frameGeometry.right, tilingArea.right);
+    Assert.equal(rectRight(client3.frameGeometry), rectRight(tilingArea));
 
     runOneOf(
         () => { workspaceMock.activeWindow = client2; },
@@ -21,7 +21,7 @@ tests.register("LazyScroller", 20, () => {
         () => { qtMock.fireShortcut("karousel-focus-left"); },
     );
     Assert.grid(config, tilingArea, 300, [[client1], [client2], [client3]], false);
-    Assert.equal(client3.frameGeometry.right, tilingArea.right);
+    Assert.equal(rectRight(client3.frameGeometry), rectRight(tilingArea));
 
     runOneOf(
         () => { workspaceMock.activeWindow = client1; },
@@ -31,7 +31,7 @@ tests.register("LazyScroller", 20, () => {
     );
     workspaceMock.activeWindow = client1;
     Assert.grid(config, tilingArea, 300, [[client1], [client2], [client3]], false);
-    Assert.equal(client1.frameGeometry.left, tilingArea.left);
+    Assert.equal(client1.frameGeometry.x, tilingArea.x);
 
     qtMock.fireShortcut("karousel-grid-scroll-focused");
     Assert.grid(config, tilingArea, 300, [[client1], [client2], [client3]], false);
@@ -43,5 +43,5 @@ tests.register("LazyScroller", 20, () => {
         () => { qtMock.fireShortcut("karousel-focus-right"); },
     );
     Assert.grid(config, tilingArea, 300, [[client1], [client2], [client3]], false);
-    Assert.equal(client1.frameGeometry.left, tilingArea.left);
+    Assert.equal(client1.frameGeometry.x, tilingArea.x);
 });

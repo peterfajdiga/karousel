@@ -6,9 +6,9 @@ tests.register("User resize", 10, () => {
     let clientLeft: MockKwinClient, clientRightTop: MockKwinClient, clientRightBottom: MockKwinClient;
     function assertSizes(leftWidth: number, rightWidth: number, topHeight: number, bottomHeight: number) {
         const { left, right } = getGridBounds(clientLeft, clientRightTop);
-        Assert.rect(clientLeft.frameGeometry, left, tilingArea.top, leftWidth, tilingArea.height);
-        Assert.rect(clientRightTop.frameGeometry, left+leftWidth+gapH, tilingArea.top, rightWidth, topHeight);
-        Assert.rect(clientRightBottom.frameGeometry, left+leftWidth+gapH, tilingArea.top+topHeight+gapV, rightWidth, bottomHeight);
+        Assert.rect(clientLeft.frameGeometry, left, tilingArea.y, leftWidth, tilingArea.height);
+        Assert.rect(clientRightTop.frameGeometry, left+leftWidth+gapH, tilingArea.y, rightWidth, topHeight);
+        Assert.rect(clientRightBottom.frameGeometry, left+leftWidth+gapH, tilingArea.y+topHeight+gapV, rightWidth, bottomHeight);
     }
 
     {
@@ -89,9 +89,9 @@ tests.register("User resize", 10, () => {
 
         function assertSizes(leftWidth: number, rightWidth: number, topHeight: number, bottomHeight: number) {
             const { left, right } = getGridBounds(clientLeftTop, clientRight);
-            Assert.rect(clientLeftTop.frameGeometry, left, tilingArea.top, leftWidth, topHeight);
-            Assert.rect(clientLeftBottom.frameGeometry, left, tilingArea.top+topHeight+gapV, leftWidth, bottomHeight);
-            Assert.rect(clientRight.frameGeometry, left+leftWidth+gapH, tilingArea.top, rightWidth, tilingArea.height);
+            Assert.rect(clientLeftTop.frameGeometry, left, tilingArea.y, leftWidth, topHeight);
+            Assert.rect(clientLeftBottom.frameGeometry, left, tilingArea.y+topHeight+gapV, leftWidth, bottomHeight);
+            Assert.rect(clientRight.frameGeometry, left+leftWidth+gapH, tilingArea.y, rightWidth, tilingArea.height);
         }
 
         workspaceMock.activeWindow = clientLeftBottom;

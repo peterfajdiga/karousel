@@ -142,7 +142,7 @@ namespace ClientState {
                             window.column.onUserResizeWidth(
                                 resizeStartWidth,
                                 newGeometry.width - resizeStartWidth,
-                                newGeometry.left !== oldGeometry.left,
+                                newGeometry.x !== oldGeometry.x,
                                 resizeNeighbor,
                             );
                         }
@@ -193,9 +193,9 @@ namespace ClientState {
         private static getResizeNeighborColumn(window: Window) {
             const kwinClient = window.client.kwinClient;
             const column = window.column;
-            if (Workspace.cursorPos.x > kwinClient.clientGeometry.right) {
+            if (Workspace.cursorPos.x > rectRight(kwinClient.clientGeometry)) {
                 return column.grid.getRightColumn(column);
-            } else if (Workspace.cursorPos.x < kwinClient.clientGeometry.left) {
+            } else if (Workspace.cursorPos.x < kwinClient.clientGeometry.x) {
                 return column.grid.getLeftColumn(column);
             } else {
                 return null;

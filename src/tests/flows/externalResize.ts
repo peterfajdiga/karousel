@@ -8,8 +8,8 @@ tests.register("External resize", 1, () => {
 
     function getTiledFrame(width: number) {
         return new MockQmlRect(
-            tilingArea.left + Math.round((tilingArea.width - width) / 2),
-            tilingArea.top,
+            tilingArea.x + Math.round((tilingArea.width - width) / 2),
+            tilingArea.y,
             width,
             tilingArea.height,
         );
