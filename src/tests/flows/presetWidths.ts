@@ -1,4 +1,4 @@
-tests.register("Preset Widths default", 1, () => {
+tests.register("Preset Widths default", 5, () => {
     const config = getDefaultConfig();
     const { qtMock, workspaceMock, world } = init(config);
 
@@ -17,23 +17,38 @@ tests.register("Preset Widths default", 1, () => {
     const [kwinClient] = workspaceMock.createClientsWithWidths(300);
     Assert.equalRects(kwinClient.frameGeometry, getRect(300));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-decrease"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(maxWidth));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-decrease"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 });
 
-tests.register("Preset Widths custom", 1, () => {
+tests.register("Preset Widths custom", 5, () => {
     const config = getDefaultConfig();
     config.presetWidths = "500px, 250px, 100px, 50%";
     const { qtMock, workspaceMock, world } = init(config);
@@ -53,32 +68,50 @@ tests.register("Preset Widths custom", 1, () => {
     const [kwinClient] = workspaceMock.createClientsWithWidths(200);
     Assert.equalRects(kwinClient.frameGeometry, getRect(200));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(250));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(500));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
     Assert.equalRects(kwinClient.frameGeometry, getRect(100));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(250));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
+        () => qtMock.fireShortcut("karousel-column-width-decrease"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(100));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
     Assert.equalRects(kwinClient.frameGeometry, getRect(500));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
+        () => qtMock.fireShortcut("karousel-column-width-decrease"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 });
 
-tests.register("Preset Widths custom percentages", 1, () => {
+tests.register("Preset Widths custom percentages", 5, () => {
     const config = getDefaultConfig();
     config.presetWidths = "25%, 50%, 75%, 100%";
     const { qtMock, workspaceMock, world } = init(config);
@@ -100,13 +133,22 @@ tests.register("Preset Widths custom percentages", 1, () => {
     const [kwinClient] = workspaceMock.createClientsWithWidths(200);
     Assert.equalRects(kwinClient.frameGeometry, getRect(200));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(width50));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(width75));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths"),
+        () => qtMock.fireShortcut("karousel-column-width-increase"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(width100));
 
     qtMock.fireShortcut("karousel-cycle-preset-widths");
@@ -115,13 +157,22 @@ tests.register("Preset Widths custom percentages", 1, () => {
     qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
     Assert.equalRects(kwinClient.frameGeometry, getRect(width100));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
+        () => qtMock.fireShortcut("karousel-column-width-decrease"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(width75));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
+        () => qtMock.fireShortcut("karousel-column-width-decrease"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(width50));
 
-    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    runOneOf(
+        () => qtMock.fireShortcut("karousel-cycle-preset-widths-reverse"),
+        () => qtMock.fireShortcut("karousel-column-width-decrease"),
+    );
     Assert.equalRects(kwinClient.frameGeometry, getRect(width25));
 });
 
