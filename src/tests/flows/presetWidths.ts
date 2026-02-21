@@ -78,6 +78,53 @@ tests.register("Preset Widths custom", 1, () => {
     Assert.equalRects(kwinClient.frameGeometry, getRect(halfWidth));
 });
 
+tests.register("Preset Widths custom percentages", 1, () => {
+    const config = getDefaultConfig();
+    config.presetWidths = "25%, 50%, 75%, 100%";
+    const { qtMock, workspaceMock, world } = init(config);
+
+    const width100 = tilingArea.width;
+    const width75 = width100*0.75 - config.gapsInnerHorizontal*0.25;
+    const width50 = width100*0.50 - config.gapsInnerHorizontal*0.50;
+    const width25 = width100*0.25 - config.gapsInnerHorizontal*0.75;
+
+    function getRect(columnWidth: number) {
+        return new MockQmlRect(
+            tilingArea.left + (tilingArea.width - columnWidth) / 2,
+            tilingArea.top,
+            columnWidth,
+            tilingArea.height,
+        );
+    }
+
+    const [kwinClient] = workspaceMock.createClientsWithWidths(200);
+    Assert.equalRects(kwinClient.frameGeometry, getRect(200));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(width50));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(width75));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(width100));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(width25));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(width100));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(width75));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(width50));
+
+    qtMock.fireShortcut("karousel-cycle-preset-widths-reverse");
+    Assert.equalRects(kwinClient.frameGeometry, getRect(width25));
+});
+
 tests.register("Preset Widths fill screen uniform", 1, () => {
     for (let nColumns = 1; nColumns < 10; nColumns++) {
         const config = getDefaultConfig();
