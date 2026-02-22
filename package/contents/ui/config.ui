@@ -154,11 +154,45 @@
                                             </widget>
                                         </item>
                                         <item>
+                                            <layout class="QHBoxLayout">
+                                                <item>
+                                                    <widget class="QLabel">
+                                                        <property name="text">
+                                                            <string>Tiled windows use KWin's "Keep Below" property; floating windows stay at normal stacking</string>
+                                                        </property>
+                                                        <property name="wordWrap">
+                                                            <bool>true</bool>
+                                                        </property>
+                                                        <property name="enabled">
+                                                            <bool>false</bool>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                        <item>
                                             <widget class="QRadioButton" name="kcfg_floatingKeepAbove">
                                                 <property name="text">
                                                     <string>Keep floating windows above</string>
                                                 </property>
                                             </widget>
+                                        </item>
+                                        <item>
+                                            <layout class="QHBoxLayout">
+                                                <item>
+                                                    <widget class="QLabel">
+                                                        <property name="text">
+                                                            <string>Floating windows use KWin's native "Keep Above Others" (always-on-top). This may also trigger KWin window rules and other settings bound to the keep-above state.</string>
+                                                        </property>
+                                                        <property name="wordWrap">
+                                                            <bool>true</bool>
+                                                        </property>
+                                                        <property name="enabled">
+                                                            <bool>false</bool>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
                                         </item>
                                         <item>
                                             <widget class="QRadioButton" name="kcfg_noLayering">
