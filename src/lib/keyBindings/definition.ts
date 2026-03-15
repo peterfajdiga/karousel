@@ -147,6 +147,16 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.columnWidthDecrease),
         },
         {
+            name: "column-width-maximize",
+            description: "Increase column width to maximum",
+            action: () => world.doIfTiledFocused(actions.columnWidthMaximize),
+        },
+        {
+            name: "column-width-minimize",
+            description: "Decrease column width to minimum",
+            action: () => world.doIfTiledFocused(actions.columnWidthMinimize),
+        },
+        {
             name: "cycle-preset-widths",
             description: "Cycle through preset column widths",
             defaultKeySequence: "Meta+R",
