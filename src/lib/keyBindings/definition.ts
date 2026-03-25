@@ -104,6 +104,16 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.windowMoveEnd),
         },
         {
+            name: "window-height-increase-up",
+            description: "Increase window height upwards",
+            action: () => world.doIfTiledFocused(actions.windowHeightIncreaseUp),
+        },
+        {
+            name: "window-height-increase-down",
+            description: "Increase window height downwards",
+            action: () => world.doIfTiledFocused(actions.windowHeightIncreaseDown),
+        },
+        {
             name: "column-toggle-stacked",
             description: "Toggle stacked layout for focused column",
             comment: "Only the active window visible",
