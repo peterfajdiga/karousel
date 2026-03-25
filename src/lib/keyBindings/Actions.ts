@@ -157,19 +157,19 @@ class Actions {
         window.moveToColumn(newColumn, true, FocusPassing.Type.None);
     };
 
-    public readonly windowHeightIncrease = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+    public readonly windowHeightIncreaseUp = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         window.column.adjustWindowHeight(
             window,
             window.column.grid.config.stackOffsetY,
-            window.column.getLastWindow() === window,
+            true,
         );
     };
 
-    public readonly windowHeightDecrease = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+    public readonly windowHeightIncreaseDown = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         window.column.adjustWindowHeight(
             window,
-            -window.column.grid.config.stackOffsetY,
-            window.column.getLastWindow() === window,
+            window.column.grid.config.stackOffsetY,
+            false,
         );
     };
 

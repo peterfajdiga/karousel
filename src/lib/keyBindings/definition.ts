@@ -104,14 +104,14 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.windowMoveEnd),
         },
         {
-            name: "window-height-increase",
-            description: "Increase window height",
-            action: () => world.doIfTiledFocused(actions.windowHeightIncrease),
+            name: "window-height-increase-up",
+            description: "Increase window height upwards",
+            action: () => world.doIfTiledFocused(actions.windowHeightIncreaseUp),
         },
         {
-            name: "window-height-decrease",
-            description: "Decrease window height",
-            action: () => world.doIfTiledFocused(actions.windowHeightDecrease),
+            name: "window-height-increase-down",
+            description: "Increase window height downwards",
+            action: () => world.doIfTiledFocused(actions.windowHeightIncreaseDown),
         },
         {
             name: "column-toggle-stacked",
