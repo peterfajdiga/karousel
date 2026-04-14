@@ -450,6 +450,22 @@ class Actions {
         column.moveToGrid(newGrid, newGrid.getLastColumn());
     };
 
+    public readonly columnMoveToNextDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
+        const desktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop) + 1;
+        if (desktopIndex >= Workspace.desktops.length) {
+            return;
+        };
+        this.columnMoveToDesktop(desktopIndex, cm, dm, window, column, oldGrid);
+    };
+
+    public readonly columnMoveToPreviousDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
+        const desktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop) - 1;
+        if (desktopIndex < 0) {
+            return;
+        }
+        this.columnMoveToDesktop(desktopIndex, cm, dm, window, column, oldGrid);
+    };
+
     public readonly tailMoveToDesktop = (desktopIndex: number, cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
         const kwinDesktop = Workspace.desktops[desktopIndex];
         if (kwinDesktop === undefined) {
@@ -464,6 +480,22 @@ class Actions {
             return;
         }
         oldGrid.evacuateTail(newGrid, column);
+    };
+
+    public readonly tailMoveToNextDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
+        const desktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop) + 1;
+        if (desktopIndex >= Workspace.desktops.length) {
+            return;
+        }
+        this.tailMoveToDesktop(desktopIndex, cm, dm, window, column, oldGrid);
+    };
+
+    public readonly tailMoveToPreviousDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
+        const desktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop) - 1;
+        if (desktopIndex < 0) {
+            return;
+        }
+        this.tailMoveToDesktop(desktopIndex, cm, dm, window, column, oldGrid);
     };
 }
 

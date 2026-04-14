@@ -135,6 +135,16 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             action: () => world.doIfTiledFocused(actions.columnMoveEnd),
         },
         {
+            name: "column-move-to-next-desktop",
+            description: "Move column to the next desktop",
+            action: () => world.doIfTiledFocused(actions.columnMoveToNextDesktop),
+        },
+        {
+            name: "column-move-to-previous-desktop",
+            description: "Move column to the previous desktop",
+            action: () => world.doIfTiledFocused(actions.columnMoveToPreviousDesktop),
+        },
+        {
             name: "column-width-increase",
             description: "Increase column width",
             defaultKeySequence: "Meta+Ctrl++",
@@ -235,6 +245,16 @@ function getKeyBindings(world: World, actions: Actions): KeyBinding[] {
             description: "Move Karousel grid to the current screen",
             defaultKeySequence: "Meta+Ctrl+Return",
             action: () => world.do(actions.screenSwitch),
+        },
+        {
+            name: "tail-move-to-next-desktop",
+            description: "Move this and all following columns to the next desktop",
+            action: () => world.doIfTiledFocused(actions.tailMoveToNextDesktop),
+        },
+        {
+            name: "tail-move-to-previous-desktop",
+            description: "Move this and all following columns to the previous desktop",
+            action: () => world.doIfTiledFocused(actions.tailMoveToPreviousDesktop),
         },
     ];
 }
