@@ -60,6 +60,11 @@ const defaultWindowRules = `[
 
 const configDef = [
     {
+        name: "enabledScreens",
+        default: "[0,1,2]",
+        type: "String",
+    },
+    {
         name: "gapsOuterTop",
         type: "UInt",
         default: 16,

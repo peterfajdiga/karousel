@@ -50,6 +50,16 @@ class DesktopManager {
 
     private addDesktop(activity: string, kwinDesktop: KwinDesktop) {
         const desktopKey = DesktopManager.getDesktopKey(activity, kwinDesktop);
+
+        // Workaround für KWin-Typen
+        const screenIndex = (Workspace as any).screens ? 
+            (Workspace as any).screens.indexOf(this.selectedScreen) : 0;
+
+        if (screenIndex === -1 || !this.isScreenEnabled(screenIndex)) {
+            log(`Karousel deaktiviert auf Screen ${screenIndex}`);
+            return undefined;
+        }
+
         const desktop = new Desktop(
             kwinDesktop,
             this.pinManager,
@@ -141,5 +151,11 @@ class DesktopManager {
                 }
             }
         }
+    }
+
+    private isScreenEnabled(screenIndex: number): boolean {
+        const enabled = (this.config as any).enabledScreens as number[];
+        if (!Array.isArray(enabled) || enabled.length === 0) return true;
+        return enabled.includes(screenIndex);
     }
 }

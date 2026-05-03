@@ -37,6 +37,7 @@ class ClientManager {
         } else if (
             Clients.canTileEver(kwinClient) &&
             this.windowRuleEnforcer.shouldTile(kwinClient) &&
+            this.isScreenEnabled(kwinClient) &&
             (desktop = this.desktopManager.getDesktopForClient(kwinClient)) !== undefined
         ) {
             Clients.makeTileable(kwinClient);
@@ -215,6 +216,32 @@ class ClientManager {
     public destroy() {
         this.removeAllClients();
     }
+
+    private isScreenEnabled(kwinClient: KwinClient): boolean {
+        const enabledRaw = (this.config as any).enabledScreens;
+        if (enabledRaw === undefined || enabledRaw === null) return true;
+
+        let enabled: number[];
+        try {
+            if (typeof enabledRaw === "string") {
+                enabled = JSON.parse(enabledRaw);
+            } else {
+                enabled = enabledRaw;
+            }
+        } catch (e) {
+            log("Failed to parse enabledScreens");
+            return true;
+        }
+
+        if (!Array.isArray(enabled) || enabled.length === 0) return true;
+
+        const screenIndex = (kwinClient as any).screen !== undefined 
+            ? (kwinClient as any).screen 
+            : 0;   // fallback auf primären Monitor
+
+        return enabled.includes(screenIndex);
+    }
+
 }
 
 namespace ClientManager {
