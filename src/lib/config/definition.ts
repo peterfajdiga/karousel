@@ -61,7 +61,7 @@ const defaultWindowRules = `[
 const configDef = [
     {
         name: "enabledScreens",
-        default: "[0,1,2]",
+        default: "-1",
         type: "String",
     },
     {

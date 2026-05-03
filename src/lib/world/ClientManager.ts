@@ -32,7 +32,7 @@ class ClientManager {
 
         let constructState: (client: ClientWrapper) => ClientState.State;
         let desktop: Desktop | undefined;
-        const screenIndex = (kwinClient as any).screen || 0;
+        const screenIndex = (kwinClient as ExtendedKwinClient).screen || 0;
 
         if (kwinClient.dock) {
             constructState = () => new ClientState.Docked(this.world, kwinClient);

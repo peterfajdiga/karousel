@@ -453,14 +453,14 @@
                             <item row="12" column="0">
                                 <widget class="QLabel" name="label_enabledScreens">
                                     <property name="text">
-                                        <string>Enabled Screens (0-based indices, e.g. 0 or 0,2)</string>
+                                        <string>Enabled Screens (-1=all;0=only first;0,1,2=first three)</string>
                                     </property>
                                 </widget>
                             </item>
                             <item row="12" column="1">
                                 <widget class="QLineEdit" name="kcfg_enabledScreens">
                                     <property name="text">
-                                        <string>[0,1,2]</string>
+                                        <string>-1</string>
                                     </property>
                                 </widget>
                             </item>

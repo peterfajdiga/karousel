@@ -198,6 +198,7 @@ namespace Desktop {
         gestureScrollStep: number;
         scroller: Desktop.Scroller;
         clamper: Desktop.Clamper;
+        enabledScreens: number[];
     }
 
     export class ColumnRange {

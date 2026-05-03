@@ -26,4 +26,5 @@ interface Config {
     floatingKeepAbove: boolean;
     windowRules: string;
     tiledDesktops: string;
+    enabledScreens: number[];
 }

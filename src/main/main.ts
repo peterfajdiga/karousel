@@ -8,10 +8,11 @@ function loadConfig(): Config {
         config[entry.name] = KWin.readConfig(entry.name, entry.default);
     }
 
-    try {
-        config.enabledScreens = JSON.parse(config.enabledScreens || "[0,1,2]");
-    } catch (e) {
-        config.enabledScreens = [0,1,2];
+    const enabledStr = KWin.readConfig("enabledScreens", "-1");
+    if (enabledStr === "-1") {
+        config.enabledScreens = [-1];
+    } else {
+        config.enabledScreens = enabledStr.split(",").map((s: string) => parseInt(s.trim())).filter((n: number) => !isNaN(n));
     }
 
     return config;
