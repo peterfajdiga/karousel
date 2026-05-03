@@ -34,7 +34,11 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
 
     manager.connect(Workspace.screensChanged, () => {
         world.do((clientManager, desktopManager) => {
-            //desktopManager.selectScreen(Workspace.activeScreen);
+            // initialize new monitors
+            const screenCount = (Workspace as any).screens ? (Workspace as any).screens.length : 1;
+            for (let i = 0; i < screenCount; i++) {
+                desktopManager.getDesktopForScreen(i, Workspace.currentActivity, Workspace.currentDesktop);
+            }
         });
     });
 
