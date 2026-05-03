@@ -397,7 +397,8 @@ class Actions {
     };
 
     public readonly screenSwitch = (cm: ClientManager, dm: DesktopManager) => {
-        dm.selectScreen(Workspace.activeScreen);
+        const screenIndex = Workspace.activeScreen;
+        log(`Switched to screen ${screenIndex} (per-screen grid active)`);
     };
 
     public readonly focus = (columnIndex: number, cm: ClientManager, dm: DesktopManager) => {

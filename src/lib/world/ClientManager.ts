@@ -32,13 +32,15 @@ class ClientManager {
 
         let constructState: (client: ClientWrapper) => ClientState.State;
         let desktop: Desktop | undefined;
+        const screenIndex = (kwinClient as any).screen || 0;
+
         if (kwinClient.dock) {
             constructState = () => new ClientState.Docked(this.world, kwinClient);
         } else if (
             Clients.canTileEver(kwinClient) &&
             this.windowRuleEnforcer.shouldTile(kwinClient) &&
-            this.isScreenEnabled(kwinClient) &&
-            (desktop = this.desktopManager.getDesktopForClient(kwinClient)) !== undefined
+            kwinClient.activities.length === 1 && kwinClient.desktops.length === 1 &&
+            (desktop = this.desktopManager.getDesktopForScreen(screenIndex, kwinClient.activities[0], kwinClient.desktops[0])) !== undefined
         ) {
             Clients.makeTileable(kwinClient);
             console.assert(Clients.canTileNow(kwinClient));
@@ -215,31 +217,6 @@ class ClientManager {
 
     public destroy() {
         this.removeAllClients();
-    }
-
-    private isScreenEnabled(kwinClient: KwinClient): boolean {
-        const enabledRaw = (this.config as any).enabledScreens;
-        if (enabledRaw === undefined || enabledRaw === null) return true;
-
-        let enabled: number[];
-        try {
-            if (typeof enabledRaw === "string") {
-                enabled = JSON.parse(enabledRaw);
-            } else {
-                enabled = enabledRaw;
-            }
-        } catch (e) {
-            log("Failed to parse enabledScreens");
-            return true;
-        }
-
-        if (!Array.isArray(enabled) || enabled.length === 0) return true;
-
-        const screenIndex = (kwinClient as any).screen !== undefined 
-            ? (kwinClient as any).screen 
-            : 0;   // fallback auf primären Monitor
-
-        return enabled.includes(screenIndex);
     }
 
 }

@@ -1,6 +1,6 @@
 class DesktopManager {
     private readonly desktops: Map<string, Desktop>; // key is activityId|desktopId
-    private selectedScreen: Output;
+    private readonly screenDesktops: Map<number, Desktop>;
     private kwinActivities: Set<string>;
     private kwinDesktops: Set<KwinDesktop>;
 
@@ -11,69 +11,61 @@ class DesktopManager {
         private readonly focusPasser: FocusPassing.Passer,
         private readonly desktopFilter: DesktopFilter,
     ) {
-        this.pinManager = pinManager;
-        this.config = config;
-        this.layoutConfig = layoutConfig;
         this.desktops = new Map();
-        this.selectedScreen = Workspace.activeScreen;
+        this.screenDesktops = new Map();
         this.kwinActivities = new Set(Workspace.activities);
         this.kwinDesktops = new Set(Workspace.desktops);
     }
 
-    public getDesktop(activity: string, kwinDesktop: KwinDesktop) {
+    public getDesktopForScreen(screenIndex: number, activity: string, kwinDesktop: KwinDesktop) {
+        const enabled = (this.config as any).enabledScreens as number[];
+        if (Array.isArray(enabled) && enabled.length > 0 && !enabled.includes(screenIndex)) {
+            return undefined;
+        }
+
         if (!this.desktopFilter.shouldWorkOnDesktop(kwinDesktop)) {
             return undefined;
         }
-        const desktopKey = DesktopManager.getDesktopKey(activity, kwinDesktop);
-        const desktop = this.desktops.get(desktopKey);
-        if (desktop !== undefined) {
-            return desktop;
-        } else {
-            return this.addDesktop(activity, kwinDesktop);
+
+        const key = `${activity}|${kwinDesktop.id}|${screenIndex}`;
+        let desktop = this.desktops.get(key);
+        if (desktop === undefined) {
+            desktop = this.addDesktop(screenIndex, activity, kwinDesktop);
         }
+        return desktop;
     }
 
-    public getCurrentDesktop() {
-        return this.getDesktop(Workspace.currentActivity, Workspace.currentDesktop);
-    }
-
-    public getDesktopInCurrentActivity(kwinDesktop: KwinDesktop) {
-        return this.getDesktop(Workspace.currentActivity, kwinDesktop);
-    }
-
-    public getDesktopForClient(kwinClient: KwinClient) {
-        if (kwinClient.activities.length !== 1 || kwinClient.desktops.length !== 1) {
-            return undefined;
-        }
-        return this.getDesktop(kwinClient.activities[0], kwinClient.desktops[0]);
-    }
-
-    private addDesktop(activity: string, kwinDesktop: KwinDesktop) {
-        const desktopKey = DesktopManager.getDesktopKey(activity, kwinDesktop);
-
-        // Workaround für KWin-Typen
-        const screenIndex = (Workspace as any).screens ? 
-            (Workspace as any).screens.indexOf(this.selectedScreen) : 0;
-
-        if (screenIndex === -1 || !this.isScreenEnabled(screenIndex)) {
-            log(`Karousel deaktiviert auf Screen ${screenIndex}`);
-            return undefined;
-        }
-
+    private addDesktop(screenIndex: number, activity: string, kwinDesktop: KwinDesktop) {
+        const key = `${activity}|${kwinDesktop.id}|${screenIndex}`;
         const desktop = new Desktop(
             kwinDesktop,
             this.pinManager,
             this.config,
-            () => this.selectedScreen,
+            () => {
+                const screens = (Workspace as any).screens || [];
+                return screens[screenIndex] || Workspace.activeScreen;
+            },
             this.layoutConfig,
             this.focusPasser,
         );
-        this.desktops.set(desktopKey, desktop);
+        this.desktops.set(key, desktop);
+        this.screenDesktops.set(screenIndex, desktop);
         return desktop;
     }
 
-    private static getDesktopKey(activity: string, kwinDesktop: KwinDesktop) {
-        return activity + "|" + kwinDesktop.id;
+    public getCurrentDesktop() {
+        const screen = Workspace.activeScreen;
+        const screens = (Workspace as any).screens || [];
+        const screenIndex = screens.indexOf(screen);
+        return this.getDesktopForScreen(screenIndex >= 0 ? screenIndex : 0, Workspace.currentActivity, Workspace.currentDesktop);
+    }
+
+    public getDesktopForClient(kwinClient: KwinClient) {
+        const screenIndex = (kwinClient as any).screen || 0;
+        if (kwinClient.activities.length !== 1 || kwinClient.desktops.length !== 1) {
+            return undefined;
+        }
+        return this.getDesktopForScreen(screenIndex, kwinClient.activities[0], kwinClient.desktops[0]);
     }
 
     public updateActivities() {
@@ -96,10 +88,6 @@ class DesktopManager {
         this.kwinDesktops = newDesktops;
     }
 
-    public selectScreen(screen: Output) {
-        this.selectedScreen = screen;
-    }
-
     private removeActivity(activity: string) {
         for (const kwinDesktop of this.kwinDesktops) {
             this.destroyDesktop(activity, kwinDesktop);
@@ -113,11 +101,13 @@ class DesktopManager {
     }
 
     private destroyDesktop(activity: string, kwinDesktop: KwinDesktop) {
-        const desktopKey = DesktopManager.getDesktopKey(activity, kwinDesktop);
-        const desktop = this.desktops.get(desktopKey);
-        if (desktop !== undefined) {
-            desktop.destroy();
-            this.desktops.delete(desktopKey);
+        for (const screenIndex of this.screenDesktops.keys()) {
+            const key = `${activity}|${kwinDesktop.id}|${screenIndex}`;
+            const desktop = this.desktops.get(key);
+            if (desktop !== undefined) {
+                desktop.destroy();
+                this.desktops.delete(key);
+            }
         }
     }
 
@@ -134,28 +124,35 @@ class DesktopManager {
     }
 
     public getDesktopsForClient(kwinClient: KwinClient) {
-        const desktops = this.getDesktops(kwinClient.activities, kwinClient.desktops); // workaround for QTBUG-109880
+        const screenIndex = (kwinClient as any).screen || 0;
+        const desktops = [];
+        for (const desktop of this.getDesktops(kwinClient.activities, kwinClient.desktops)) {
+            desktops.push(desktop);
+        }
         return desktops;
     }
 
-    // empty array means all
     public *getDesktops(activities: string[], kwinDesktops: KwinDesktop[]) {
-        const matchedActivities = activities.length > 0 ? activities : this.kwinActivities.keys();
-        const matchedDesktops = kwinDesktops.length > 0 ? kwinDesktops : this.kwinDesktops.keys();
+        const matchedActivities = activities.length > 0 ? activities : this.kwinActivities;
+        const matchedDesktops = kwinDesktops.length > 0 ? kwinDesktops : this.kwinDesktops;
         for (const matchedActivity of matchedActivities) {
             for (const matchedDesktop of matchedDesktops) {
-                const desktopKey = DesktopManager.getDesktopKey(matchedActivity, matchedDesktop);
-                const desktop = this.desktops.get(desktopKey);
-                if (desktop !== undefined) {
-                    yield desktop;
+                for (const screenIndex of this.screenDesktops.keys()) {
+                    const key = `${matchedActivity}|${matchedDesktop.id}|${screenIndex}`;
+                    const desktop = this.desktops.get(key);
+                    if (desktop !== undefined) {
+                        yield desktop;
+                    }
                 }
             }
         }
     }
 
-    private isScreenEnabled(screenIndex: number): boolean {
-        const enabled = (this.config as any).enabledScreens as number[];
-        if (!Array.isArray(enabled) || enabled.length === 0) return true;
-        return enabled.includes(screenIndex);
+    public getDesktopInCurrentActivity(kwinDesktop: KwinDesktop) {
+        const screen = Workspace.activeScreen;
+        const screens = (Workspace as any).screens || [];
+        const screenIndex = screens.indexOf(screen);
+        return this.getDesktopForScreen(screenIndex >= 0 ? screenIndex : 0, Workspace.currentActivity, kwinDesktop);
     }
+
 }

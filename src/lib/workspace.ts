@@ -34,7 +34,7 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
 
     manager.connect(Workspace.screensChanged, () => {
         world.do((clientManager, desktopManager) => {
-            desktopManager.selectScreen(Workspace.activeScreen);
+            //desktopManager.selectScreen(Workspace.activeScreen);
         });
     });
 
