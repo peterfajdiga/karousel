@@ -488,19 +488,24 @@ class Actions {
     };
 
     public readonly tailMoveToNextDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
-        const desktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop);
-        if (desktopIndex === -1 || desktopIndex + 1 >= Workspace.desktops.length) {
+        const currentDesktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop);
+        if (currentDesktopIndex < 0) {
             return;
         }
-        this.tailMoveToDesktop(desktopIndex + 1, cm, dm, window, column, oldGrid);
+        const targetDesktopIndex = currentDesktopIndex + 1;
+        if (targetDesktopIndex >= Workspace.desktops.length) {
+            return;
+        }
+        this.tailMoveToDesktop(targetDesktopIndex, cm, dm, window, column, oldGrid);
     };
 
     public readonly tailMoveToPreviousDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
-        const desktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop);
-        if (desktopIndex === -1 || desktopIndex - 1 < 0) {
+        const currentDesktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop);
+        const targetDesktopIndex = currentDesktopIndex - 1;
+        if (targetDesktopIndex < 0) {
             return;
         }
-        this.tailMoveToDesktop(desktopIndex - 1, cm, dm, window, column, oldGrid);
+        this.tailMoveToDesktop(targetDesktopIndex, cm, dm, window, column, oldGrid);
     };
 }
 
