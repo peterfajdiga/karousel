@@ -28,6 +28,14 @@ function runReorderDebug(order: number[], ...fs: (() => void)[]) {
     }
 }
 
+function randomJitter() {
+    if (Math.random() < 0.25) {
+        return (Math.random() - 0.5) * 0.5;
+    } else {
+        return 0;
+    }
+}
+
 function randomInt(n: number) {
     return Math.floor(Math.random() * n);
 }

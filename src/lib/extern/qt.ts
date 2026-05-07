@@ -28,10 +28,6 @@ interface QmlRect {
     y: number;
     width: number;
     height: number;
-    readonly top: number;
-    readonly bottom: number; // top + height
-    readonly left: number;
-    readonly right: number; // left + width
 }
 
 interface QmlSize {

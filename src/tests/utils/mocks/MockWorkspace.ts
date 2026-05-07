@@ -75,7 +75,7 @@ class MockWorkspace {
                 frame.y += delta.y;
             }
             runOneOf(
-                () => window.frameGeometry.set(frame),
+                () => window.getActualFrameGeometry().set(frame),
                 () => window.frameGeometry = frame,
             );
         }
@@ -88,8 +88,8 @@ class MockWorkspace {
         const frame = window.getFrameGeometryCopy();
         if (edgeResize) {
             this.cursorPos = new MockQmlPoint(
-                leftEdge ? frame.left : frame.right,
-                topEdge ? frame.top : frame.bottom,
+                leftEdge ? frame.x : rectRight(frame),
+                topEdge ? frame.y : rectBottom(frame),
             );
         } else {
             this.cursorPos = new MockQmlPoint(
@@ -114,7 +114,7 @@ class MockWorkspace {
                 }
             }
             runOneOf(
-                () => window.frameGeometry.set(frame),
+                () => window.getActualFrameGeometry().set(frame),
                 () => window.frameGeometry = frame,
             );
         }

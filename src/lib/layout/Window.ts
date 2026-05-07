@@ -7,7 +7,7 @@ class Window {
 
     constructor(client: ClientWrapper, column: Column) {
         this.client = client;
-        this.height = client.kwinClient.frameGeometry.height;
+        this.height = client.kwinClient.frameGeometry.height.round();
 
         let maximizedMode = this.client.getMaximizedMode();
         if (maximizedMode === undefined) {
@@ -123,7 +123,7 @@ class Window {
 
     public onFrameGeometryChanged() {
         const newGeometry = this.client.kwinClient.frameGeometry;
-        this.column.setWidth(newGeometry.width, true);
+        this.column.setWidth(newGeometry.width.round(), true);
         this.column.grid.desktop.onLayoutChanged();
     }
 

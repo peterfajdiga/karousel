@@ -10,7 +10,7 @@ tests.register("Focus and move windows", 1, () => {
     });
     Assert.assert(workspaceMock.activeWindow === client3);
 
-    function testLayout(shortcutName: string, grid: KwinClient[][]) {
+    function testLayout(shortcutName: string, grid: MockKwinClient[][]) {
         qtMock.fireShortcut(shortcutName);
         Assert.grid(config, tilingArea, 100, grid, true, [], { skip: 1 });
     }

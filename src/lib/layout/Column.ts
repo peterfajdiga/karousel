@@ -79,7 +79,7 @@ class Column {
     public getMinWidth() {
         let maxMinWidth = Column.minWidth;
         for (const window of this.windows.iterator()) {
-            const minWidth = window.client.kwinClient.minSize.width;
+            const minWidth = window.client.kwinClient.minSize.width.ceil();
             if (minWidth > maxMinWidth) {
                 maxMinWidth = minWidth;
             }

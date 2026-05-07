@@ -1,4 +1,4 @@
-tests.register("Center focused", 1, () => {
+tests.register("Center focused", 5, () => {
     const config = getDefaultConfig();
     const { qtMock, workspaceMock, world } = init(config);
 
@@ -14,8 +14,8 @@ tests.register("Center focused", 1, () => {
     // center client2
     qtMock.fireShortcut("karousel-grid-scroll-focused");
     Assert.centered(config, tilingArea, client2);
-    Assert.fullyVisible(client1.frameGeometry);
-    Assert.fullyVisible(client2.frameGeometry);
+    Assert.fullyVisible(client1.getActualFrameGeometry());
+    Assert.fullyVisible(client2.getActualFrameGeometry());
 
     // undo center client2
     qtMock.fireShortcut("karousel-grid-scroll-focused");
@@ -24,14 +24,14 @@ tests.register("Center focused", 1, () => {
     // center client2
     qtMock.fireShortcut("karousel-grid-scroll-focused");
     Assert.centered(config, tilingArea, client2);
-    Assert.fullyVisible(client1.frameGeometry);
-    Assert.fullyVisible(client2.frameGeometry);
+    Assert.fullyVisible(client1.getActualFrameGeometry());
+    Assert.fullyVisible(client2.getActualFrameGeometry());
 
     // focus client1 (no scrolling should occur)
     qtMock.fireShortcut("karousel-focus-left");
     Assert.centered(config, tilingArea, client2, { message: "No scrolling should have occured" });
-    Assert.fullyVisible(client1.frameGeometry);
-    Assert.fullyVisible(client2.frameGeometry);
+    Assert.fullyVisible(client1.getActualFrameGeometry());
+    Assert.fullyVisible(client2.getActualFrameGeometry());
 
     // center client1
     qtMock.fireShortcut("karousel-grid-scroll-focused");

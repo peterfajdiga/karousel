@@ -32,6 +32,11 @@ const defaultWindowRules = `[
         "tile": false
     },
     {
+        "class": "wl-copy|wl-paste",
+        "caption": "wl-clipboard",
+        "tile": false
+    },
+    {
         "class": "steam",
         "caption": "Steam Big Picture Mode",
         "tile": false

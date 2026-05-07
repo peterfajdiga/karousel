@@ -22,26 +22,26 @@ tests.register("Pin", 20, () => {
     Assert.grid(config, tilingArea, 100, [ [pinned], [tiled1], [tiled2] ], true);
 
     pinned.pin(screenHalfLeft);
-    Assert.equalRects(pinned.frameGeometry, screenHalfLeft);
+    Assert.equalRects(pinned.getActualFrameGeometry(), screenHalfLeft);
     Assert.grid(config, tilingAreaHalfRight, 100, [ [tiled1], [tiled2] ], true);
 
     pinned.pin(screenHalfRight);
-    Assert.equalRects(pinned.frameGeometry, screenHalfRight);
+    Assert.equalRects(pinned.getActualFrameGeometry(), screenHalfRight);
     Assert.grid(config, tilingAreaHalfLeft, 100, [ [tiled1], [tiled2] ], true);
 
     pinned.unpin();
-    Assert.equalRects(pinned.frameGeometry, screenHalfRight);
+    Assert.equalRects(pinned.getActualFrameGeometry(), screenHalfRight);
     Assert.grid(config, tilingArea, 100, [ [tiled1], [tiled2] ], true);
 
     pinned.pin(screenHalfRight);
-    Assert.equalRects(pinned.frameGeometry, screenHalfRight);
+    Assert.equalRects(pinned.getActualFrameGeometry(), screenHalfRight);
     Assert.grid(config, tilingAreaHalfLeft, 100, [ [tiled1], [tiled2] ], true);
 
     pinned.minimized = true;
     Assert.grid(config, tilingArea, 100, [ [tiled1], [tiled2] ], true);
 
     pinned.minimized = false;
-    Assert.equalRects(pinned.frameGeometry, screenHalfRight);
+    Assert.equalRects(pinned.getActualFrameGeometry(), screenHalfRight);
     Assert.grid(config, tilingAreaHalfLeft, 100, [ [tiled1], [tiled2] ], true);
 
     workspaceMock.activeWindow = pinned;

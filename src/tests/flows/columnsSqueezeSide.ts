@@ -1,4 +1,4 @@
-tests.register("columns squeeze side", 1, () => {
+tests.register("columns squeeze side", 5, () => {
     const baseTestCases = [
         { widths: [500, 500], blocked: [false, false], possible: true },
         { widths: [500, 768], blocked: [false, false], possible: true },
@@ -46,21 +46,21 @@ tests.register("columns squeeze side", 1, () => {
             Assert.columnsFillTilingArea(clients, assertOpt);
             for (let i = 0; i < clients.length; i++) {
                 if (testCase.blocked[i]) {
-                    Assert.equal(clients[i].frameGeometry.width, testCase.widths[i], assertOpt);
+                    Assert.equal(clients[i].getActualFrameGeometry().width, testCase.widths[i], assertOpt);
                 }
             }
         }
 
-        const frames = clients.map(client => client.frameGeometry);
+        const frames = clients.map(client => client.getActualFrameGeometry());
         qtMock.fireShortcut(testCase.action);
-        const newFrames = clients.map(client => client.frameGeometry);
+        const newFrames = clients.map(client => client.getActualFrameGeometry());
         for (let i = 0; i < clients.length; i++) {
             Assert.equalRects(frames[i], newFrames[i], assertOpt);
         }
     }
 });
 
-tests.register("columns squeeze side (just scroll)", 1, () => {
+tests.register("columns squeeze side (just scroll)", 5, () => {
     const baseTestCases = [
         { focus: 0, startVisible: [true, true, false], endVisible: [true, true, false] },
         { focus: 1, startVisible: [false, true, true], endVisible: [true, true, false] },
@@ -91,12 +91,12 @@ tests.register("columns squeeze side (just scroll)", 1, () => {
         const config = getDefaultConfig();
         const { qtMock, workspaceMock, world } = init(config);
 
-        function assertVisible(clients: KwinClient[], visible: boolean[]) {
+        function assertVisible(clients: MockKwinClient[], visible: boolean[]) {
             for (let i = 0; i < clients.length; i++) {
                 if (visible[i]) {
-                    Assert.fullyVisible(clients[i].frameGeometry, { message: assertMsg, skip: 1 });
+                    Assert.fullyVisible(clients[i].getActualFrameGeometry(), { message: assertMsg, skip: 1 });
                 } else {
-                    Assert.notFullyVisible(clients[i].frameGeometry, { message: assertMsg, skip: 1 });
+                    Assert.notFullyVisible(clients[i].getActualFrameGeometry(), { message: assertMsg, skip: 1 });
                 }
             }
         }
@@ -114,9 +114,9 @@ tests.register("columns squeeze side (just scroll)", 1, () => {
         qtMock.fireShortcut(testCase.action);
         assertVisible(clients, testCase.endVisible);
 
-        const frames = clients.map(client => client.frameGeometry);
+        const frames = clients.map(client => client.getActualFrameGeometry());
         qtMock.fireShortcut(testCase.action);
-        const newFrames = clients.map(client => client.frameGeometry);
+        const newFrames = clients.map(client => client.getActualFrameGeometry());
         for (let i = 0; i < clients.length; i++) {
             Assert.equalRects(frames[i], newFrames[i], { message: assertMsg });
         }

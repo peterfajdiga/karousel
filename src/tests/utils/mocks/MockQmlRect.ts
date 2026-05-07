@@ -49,22 +49,6 @@ class MockQmlRect {
         this.onChanged(oldRect);
     }
 
-    public get top() {
-        return this.y;
-    }
-
-    public get bottom() {
-        return this.y + this.height;
-    }
-
-    public get left() {
-        return this.x;
-    }
-
-    public get right() {
-        return this.x + this.width;
-    }
-
     public set(target: QmlRect) {
         const oldRect = this.clone();
         this._x = target.x;
