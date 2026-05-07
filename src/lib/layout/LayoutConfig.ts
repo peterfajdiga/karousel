@@ -3,7 +3,6 @@ interface LayoutConfig {
     gapsInnerVertical: number;
     stackOffsetX: number;
     stackOffsetY: number;
-    verticalResizeStepSize: number;
     offScreenOpacity: number;
     stackColumnsByDefault: boolean;
     resizeNeighborColumn: boolean;

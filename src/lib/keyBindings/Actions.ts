@@ -160,7 +160,7 @@ class Actions {
     public readonly windowHeightIncreaseUp = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         window.column.adjustWindowHeight(
             window,
-            window.column.grid.config.verticalResizeStepSize,
+            this.config.verticalResizeStepSize,
             true,
         );
     };
@@ -168,7 +168,7 @@ class Actions {
     public readonly windowHeightIncreaseDown = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
         window.column.adjustWindowHeight(
             window,
-            window.column.grid.config.verticalResizeStepSize,
+            this.config.verticalResizeStepSize,
             false,
         );
     };
@@ -481,6 +481,7 @@ namespace Actions {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => number;
             prev: (currentWidth: number, minWidth: number, maxWidth: number) => number
 };
+        verticalResizeStepSize: number;
         columnResizer: ColumnResizer;
     }
 

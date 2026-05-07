@@ -27,6 +27,7 @@ class World {
         this.shortcutActions = registerKeyBindings(this, {
             manualScrollStep: config.manualScrollStep,
             presetWidths: presetWidths,
+            verticalResizeStepSize: config.verticalResizeStepSize,
             columnResizer: config.scrollingCentered ? new RawResizer(presetWidths) : new ContextualResizer(presetWidths),
         });
 
@@ -45,7 +46,6 @@ class World {
             gapsInnerVertical: config.gapsInnerVertical,
             stackOffsetX: config.stackOffsetX,
             stackOffsetY: config.stackOffsetY,
-            verticalResizeStepSize: config.verticalResizeStepSize,
             offScreenOpacity: config.offScreenOpacity / 100.0,
             stackColumnsByDefault: config.stackColumnsByDefault,
             resizeNeighborColumn: config.resizeNeighborColumn,
