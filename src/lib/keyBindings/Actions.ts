@@ -157,6 +157,22 @@ class Actions {
         window.moveToColumn(newColumn, true, FocusPassing.Type.None);
     };
 
+    public readonly windowHeightIncreaseUp = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        window.column.adjustWindowHeight(
+            window,
+            this.config.verticalResizeStepSize,
+            true,
+        );
+    };
+
+    public readonly windowHeightIncreaseDown = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, grid: Grid) => {
+        window.column.adjustWindowHeight(
+            window,
+            this.config.verticalResizeStepSize,
+            false,
+        );
+    };
+
     public readonly windowToggleFloating = (cm: ClientManager, dm: DesktopManager) => {
         if (Workspace.activeWindow === null) {
             return;
@@ -474,6 +490,7 @@ namespace Actions {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => number;
             prev: (currentWidth: number, minWidth: number, maxWidth: number) => number
         };
+        verticalResizeStepSize: number;
         columnResizer: ColumnResizer;
     }
 

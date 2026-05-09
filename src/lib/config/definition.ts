@@ -110,6 +110,11 @@ const configDef = [
         default: "50%, 100%",
     },
     {
+        name: "verticalResizeStepSize",
+        type: "UInt",
+        default: 32,
+    },
+    {
         name: "offScreenOpacity",
         type: "UInt",
         default: 100,
