@@ -110,7 +110,7 @@ const configDef = [
         default: "50%, 100%",
     },
     {
-        name: "verticalResizeStepSize",
+        name: "verticalResizeStep",
         type: "UInt",
         default: 32,
     },

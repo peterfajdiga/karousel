@@ -430,7 +430,7 @@
                             </item>
 
                             <item row="11" column="0">
-                                <widget class="QLabel" name="label_verticalResizeStepSize">
+                                <widget class="QLabel" name="label_verticalResizeStep">
                                     <property name="text">
                                         <string>Vertical resize step size:</string>
                                     </property>
@@ -440,7 +440,7 @@
                                 </widget>
                             </item>
                             <item row="11" column="1">
-                                <widget class="QSpinBox" name="kcfg_verticalResizeStepSize">
+                                <widget class="QSpinBox" name="kcfg_verticalResizeStep">
                                     <property name="suffix">
                                         <string> px</string>
                                     </property>

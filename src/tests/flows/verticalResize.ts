@@ -1,7 +1,7 @@
 tests.register("Vertical resize", 10, () => {
     const config = getDefaultConfig();
 
-    const stepSize = config.verticalResizeStepSize;
+    const stepSize = config.verticalResizeStep;
 
     const h1 = getWindowHeight(1);
     const h2 = getWindowHeight(2);
