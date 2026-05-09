@@ -466,6 +466,27 @@ class Actions {
         column.moveToGrid(newGrid, newGrid.getLastColumn());
     };
 
+    public readonly columnMoveToNextDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
+        const currentDesktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop);
+        if (currentDesktopIndex < 0) {
+            return;
+        }
+        const targetDesktopIndex = currentDesktopIndex + 1;
+        if (targetDesktopIndex >= Workspace.desktops.length) {
+            return;
+        }
+        this.columnMoveToDesktop(targetDesktopIndex, cm, dm, window, column, oldGrid);
+    };
+
+    public readonly columnMoveToPreviousDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
+        const currentDesktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop);
+        const targetDesktopIndex = currentDesktopIndex - 1;
+        if (targetDesktopIndex < 0) {
+            return;
+        }
+        this.columnMoveToDesktop(targetDesktopIndex, cm, dm, window, column, oldGrid);
+    };
+
     public readonly tailMoveToDesktop = (desktopIndex: number, cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
         const kwinDesktop = Workspace.desktops[desktopIndex];
         if (kwinDesktop === undefined) {
@@ -480,6 +501,27 @@ class Actions {
             return;
         }
         oldGrid.evacuateTail(newGrid, column);
+    };
+
+    public readonly tailMoveToNextDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
+        const currentDesktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop);
+        if (currentDesktopIndex < 0) {
+            return;
+        }
+        const targetDesktopIndex = currentDesktopIndex + 1;
+        if (targetDesktopIndex >= Workspace.desktops.length) {
+            return;
+        }
+        this.tailMoveToDesktop(targetDesktopIndex, cm, dm, window, column, oldGrid);
+    };
+
+    public readonly tailMoveToPreviousDesktop = (cm: ClientManager, dm: DesktopManager, window: Window, column: Column, oldGrid: Grid) => {
+        const currentDesktopIndex = Workspace.desktops.indexOf(oldGrid.desktop.kwinDesktop);
+        const targetDesktopIndex = currentDesktopIndex - 1;
+        if (targetDesktopIndex < 0) {
+            return;
+        }
+        this.tailMoveToDesktop(targetDesktopIndex, cm, dm, window, column, oldGrid);
     };
 }
 
