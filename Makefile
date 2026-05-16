@@ -9,7 +9,7 @@ build: lint test
 	./run-ts.sh ./src/generators/config > ./package/contents/config/main.xml
 
 npm-install:
-	npm install --ignore-scripts
+	pnpm install --ignore-scripts
 
 lint: npm-install
 ifeq (${CHECKS}, true)

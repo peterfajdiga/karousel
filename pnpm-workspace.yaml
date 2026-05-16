@@ -1,0 +1,4 @@
+minimumReleaseAge: 1440
+minimumReleaseAgeIgnoreMissingTime: false
+blockExoticSubdeps: true
+ignoreScripts: true
