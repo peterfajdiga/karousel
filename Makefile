@@ -1,5 +1,4 @@
 VERSION = $(shell grep '"Version":' ./package/metadata.json | grep -o '[0-9\.]*')
-CHECKS := true
 
 .PHONY: *
 
@@ -12,17 +11,13 @@ npm-install:
 	pnpm install --ignore-scripts
 
 lint: npm-install
-ifeq (${CHECKS}, true)
 	npx eslint ./src
-endif
 
 lint-fix: npm-install
 	npx eslint ./src --fix
 
 test:
-ifeq (${CHECKS}, true)
 	./run-ts.sh ./src/tests "${PATTERN}"
-endif
 
 install: build
 	kpackagetool6 --type=KWin/Script --install=./package || kpackagetool6 --type=KWin/Script --upgrade=./package
