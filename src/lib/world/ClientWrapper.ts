@@ -144,9 +144,9 @@ class ClientWrapper {
         }
         const frame = roundQtRect(this.kwinClient.frameGeometry);
         if (frame.x < screenSize.x) {
-            frame.x = screenSize.x;
+            this.place(screenSize.x, frame.y, frame.width, frame.height);
         } else if (rectRight(frame) > rectRight(screenSize)) {
-            frame.x = rectRight(screenSize) - frame.width;
+            this.place(rectRight(screenSize) - frame.width, frame.y, frame.width, frame.height);
         }
     }
 
