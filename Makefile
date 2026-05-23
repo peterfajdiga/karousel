@@ -21,7 +21,7 @@ lint-fix: npm-install
 
 test:
 ifeq (${CHECKS}, true)
-	./run-ts.sh ./src/tests
+	./run-ts.sh ./src/tests "${PATTERN}"
 endif
 
 install: build

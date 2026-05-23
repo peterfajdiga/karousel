@@ -6,10 +6,13 @@ class TestRunner {
     }
 
     public run() {
+        const nameRegexp = new RegExp(process.argv[2]);
         for (const test of this.tests) {
-            console.log("Running test " + test.name);
-            for (let i = 0; i < test.count; i++) {
-                test.f();
+            if (nameRegexp.test(test.name)) {
+                console.log("Running test " + test.name);
+                for (let i = 0; i < test.count; i++) {
+                    test.f();
+                }
             }
         }
     }
