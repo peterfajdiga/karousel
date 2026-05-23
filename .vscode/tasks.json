@@ -1,0 +1,10 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build tests",
+            "type": "shell",
+            "command": "tsc -p ./src/tests --outFile ./run-ts-tmp.js"
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+{
+  "files.readonlyInclude": {
+    "package/contents/code/main.js": true,
+    "package/contents/config/main.xml": true,
+    "run-ts-tmp.js": true
+  }
+}
