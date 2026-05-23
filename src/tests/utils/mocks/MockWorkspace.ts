@@ -28,6 +28,8 @@ class MockWorkspace {
         return screen;
     }
 
+    public raiseWindow(kwinClient: KwinClient) {}
+
     public createWindows(...kwinClients: MockKwinClient[]) {
         for (const kwinClient of kwinClients) {
             this.windows.push(kwinClient);

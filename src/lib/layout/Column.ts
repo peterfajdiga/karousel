@@ -238,6 +238,23 @@ class Column {
             windowX += this.grid.config.stackOffsetX;
             windowY += this.grid.config.stackOffsetY;
         }
+
+        this.arrangeZ();
+    }
+
+    public arrangeZ() {
+        for (const window of this.windows.iterator()) {
+            if (window === this.focusTaker) {
+                break;
+            }
+            window.raise();
+        }
+        for (const window of this.windows.iteratorReverse()) {
+            window.raise();
+            if (window === this.focusTaker) {
+                break;
+            }
+        }
     }
 
     public toggleStacked() {
@@ -302,6 +319,9 @@ class Column {
     public onWindowFocused(window: Window) {
         this.grid.onColumnFocused(this, window);
         this.focusTaker = window;
+        if (this.stacked) {
+            this.arrangeZ();
+        }
     }
 
     public restoreToTiled(focusedWindow: Window) {

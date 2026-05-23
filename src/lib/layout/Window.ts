@@ -84,6 +84,10 @@ class Window {
         this.column.onWindowFocused(this);
     }
 
+    public raise() {
+        this.client.raise();
+    }
+
     public restoreToTiled() {
         if (this.isFocused()) {
             return;

@@ -187,6 +187,12 @@ class LinkedList<T> {
         }
     }
 
+    public *iteratorReverse() {
+        for (let node = this.lastNode; node !== null; node = node.prev) {
+            yield node.item;
+        }
+    }
+
     public *iteratorFrom(startItem: T) {
         for (let node: LinkedList.Node<T>|null = this.getNode(startItem); node !== null; node = node.next) {
             yield node.item;

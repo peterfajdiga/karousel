@@ -76,6 +76,10 @@ class ClientWrapper {
         return Workspace.activeWindow === this.kwinClient;
     }
 
+    public raise() {
+        Workspace.raiseWindow(this.kwinClient);
+    }
+
     public setMaximize(horizontally: boolean, vertically: boolean) {
         if (!this.kwinClient.maximizable) {
             this.maximizedMode = MaximizedMode.Unmaximized;

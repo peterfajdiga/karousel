@@ -28,6 +28,7 @@ interface Workspace {
     readonly virtualScreenSizeChanged: QSignal<[]>;
 
     clientArea(option: ClientAreaOption, output: Output, kwinDesktop: KwinDesktop): QmlRect;
+    raiseWindow(kwinClient: KwinClient): void;
 }
 
 const enum ClientAreaOption {
