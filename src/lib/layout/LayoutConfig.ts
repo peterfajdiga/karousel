@@ -8,6 +8,7 @@ interface LayoutConfig {
     resizeNeighborColumn: boolean;
     reMaximize: boolean;
     skipSwitcher: boolean;
+    scrollingPileUp: boolean;
     tiledKeepBelow: boolean;
     maximizedKeepAbove: boolean;
     untileOnDrag: boolean;

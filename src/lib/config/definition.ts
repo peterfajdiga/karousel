@@ -150,6 +150,11 @@ const configDef = [
         default: false,
     },
     {
+        name: "scrollingPileUp",
+        type: "Bool",
+        default: false,
+    },
+    {
         name: "scrollingLazy",
         type: "Bool",
         default: true,

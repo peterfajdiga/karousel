@@ -55,6 +55,9 @@ class Window {
             }
         }
         if (!maximized) {
+            if (this.column.grid.config.scrollingPileUp) {
+                x = clamp(x, 0, this.column.grid.desktop.clientArea.width - width);
+            }
             this.client.place(x, y, width, height);
         }
     }

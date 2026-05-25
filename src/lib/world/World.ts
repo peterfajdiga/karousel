@@ -52,6 +52,7 @@ class World {
             reMaximize: config.reMaximize,
             skipSwitcher: config.skipSwitcher,
             tiledKeepBelow: config.tiledKeepBelow,
+            scrollingPileUp: config.scrollingPileUp,
             maximizedKeepAbove: config.floatingKeepAbove,
             untileOnDrag: config.untileOnDrag,
         };

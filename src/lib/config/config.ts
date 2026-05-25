@@ -17,6 +17,7 @@ interface Config {
     resizeNeighborColumn: boolean;
     reMaximize: boolean;
     skipSwitcher: boolean;
+    scrollingPileUp: boolean;
     scrollingLazy: boolean;
     scrollingCentered: boolean;
     scrollingGrouped: boolean;
