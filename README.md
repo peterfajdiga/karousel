@@ -76,3 +76,7 @@ Here's the default ones:
 | Meta+Ctrl+Shift+[N]      | Move column to position N (Requires manual remapping according to your keyboard layout, e.g. Meta+Ctrl+Shift+1 -> Meta+Ctrl+!) |
 | Meta+Ctrl+Shift+F[N]     | Move column to desktop N                                                                                                       |
 | Meta+Ctrl+Shift+Alt+F[N] | Move this and all following columns to desktop N                                                                               |
+
+## Pointer inputs
+- Screen-edge column scrolling can be enabled in Karousel settings to move one column when the cursor is pushed against the left or right screen edge.
+- This can conflict with KDE's own screen-edge actions, so disable the corresponding KDE actions if necessary.

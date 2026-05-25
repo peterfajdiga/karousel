@@ -172,6 +172,56 @@
                             </item>
 
                             <item>
+                                <widget class="QGroupBox">
+                                    <property name="title">
+                                        <string>Pointer scrolling</string>
+                                    </property>
+                                    <layout class="QVBoxLayout">
+                                        <item>
+                                            <widget class="QCheckBox" name="kcfg_screenEdgeScrollColumns">
+                                                <property name="text">
+                                                    <string>Push mouse to screen edge to scroll columns</string>
+                                                </property>
+                                                <property name="toolTip">
+                                                    <string>Trigger one-column scrolling when the cursor is pushed against the left or right screen edge</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <layout class="QHBoxLayout">
+                                                <item>
+                                                    <widget class="QLabel" name="label_screenEdgeScrollDelay">
+                                                        <property name="text">
+                                                            <string>Screen edge scroll delay:</string>
+                                                        </property>
+                                                        <property name="toolTip">
+                                                            <string>How long the cursor must stay on the screen edge before scrolling</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QSpinBox" name="kcfg_screenEdgeScrollDelay">
+                                                        <property name="suffix">
+                                                            <string> ms</string>
+                                                        </property>
+                                                        <property name="maximum">
+                                                            <number>5000</number>
+                                                        </property>
+                                                        <property name="singleStep">
+                                                            <number>50</number>
+                                                        </property>
+                                                        <property name="value">
+                                                            <number>200</number>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                    </layout>
+                                </widget>
+                            </item>
+
+                            <item>
                                 <spacer name="spacer_footer">
                                     <property name="orientation">
                                         <enum>Qt::Vertical</enum>

@@ -180,6 +180,16 @@ const configDef = [
         default: 1920,
     },
     {
+        name: "screenEdgeScrollColumns",
+        type: "Bool",
+        default: false,
+    },
+    {
+        name: "screenEdgeScrollDelay",
+        type: "UInt",
+        default: 200,
+    },
+    {
         name: "tiledKeepBelow",
         type: "Bool",
         default: true,
