@@ -145,6 +145,23 @@ class Grid {
         if (focusedWindow !== null) {
             focusedWindow.client.ensureTransientsVisible(this.desktop.clientArea);
         }
+
+        this.arrangeZ();
+    }
+
+    private arrangeZ() {
+        for (const column of this.columns.iterator()) {
+            if (column.isFocused()) {
+                break;
+            }
+            column.arrangeZ();
+        }
+        for (const column of this.columns.iteratorReverse()) {
+            column.arrangeZ();
+            if (column.isFocused()) {
+                break;
+            }
+        }
     }
 
     public onColumnAdded(column: Column, leftColumn: Column|null) {

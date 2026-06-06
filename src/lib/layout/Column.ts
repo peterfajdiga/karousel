@@ -238,8 +238,6 @@ class Column {
             windowX += this.grid.config.stackOffsetX;
             windowY += this.grid.config.stackOffsetY;
         }
-
-        this.arrangeZ();
     }
 
     public arrangeZ() {
