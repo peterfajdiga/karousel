@@ -51,13 +51,19 @@ Here's the default ones:
 | (unassigned)             | Move window to the previous position in grid                                                                                   |
 | Meta+Shift+Home          | Move window to start                                                                                                           |
 | Meta+Shift+End           | Move window to end                                                                                                             |
+| (unassigned)             | Increase window height upwards                                                                                                 |
+| (unassigned)             | Increase window height downwards                                                                                               |
 | Meta+X                   | Toggle stacked layout for focused column (Only the active window visible)                                                      |
 | Meta+Ctrl+Shift+A        | Move column left                                                                                                               |
 | Meta+Ctrl+Shift+D        | Move column right                                                                                                              |
 | Meta+Ctrl+Shift+Home     | Move column to start                                                                                                           |
 | Meta+Ctrl+Shift+End      | Move column to end                                                                                                             |
+| (unassigned)             | Move column to the next desktop                                                                                                |
+| (unassigned)             | Move column to the previous desktop                                                                                            |
 | Meta+Ctrl++              | Increase column width                                                                                                          |
 | Meta+Ctrl+-              | Decrease column width                                                                                                          |
+| (unassigned)             | Increase column width to maximum                                                                                               |
+| (unassigned)             | Decrease column width to minimum                                                                                               |
 | Meta+R                   | Cycle through preset column widths                                                                                             |
 | Meta+Shift+R             | Cycle through preset column widths in reverse                                                                                  |
 | Meta+Ctrl+X              | Equalize widths of visible columns                                                                                             |
@@ -71,6 +77,8 @@ Here's the default ones:
 | Meta+Alt+Home            | Scroll to start                                                                                                                |
 | Meta+Alt+End             | Scroll to end                                                                                                                  |
 | Meta+Ctrl+Return         | Move Karousel grid to the current screen                                                                                       |
+| (unassigned)             | Move this and all following columns to the next desktop                                                                        |
+| (unassigned)             | Move this and all following columns to the previous desktop                                                                    |
 | Meta+[N]                 | Move focus to column N (Clashes with default KDE shortcuts, may require manual remapping)                                      |
 | Meta+Shift+[N]           | Move window to column N (Requires manual remapping according to your keyboard layout, e.g. Meta+Shift+1 -> Meta+!)             |
 | Meta+Ctrl+Shift+[N]      | Move column to position N (Requires manual remapping according to your keyboard layout, e.g. Meta+Ctrl+Shift+1 -> Meta+Ctrl+!) |
