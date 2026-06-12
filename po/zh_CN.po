@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kwin_karousel\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-12 17:00+0800\n"
+"PO-Revision-Date: 2026-06-12 17:00+0800\n"
+"Last-Translator: Antigravity\n"
+"Language-Team: Chinese (Simplified)\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Python Script\n"
+
+msgid "Behavior"
+msgstr "行为"
+
+msgid "Parameters"
+msgstr "参数"
+
+msgid "Window Rules"
+msgstr "窗口规则"
+
+msgid "Un-tile windows by dragging them"
+msgstr "通过拖动窗口来解除平铺"
+
+msgid "Cursor follows focus (experimental)"
+msgstr "光标跟随焦点（实验性）"
+
+msgid "When a window gains focus, move the cursor to it"
+msgstr "当窗口获得焦点时，将光标移动到该窗口"
+
+msgid "Stack columns by default"
+msgstr "默认堆叠列"
+
+msgid "New columns start in stacked mode (only the active window visible)"
+msgstr "新列默认以堆叠模式开启 (仅活动窗口可见)"
+
+msgid "Resize neighbor column on edge resize"
+msgstr "拖拽边缘调整大小时同时调整相邻列的大小"
+
+msgid "When resizing a column by dragging its edge, also inversely resize the column on the other side of the edge"
+msgstr "通过拖动列边缘调整大小时，同时反向调整边缘另一侧列的大小"
+
+msgid "Re-maximize tiled windows"
+msgstr "重新最大化平铺窗口"
+
+msgid "Restore maximized and full-screen states of tiled windows on focus"
+msgstr "在获得焦点时恢复平铺窗口的最大化和全屏状态"
+
+msgid "Tiled windows skip switcher"
+msgstr "平铺窗口跳过任务切换器"
+
+msgid "Scrolling mode"
+msgstr "滚动模式"
+
+msgid "Only scroll as necessary"
+msgstr "仅在必要时滚动"
+
+msgid "Center focused column"
+msgstr "居中聚焦列"
+
+msgid "Center visible columns"
+msgstr "居中可见列"
+
+msgid "Touchpad scrolling (Wayland only)"
+msgstr "触摸板滚动 (仅限 Wayland)"
+
+msgid "Enable scrolling with touchpad gestures\n(please don't forget to disable KDE's workspace switching gestures)"
+msgstr "启用触摸板手势滚动\n(请不要忘记禁用 KDE 自带的桌面切换手势)"
+
+msgid "Scroll with a three-finger horizontal swipe gesture"
+msgstr "使用三指水平轻扫手势进行滚动"
+
+msgid "Invert scroll direction (Natural scrolling)"
+msgstr "反转滚动方向（自然滚动）"
+
+msgid "Layering mode"
+msgstr "图层堆叠模式"
+
+msgid "Set \"Keep Below\" for tiled windows"
+msgstr "为平铺窗口设置 \"保持在最下\""
+
+msgid "Set \"Keep Above\" for floating windows"
+msgstr "为浮动窗口设置 \"保持在最上\""
+
+msgid "No layering"
+msgstr "无图层控制"
+
+msgid "Top margin:"
+msgstr "顶部外边距:"
+
+msgid "Bottom margin:"
+msgstr "底部外边距:"
+
+msgid "Left margin:"
+msgstr "左侧外边距:"
+
+msgid "Right margin:"
+msgstr "右侧外边距:"
+
+msgid "Horizontal gaps between windows:"
+msgstr "窗口之间的水平间距:"
+
+msgid "Vertical gaps between windows:"
+msgstr "窗口之间的垂直间距:"
+
+msgid "Horizontal offset for stacked columns:"
+msgstr "堆叠列的水平偏移:"
+
+msgid "Vertical offset for stacked columns:"
+msgstr "堆叠列的垂直偏移:"
+
+msgid "Manual scroll step size:"
+msgstr "手动滚动步长:"
+
+msgid "Touchpad gesture scrolling speed:"
+msgstr "触摸板手势滚动速度:"
+
+msgid "The amount to scroll per edge-to-edge gesture"
+msgstr "每次轻扫手势滚动的距离"
+
+msgid "Preset widths:"
+msgstr "预设宽度:"
+
+msgid "Widths used for cycling through widths"
+msgstr "用于循环切换的宽度列表"
+
+msgid "Comma-separated list of widths. Supported units: \"px\" and \"%\"."
+msgstr "逗号分隔的宽度列表。支持的单位: \"px\" 和 \"%\"。"
+
+msgid "Vertical resize step size:"
+msgstr "垂直调整大小步长:"
+
+msgid "Step size when increasing/decreasing window height"
+msgstr "增加/减少窗口高度时的步长"
+
+msgid "Obscured window opacity:"
+msgstr "遮挡窗口不透明度:"
+
+msgid "Tiled desktops:"
+msgstr "平铺桌面:"
+
+msgid "Regex string to match desktops by desktop name\""
+msgstr "用于通过桌面名称匹配桌面的正则表达式"
+
+msgid "Karousel script needs to be restarted for changes to take effect."
+msgstr "Karousel 脚本需要重新启动以使更改生效。"
+
