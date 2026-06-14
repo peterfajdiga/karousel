@@ -1,8 +1,12 @@
 {
     "KPackageStructure": "KWin/Script",
+    "X-KWin-Config-TranslationDomain": "kwin_karousel",
     "KPlugin": {
         "Name": "Karousel",
+        "Name[zh_CN]": "Karousel 窗口平铺",
         "Description": "Scrollable tiling extension for KWin",
+        "Description[zh_CN]": "KWin 的滚动式平铺窗口管理器扩展",
+        "X-KWin-Config-TranslationDomain": "kwin_karousel",
         "Icon": "preferences-system-windows",
         "Authors": [{
             "Email": "peter.fajdiga@gmail.com",
