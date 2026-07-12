@@ -11,10 +11,10 @@ npm-install:
 	pnpm install --ignore-scripts
 
 lint: npm-install
-	npx eslint ./src
+	pnpm exec eslint ./src
 
 lint-fix: npm-install
-	npx eslint ./src --fix
+	pnpm exec eslint ./src --fix
 
 test:
 	./run-ts.sh ./src/tests "${PATTERN}"
