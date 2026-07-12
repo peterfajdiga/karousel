@@ -3,7 +3,7 @@ VERSION = $(shell grep '"Version":' ./package/metadata.json | grep -o '[0-9\.]*'
 .PHONY: *
 
 build: lint test
-	tsc -p ./src/main --outFile ./package/contents/code/main.js
+	pnpm exec tsc -p ./src/main --outFile ./package/contents/code/main.js
 	mkdir -p ./package/contents/config
 	./run-ts.sh ./src/generators/config > ./package/contents/config/main.xml
 
