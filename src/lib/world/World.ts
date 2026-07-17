@@ -2,15 +2,20 @@ class World {
     private readonly desktopManager: DesktopManager;
     private readonly clientManager: ClientManager;
     private readonly pinManager: PinManager;
+    private readonly actions: Actions;
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
     private readonly cursorFollowsFocus: boolean;
+    public readonly screenEdgeScrollColumns: boolean;
+    public readonly screenEdgeScrollDelay: number;
 
     constructor(config: Config) {
         const focusPasser = new FocusPassing.Passer();
         this.workspaceSignalManager = initWorkspaceSignalHandlers(this, focusPasser);
         this.cursorFollowsFocus = config.cursorFollowsFocus;
+        this.screenEdgeScrollColumns = config.screenEdgeScrollColumns;
+        this.screenEdgeScrollDelay = config.screenEdgeScrollDelay;
 
         let presetWidths = {
             next: (currentWidth: number, minWidth: number, maxWidth: number) => currentWidth,
@@ -24,12 +29,13 @@ class World {
             log("failed to parse presetWidths:", error);
         }
 
-        this.shortcutActions = registerKeyBindings(this, {
+        this.actions = new Actions({
             manualScrollStep: config.manualScrollStep,
             presetWidths: presetWidths,
             verticalResizeStep: config.verticalResizeStep,
             columnResizer: config.scrollingCentered ? new RawResizer(presetWidths) : new ContextualResizer(presetWidths),
         });
+        this.shortcutActions = registerKeyBindings(this, this.actions);
 
         this.screenResizedDelayer = new Delayer(1000, () => {
             // this delay ensures that docks are taken into account by `Workspace.clientArea`
@@ -166,6 +172,54 @@ class World {
                 currentDesktop.gestureScrollFinish(focusedWindow);
             }
         });
+    }
+
+    public scrollColumnLeft() {
+        this.do(this.actions.gridScrollLeftColumn);
+    }
+
+    public scrollColumnRight() {
+        this.do(this.actions.gridScrollRightColumn);
+    }
+
+    public triggerScreenEdgeLeft() {
+        if (!this.screenEdgeScrollColumns) {
+            return;
+        }
+        this.scrollColumnLeft();
+    }
+
+    public triggerScreenEdgeRight() {
+        if (!this.screenEdgeScrollColumns) {
+            return;
+        }
+        this.scrollColumnRight();
+    }
+
+    public triggerScreenEdgeLeftIfCursorStillAtEdge() {
+        if (!this.isCursorAtLeftScreenEdge()) {
+            return false;
+        }
+        this.triggerScreenEdgeLeft();
+        return true;
+    }
+
+    public triggerScreenEdgeRightIfCursorStillAtEdge() {
+        if (!this.isCursorAtRightScreenEdge()) {
+            return false;
+        }
+        this.triggerScreenEdgeRight();
+        return true;
+    }
+
+    private isCursorAtLeftScreenEdge() {
+        const screen = Workspace.clientArea(ClientAreaOption.FullArea, Workspace.activeScreen, Workspace.currentDesktop);
+        return Workspace.cursorPos.x <= screen.x;
+    }
+
+    private isCursorAtRightScreenEdge() {
+        const screen = Workspace.clientArea(ClientAreaOption.FullArea, Workspace.activeScreen, Workspace.currentDesktop);
+        return Workspace.cursorPos.x >= rectRight(screen) - 1;
     }
 
     public destroy() {

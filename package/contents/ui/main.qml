@@ -7,7 +7,6 @@ Item {
     id: qmlBase
 
     property var karouselInstance
-
     Component.onCompleted: {
         qmlBase.karouselInstance = Karousel.init();
     }
@@ -62,6 +61,40 @@ Item {
         onProgressChanged: qmlBase.karouselInstance.gestureScroll(progress)
     }
 
+    ScreenEdgeHandler {
+        edge: ScreenEdgeHandler.LeftEdge
+        enabled: qmlBase.karouselInstance !== undefined && qmlBase.karouselInstance.screenEdgeScrollColumns
+        onActivated: screenEdgeScrollLeftDelay.restart()
+    }
+
+    ScreenEdgeHandler {
+        edge: ScreenEdgeHandler.RightEdge
+        enabled: qmlBase.karouselInstance !== undefined && qmlBase.karouselInstance.screenEdgeScrollColumns
+        onActivated: screenEdgeScrollRightDelay.restart()
+    }
+
+    Timer {
+        id: screenEdgeScrollLeftDelay
+        interval: qmlBase.karouselInstance !== undefined ? qmlBase.karouselInstance.screenEdgeScrollDelay : 200
+        repeat: true
+        onTriggered: {
+            if (!qmlBase.karouselInstance.triggerScreenEdgeLeftIfCursorStillAtEdge()) {
+                stop()
+            }
+        }
+    }
+
+    Timer {
+        id: screenEdgeScrollRightDelay
+        interval: qmlBase.karouselInstance !== undefined ? qmlBase.karouselInstance.screenEdgeScrollDelay : 200
+        repeat: true
+        onTriggered: {
+            if (!qmlBase.karouselInstance.triggerScreenEdgeRightIfCursorStillAtEdge()) {
+                stop()
+            }
+        }
+    }
+
     DBusCall {
         id: moveCursorToFocus
 
@@ -70,4 +103,5 @@ Item {
         method: "invokeShortcut"
         arguments: ["MoveMouseToFocus"]
     }
+
 }

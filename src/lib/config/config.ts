@@ -23,6 +23,8 @@ interface Config {
     gestureScroll: boolean;
     gestureScrollInvert: boolean;
     gestureScrollStep: number;
+    screenEdgeScrollColumns: boolean;
+    screenEdgeScrollDelay: number;
     tiledKeepBelow: boolean;
     floatingKeepAbove: boolean;
     windowRules: string;
