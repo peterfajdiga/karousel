@@ -52,6 +52,7 @@ class World {
             tiledKeepBelow: config.tiledKeepBelow,
             maximizedKeepAbove: config.floatingKeepAbove,
             untileOnDrag: config.untileOnDrag,
+	    wrapColumns: config.wrapColumns,
         };
 
         this.desktopManager = new DesktopManager(

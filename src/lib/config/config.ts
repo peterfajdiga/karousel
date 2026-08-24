@@ -27,4 +27,5 @@ interface Config {
     floatingKeepAbove: boolean;
     windowRules: string;
     tiledDesktops: string;
+    wrapColumns: boolean; 
 }

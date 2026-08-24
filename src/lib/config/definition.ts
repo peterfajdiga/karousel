@@ -204,4 +204,10 @@ const configDef = [
         type: "String",
         default: ".*",
     },
+
+    {
+   	name: "wrapColumns",
+    	type: "Bool",
+    	default: false,
+    },
 ];
