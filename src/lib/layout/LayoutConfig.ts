@@ -11,4 +11,5 @@ interface LayoutConfig {
     tiledKeepBelow: boolean;
     maximizedKeepAbove: boolean;
     untileOnDrag: boolean;
+    wrapColumns: boolean;
 }

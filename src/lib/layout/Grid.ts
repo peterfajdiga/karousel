@@ -60,11 +60,19 @@ class Grid {
     }
 
     public getLeftColumn(column: Column) {
-        return this.columns.getPrev(column);
+        const prev = this.columns.getPrev(column);
+	 if (prev === null && this.config.wrapColumns) {
+            return this.columns.getLast();
+	 }
+	 return prev;
     }
 
     public getRightColumn(column: Column) {
-        return this.columns.getNext(column);
+        const next = this.columns.getNext(column);
+    	if (next === null && this.config.wrapColumns) {
+	  return this.columns.getFirst();
+        }
+        return next; 
     }
 
     public getFirstColumn() {

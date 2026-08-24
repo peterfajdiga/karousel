@@ -49,6 +49,16 @@
                                                 </property>
                                             </widget>
                                         </item>
+					<item>
+    					    <widget class="QCheckBox" name="kcfg_wrapColumns">
+        					<property name="text">
+            					    <string>Wrap column navigation at edges</string>
+        					</property>
+        					<property name="toolTip">
+            					    <string>Moving focus or a column past the last one jumps back to the first, and vice versa</string>
+        					</property>
+    					    </widget>
+					</item>
                                         <item>
                                             <widget class="QCheckBox" name="kcfg_resizeNeighborColumn">
                                                 <property name="text">
