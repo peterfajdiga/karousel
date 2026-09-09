@@ -14,7 +14,8 @@ class MockKwinClient {
     public readonly output: Output = { __brand: "Output" };
     public resourceClass = "app";
     public readonly dock: boolean = false;
-    public readonly normalWindow: boolean = true;
+    public desktopWindow = false;
+    public normalWindow = true;
     public readonly managed: boolean = true;
     public readonly popupWindow: boolean = false;
     public readonly modal: boolean = false;
@@ -201,7 +202,13 @@ class MockKwinClient {
 
     public set minimized(minimized: boolean) {
         this._minimized = minimized;
+        if (minimized) {
+            activateNextWindow(this);
+        }
         this.minimizedChanged.fire();
+        if (minimized && Workspace.activeWindow === null) {
+            activateRandomWindowOnDesktop(Workspace.currentDesktop);
+        }
     }
 
     public get desktops() {

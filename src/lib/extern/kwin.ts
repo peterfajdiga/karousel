@@ -70,6 +70,7 @@ interface KwinClient {
     readonly output: Output;
     readonly resourceClass: string;
     readonly dock: boolean;
+    readonly desktopWindow: boolean;
     readonly normalWindow: boolean;
     readonly managed: boolean;
     readonly popupWindow: boolean;

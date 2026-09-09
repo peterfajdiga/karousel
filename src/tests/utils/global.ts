@@ -8,6 +8,7 @@ let notificationInvalidPresetWidths: Notification;
 let moveCursorToFocus: DBusCall;
 
 let screen: MockQmlRect;
+let desktopWindow: MockKwinClient;
 let tilingArea: MockQmlRect;
 let gapH: number;
 let gapV: number;
@@ -30,6 +31,15 @@ function init(config: Config) {
 
     Qt = qtMock;
     Workspace = workspaceMock;
+
+    // Plasma's desktop window exists before Karousel is initialized
+    desktopWindow = new MockKwinClient(screen.clone());
+    desktopWindow.caption = "Desktop";
+    desktopWindow.desktopWindow = true;
+    desktopWindow.normalWindow = false;
+    desktopWindow.desktops = [];
+    workspaceMock.windows.push(desktopWindow);
+
     moveCursorToFocus = {
         __brand: "QmlObject",
         call: () => {
@@ -61,6 +71,29 @@ function getClientManager(world: World): ClientManager {
     let clientManager;
     world.do((cm, dm) => clientManager = cm);
     return clientManager!;
+}
+
+function rectIntersects(a: QmlRect, b: QmlRect) {
+    return a.x < rectRight(b) && b.x < rectRight(a) &&
+        a.y < rectBottom(b) && b.y < rectBottom(a);
+}
+
+// Mimics KWin's `Workspace::activateNextWindow`, which KWin runs when the active window gets closed or minimized,
+// before it emits `windowRemoved` or `minimizedChanged`. With KWin's default `SeparateScreenFocus` setting,
+// it only considers windows that intersect the screen. If there are none, it activates the desktop window.
+// (When there are candidates, this mock simply unfocuses and lets Karousel pick, as it doesn't model KWin's focus chain.)
+function activateNextWindow(window: MockKwinClient) {
+    if (Workspace.activeWindow !== window) {
+        return;
+    }
+    const hasCandidate = Workspace.windows.some(other =>
+        other !== window &&
+        other !== desktopWindow &&
+        !other.minimized &&
+        other.desktops.includes(Workspace.currentDesktop) &&
+        rectIntersects((other as MockKwinClient).getActualFrameGeometry(), screen),
+    );
+    Workspace.activeWindow = hasCandidate ? null : desktopWindow;
 }
 
 function activateRandomWindowOnDesktop(desktop: KwinDesktop) {

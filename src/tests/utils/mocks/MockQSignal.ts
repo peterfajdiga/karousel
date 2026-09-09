@@ -12,8 +12,11 @@ class MockQSignal<T extends unknown[]> {
     };
 
     public fire(...args: [...T]) {
-        for (const handler of this.handlers) {
-            handler(...args);
+        // Like Qt, don't call handlers that get connected or disconnected during this emission
+        for (const handler of Array.from(this.handlers)) {
+            if (this.handlers.has(handler)) {
+                handler(...args);
+            }
         }
     }
 }
