@@ -2,6 +2,7 @@ class ClientManager {
     private readonly config: ClientManager.Config;
     private readonly clientMap: Map<KwinClient, ClientWrapper>;
     private lastFocusedClient: KwinClient|null;
+    private previousFocusedClient: KwinClient|null; // the client that was focused before `lastFocusedClient`
     private readonly windowRuleEnforcer: WindowRuleEnforcer;
 
     constructor(
@@ -16,6 +17,7 @@ class ClientManager {
         this.pinManager = pinManager;
         this.clientMap = new Map();
         this.lastFocusedClient = null;
+        this.previousFocusedClient = null;
 
         let parsedWindowRules: WindowRule[] = [];
         try {
@@ -61,7 +63,7 @@ class ClientManager {
         if (client === undefined) {
             return;
         }
-        if (kwinClient !== this.lastFocusedClient) {
+        if (!this.wasLastFocused(kwinClient)) {
             passFocus = FocusPassing.Type.None;
         }
         client.destroy(passFocus);
@@ -87,7 +89,7 @@ class ClientManager {
             return;
         }
         if (client.stateManager.getState() instanceof ClientState.Tiled) {
-            const passFocus = kwinClient === this.lastFocusedClient ? FocusPassing.Type.Immediate : FocusPassing.Type.None;
+            const passFocus = this.wasLastFocused(kwinClient) ? FocusPassing.Type.Immediate : FocusPassing.Type.None;
             client.stateManager.setState(
                 () => new ClientState.TiledMinimized(this.world, client),
                 passFocus,
@@ -179,7 +181,10 @@ class ClientManager {
     }
 
     public onClientFocused(kwinClient: KwinClient) {
-        this.lastFocusedClient = kwinClient;
+        if (kwinClient !== this.lastFocusedClient) {
+            this.previousFocusedClient = this.lastFocusedClient;
+            this.lastFocusedClient = kwinClient;
+        }
         const window = this.findTiledWindow(kwinClient);
         if (window === null) {
             return;
@@ -189,6 +194,21 @@ class ClientManager {
         if (this.config.cursorFollowsFocus) {
             this.moveCursorToWindow(window);
         }
+    }
+
+    // Whether `kwinClient` is the client the user was most recently working in
+    private wasLastFocused(kwinClient: KwinClient) {
+        if (kwinClient === this.lastFocusedClient) {
+            return true;
+        }
+        // When the active window gets closed or minimized, KWin activates another window before emitting
+        // `windowRemoved` or `minimizedChanged`.
+        // If it finds no suitable window (e.g. because all other windows are entirely off-screen, see issue 136),
+        // it falls back to activating the desktop window. In that case the closed window is still the one
+        // the user was working in, so we should still pass focus from it.
+        return this.lastFocusedClient !== null &&
+            this.lastFocusedClient.desktopWindow &&
+            kwinClient === this.previousFocusedClient;
     }
 
     public findTiledWindow(kwinClient: KwinClient) {
