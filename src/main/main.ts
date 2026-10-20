@@ -1,5 +1,11 @@
 function init() {
-    return new World(loadConfig());
+    try {
+        return new World(loadConfig());
+    } catch (error: any) {
+        log("init failed:", error);
+        log(error.stack);
+        throw error;
+    }
 }
 
 function loadConfig(): Config {

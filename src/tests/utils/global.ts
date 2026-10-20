@@ -5,6 +5,7 @@ let qmlBase: QmlObject;
 let notificationInvalidTiledDesktops: Notification;
 let notificationInvalidWindowRules: Notification;
 let notificationInvalidPresetWidths: Notification;
+let notificationNoCurrentActivity: Notification & { sentEvents: number };
 let moveCursorToFocus: DBusCall;
 
 let screen: MockQmlRect;
@@ -38,6 +39,12 @@ function init(config: Config) {
             workspaceMock.cursorPos.x = Math.floor(frame.x + frame.width/2);
             workspaceMock.cursorPos.y = Math.floor(frame.y + frame.height/2);
         },
+    };
+
+    notificationNoCurrentActivity = {
+        __brand: "QmlObject",
+        sentEvents: 0,
+        sendEvent: () => notificationNoCurrentActivity.sentEvents++,
     };
 
     const world = new World(config);

@@ -74,6 +74,11 @@ class World {
         this.clientManager = new ClientManager(config, this, this.desktopManager, this.pinManager);
         this.addExistingClients();
         this.update();
+
+        if (Workspace.currentActivity === "") {
+            notificationNoCurrentActivity.sendEvent();
+            log("no current activity, windows won't be tiled");
+        }
     }
 
     private static createScroller(config: Config) {
@@ -103,8 +108,14 @@ class World {
     }
 
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {
-        f(this.clientManager, this.desktopManager);
-        this.update();
+        try {
+            f(this.clientManager, this.desktopManager);
+            this.update();
+        } catch (error: any) {
+            log(error);
+            log(error.stack);
+            throw error;
+        }
     }
 
     public doIfTiled(

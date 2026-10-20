@@ -2,6 +2,7 @@ interface Console {
     __brand: "Console";
 
     log(...args: any[]): void;
+    warn(...args: any[]): void;
     assert(assertion: boolean, message?: string): void;
 }
 

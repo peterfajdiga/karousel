@@ -1,3 +1,3 @@
 function log(...args: any[]) {
-    console.log("Karousel:", ...args);
+    console.warn("Karousel:", ...args);
 }

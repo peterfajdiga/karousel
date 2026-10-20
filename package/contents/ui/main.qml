@@ -46,6 +46,16 @@ Item {
         urgency: Notification.HighUrgency
     }
 
+    Notification {
+        id: notificationNoCurrentActivity
+        componentName: "plasma_workspace"
+        eventId: "notification"
+        title: "Karousel"
+        text: "The activity manager reports no current activity, so new windows can't be tiled. Try restarting kactivitymanagerd or logging out and back in."
+        flags: Notification.Persistent
+        urgency: Notification.HighUrgency
+    }
+
     SwipeGestureHandler {
         direction: SwipeGestureHandler.Direction.Left
         fingerCount: 3

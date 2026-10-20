@@ -71,3 +71,13 @@ tests.register("Desktop filtering - windows on multiple desktops", 1, () => {
         Assert.notTiledClient(clientManager, client1, { message: "Client on multiple desktops should not be tiled" });
     });
 });
+
+tests.register("No current activity notification", 1, () => {
+    const config = getDefaultConfig();
+    const { workspaceMock } = init(config);
+    Assert.equal(notificationNoCurrentActivity.sentEvents, 0);
+
+    workspaceMock.currentActivity = "";
+    new World(config);
+    Assert.equal(notificationNoCurrentActivity.sentEvents, 1);
+});
