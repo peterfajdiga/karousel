@@ -58,7 +58,9 @@ class MockWorkspace {
         runReorder(
             () => {
                 if (this.activeWindow === null) {
+                    mockQmlTimerEnabled = false;
                     activateRandomWindowOnDesktop(this.currentDesktop);
+                    mockQmlTimerEnabled = true;
                 };
             },
             () => this.windows.splice(this.windows.indexOf(window), 1),

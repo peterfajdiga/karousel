@@ -5,8 +5,10 @@ class MockQmlTimer {
     public readonly triggered = new MockQSignal<[]>();
 
     public restart() {
-        // no need to wait in tests, just fire immediately
-        this.triggered.fire();
+        if (mockQmlTimerEnabled) {
+            // no need to wait in tests, just fire immediately
+            this.triggered.fire();
+        }
     };
 
     public stop() {}
