@@ -9,5 +9,7 @@ class MockQmlTimer {
         this.triggered.fire();
     };
 
+    public stop() {}
+
     public destroy() {}
 }
