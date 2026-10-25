@@ -41,3 +41,14 @@ tests.register("Center focused", 5, () => {
     qtMock.fireShortcut("karousel-grid-scroll-focused");
     Assert.columnsFillTilingArea([client0, client1, client2]);
 });
+
+tests.register("Center remaining windows on close", 10, () => {
+    const config = getDefaultConfig();
+    const { workspaceMock } = init(config);
+
+    const [client0, client1] = workspaceMock.createClientsWithWidths(200, 200);
+    Assert.grid(config, tilingArea, 200, [[client0], [client1]], true);
+
+    workspaceMock.removeWindow(client1);
+    Assert.centered(config, tilingArea, client0);
+});

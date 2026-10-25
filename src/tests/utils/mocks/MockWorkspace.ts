@@ -56,12 +56,16 @@ class MockWorkspace {
     public removeWindow(window: MockKwinClient) {
         this.activeWindow = null;
         runReorder(
+            () => {
+                if (this.activeWindow === null) {
+                    mockQmlTimerEnabled = false;
+                    activateRandomWindowOnDesktop(this.currentDesktop);
+                    mockQmlTimerEnabled = true;
+                };
+            },
             () => this.windows.splice(this.windows.indexOf(window), 1),
             () => this.windowRemoved.fire(window),
         );
-        if (this.activeWindow === null) {
-            activateRandomWindowOnDesktop(this.currentDesktop);
-        };
     }
 
     public moveWindow(window: MockKwinClient, ...deltas: QmlPoint[]) {
@@ -139,6 +143,10 @@ class MockWorkspace {
     }
 
     public set activeWindow(activeWindow: KwinClient|null) {
+        if (activeWindow === this._activeWindow && Math.random() < 0.5) {
+            // nothing to do, but let's still sometimes re-activate the same window
+            return;
+        }
         this._activeWindow = activeWindow;
         this.windowActivated.fire(activeWindow);
     }

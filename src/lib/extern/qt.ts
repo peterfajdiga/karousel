@@ -48,5 +48,6 @@ interface QmlTimer extends QmlObject {
     interval: number;
     readonly triggered: QSignal<[]>;
     restart(): void;
+    stop(): void;
     destroy(): void;
 }

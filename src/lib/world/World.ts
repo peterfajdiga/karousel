@@ -5,6 +5,7 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
+    private readonly windowActivatedHandler: WindowActivatedHandler;
 
     constructor(config: Config) {
         const focusPasser = new FocusPassing.Passer();
@@ -72,6 +73,7 @@ class World {
             new DesktopFilter(config.tiledDesktops),
         );
         this.clientManager = new ClientManager(config, this, this.desktopManager, this.pinManager);
+        this.windowActivatedHandler = new WindowActivatedHandler(this);
         this.addExistingClients();
         this.update();
     }
@@ -95,6 +97,10 @@ class World {
         }
     }
 
+    private applyPending() {
+        this.windowActivatedHandler.completeActivation(this.clientManager);
+    }
+
     private update() {
         const currentDesktop = this.desktopManager.getCurrentDesktop();
         if (currentDesktop !== undefined) {
@@ -103,6 +109,7 @@ class World {
     }
 
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {
+        this.applyPending();
         f(this.clientManager, this.desktopManager);
         this.update();
     }
@@ -111,6 +118,7 @@ class World {
         kwinClient: KwinClient,
         f: (clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) => void,
     ) {
+        this.applyPending();
         const window = this.clientManager.findTiledWindow(kwinClient);
         if (window === null) {
             return;
@@ -128,6 +136,14 @@ class World {
             return;
         }
         this.doIfTiled(Workspace.activeWindow, f);
+    }
+
+    public requestWindowActivation(kwinClient: KwinClient) {
+        this.windowActivatedHandler.requestActivation(kwinClient);
+    }
+
+    public cancelWindowActivation() {
+        this.windowActivatedHandler.cancel();
     }
 
     public gestureScroll(amount: number) {
@@ -157,6 +173,7 @@ class World {
         }
         this.clientManager.destroy();
         this.desktopManager.destroy();
+        this.windowActivatedHandler.destroy();
     }
 
     public onScreenResized() {

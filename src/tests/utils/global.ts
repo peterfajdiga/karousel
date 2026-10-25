@@ -7,6 +7,7 @@ let notificationInvalidWindowRules: Notification;
 let notificationInvalidPresetWidths: Notification;
 let moveCursorToFocus: DBusCall;
 
+let mockQmlTimerEnabled: boolean;
 let screen: MockQmlRect;
 let tilingArea: MockQmlRect;
 let gapH: number;
@@ -14,6 +15,7 @@ let gapV: number;
 let runLog: string[];
 
 function init(config: Config) {
+    mockQmlTimerEnabled = true;
     screen = new MockQmlRect(0, 0, 800, 600);
     tilingArea = new MockQmlRect(
         config.gapsOuterLeft,
