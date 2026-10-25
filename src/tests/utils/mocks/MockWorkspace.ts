@@ -143,6 +143,10 @@ class MockWorkspace {
     }
 
     public set activeWindow(activeWindow: KwinClient|null) {
+        if (activeWindow === this._activeWindow && Math.random() < 0.5) {
+            // nothing to do, but let's still sometimes re-activate the same window
+            return;
+        }
         this._activeWindow = activeWindow;
         this.windowActivated.fire(activeWindow);
     }
