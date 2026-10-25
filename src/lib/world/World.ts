@@ -142,6 +142,10 @@ class World {
         this.windowActivatedHandler.requestActivation(kwinClient);
     }
 
+    public cancelWindowActivation() {
+        this.windowActivatedHandler.cancel();
+    }
+
     public gestureScroll(amount: number) {
         this.do((clientManager, desktopManager) => {
             const currentDesktop = desktopManager.getCurrentDesktop();

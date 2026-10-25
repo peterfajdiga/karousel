@@ -8,6 +8,7 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
     });
 
     manager.connect(Workspace.windowRemoved, (kwinClient: KwinClient) => {
+        world.cancelWindowActivation();
         world.do((clientManager, desktopManager) => {
             clientManager.removeClient(kwinClient, FocusPassing.Type.Immediate);
         });
