@@ -106,7 +106,7 @@ tests.register("columns squeeze side (just scroll)", 5, () => {
             client.minSize = new MockQmlSize(300, 100);
         }
         if (testCase.scrollStart) {
-            qtMock.fireShortcut("karousel-grid-scroll-start");
+            workspaceMock.activeWindow = clients[0];
         }
         workspaceMock.activeWindow = clients[testCase.focus];
         assertVisible(clients, testCase.startVisible);
