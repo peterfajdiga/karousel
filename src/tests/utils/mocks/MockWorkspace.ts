@@ -54,7 +54,7 @@ class MockWorkspace {
     }
 
     public removeWindow(window: MockKwinClient) {
-        this.activeWindow = null;
+        activateNextWindow(window);
         runReorder(
             () => this.windows.splice(this.windows.indexOf(window), 1),
             () => this.windowRemoved.fire(window),
