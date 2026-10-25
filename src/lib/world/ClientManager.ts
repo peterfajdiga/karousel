@@ -51,6 +51,7 @@ class ClientManager {
             constructState,
             this.findTransientFor(kwinClient),
             this.windowRuleEnforcer.initClientSignalManager(this.world, kwinClient),
+            () => this.onClientFocused(kwinClient),
         );
         this.clientMap.set(kwinClient, client);
     }
