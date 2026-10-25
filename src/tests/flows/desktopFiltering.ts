@@ -71,3 +71,16 @@ tests.register("Desktop filtering - windows on multiple desktops", 1, () => {
         Assert.notTiledClient(clientManager, client1, { message: "Client on multiple desktops should not be tiled" });
     });
 });
+
+tests.register("Desktop filtering - windows on all activities", 1, () => {
+    const config = getDefaultConfig();
+    const { workspaceMock, world } = init(config);
+
+    const client = new MockKwinClient();
+    client.activities = []; // all activities
+    workspaceMock.createWindows(client);
+    world.do((clientManager) => {
+        Assert.tiledClient(clientManager, client, { message: "Client on all activities should be tiled" });
+    });
+    Assert.equalArrays(client.activities, [workspaceMock.currentActivity]);
+});

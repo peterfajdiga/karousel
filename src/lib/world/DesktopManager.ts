@@ -41,6 +41,10 @@ class DesktopManager {
         return this.getDesktop(Workspace.currentActivity, kwinDesktop);
     }
 
+    public shouldWorkOnDesktop(kwinDesktop: KwinDesktop) {
+        return this.desktopFilter.shouldWorkOnDesktop(kwinDesktop);
+    }
+
     public getDesktopForClient(kwinClient: KwinClient) {
         if (kwinClient.activities.length !== 1 || kwinClient.desktops.length !== 1) {
             return undefined;
