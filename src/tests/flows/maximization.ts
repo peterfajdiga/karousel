@@ -53,6 +53,30 @@
             Assert.rect(kwinClient.getActualFrameGeometry(), columnLeftX, columnTopY, 300, columnHeight);
         });
 
+        tests.register("Geometry-based full-screen " + suffix, 100, () => {
+            const config = getConfig();
+            const { qtMock, workspaceMock } = init(config);
+            const clients = workspaceMock.createClientsWithWidths(300, 400, 400);
+            qtMock.fireShortcut("karousel-window-move-left");
+            const client = clients[2];
+            const siblingGeometry = clients[1].getActualFrameGeometry().clone();
+            const fullScreenGeometry = new MockQmlRect(
+                -20,
+                -20,
+                screen.width + 40,
+                screen.height + 40,
+            );
+
+            client.frameGeometry = fullScreenGeometry;
+            Assert.assert(!client.fullScreen);
+            Assert.equalRects(client.getActualFrameGeometry(), fullScreenGeometry);
+            Assert.equalRects(clients[1].getActualFrameGeometry(), siblingGeometry);
+
+            workspaceMock.activeWindow = clients[0];
+            Assert.equalRects(client.getActualFrameGeometry(), fullScreenGeometry);
+            Assert.equalRects(clients[1].getActualFrameGeometry(), siblingGeometry);
+        });
+
         tests.register("Maximize with transient " + suffix, 100, () => {
             const config = getConfig();
             const { qtMock, workspaceMock, world } = init(config);
