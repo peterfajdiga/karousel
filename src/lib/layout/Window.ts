@@ -33,7 +33,10 @@ class Window {
     }
 
     public arrange(x: number, y: number, width: number, height: number) {
-        if (this.skipArrange) {
+        if (
+            this.skipArrange ||
+            (!this.client.kwinClient.fullScreen && Clients.isFullScreenGeometry(this.client.kwinClient))
+        ) {
             // window is maximized, fullscreen, or being manually resized, prevent fighting with the user
             return;
         }

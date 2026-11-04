@@ -114,6 +114,7 @@ namespace ClientState {
             });
 
             const externalFrameGeometryChangedRateLimiter = new RateLimiter(4, Tiled.maxExternalFrameGeometryChangedIntervalMs);
+            let fullScreenGeometry = Clients.isFullScreenGeometry(kwinClient);
             manager.connect(kwinClient.frameGeometryChanged, (oldGeometry: QmlRect) => {
                 // on Wayland, this fires after `tileChanged`
                 if (kwinClient.tile !== null) {
@@ -122,6 +123,16 @@ namespace ClientState {
                     });
                     return;
                 }
+
+                const newFullScreenGeometry = Clients.isFullScreenGeometry(kwinClient);
+                if (
+                    newFullScreenGeometry &&
+                    !fullScreenGeometry &&
+                    !kwinClient.fullScreen
+                ) {
+                    client.setFullScreen(true);
+                }
+                fullScreenGeometry = newFullScreenGeometry;
 
                 const newGeometry = roundQtRect(client.kwinClient.frameGeometry);
                 if (rectEquals(oldGeometry, newGeometry)) {

@@ -34,3 +34,13 @@ tests.register("Clients.canTileEver", 1, () => {
         return { ...defaultProperties, ...properties };
     }
 });
+
+tests.register("Clients.isFullScreenGeometry with fractional area", 1, () => {
+    const { workspaceMock } = init(getDefaultConfig());
+    workspaceMock.clientArea = () => new MockQmlRect(0, 0, screen.width + 0.2, screen.height + 0.2);
+
+    const client = new MockKwinClient(new MockQmlRect(0, 0, screen.width, screen.height));
+    client.fullScreen = true;
+
+    Assert.assert(Clients.isFullScreenGeometry(client));
+});
