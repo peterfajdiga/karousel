@@ -68,8 +68,12 @@
             );
 
             client.frameGeometry = fullScreenGeometry;
-            Assert.assert(client.fullScreen);
-            Assert.equalRects(client.getActualFrameGeometry(), screen);
+            Assert.assert(!client.fullScreen);
+            Assert.equalRects(client.getActualFrameGeometry(), fullScreenGeometry);
+            Assert.equalRects(clients[1].getActualFrameGeometry(), siblingGeometry);
+
+            workspaceMock.activeWindow = clients[0];
+            Assert.equalRects(client.getActualFrameGeometry(), fullScreenGeometry);
             Assert.equalRects(clients[1].getActualFrameGeometry(), siblingGeometry);
         });
 
