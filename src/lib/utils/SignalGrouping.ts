@@ -11,6 +11,10 @@ namespace SignalGrouping {
             const signals = collectSignals(this.handlers);
             for (const signal of signals) {
                 manager.connect(signal, (...args: any) => {
+                    if (this.argsBySignal.has(signal)) {
+                        // the same signal fired again, so it doesn't belong to the pending group
+                        this.fire();
+                    }
                     this.argsBySignal.set(signal, args);
                     this.delayer.run();
                 });
