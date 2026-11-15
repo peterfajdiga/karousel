@@ -41,3 +41,32 @@ tests.register("Center focused", 5, () => {
     qtMock.fireShortcut("karousel-grid-scroll-focused");
     Assert.columnsFillTilingArea([client0, client1, client2]);
 });
+
+tests.register("Center remaining windows on close", 10, () => {
+    const config = getDefaultConfig();
+    const { workspaceMock } = init(config);
+
+    const [client0, client1] = workspaceMock.createClientsWithWidths(200, 200);
+    Assert.grid(config, tilingArea, 200, [[client0], [client1]], true);
+
+    workspaceMock.removeWindow(client1);
+    Assert.centered(config, tilingArea, client0);
+});
+
+tests.register("Center remaining windows on move to another desktop", 10, () => {
+    const config = getDefaultConfig();
+    const { workspaceMock } = init(config);
+
+    const [client0, client1] = workspaceMock.createClientsWithWidths(200, 200);
+    Assert.grid(config, tilingArea, 200, [[client0], [client1]], true);
+
+    workspaceMock.activeWindow = client0;
+    const client1Positions: MockQmlRect[] = [];
+    client1.frameGeometryChanged.connect(() => client1Positions.push(client1.getActualFrameGeometry().clone()));
+
+    client0.desktops = [workspaceMock.desktops[1]];
+    Assert.centered(config, tilingArea, client1);
+    for (const position of client1Positions) {
+        Assert.equalRects(position, client1.getActualFrameGeometry(), { message: "Window should move straight to the center" });
+    }
+});
