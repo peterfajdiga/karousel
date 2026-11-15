@@ -7,13 +7,29 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
         });
     });
 
+    function onWindowActivated(kwinClient: KwinClient|null) {
+        if (kwinClient === null) {
+            focusPasser.activate();
+        } else {
+            focusPasser.clearIfDifferent(kwinClient);
+            world.do((clientManager, desktopManager) => {
+                clientManager.onClientFocused(kwinClient);
+            });
+        }
+    }
+
     const removedActivatedSignalGroup = new SignalGrouping.Group([
         new SignalGrouping.Handler(
             [Workspace.windowRemoved, Workspace.windowActivated] as const,
             (windowRemovedArgs, windowActivatedArgs) => {
-                const kwinClient = windowRemovedArgs[0];
+                const removedClient = windowRemovedArgs[0];
+                const activatedClient = windowActivatedArgs[0];
                 world.do((clientManager, desktopManager) => {
-                    clientManager.removeClient(kwinClient, FocusPassing.Type.Immediate);
+                    if (!clientManager.willPassFocusOnRemove(removedClient)) {
+                        // Karousel won't pass focus, so the window activated by KWin must be respected
+                        onWindowActivated(activatedClient);
+                    }
+                    clientManager.removeClient(removedClient, FocusPassing.Type.Immediate);
                 });
             },
         ),
@@ -28,17 +44,7 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
         ),
         new SignalGrouping.Handler(
             [Workspace.windowActivated],
-            (windowActivatedArgs) => {
-                const kwinClient = windowActivatedArgs[0];
-                if (kwinClient === null) {
-                    focusPasser.activate();
-                } else {
-                    focusPasser.clearIfDifferent(kwinClient);
-                    world.do((clientManager, desktopManager) => {
-                        clientManager.onClientFocused(kwinClient);
-                    });
-                }
-            },
+            (windowActivatedArgs) => onWindowActivated(windowActivatedArgs[0]),
         ),
     ]);
     world.registerDoListener(() => removedActivatedSignalGroup.interrupt());

@@ -69,6 +69,10 @@ class ClientManager {
         this.clientMap.delete(kwinClient);
     }
 
+    public willPassFocusOnRemove(kwinClient: KwinClient) {
+        return kwinClient === this.lastFocusedClient && this.findTiledWindow(kwinClient) !== null;
+    }
+
     private findTransientFor(kwinClient: KwinClient) {
         if (!kwinClient.transient || kwinClient.transientFor === null) {
             return null;
