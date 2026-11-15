@@ -7,7 +7,7 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
         });
     });
 
-    new SignalGrouping.Group([
+    const removedActivatedSignalGroup = new SignalGrouping.Group([
         new SignalGrouping.Handler(
             [Workspace.windowRemoved, Workspace.windowActivated] as const,
             (windowRemovedArgs, windowActivatedArgs) => {
@@ -40,7 +40,9 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
                 }
             },
         ),
-    ]).connect(manager);
+    ]);
+    world.registerDoListener(() => removedActivatedSignalGroup.interrupt());
+    removedActivatedSignalGroup.connect(manager);
 
     manager.connect(Workspace.currentDesktopChanged, () => {
         world.do(() => {}); // re-arrange desktop

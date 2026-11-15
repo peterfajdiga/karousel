@@ -17,6 +17,12 @@ namespace SignalGrouping {
             }
         }
 
+        public interrupt() {
+            if (this.argsBySignal.size > 0) {
+                this.fire();
+            }
+        }
+
         private fire() {
             for (const handler of this.handlers) {
                 const args = this.getGroupArgs(handler.signals);
