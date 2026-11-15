@@ -28,22 +28,24 @@ namespace SignalGrouping {
         }
 
         private fire() {
+            // clear before calling the handler, because the handler may trigger `interrupt`
+            const argsBySignal = this.argsBySignal;
+            this.argsBySignal = new Map();
             for (const handler of this.handlers) {
-                const args = this.getGroupArgs(handler.signals);
+                const args = Group.getGroupArgs(argsBySignal, handler.signals);
                 if (args !== null) {
-                    handler.f(args);
+                    handler.f(...args);
                     break;
                 }
             }
-            this.argsBySignal.clear();
         }
 
-        private getGroupArgs(signals: QSignal<[any]>[]) {
-            const groupArgs = signals.map(signal => this.argsBySignal.get(signal));
+        private static getGroupArgs(argsBySignal: Map<QSignal<[any]>, [[any]]>, signals: QSignal<[any]>[]) {
+            const groupArgs = signals.map(signal => argsBySignal.get(signal));
             if (groupArgs.some(args => args === undefined)) {
                 return null;
             }
-            return groupArgs;
+            return groupArgs as [[any]][];
         }
     }
 
