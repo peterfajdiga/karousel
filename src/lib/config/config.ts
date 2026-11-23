@@ -16,6 +16,8 @@ interface Config {
     stackColumnsByDefault: boolean;
     resizeNeighborColumn: boolean;
     reMaximize: boolean;
+    tileMaximized: boolean;
+    tileFullScreen: boolean;
     skipSwitcher: boolean;
     scrollingLazy: boolean;
     scrollingCentered: boolean;

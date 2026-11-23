@@ -15,7 +15,7 @@ tests.register("WindowRuleEnforcer", 1, () => {
         { tiledByDefault: true, resourceClass: "zoom", caption: "zoom", shouldTile: false },
     ];
 
-    const enforcer = new WindowRuleEnforcer(JSON.parse(defaultWindowRules));
+    const enforcer = new WindowRuleEnforcer(JSON.parse(defaultWindowRules), false);
     for (const testCase of testCases) {
         const kwinClient: any = createKwinClient(testCase.tiledByDefault, testCase.resourceClass, testCase.caption);
         Assert.assert(

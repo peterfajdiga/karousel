@@ -73,7 +73,29 @@ class Column {
     }
 
     public getWidth() {
-        return this.width;
+        return this.fillsWidth() ? this.grid.desktop.tilingArea.width : this.width;
+    }
+
+    // whether the column contains a maximized or full-screen window that fills the width of the screen
+    private fillsWidth() {
+        for (const window of this.windows.iterator()) {
+            if (window.fillsWidth()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // returns how far the column's windows reach past its left and right edges
+    public getOverflow(): [number, number] {
+        let overflowLeft = 0;
+        let overflowRight = 0;
+        for (const window of this.windows.iterator()) {
+            const [left, right] = window.getOverflow();
+            overflowLeft = Math.max(overflowLeft, left);
+            overflowRight = Math.max(overflowRight, right);
+        }
+        return [overflowLeft, overflowRight];
     }
 
     public getMinWidth() {
@@ -137,7 +159,7 @@ class Column {
 
     // returns x position of right edge in grid space
     public getRight() {
-        return this.gridX + this.width;
+        return this.gridX + this.getWidth();
     }
 
     public onUserResizeWidth(
@@ -228,14 +250,14 @@ class Column {
         }
         let y = this.grid.desktop.tilingArea.y;
         for (const window of this.windows.iterator()) {
-            window.arrange(x, y, this.width, window.height);
+            window.arrange(x, y, this.getWidth(), window.height);
             y += window.height + this.grid.config.gapsInnerVertical;
         }
     }
 
     public arrangeStacked(x: number) {
         const nWindows = this.windows.length();
-        const windowWidth = this.width - (nWindows - 1) * this.grid.config.stackOffsetX;
+        const windowWidth = this.getWidth() - (nWindows - 1) * this.grid.config.stackOffsetX;
         const windowHeight = this.grid.desktop.tilingArea.height - (nWindows - 1) * this.grid.config.stackOffsetY;
 
         let windowX = x;

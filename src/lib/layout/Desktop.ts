@@ -6,6 +6,7 @@ class Desktop {
     private dirtyScroll: boolean;
     private dirtyPins: boolean;
     public clientArea: QmlRect;
+    public fullScreenArea: QmlRect;
     public tilingArea: QmlRect;
 
     constructor(
@@ -23,6 +24,7 @@ class Desktop {
         this.dirtyPins = true;
         this.grid = new Grid(this, layoutConfig, focusPasser);
         this.clientArea = Desktop.getClientArea(this.getScreen(), kwinDesktop);
+        this.fullScreenArea = Desktop.getFullScreenArea(this.getScreen(), kwinDesktop);
         this.tilingArea = Desktop.getTilingArea(this.clientArea, kwinDesktop, pinManager, config);
     }
 
@@ -32,6 +34,7 @@ class Desktop {
             return;
         }
         this.clientArea = newClientArea;
+        this.fullScreenArea = Desktop.getFullScreenArea(this.getScreen(), this.kwinDesktop);
         this.tilingArea = Desktop.getTilingArea(newClientArea, this.kwinDesktop, this.pinManager, this.config);
         this.dirty = true;
         this.dirtyScroll = true;
@@ -42,6 +45,10 @@ class Desktop {
 
     private static getClientArea(screen: Output, kwinDesktop: KwinDesktop) {
         return Workspace.clientArea(ClientAreaOption.PlacementArea, screen, kwinDesktop);
+    }
+
+    private static getFullScreenArea(screen: Output, kwinDesktop: KwinDesktop) {
+        return Workspace.clientArea(ClientAreaOption.FullScreenArea, screen, kwinDesktop);
     }
 
     private static getTilingArea(clientArea: QmlRect, kwinDesktop: KwinDesktop, pinManager: PinManager, config: Desktop.Config) {

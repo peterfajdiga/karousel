@@ -96,11 +96,12 @@ class Grid {
 
     private columnsSetX(firstMovedColumn: Column|null) {
         const lastUnmovedColumn = firstMovedColumn === null ? this.columns.getLast() : this.columns.getPrev(firstMovedColumn);
-        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.getRight() + this.config.gapsInnerHorizontal;
+        let x = lastUnmovedColumn === null ? 0 : lastUnmovedColumn.getRight() + lastUnmovedColumn.getOverflow()[1] + this.config.gapsInnerHorizontal;
         if (firstMovedColumn !== null) {
             for (const column of this.columns.iteratorFrom(firstMovedColumn)) {
-                column.gridX = x;
-                x += column.getWidth() + this.config.gapsInnerHorizontal;
+                const [overflowLeft, overflowRight] = column.getOverflow();
+                column.gridX = x + overflowLeft;
+                x = column.getRight() + overflowRight + this.config.gapsInnerHorizontal;
             }
         }
         this.width = x - this.config.gapsInnerHorizontal;
@@ -137,8 +138,7 @@ class Grid {
 
     public arrange(x: number, visibleRange: Range) {
         for (const column of this.columns.iterator()) {
-            column.arrange(x, visibleRange, this.userResize);
-            x += column.getWidth() + this.config.gapsInnerHorizontal;
+            column.arrange(x + column.gridX, visibleRange, this.userResize);
         }
 
         const focusedWindow = this.getLastFocusedWindow();
@@ -184,8 +184,7 @@ class Grid {
     }
 
     public onColumnWidthChanged(column: Column) {
-        const rightColumn = this.columns.getNext(column);
-        this.columnsSetX(rightColumn);
+        this.columnsSetX(column); // starting at `column`, because its overflow may have changed too
         this.desktop.onLayoutChanged();
         if (!this.userResize) {
             this.desktop.autoAdjustScroll();
@@ -206,6 +205,7 @@ class Grid {
             column.updateWidth();
             column.resizeWindows();
         }
+        this.columnsSetX(this.columns.getFirst()); // widths of maximized and full-screen columns depend on the screen size
     }
 
     public onUserResizeStarted() {

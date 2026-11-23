@@ -145,6 +145,16 @@ const configDef = [
         default: false,
     },
     {
+        name: "tileMaximized",
+        type: "Bool",
+        default: false,
+    },
+    {
+        name: "tileFullScreen",
+        type: "Bool",
+        default: false,
+    },
+    {
         name: "skipSwitcher",
         type: "Bool",
         default: false,

@@ -24,7 +24,7 @@ class ClientManager {
             notificationInvalidWindowRules.sendEvent();
             log("failed to parse windowRules:", error);
         }
-        this.windowRuleEnforcer = new WindowRuleEnforcer(parsedWindowRules);
+        this.windowRuleEnforcer = new WindowRuleEnforcer(parsedWindowRules, config.tileFullScreen);
     }
 
     public addClient(kwinClient: KwinClient) {

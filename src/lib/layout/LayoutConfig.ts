@@ -7,6 +7,8 @@ interface LayoutConfig {
     stackColumnsByDefault: boolean;
     resizeNeighborColumn: boolean;
     reMaximize: boolean;
+    tileMaximized: boolean;
+    tileFullScreen: boolean;
     skipSwitcher: boolean;
     tiledKeepBelow: boolean;
     maximizedKeepAbove: boolean;

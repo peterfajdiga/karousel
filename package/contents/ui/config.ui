@@ -70,6 +70,26 @@
                                             </widget>
                                         </item>
                                         <item>
+                                            <widget class="QCheckBox" name="kcfg_tileMaximized">
+                                                <property name="text">
+                                                    <string>Keep maximized windows in the grid</string>
+                                                </property>
+                                                <property name="toolTip">
+                                                    <string>Maximized windows stay in their column and fill the work area. They stay maximized when another window is focused</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QCheckBox" name="kcfg_tileFullScreen">
+                                                <property name="text">
+                                                    <string>Keep full-screen windows in the grid</string>
+                                                </property>
+                                                <property name="toolTip">
+                                                    <string>Full-screen windows stay in their column and fill the screen. They stay full-screen when another window is focused, and you can scroll past them</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
                                             <widget class="QCheckBox" name="kcfg_skipSwitcher">
                                                 <property name="text">
                                                     <string>Tiled windows skip switcher</string>

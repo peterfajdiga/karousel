@@ -18,8 +18,9 @@ class Window {
             maximizedMode: maximizedMode,
         };
 
-        this.skipArrange = this.client.kwinClient.fullScreen || maximizedMode !== MaximizedMode.Unmaximized;
         this.column = column;
+        this.skipArrange = this.isMaximizedOutsideGrid();
+        this.updateLayering();
         column.onWindowAdded(this, true);
     }
 
@@ -34,28 +35,50 @@ class Window {
 
     public arrange(x: number, y: number, width: number, height: number) {
         if (this.skipArrange) {
-            // window is maximized, fullscreen, or being manually resized, prevent fighting with the user
+            // window is maximized or full-screen outside of the grid, prevent fighting with the user
             return;
         }
 
-        let maximized = false;
-        if (this.column.grid.config.reMaximize && this.isFocused()) {
+        if (this.isFocused() && this.shouldReMaximize()) {
             // do this here rather than in `onFocused` to ensure it happens after placement
             // (otherwise placement may not happen at all)
-            if (this.focusedState.maximizedMode !== MaximizedMode.Unmaximized) {
-                this.client.setMaximize(
-                    this.focusedState.maximizedMode === MaximizedMode.Horizontally || this.focusedState.maximizedMode === MaximizedMode.Maximized,
-                    this.focusedState.maximizedMode === MaximizedMode.Vertically || this.focusedState.maximizedMode === MaximizedMode.Maximized,
-                );
-                maximized = true;
+            this.reMaximize();
+            return;
+        }
+
+        if (this.fillsWidth() || this.fillsHeight()) {
+            const fillArea = this.getFillArea();
+            if (this.fillsWidth()) {
+                const [overflowLeft, overflowRight] = this.getOverflow();
+                x -= overflowLeft;
+                width += overflowLeft + overflowRight;
             }
-            if (this.focusedState.fullScreen) {
-                this.client.setFullScreen(true);
-                maximized = true;
+            if (this.fillsHeight()) {
+                y = fillArea.y;
+                height = fillArea.height;
             }
         }
-        if (!maximized) {
-            this.client.place(x, y, width, height);
+        this.client.place(x, y, width, height);
+    }
+
+    private shouldReMaximize() {
+        const config = this.column.grid.config;
+        return config.reMaximize && (
+            (!config.tileMaximized && this.focusedState.maximizedMode !== MaximizedMode.Unmaximized) ||
+            (!config.tileFullScreen && this.focusedState.fullScreen)
+        );
+    }
+
+    private reMaximize() {
+        const config = this.column.grid.config;
+        if (!config.tileMaximized && this.focusedState.maximizedMode !== MaximizedMode.Unmaximized) {
+            this.client.setMaximize(
+                this.focusedState.maximizedMode === MaximizedMode.Horizontally || this.focusedState.maximizedMode === MaximizedMode.Maximized,
+                this.focusedState.maximizedMode === MaximizedMode.Vertically || this.focusedState.maximizedMode === MaximizedMode.Maximized,
+            );
+        }
+        if (!config.tileFullScreen && this.focusedState.fullScreen) {
+            this.client.setFullScreen(true);
         }
     }
 
@@ -73,10 +96,8 @@ class Window {
     }
 
     public onFocused() {
-        if (this.column.grid.config.reMaximize && (
-            this.focusedState.maximizedMode !== MaximizedMode.Unmaximized ||
-            this.focusedState.fullScreen
-        )) {
+        this.updateLayering();
+        if (this.shouldReMaximize()) {
             // We need to maximize/fullscreen this window, but we can't do it here.
             // We need to do it in `arrange` to ensure it happens after placement.
             this.column.grid.desktop.forceArrange();
@@ -92,37 +113,100 @@ class Window {
         if (this.isFocused()) {
             return;
         }
-        this.client.setFullScreen(false);
-        this.client.setMaximize(false, false);
+        const config = this.column.grid.config;
+        if (!config.tileFullScreen) {
+            this.client.setFullScreen(false);
+        }
+        if (!config.tileMaximized) {
+            this.client.setMaximize(false, false);
+        }
+        this.updateLayering();
     }
 
     public onMaximizedChanged(maximizedMode: MaximizedMode) {
-        const maximized = maximizedMode !== MaximizedMode.Unmaximized;
-        this.skipArrange = maximized;
-        if (this.column.grid.config.tiledKeepBelow) {
-            this.client.kwinClient.keepBelow = !maximized;
-        }
-        if (this.column.grid.config.maximizedKeepAbove) {
-            this.client.kwinClient.keepAbove = maximized;
-        }
         if (this.isFocused()) {
             this.focusedState.maximizedMode = maximizedMode;
         }
-        this.column.grid.desktop.onLayoutChanged();
+        this.onMaximizedOrFullScreenChanged();
     }
 
     public onFullScreenChanged(fullScreen: boolean) {
-        this.skipArrange = fullScreen;
-        if (this.column.grid.config.tiledKeepBelow) {
-            this.client.kwinClient.keepBelow = !fullScreen;
-        }
-        if (this.column.grid.config.maximizedKeepAbove) {
-            this.client.kwinClient.keepAbove = fullScreen;
-        }
         if (this.isFocused()) {
             this.focusedState.fullScreen = fullScreen;
         }
+        this.onMaximizedOrFullScreenChanged();
+    }
+
+    private onMaximizedOrFullScreenChanged() {
+        this.skipArrange = this.isMaximizedOutsideGrid();
+        this.updateLayering();
+        if ((this.fillsWidth() || this.fillsHeight()) && this.column.getWindowCount() > 1) {
+            // a maximized or full-screen window gets a column of its own
+            const newColumn = new Column(this.column.grid, this.column);
+            this.moveToColumn(newColumn, true, FocusPassing.Type.None);
+        }
+        this.column.grid.onColumnWidthChanged(this.column);
         this.column.grid.desktop.onLayoutChanged();
+    }
+
+    private updateLayering() {
+        const config = this.column.grid.config;
+        const outsideGrid = this.isMaximizedOutsideGrid();
+        if (config.tiledKeepBelow) {
+            // a focused full-screen window must not be kept below, otherwise it doesn't cover panels
+            this.client.kwinClient.keepBelow = !outsideGrid && !(this.isFullScreenInGrid() && this.isFocused());
+        }
+        if (config.maximizedKeepAbove) {
+            this.client.kwinClient.keepAbove = outsideGrid;
+        }
+    }
+
+    private getMaximizedMode() {
+        return this.client.getMaximizedMode() ?? MaximizedMode.Unmaximized;
+    }
+
+    private isFullScreenInGrid() {
+        return this.column.grid.config.tileFullScreen && this.client.kwinClient.fullScreen;
+    }
+
+    private getMaximizedModeInGrid() {
+        return this.column.grid.config.tileMaximized ? this.getMaximizedMode() : MaximizedMode.Unmaximized;
+    }
+
+    // maximized or full-screen windows that are not kept in the grid are left to KWin
+    private isMaximizedOutsideGrid() {
+        const config = this.column.grid.config;
+        return (!config.tileFullScreen && this.client.kwinClient.fullScreen) ||
+            (!config.tileMaximized && this.getMaximizedMode() !== MaximizedMode.Unmaximized);
+    }
+
+    public fillsWidth() {
+        const maximizedMode = this.getMaximizedModeInGrid();
+        return this.isFullScreenInGrid() || maximizedMode === MaximizedMode.Horizontally || maximizedMode === MaximizedMode.Maximized;
+    }
+
+    public fillsHeight() {
+        const maximizedMode = this.getMaximizedModeInGrid();
+        return this.isFullScreenInGrid() || maximizedMode === MaximizedMode.Vertically || maximizedMode === MaximizedMode.Maximized;
+    }
+
+    // the area a maximized or full-screen window fills, instead of the tiling area
+    private getFillArea() {
+        const desktop = this.column.grid.desktop;
+        return this.isFullScreenInGrid() ? desktop.fullScreenArea : desktop.clientArea;
+    }
+
+    // returns how far the window reaches past the left and right edges of its column
+    public getOverflow(): [number, number] {
+        if (!this.fillsWidth()) {
+            return [0, 0];
+        }
+        const fillArea = this.getFillArea();
+        const tilingArea = this.column.grid.desktop.tilingArea;
+        return [
+            Math.max(0, tilingArea.x - fillArea.x),
+            Math.max(0, rectRight(fillArea) - rectRight(tilingArea)),
+        ];
     }
 
     public onFrameGeometryChanged() {

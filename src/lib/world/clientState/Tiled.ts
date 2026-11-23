@@ -224,7 +224,7 @@ namespace ClientState {
                 client.kwinClient.skipSwitcher = true;
             }
 
-            if (client.kwinClient.fullScreen) {
+            if (client.kwinClient.fullScreen && !config.tileFullScreen) {
                 if (config.maximizedKeepAbove) {
                     client.kwinClient.keepAbove = true;
                 }

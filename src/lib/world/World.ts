@@ -48,6 +48,8 @@ class World {
             stackColumnsByDefault: config.stackColumnsByDefault,
             resizeNeighborColumn: config.resizeNeighborColumn,
             reMaximize: config.reMaximize,
+            tileMaximized: config.tileMaximized,
+            tileFullScreen: config.tileFullScreen,
             skipSwitcher: config.skipSwitcher,
             tiledKeepBelow: config.tiledKeepBelow,
             maximizedKeepAbove: config.floatingKeepAbove,
