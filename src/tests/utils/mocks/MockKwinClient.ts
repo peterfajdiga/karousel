@@ -119,6 +119,11 @@ class MockKwinClient {
         const oldFullScreen = this._fullScreen;
         this.hasBorder = !fullScreen;
         const targetFrameGeometry = fullScreen ? screen : this.windowedFrameGeometry;
+        if (fullScreen) {
+            // Kwin remembers the windowed geometry before entering full-screen mode,
+            // so moving the full-screen window doesn't change the geometry it's restored to
+            this.windowed = false;
+        }
 
         runReorder(
             () => {
