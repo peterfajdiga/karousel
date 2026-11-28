@@ -7,13 +7,7 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
         });
     });
 
-    manager.connect(Workspace.windowRemoved, (kwinClient: KwinClient) => {
-        world.do((clientManager, desktopManager) => {
-            clientManager.removeClient(kwinClient, FocusPassing.Type.Immediate);
-        });
-    });
-
-    manager.connect(Workspace.windowActivated, (kwinClient: KwinClient|null) => {
+    function onWindowActivated(kwinClient: KwinClient|null) {
         if (kwinClient === null) {
             focusPasser.activate();
         } else {
@@ -22,7 +16,39 @@ function initWorkspaceSignalHandlers(world: World, focusPasser: FocusPassing.Pas
                 clientManager.onClientFocused(kwinClient);
             });
         }
-    });
+    }
+
+    const removedActivatedSignalGroup = new SignalGrouping.Group([
+        new SignalGrouping.Handler(
+            [Workspace.windowRemoved, Workspace.windowActivated] as const,
+            (windowRemovedArgs, windowActivatedArgs) => {
+                const removedClient = windowRemovedArgs[0];
+                const activatedClient = windowActivatedArgs[0];
+                world.do((clientManager, desktopManager) => {
+                    if (!clientManager.willPassFocusOnRemove(removedClient)) {
+                        // Karousel won't pass focus, so the window activated by KWin must be respected
+                        onWindowActivated(activatedClient);
+                    }
+                    clientManager.removeClient(removedClient, FocusPassing.Type.Immediate);
+                });
+            },
+        ),
+        new SignalGrouping.Handler(
+            [Workspace.windowRemoved],
+            (windowRemovedArgs) => {
+                const kwinClient = windowRemovedArgs[0];
+                world.do((clientManager, desktopManager) => {
+                    clientManager.removeClient(kwinClient, FocusPassing.Type.Immediate);
+                });
+            },
+        ),
+        new SignalGrouping.Handler(
+            [Workspace.windowActivated],
+            (windowActivatedArgs) => onWindowActivated(windowActivatedArgs[0]),
+        ),
+    ]);
+    world.registerDoListener(() => removedActivatedSignalGroup.interrupt());
+    removedActivatedSignalGroup.connect(manager);
 
     manager.connect(Workspace.currentDesktopChanged, () => {
         world.do(() => {}); // re-arrange desktop

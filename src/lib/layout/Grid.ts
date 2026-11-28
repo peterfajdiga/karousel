@@ -170,17 +170,17 @@ class Grid {
         this.columnsSetX(rightColumn);
 
         this.desktop.onLayoutChanged();
+        this.desktop.autoAdjustScroll();
         if (columnToFocus !== null) {
             switch (passFocus) {
             case FocusPassing.Type.Immediate:
                 columnToFocus.getWindowToFocus().focus();
-                return;
+                break;
             case FocusPassing.Type.OnUnfocus:
                 this.focusPasser.request(columnToFocus.getWindowToFocus().client.kwinClient);
-                return;
+                break;
             }
         }
-        this.desktop.autoAdjustScroll();
     }
 
     public onColumnWidthChanged(column: Column) {

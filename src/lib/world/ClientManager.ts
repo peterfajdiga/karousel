@@ -51,6 +51,7 @@ class ClientManager {
             constructState,
             this.findTransientFor(kwinClient),
             this.windowRuleEnforcer.initClientSignalManager(this.world, kwinClient),
+            () => this.onClientFocused(kwinClient),
         );
         this.clientMap.set(kwinClient, client);
     }
@@ -66,6 +67,10 @@ class ClientManager {
         }
         client.destroy(passFocus);
         this.clientMap.delete(kwinClient);
+    }
+
+    public willPassFocusOnRemove(kwinClient: KwinClient) {
+        return kwinClient === this.lastFocusedClient && this.findTiledWindow(kwinClient) !== null;
     }
 
     private findTransientFor(kwinClient: KwinClient) {

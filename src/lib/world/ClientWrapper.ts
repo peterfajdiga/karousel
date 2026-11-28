@@ -12,6 +12,7 @@ class ClientWrapper {
         constructInitialState: (client: ClientWrapper) => ClientState.State,
         public transientFor: ClientWrapper | null,
         private readonly rulesSignalManager: SignalManager | null,
+        private readonly onFocused: () => void,
     ) {
         this.kwinClient = kwinClient;
         this.transientFor = transientFor;
@@ -69,7 +70,12 @@ class ClientWrapper {
     }
 
     public focus() {
-        Workspace.activeWindow = this.kwinClient;
+        if (Workspace.activeWindow === this.kwinClient) {
+            // Client already focused. Re-focusing won't make KWin emit `windowActivated`, so we have to manually call the handler.
+            this.onFocused();
+        } else {
+            Workspace.activeWindow = this.kwinClient;
+        }
     }
 
     public isFocused() {

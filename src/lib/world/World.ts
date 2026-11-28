@@ -5,6 +5,7 @@ class World {
     private readonly workspaceSignalManager: SignalManager;
     private readonly shortcutActions: ShortcutAction[];
     private readonly screenResizedDelayer: Delayer;
+    private readonly doListeners: (() => void)[] = [];
 
     constructor(config: Config) {
         const focusPasser = new FocusPassing.Passer();
@@ -103,6 +104,7 @@ class World {
     }
 
     public do(f: (clientManager: ClientManager, desktopManager: DesktopManager) => void) {
+        this.fireDoListeners();
         f(this.clientManager, this.desktopManager);
         this.update();
     }
@@ -111,6 +113,7 @@ class World {
         kwinClient: KwinClient,
         f: (clientManager: ClientManager, desktopManager: DesktopManager, window: Window, column: Column, grid: Grid) => void,
     ) {
+        this.fireDoListeners();
         const window = this.clientManager.findTiledWindow(kwinClient);
         if (window === null) {
             return;
@@ -128,6 +131,16 @@ class World {
             return;
         }
         this.doIfTiled(Workspace.activeWindow, f);
+    }
+
+    private fireDoListeners() {
+        for (const doListener of this.doListeners) {
+            doListener();
+        }
+    }
+
+    public registerDoListener(doListener: () => void) {
+        this.doListeners.push(doListener);
     }
 
     public gestureScroll(amount: number) {

@@ -35,3 +35,27 @@ tests.register("Pass focus", 100, () => {
     removeWindow(client0);
     Assert.equal(workspaceMock.activeWindow, client6);
 });
+
+tests.register("Pass focus after closing floating window", 100, () => {
+    const config = getDefaultConfig();
+    const { qtMock, workspaceMock, world } = init(config);
+
+    const [client0, client1, client2, floatingClient] = workspaceMock.createClients(4);
+    qtMock.fireShortcut("karousel-window-toggle-floating");
+
+    // Karousel doesn't pass focus from floating windows, so the window KWin activates must be respected
+    workspaceMock.removeWindow(floatingClient);
+    const kwinFocusedClient = workspaceMock.activeWindow;
+    if (kwinFocusedClient === floatingClient) {
+        // KWin activated the window being removed, so there's nothing to respect
+        return;
+    }
+
+    const neighbors = new Map([
+        [client0, client1],
+        [client1, client0],
+        [client2, client1],
+    ]);
+    workspaceMock.removeWindow(kwinFocusedClient as MockKwinClient);
+    Assert.equal(workspaceMock.activeWindow, neighbors.get(kwinFocusedClient as MockKwinClient));
+});
